@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Software/Embedded_SW/Pomodoro_Clock_HW/.cproject
+Software/Embedded_SW/Pomodoro_Clock_HW/.mxproject
+Software/Embedded_SW/Pomodoro_Clock_HW/.project
+*.xml
+*.prefs
+*.s
