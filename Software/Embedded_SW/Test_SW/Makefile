@@ -2,6 +2,7 @@
 # If this is not wanted, please remove the section "tidy"
 COMMON_DIRS =
 COMMON_DIRS +=../Pomodoro_Clock_HW/User/UnityTest
+COMMON_DIRS +=../Pomodoro_Clock_HW/User/Common
 
 # Build Targets
 TARGET_EXEC=exec.out
