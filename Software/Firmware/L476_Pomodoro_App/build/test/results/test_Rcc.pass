@@ -2,17 +2,37 @@
 :source:
   :path: test
   :file: test_Rcc.c
-:successes: []
-:failures: []
-:ignores:
-- :test: test_Rcc_NeedToImplement
-  :line: 17
-  :message: Need to Implement Rcc
+:successes:
+- :test: test_Rcc_Init_should_EnableHSIClock
+  :line: 21
+  :message: ''
   :unity_test_time: 0
+- :test: test_Rcc_Init_should_WaitUntilHSIClockIsStable
+  :line: 32
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Rcc_Init_should_SetHSIAsMainClockSource
+  :line: 51
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Rcc_Init_should_SetUpFlash
+  :line: 64
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Rcc_Init_should_SetUpThePeripheralClockDeviders
+  :line: 77
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Rcc_Init_should_EnableMcoOfTheSysclock
+  :line: 94
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
 :counts:
-  :total: 1
-  :passed: 0
+  :total: 6
+  :passed: 6
   :failed: 0
-  :ignored: 1
+  :ignored: 0
 :stdout: []
-:time: 0.49777200003154576
+:time: 0.24346300000070187

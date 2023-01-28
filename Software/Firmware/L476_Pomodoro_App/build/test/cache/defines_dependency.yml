@@ -1,5 +1,3 @@
 ---
-src/FooBar.c:
-- TEST
-src/Rcc.c:
+Drivers/Rcc/Rcc.c:
 - TEST

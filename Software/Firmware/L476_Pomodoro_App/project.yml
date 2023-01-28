@@ -35,6 +35,10 @@
     - -:test/support
   :source:
     - src/**
+    - Drivers/**
+    - App/**
+    - Bsp/**
+    #- test/support/**
   :support:
     - test/support
   :libraries: []
