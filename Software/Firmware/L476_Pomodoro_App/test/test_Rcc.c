@@ -1,13 +1,6 @@
 #include "unity.h"
-#include "Rcc.h"
 
-/**
- * RCC Testing abstract strategy:
- * - Set up the respecitve registers in a TDD Manner
- *   - Also enable the MCO (Clock output to a respective Pin for HW Verification)
- * - Flash the file to the Microcontroller
- * - Check the Clock Speed with the Logic Analyzer
- */
+#include "Rcc.h"
 
 void setUp(void)
 {
