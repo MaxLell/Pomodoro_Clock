@@ -105,7 +105,7 @@ STATIC void Rcc_EnableMCOAndOutputSystemClock(void)
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
 }
 
-void Rcc_Init(void)
+void Rcc_init(void)
 {
     Rcc_EnableHsiClockAndWaitForReady();
 
