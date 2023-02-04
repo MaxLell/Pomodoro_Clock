@@ -56,8 +56,8 @@ void test_Rcc_Init_should_SetHSIAsMainClockSource(void)
 
     Rcc_SetHSIAsMainSysClockAndWaitForReady();
 
-    TEST_ASSERT_EQUAL(RCC_CFGR_SWS_0, (RCC->CFGR & RCC_CFGR_SWS_0));
-    TEST_ASSERT_NOT_EQUAL(RCC_CFGR_SWS_1, (RCC->CFGR & RCC_CFGR_SWS_1));
+    TEST_ASSERT_EQUAL(RCC_CFGR_SW_0, (RCC->CFGR & RCC_CFGR_SW_0));
+    TEST_ASSERT_NOT_EQUAL(RCC_CFGR_SW_1, (RCC->CFGR & RCC_CFGR_SW_1));
 }
 
 extern void Rcc_SetTheFlashRCCSettings(void);

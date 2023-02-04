@@ -62,8 +62,8 @@ STATIC void Rcc_SetHSIAsMainSysClockAndWaitForReady(void)
      * Set HSI as the Source for the System Clock
      * (Source RM0351 Rev 9 229/1906)
      */
-    RCC->CFGR &= ~(RCC_CFGR_SWS); /* Clear the bits */
-    RCC->CFGR |= RCC_CFGR_SWS_0;
+    RCC->CFGR &= ~(RCC_CFGR_SW); /* Clear the bits */
+    RCC->CFGR |= RCC_CFGR_SW_0;
 
     /**
      * Wait until the Clock is ready
@@ -115,5 +115,5 @@ void Rcc_Init(void)
 
     Rcc_SetPeripheralClockDividers();
 
-    Rcc_EnableMCOAndOutputSystemClock();
+    // Rcc_EnableMCOAndOutputSystemClock();
 }

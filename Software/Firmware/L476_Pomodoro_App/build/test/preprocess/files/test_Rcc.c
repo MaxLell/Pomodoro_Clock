@@ -110,9 +110,9 @@ void test_Rcc_Init_should_SetHSIAsMainClockSource(void)
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)(((0x1UL << (2U)))), (UNITY_INT)(((RCC->CFGR & (0x1UL << (2U))))), (((void*)0)), (UNITY_UINT)(59), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)(((0x1UL << (0U)))), (UNITY_INT)(((RCC->CFGR & (0x1UL << (0U))))), (((void*)0)), (UNITY_UINT)(59), UNITY_DISPLAY_STYLE_INT);
 
-    do {if ((((0x2UL << (2U))) != ((RCC->CFGR & (0x2UL << (2U)))))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(60)));}} while(0);
+    do {if ((((0x2UL << (0U))) != ((RCC->CFGR & (0x2UL << (0U)))))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(60)));}} while(0);
 
 }
 
