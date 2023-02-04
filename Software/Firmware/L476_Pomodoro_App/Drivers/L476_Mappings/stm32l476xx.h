@@ -1396,6 +1396,7 @@ EXTERN FLASH_TypeDef *FLASH;
 #define CRC ((CRC_TypeDef *)CRC_BASE)
 #define TSC ((TSC_TypeDef *)TSC_BASE)
 
+#ifndef TEST
 #define GPIOA ((GPIO_TypeDef *)GPIOA_BASE)
 #define GPIOB ((GPIO_TypeDef *)GPIOB_BASE)
 #define GPIOC ((GPIO_TypeDef *)GPIOC_BASE)
@@ -1404,6 +1405,17 @@ EXTERN FLASH_TypeDef *FLASH;
 #define GPIOF ((GPIO_TypeDef *)GPIOF_BASE)
 #define GPIOG ((GPIO_TypeDef *)GPIOG_BASE)
 #define GPIOH ((GPIO_TypeDef *)GPIOH_BASE)
+#else
+EXTERN GPIO_TypeDef *GPIOA;
+EXTERN GPIO_TypeDef *GPIOB;
+EXTERN GPIO_TypeDef *GPIOC;
+EXTERN GPIO_TypeDef *GPIOD;
+EXTERN GPIO_TypeDef *GPIOE;
+EXTERN GPIO_TypeDef *GPIOF;
+EXTERN GPIO_TypeDef *GPIOG;
+EXTERN GPIO_TypeDef *GPIOh;
+#endif
+
 #define ADC1 ((ADC_TypeDef *)ADC1_BASE)
 #define ADC2 ((ADC_TypeDef *)ADC2_BASE)
 #define ADC3 ((ADC_TypeDef *)ADC3_BASE)

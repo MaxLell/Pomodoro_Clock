@@ -12,19 +12,13 @@ int main(void)
 #endif
 {
     printf("huhu\n");
-
     Rcc_init();
-
     SysTick_init();
-
     BlinkyLed_init();
 
     while (TRUE)
     {
-        BlinkyLed_enable();
-        delay_ms(100);
-
-        BlinkyLed_disable();
+        BlinkyLed_toggle();
         delay_ms(100);
     }
 }
