@@ -77,7 +77,6 @@ void test_BlinkyLed_toggle_should_ToggleTheOutputPin(void)
 {
     GPIO_TypeDef gpio_a;
     GPIOA = &gpio_a;
-    // GPIOA->IDR = BIT_TO_MASK(5);
 
     /* Set the LED Output to low - should be toggled high */
     GPIOA->IDR = 0;
