@@ -3,6 +3,7 @@
 #include "Rcc.h"
 #include "BlinkyLed.h"
 #include "SysTick.h"
+#include "Button.h"
 
 #ifdef TEST
 int TestableMain(void)
@@ -14,10 +15,19 @@ int main(void)
     Rcc_init();
     SysTick_init();
     BlinkyLed_init();
+    Button_init();
 
     while (TRUE)
     {
-        BlinkyLed_toggle();
-        delay_ms(100);
+        Button_State button_state;
+        button_state = Button_getState();
+        if (button_state == BUTTON_PRESSED)
+        {
+            BlinkyLed_enable();
+        }
+        else
+        {
+            BlinkyLed_disable();
+        }
     }
 }

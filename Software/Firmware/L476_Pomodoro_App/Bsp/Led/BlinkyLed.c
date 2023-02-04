@@ -4,6 +4,10 @@
 #include "stm32l476xx.h"
 #include "RegisterAccess.h"
 
+/**
+ * The LED blinky LED is connected to PA5
+ */
+
 void BlinkyLed_init(void)
 {
     /* Turn on the Clock for GPIOA */

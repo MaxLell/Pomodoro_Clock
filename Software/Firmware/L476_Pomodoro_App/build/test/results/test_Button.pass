@@ -1,0 +1,30 @@
+---
+:source:
+  :path: test
+  :file: test_Button.c
+:successes:
+- :test: test_Button_init_should_EnableTheClockForGPIOC
+  :line: 19
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Button_init_should_SetModeToInput
+  :line: 33
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Button_getState_should_ReturnPressed_when_ButtonIsPressed
+  :line: 47
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Button_getState_should_ReturnReleased_when_ButtonIsReleased
+  :line: 60
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 4
+  :passed: 4
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.004748000006657094

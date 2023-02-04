@@ -156,8 +156,6 @@ void test_BlinkyLed_toggle_should_ToggleTheOutputPin(void)
 
 
 
-
-
     GPIOA->IDR = 0;
 
     GPIOA->BSRR = 0;
@@ -168,7 +166,7 @@ void test_BlinkyLed_toggle_should_ToggleTheOutputPin(void)
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)(((0x1UL << (5U)))), (UNITY_INT)(UNITY_INT32)((GPIOA->BSRR)), (((void*)0)), (UNITY_UINT)(88), UNITY_DISPLAY_STYLE_HEX32);
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)(((0x1UL << (5U)))), (UNITY_INT)(UNITY_INT32)((GPIOA->BSRR)), (((void*)0)), (UNITY_UINT)(87), UNITY_DISPLAY_STYLE_HEX32);
 
 
 
@@ -186,6 +184,6 @@ void test_BlinkyLed_toggle_should_ToggleTheOutputPin(void)
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)(((0x1UL << (21U)))), (UNITY_INT)(UNITY_INT32)((GPIOA->BSRR)), (((void*)0)), (UNITY_UINT)(97), UNITY_DISPLAY_STYLE_HEX32);
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)(((0x1UL << (21U)))), (UNITY_INT)(UNITY_INT32)((GPIOA->BSRR)), (((void*)0)), (UNITY_UINT)(96), UNITY_DISPLAY_STYLE_HEX32);
 
 }
