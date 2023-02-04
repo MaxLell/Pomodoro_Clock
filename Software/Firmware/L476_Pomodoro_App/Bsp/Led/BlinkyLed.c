@@ -27,12 +27,23 @@ void BlinkyLed_disable(void)
 
 void BlinkyLed_toggle(void)
 {
+    /**
+     * This reads in the 5th register of PortA -> PA5
+     * This is the same pin, to which the LED is attached
+     * to
+     */
     if ((GPIOA->IDR & (1 << 5)))
     {
+        /**
+         * When the LED was on: Switch it off.
+         */
         BlinkyLed_disable();
     }
     else
     {
+        /**
+         * When the LED was off: Switch it on.
+         */
         /**
          * Setting the LED, changes the value that is read
          * on the Input Data Register

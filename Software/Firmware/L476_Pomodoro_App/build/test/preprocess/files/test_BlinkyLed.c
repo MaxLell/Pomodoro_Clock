@@ -148,6 +148,44 @@ void test_BlinkyLed_toggle_should_ToggleTheOutputPin(void)
 
 {
 
-    UnityIgnore( (("Need to Implement BlinkyLed")), (UNITY_UINT)(78));
+    GPIO_TypeDef gpio_a;
+
+    GPIOA = &gpio_a;
+
+
+
+
+
+
+
+    GPIOA->IDR = 0;
+
+    GPIOA->BSRR = 0;
+
+
+
+    BlinkyLed_toggle();
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)(((0x1UL << (5U)))), (UNITY_INT)(UNITY_INT32)((GPIOA->BSRR)), (((void*)0)), (UNITY_UINT)(88), UNITY_DISPLAY_STYLE_HEX32);
+
+
+
+
+
+    GPIOA->IDR |= (1u << (5));
+
+    GPIOA->BSRR = 0;
+
+
+
+    BlinkyLed_toggle();
+
+
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)(((0x1UL << (21U)))), (UNITY_INT)(UNITY_INT32)((GPIOA->BSRR)), (((void*)0)), (UNITY_UINT)(97), UNITY_DISPLAY_STYLE_HEX32);
 
 }

@@ -75,5 +75,24 @@ void test_BlinkyLed_enable_should_SetTheOutputPinToLow(void)
 
 void test_BlinkyLed_toggle_should_ToggleTheOutputPin(void)
 {
-    TEST_IGNORE_MESSAGE("Need to Implement BlinkyLed");
+    GPIO_TypeDef gpio_a;
+    GPIOA = &gpio_a;
+    // GPIOA->IDR = BIT_TO_MASK(5);
+
+    /* Set the LED Output to low - should be toggled high */
+    GPIOA->IDR = 0;
+    GPIOA->BSRR = 0;
+
+    BlinkyLed_toggle();
+
+    TEST_ASSERT_EQUAL_HEX(GPIO_BSRR_BS_5, GPIOA->BSRR);
+
+    /* Set the LED Output to high - should be toggled low */
+    GPIOA->IDR |= BIT_TO_MASK(5);
+    GPIOA->BSRR = 0;
+
+    BlinkyLed_toggle();
+
+    // TEST_ASSERT_EQUAL_HEX(GPIO_BSRR_BR_5, GPIOA->BSRR);
+    TEST_ASSERT_EQUAL_HEX(GPIO_BSRR_BR_5, GPIOA->BSRR);
 }

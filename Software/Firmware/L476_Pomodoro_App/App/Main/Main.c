@@ -3,7 +3,6 @@
 #include "Rcc.h"
 #include "BlinkyLed.h"
 #include "SysTick.h"
-// #include "stm32l4xx.h"
 
 #ifdef TEST
 int TestableMain(void)
