@@ -3,7 +3,8 @@
         "stm32l476xx.h": "c",
         "dbgmacros.h": "c",
         "stm32l4xx.h": "c",
-        "registeraccess.h": "c"
+        "registeraccess.h": "c",
+        "common.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
