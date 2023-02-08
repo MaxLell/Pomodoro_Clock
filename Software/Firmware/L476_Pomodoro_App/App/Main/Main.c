@@ -25,10 +25,10 @@ int main(void)
 
         if (button_pressed == TRUE)
         {
-            for (uint8_t i = 0; i < 10; i++)
+            for (uint8_t i = 0; i < 100; i++)
             {
                 BlinkyLed_toggle();
-                delay_ms(100);
+                delay_ms(10);
             }
             button_pressed = FALSE;
         }
