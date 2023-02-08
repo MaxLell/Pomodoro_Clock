@@ -14,6 +14,17 @@ extern void test_Button_init_should_EnableTheClockForGPIOC();
 extern void test_Button_init_should_SetModeToInput();
 extern void test_Button_getState_should_ReturnPressed_when_ButtonIsPressed();
 extern void test_Button_getState_should_ReturnReleased_when_ButtonIsReleased();
+extern void test_Button_initISR_should_EnableTheSYSCFGClock(void);
+extern void test_Button_initISR_should_RouteTheButtonSignalToTheEXTI(void);
+extern void test_Button_initISR_should_EnableISRMaskRegister(void);
+extern void test_Button_initISR_should_SetTheTriggerToFallingEdge(void);
+extern void test_Button_initISR_should_SetISRPriority(void);
+extern void test_Button_initISR_should_EnableTheInterrupt(void);
+extern void test_Button_isrHandler_should_ClearPendingRegister(void);
+extern void test_Button_isrHandler_should_UpdateTheButtonState(void);
+extern void test_Button_wasPressed_should_ReturnTrue_when_ButtonWasPressed(void);
+extern void test_Button_wasPressed_should_ReturnFalse_when_ButtonWasNotPressed(void);
+extern void test_Button_wasPressed_should_ResetTheReadingStatus_when_Called(void);
 
 
 /*=======Mock Management=====*/
@@ -78,10 +89,21 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_Button.c");
-  run_test(test_Button_init_should_EnableTheClockForGPIOC, "test_Button_init_should_EnableTheClockForGPIOC", 19);
-  run_test(test_Button_init_should_SetModeToInput, "test_Button_init_should_SetModeToInput", 33);
-  run_test(test_Button_getState_should_ReturnPressed_when_ButtonIsPressed, "test_Button_getState_should_ReturnPressed_when_ButtonIsPressed", 47);
-  run_test(test_Button_getState_should_ReturnReleased_when_ButtonIsReleased, "test_Button_getState_should_ReturnReleased_when_ButtonIsReleased", 60);
+  run_test(test_Button_init_should_EnableTheClockForGPIOC, "test_Button_init_should_EnableTheClockForGPIOC", 23);
+  run_test(test_Button_init_should_SetModeToInput, "test_Button_init_should_SetModeToInput", 45);
+  run_test(test_Button_getState_should_ReturnPressed_when_ButtonIsPressed, "test_Button_getState_should_ReturnPressed_when_ButtonIsPressed", 67);
+  run_test(test_Button_getState_should_ReturnReleased_when_ButtonIsReleased, "test_Button_getState_should_ReturnReleased_when_ButtonIsReleased", 90);
+  run_test(test_Button_initISR_should_EnableTheSYSCFGClock, "test_Button_initISR_should_EnableTheSYSCFGClock", 113);
+  run_test(test_Button_initISR_should_RouteTheButtonSignalToTheEXTI, "test_Button_initISR_should_RouteTheButtonSignalToTheEXTI", 133);
+  run_test(test_Button_initISR_should_EnableISRMaskRegister, "test_Button_initISR_should_EnableISRMaskRegister", 153);
+  run_test(test_Button_initISR_should_SetTheTriggerToFallingEdge, "test_Button_initISR_should_SetTheTriggerToFallingEdge", 173);
+  run_test(test_Button_initISR_should_SetISRPriority, "test_Button_initISR_should_SetISRPriority", 194);
+  run_test(test_Button_initISR_should_EnableTheInterrupt, "test_Button_initISR_should_EnableTheInterrupt", 214);
+  run_test(test_Button_isrHandler_should_ClearPendingRegister, "test_Button_isrHandler_should_ClearPendingRegister", 234);
+  run_test(test_Button_isrHandler_should_UpdateTheButtonState, "test_Button_isrHandler_should_UpdateTheButtonState", 254);
+  run_test(test_Button_wasPressed_should_ReturnTrue_when_ButtonWasPressed, "test_Button_wasPressed_should_ReturnTrue_when_ButtonWasPressed", 263);
+  run_test(test_Button_wasPressed_should_ReturnFalse_when_ButtonWasNotPressed, "test_Button_wasPressed_should_ReturnFalse_when_ButtonWasNotPressed", 270);
+  run_test(test_Button_wasPressed_should_ResetTheReadingStatus_when_Called, "test_Button_wasPressed_should_ResetTheReadingStatus_when_Called", 277);
 
   return UnityEnd();
 }

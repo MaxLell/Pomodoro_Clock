@@ -1,6 +1,8 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
+#include "Common.h"
+
 typedef enum
 {
     BUTTON_PRESSED = 0U,
@@ -10,5 +12,7 @@ typedef enum
 void Button_init();
 
 Button_State Button_getState();
+
+BOOL Button_wasPressed();
 
 #endif // BUTTON_H

@@ -10,7 +10,7 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_SysTick_NeedToImplement(void);
+extern void test_SysTick_Handler_should_increment_counter();
 
 
 /*=======Mock Management=====*/
@@ -26,6 +26,12 @@ static void CMock_Verify(void)
 static void CMock_Destroy(void)
 {
 }
+
+/*=======Setup (stub)=====*/
+void setUp(void) {}
+
+/*=======Teardown (stub)=====*/
+void tearDown(void) {}
 
 /*=======Test Reset Options=====*/
 void resetTest(void);
@@ -75,7 +81,7 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_SysTick.c");
-  run_test(test_SysTick_NeedToImplement, "test_SysTick_NeedToImplement", 13);
+  run_test(test_SysTick_Handler_should_increment_counter, "test_SysTick_Handler_should_increment_counter", 12);
 
   return UnityEnd();
 }

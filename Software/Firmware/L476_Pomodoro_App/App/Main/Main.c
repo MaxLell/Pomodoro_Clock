@@ -19,11 +19,18 @@ int main(void)
 
     while (TRUE)
     {
-        Button_State button_state;
-        button_state = Button_getState();
-        if (button_state == BUTTON_PRESSED)
+        BOOL button_pressed = FALSE;
+
+        button_pressed = Button_wasPressed();
+
+        if (button_pressed == TRUE)
         {
-            BlinkyLed_enable();
+            for (uint8_t i = 0; i < 10; i++)
+            {
+                BlinkyLed_toggle();
+                delay_ms(100);
+            }
+            button_pressed = FALSE;
         }
         else
         {

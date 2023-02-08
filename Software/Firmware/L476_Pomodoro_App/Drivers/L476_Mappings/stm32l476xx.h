@@ -1332,12 +1332,23 @@ extern "C"
 #define SWPMI1 ((SWPMI_TypeDef *)SWPMI1_BASE)
 #define LPTIM2 ((LPTIM_TypeDef *)LPTIM2_BASE)
 
+#ifndef TEST
 #define SYSCFG ((SYSCFG_TypeDef *)SYSCFG_BASE)
+#else
+EXTERN SYSCFG_TypeDef *SYSCFG;
+#endif
+
 #define VREFBUF ((VREFBUF_TypeDef *)VREFBUF_BASE)
 #define COMP1 ((COMP_TypeDef *)COMP1_BASE)
 #define COMP2 ((COMP_TypeDef *)COMP2_BASE)
 #define COMP12_COMMON ((COMP_Common_TypeDef *)COMP2_BASE)
+
+#ifndef TEST
 #define EXTI ((EXTI_TypeDef *)EXTI_BASE)
+#else
+EXTERN EXTI_TypeDef *EXTI;
+#endif
+
 #define FIREWALL ((FIREWALL_TypeDef *)FIREWALL_BASE)
 #define SDMMC1 ((SDMMC_TypeDef *)SDMMC1_BASE)
 #define TIM1 ((TIM_TypeDef *)TIM1_BASE)
