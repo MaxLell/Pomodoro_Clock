@@ -263,22 +263,22 @@ void test_Button_isrHandler_should_UpdateTheButtonState(void)
 void test_Button_wasPressed_should_ReturnTrue_when_ButtonWasPressed(void)
 {
     button_state = BUTTON_PRESSED;
-    BOOL result = Button_wasPressed();
+    BOOL result = Button_wasPressedSinceLastRead();
     TEST_ASSERT_EQUAL(TRUE, result);
 }
 
 void test_Button_wasPressed_should_ReturnFalse_when_ButtonWasNotPressed(void)
 {
     button_state = BUTTON_RELEASED;
-    BOOL result = Button_wasPressed();
+    BOOL result = Button_wasPressedSinceLastRead();
     TEST_ASSERT_EQUAL(FALSE, result);
 }
 
 void test_Button_wasPressed_should_ResetTheReadingStatus_when_Called(void)
 {
     button_state = BUTTON_PRESSED;
-    BOOL tmp = Button_wasPressed();
+    BOOL tmp = Button_wasPressedSinceLastRead();
 
-    BOOL result = Button_wasPressed();
+    BOOL result = Button_wasPressedSinceLastRead();
     TEST_ASSERT_EQUAL(FALSE, result);
 }

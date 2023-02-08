@@ -21,7 +21,7 @@ int main(void)
     {
         BOOL button_pressed = FALSE;
 
-        button_pressed = Button_wasPressed();
+        button_pressed = Button_wasPressedSinceLastRead();
 
         if (button_pressed == TRUE)
         {

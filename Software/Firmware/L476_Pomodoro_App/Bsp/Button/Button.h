@@ -13,6 +13,6 @@ void Button_init();
 
 Button_State Button_getState();
 
-BOOL Button_wasPressed();
+BOOL Button_wasPressedSinceLastRead();
 
 #endif // BUTTON_H

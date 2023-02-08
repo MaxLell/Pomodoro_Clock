@@ -46,7 +46,8 @@ STATIC void Button_initISR()
     /**
      * EXTI IMR
      * When the ISR is masked - then it means that it is disabled
-     * The Masked register also needs to be set
+     * The Masked register also needs to be set, which unmasks
+     * the register.
      *
      * PA13, PB13, PC13, ..., PF13 are routed to EXTI13
      */
@@ -97,7 +98,7 @@ Button_State Button_getState()
     return tmp;
 }
 
-BOOL Button_wasPressed()
+BOOL Button_wasPressedSinceLastRead()
 {
     /**
      * This clears the Button Flag

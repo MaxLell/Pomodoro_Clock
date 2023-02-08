@@ -526,7 +526,7 @@ void test_Button_wasPressed_should_ReturnTrue_when_ButtonWasPressed(void)
 
     button_state = BUTTON_PRESSED;
 
-    BOOL result = Button_wasPressed();
+    BOOL result = Button_wasPressedSinceLastRead();
 
     UnityAssertEqualNumber((UNITY_INT)((1)), (UNITY_INT)((result)), (((void*)0)), (UNITY_UINT)(267), UNITY_DISPLAY_STYLE_INT);
 
@@ -540,7 +540,7 @@ void test_Button_wasPressed_should_ReturnFalse_when_ButtonWasNotPressed(void)
 
     button_state = BUTTON_RELEASED;
 
-    BOOL result = Button_wasPressed();
+    BOOL result = Button_wasPressedSinceLastRead();
 
     UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((result)), (((void*)0)), (UNITY_UINT)(274), UNITY_DISPLAY_STYLE_INT);
 
@@ -554,11 +554,11 @@ void test_Button_wasPressed_should_ResetTheReadingStatus_when_Called(void)
 
     button_state = BUTTON_PRESSED;
 
-    BOOL tmp = Button_wasPressed();
+    BOOL tmp = Button_wasPressedSinceLastRead();
 
 
 
-    BOOL result = Button_wasPressed();
+    BOOL result = Button_wasPressedSinceLastRead();
 
     UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((result)), (((void*)0)), (UNITY_UINT)(283), UNITY_DISPLAY_STYLE_INT);
 
