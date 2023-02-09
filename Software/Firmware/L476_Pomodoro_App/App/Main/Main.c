@@ -19,22 +19,7 @@ int main(void)
 
     while (TRUE)
     {
-        BOOL button_pressed = FALSE;
-
-        button_pressed = Button_wasPressedSinceLastRead();
-
-        if (button_pressed == TRUE)
-        {
-            for (uint8_t i = 0; i < 100; i++)
-            {
-                BlinkyLed_toggle();
-                delay_ms(10);
-            }
-            button_pressed = FALSE;
-        }
-        else
-        {
-            BlinkyLed_disable();
-        }
+        BlinkyLed_toggle();
+        delay_ms(100);
     }
 }
