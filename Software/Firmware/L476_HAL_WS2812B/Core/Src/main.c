@@ -64,8 +64,8 @@ static void MX_TIM1_Init(void);
 /* USER CODE BEGIN 0 */
 
 // #define TOTAL_LEDS (8 + 16 + 24 + 35)
-#define TOTAL_LEDS (8 + 16 + 24)
-#define BRIGHTNESS_CTRL_FLAG 0
+#define TOTAL_LEDS (16)
+#define BRIGHTNESS_CTRL_FLAG 1
 
 uint8_t LED_Data[TOTAL_LEDS][4]; // This stores the color data values of the LEDs
 uint8_t LED_Mod[TOTAL_LEDS][4];  // This stores the brightness adjusted values of the LEDs
@@ -294,9 +294,14 @@ int main(void)
       led_index = 0;
     }
 
-    uint8_t effect[TOTAL_LEDS] = {2, 20, 100, 20, 2};
+    uint8_t effect[TOTAL_LEDS] = {10, 70, 255, 70, 10};
+    // uint8_t num = 255;
+    // uint8_t effect[TOTAL_LEDS] = {num, num,
+    //                               num, num,
+    //                               num, num,
+    //                               num, num};
     uint8_t effect_size = sizeof(effect);
-    for (uint8_t i = 0; i < TOTAL_LEDS; i++)
+    for (uint8_t i = 0; i <= TOTAL_LEDS; i++)
     {
       Set_LED(i, 0, 0, 0);
     }
@@ -305,15 +310,16 @@ int main(void)
     for (uint8_t i = 0; i < effect_size; i++)
     {
       uint8_t tmp = (led_index + i) % TOTAL_LEDS;
-      Set_LED(tmp, effect[i], 0, 0);
+      Set_LED(tmp, 0, 0, effect[i]);
     }
     if (BRIGHTNESS_CTRL_FLAG == 1)
     {
-      Set_Brightness(20);
+      Set_Brightness(2);
+      HAL_Delay(70);
     }
     WS2812_Send();
     led_index++;
-    HAL_Delay(20);
+    // HAL_Delay(20);
   }
   /* USER CODE END 3 */
 }
