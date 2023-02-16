@@ -11,6 +11,8 @@ char* GlobalOrderError;
 extern void setUp(void);
 extern void tearDown(void);
 extern void test_MessageBroker_NeedToImplement(void);
+extern void test_MessageBroker_getCallbackFunctions_shall_ReturnAnArrayOfFunctionPointers();
+extern void test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnAStatusThatIndicatesANullPointer_when_ProvidedWithNullPtr();
 
 
 /*=======Mock Management=====*/
@@ -75,7 +77,9 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_MessageBroker.c");
-  run_test(test_MessageBroker_NeedToImplement, "test_MessageBroker_NeedToImplement", 15);
+  run_test(test_MessageBroker_NeedToImplement, "test_MessageBroker_NeedToImplement", 13);
+  run_test(test_MessageBroker_getCallbackFunctions_shall_ReturnAnArrayOfFunctionPointers, "test_MessageBroker_getCallbackFunctions_shall_ReturnAnArrayOfFunctionPointers", 23);
+  run_test(test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnAStatusThatIndicatesANullPointer_when_ProvidedWithNullPtr, "test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnAStatusThatIndicatesANullPointer_when_ProvidedWithNullPtr", 31);
 
   return UnityEnd();
 }

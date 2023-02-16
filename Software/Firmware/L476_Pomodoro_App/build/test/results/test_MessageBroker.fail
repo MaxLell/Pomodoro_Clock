@@ -1,0 +1,27 @@
+---
+:source:
+  :path: test
+  :file: test_MessageBroker.c
+:successes: []
+:failures:
+- :test: test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnAStatusThatIndicatesANullPointer_when_ProvidedWithNullPtr
+  :line: 36
+  :message: Expected 16 Was 31
+  :unity_test_time: 0
+:ignores:
+- :test: test_MessageBroker_NeedToImplement
+  :line: 15
+  :message: Need to Implement MessageBroker
+  :unity_test_time: 0
+- :test: test_MessageBroker_getCallbackFunctions_shall_ReturnAnArrayOfFunctionPointers
+  :line: 25
+  :message: Need to Implement MessageBroker
+  :unity_test_time: 0
+:counts:
+  :total: 3
+  :passed: 0
+  :failed: 1
+  :ignored: 2
+:stdout:
+- "[ERROR] (src/MessageBroker.c:12: errno: None) Module_msgCallback is NULL"
+:time: 0.23590600001625717
