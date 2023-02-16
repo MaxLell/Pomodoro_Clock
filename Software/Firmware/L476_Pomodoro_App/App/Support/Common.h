@@ -13,5 +13,7 @@
 
 #include "DbgMacros.h"
 #include "TestSupport.h"
+#include "Types.h"
+#include "Status.h"
 
 #endif /* COMMON_H_ */

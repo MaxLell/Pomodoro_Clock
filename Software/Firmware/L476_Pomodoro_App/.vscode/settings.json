@@ -6,7 +6,8 @@
         "registeraccess.h": "c",
         "common.h": "c",
         "cmsis_version.h": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "testsupport.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
