@@ -10,9 +10,10 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_MessageBroker_NeedToImplement(void);
-extern void test_MessageBroker_getCallbackFunctions_shall_ReturnAnArrayOfFunctionPointers();
-extern void test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnAStatusThatIndicatesANullPointer_when_ProvidedWithNullPtr();
+extern void test_MessageBroker_init_shall_initializeADictinariesID();
+extern void test_MessageBroker_init_shall_initializeADictinariesCallbackArray();
+extern void test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray();
+extern void test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided();
 
 
 /*=======Mock Management=====*/
@@ -77,9 +78,10 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_MessageBroker.c");
-  run_test(test_MessageBroker_NeedToImplement, "test_MessageBroker_NeedToImplement", 13);
-  run_test(test_MessageBroker_getCallbackFunctions_shall_ReturnAnArrayOfFunctionPointers, "test_MessageBroker_getCallbackFunctions_shall_ReturnAnArrayOfFunctionPointers", 23);
-  run_test(test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnAStatusThatIndicatesANullPointer_when_ProvidedWithNullPtr, "test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnAStatusThatIndicatesANullPointer_when_ProvidedWithNullPtr", 31);
+  run_test(test_MessageBroker_init_shall_initializeADictinariesID, "test_MessageBroker_init_shall_initializeADictinariesID", 18);
+  run_test(test_MessageBroker_init_shall_initializeADictinariesCallbackArray, "test_MessageBroker_init_shall_initializeADictinariesCallbackArray", 31);
+  run_test(test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray, "test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray", 61);
+  run_test(test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided, "test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided", 95);
 
   return UnityEnd();
 }
