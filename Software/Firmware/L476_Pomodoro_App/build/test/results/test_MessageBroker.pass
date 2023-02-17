@@ -4,19 +4,19 @@
   :file: test_MessageBroker.c
 :successes:
 - :test: test_MessageBroker_init_shall_initializeADictinariesID
-  :line: 18
+  :line: 14
   :message: ''
   :unity_test_time: 0
 - :test: test_MessageBroker_init_shall_initializeADictinariesCallbackArray
-  :line: 31
-  :message: ''
-  :unity_test_time: 0
-- :test: test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray
-  :line: 61
+  :line: 27
   :message: ''
   :unity_test_time: 0
 - :test: test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided
-  :line: 95
+  :line: 43
+  :message: ''
+  :unity_test_time: 0
+- :test: test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray
+  :line: 58
   :message: ''
   :unity_test_time: 0
 :failures: []
@@ -27,5 +27,5 @@
   :failed: 0
   :ignored: 0
 :stdout:
-- "[ERROR] (src/MessageBroker.c:24: errno: None) Module_msgCallback is NULL"
-:time: 0.2250979999662377
+- "[ERROR] (src/MessageBroker.c:43: errno: None) Module_msgCallback is NULL"
+:time: 0.4365059999981895

@@ -12,8 +12,8 @@ extern void setUp(void);
 extern void tearDown(void);
 extern void test_MessageBroker_init_shall_initializeADictinariesID();
 extern void test_MessageBroker_init_shall_initializeADictinariesCallbackArray();
-extern void test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray();
 extern void test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided();
+extern void test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray();
 
 
 /*=======Mock Management=====*/
@@ -78,10 +78,10 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_MessageBroker.c");
-  run_test(test_MessageBroker_init_shall_initializeADictinariesID, "test_MessageBroker_init_shall_initializeADictinariesID", 18);
-  run_test(test_MessageBroker_init_shall_initializeADictinariesCallbackArray, "test_MessageBroker_init_shall_initializeADictinariesCallbackArray", 31);
-  run_test(test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray, "test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray", 61);
-  run_test(test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided, "test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided", 95);
+  run_test(test_MessageBroker_init_shall_initializeADictinariesID, "test_MessageBroker_init_shall_initializeADictinariesID", 14);
+  run_test(test_MessageBroker_init_shall_initializeADictinariesCallbackArray, "test_MessageBroker_init_shall_initializeADictinariesCallbackArray", 27);
+  run_test(test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided, "test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided", 43);
+  run_test(test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray, "test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray", 58);
 
   return UnityEnd();
 }
