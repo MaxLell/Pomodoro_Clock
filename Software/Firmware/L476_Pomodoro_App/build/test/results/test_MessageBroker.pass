@@ -4,19 +4,19 @@
   :file: test_MessageBroker.c
 :successes:
 - :test: test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero
-  :line: 17
+  :line: 23
   :message: ''
   :unity_test_time: 0
 - :test: test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot
-  :line: 44
+  :line: 50
   :message: ''
   :unity_test_time: 0
 - :test: test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument
-  :line: 86
+  :line: 92
   :message: ''
   :unity_test_time: 0
 - :test: test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers
-  :line: 112
+  :line: 118
   :message: ''
   :unity_test_time: 0
 :failures: []
@@ -28,4 +28,4 @@
   :ignored: 0
 :stdout:
 - "[ERROR] (src/MessageBroker.c:42: errno: None) input function pointer is NULL"
-:time: 0.42370099999243394
+:time: 0.41305100003955886

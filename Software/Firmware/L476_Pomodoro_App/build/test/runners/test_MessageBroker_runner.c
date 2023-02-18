@@ -78,10 +78,10 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_MessageBroker.c");
-  run_test(test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero, "test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero", 17);
-  run_test(test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot, "test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot", 44);
-  run_test(test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument, "test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument", 86);
-  run_test(test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers, "test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers", 112);
+  run_test(test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero, "test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero", 23);
+  run_test(test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot, "test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot", 50);
+  run_test(test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument, "test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument", 92);
+  run_test(test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers, "test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers", 118);
 
   return UnityEnd();
 }

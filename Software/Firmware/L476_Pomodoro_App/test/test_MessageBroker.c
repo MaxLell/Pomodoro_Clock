@@ -4,6 +4,12 @@
 
 void setUp(void)
 {
+    /**
+     * Before every test run the init function
+     * This clears out everything
+     */
+
+    MessageBroker_init();
 }
 
 void tearDown(void)
