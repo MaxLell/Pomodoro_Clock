@@ -7,7 +7,8 @@
         "common.h": "c",
         "cmsis_version.h": "c",
         "__locale": "c",
-        "testsupport.h": "c"
+        "testsupport.h": "c",
+        "types.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

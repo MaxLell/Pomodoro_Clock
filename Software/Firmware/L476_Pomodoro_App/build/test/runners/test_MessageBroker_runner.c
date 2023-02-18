@@ -10,10 +10,10 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_MessageBroker_init_shall_initializeADictinariesID();
-extern void test_MessageBroker_init_shall_initializeADictinariesCallbackArray();
-extern void test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided();
-extern void test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray();
+extern void test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero();
+extern void test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot();
+extern void test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument();
+extern void test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers();
 
 
 /*=======Mock Management=====*/
@@ -78,10 +78,10 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_MessageBroker.c");
-  run_test(test_MessageBroker_init_shall_initializeADictinariesID, "test_MessageBroker_init_shall_initializeADictinariesID", 14);
-  run_test(test_MessageBroker_init_shall_initializeADictinariesCallbackArray, "test_MessageBroker_init_shall_initializeADictinariesCallbackArray", 27);
-  run_test(test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided, "test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided", 43);
-  run_test(test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray, "test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray", 58);
+  run_test(test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero, "test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero", 17);
+  run_test(test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot, "test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot", 44);
+  run_test(test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument, "test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument", 86);
+  run_test(test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers, "test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers", 112);
 
   return UnityEnd();
 }

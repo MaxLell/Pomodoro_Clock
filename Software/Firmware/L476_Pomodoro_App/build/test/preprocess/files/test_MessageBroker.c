@@ -22,57 +22,39 @@ void tearDown(void)
 
 extern MessageBroker_msgDictinary_t sMsg2010;
 
-void test_MessageBroker_init_shall_initializeADictinariesID()
+extern MessageBroker_msgDictinary_t sMsg0204;
+
+extern MessageBroker_msgDictinary_t *sMessageTopicIndex;
+
+
+
+void test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero()
 
 {
 
-
-
-    uint16_t u16PrevId = sMsg2010.u16Id;
-
-
-
-    status_t status = MessageBroker_init();
-
-    UnityAssertEqualNumber((UNITY_INT)(((0))), (UNITY_INT)((status)), (((void*)0)), (UNITY_UINT)(20), UNITY_DISPLAY_STYLE_INT);
-
-
-
-    uint16_t u16AfterId = sMsg2010.u16Id;
-
-
-
-    do {if (((u16PrevId) != (u16AfterId))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(24)));}} while(0);
-
-}
-
-
-
-void test_MessageBroker_init_shall_initializeADictinariesCallbackArray()
-
-{
-
-    Module_msgCallback_t *callbackArrayPointer = sMsg2010.au32CallbackArray;
-
-    uint16_t callbackArrayLength = sMsg2010.u16MaxSize;
-
-    uint16_t callbackArrayHighWaterMark = sMsg2010.u16HighWaterMark;
-
-
-
-    status_t status = MessageBroker_init();
-
-    UnityAssertEqualNumber((UNITY_INT)(((0))), (UNITY_INT)((status)), (((void*)0)), (UNITY_UINT)(34), UNITY_DISPLAY_STYLE_INT);
-
-
-
-
-
-    for (uint8_t i = 0; i < callbackArrayLength; i++)
+    for (uint8_t i = 0; i < 5; i++)
 
     {
 
-        UnityAssertEqualNumber((UNITY_INT)((((void*)0))), (UNITY_INT)((callbackArrayPointer[i])), (((void*)0)), (UNITY_UINT)(39), UNITY_DISPLAY_STYLE_INT);
+        sMsg2010.aCallbackArray[i] = (Module_msgCallback_t)0x1a1a1a1a;
+
+        sMsg0204.aCallbackArray[i] = (Module_msgCallback_t)0x1a1a1a1a;
+
+    }
+
+
+
+    MessageBroker_init();
+
+
+
+    for (uint8_t i = 0; i < 5; i++)
+
+    {
+
+        UnityAssertEqualNumber((UNITY_INT)((((void*)0))), (UNITY_INT)((sMsg2010.aCallbackArray[i])), (((void*)0)), (UNITY_UINT)(29), UNITY_DISPLAY_STYLE_INT);
+
+        UnityAssertEqualNumber((UNITY_INT)((((void*)0))), (UNITY_INT)((sMsg0204.aCallbackArray[i])), (((void*)0)), (UNITY_UINT)(30), UNITY_DISPLAY_STYLE_INT);
 
     }
 
@@ -80,27 +62,7 @@ void test_MessageBroker_init_shall_initializeADictinariesCallbackArray()
 
 
 
-void test_MessageBroker_MessageBroker_addCallbackToArray_shall_ReturnStatusNULL_when_NULLPtrProvided()
-
-{
-
-    status_t status = MessageBroker_init();
-
-    UnityAssertEqualNumber((UNITY_INT)(((0))), (UNITY_INT)((status)), (((void*)0)), (UNITY_UINT)(46), UNITY_DISPLAY_STYLE_INT);
-
-
-
-    status = MessageBroker_subscribe(2010, ((void*)0));
-
-    UnityAssertEqualNumber((UNITY_INT)(((31))), (UNITY_INT)((status)), (((void*)0)), (UNITY_UINT)(49), UNITY_DISPLAY_STYLE_INT);
-
-}
-
-
-
-
-
-status_t dummy_callback(MessageBroker_message_t in_sMessage)
+status_t dummyMsg2010Callback(MessageBroker_message_t in_sMessage)
 
 {
 
@@ -110,54 +72,258 @@ status_t dummy_callback(MessageBroker_message_t in_sMessage)
 
 
 
-void test_MessageBroker_MessageBroker_addCallbackToArray_shall_AddACallbackToItsArray()
+status_t dummyMsg0204Callback(MessageBroker_message_t in_sMessage)
 
 {
 
-    Module_msgCallback_t *callbackArrayPointer = sMsg2010.au32CallbackArray;
+    return (0);
 
-    uint16_t callbackArrayLength = sMsg2010.u16MaxSize;
-
-    uint16_t callbackArrayHighWaterMark = sMsg2010.u16HighWaterMark;
+}
 
 
 
-    status_t status = MessageBroker_init();
+void test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot()
 
-    UnityAssertEqualNumber((UNITY_INT)(((0))), (UNITY_INT)((status)), (((void*)0)), (UNITY_UINT)(65), UNITY_DISPLAY_STYLE_INT);
-
-
-
-    do {if (((((void*)0)) != (dummy_callback))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(67)));}} while(0);
+{
 
 
 
-    MessageBroker_subscribe(2010, dummy_callback);
+    MessageBroker_init();
 
 
 
 
 
-    uint8_t ctr = 0;
+    MessageBroker_subscribe(E_MSG_0204, dummyMsg0204Callback);
 
-    for (uint8_t i = 0; i < callbackArrayLength; i++)
+    MessageBroker_subscribe(E_MSG_2010, dummyMsg2010Callback);
+
+
+
+    do {if (((((void*)0)) != (sMsg0204.aCallbackArray[0]))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(53)));}} while(0);
+
+    do {if (((((void*)0)) != (sMsg2010.aCallbackArray[0]))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(54)));}} while(0);
+
+
+
+
+
+    MessageBroker_init();
+
+    UnityAssertEqualNumber((UNITY_INT)((((void*)0))), (UNITY_INT)((sMsg0204.aCallbackArray[0])), (((void*)0)), (UNITY_UINT)(58), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((((void*)0))), (UNITY_INT)((sMsg2010.aCallbackArray[0])), (((void*)0)), (UNITY_UINT)(59), UNITY_DISPLAY_STYLE_INT);
+
+
+
+
+
+    for (uint8_t i = 0; i < 5; i++)
 
     {
 
-
-
-
-
-        if (((void*)0) != (callbackArrayPointer)[i])
+        if (i < (5 - 2))
 
         {
 
-            ctr++;
+            MessageBroker_subscribe(E_MSG_0204, dummyMsg0204Callback);
+
+            MessageBroker_subscribe(E_MSG_2010, dummyMsg2010Callback);
 
         }
 
     }
 
-    do {if (((0) != (ctr))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(82)));}} while(0);
+
+
+    for (uint8_t i = 0; i < 5; i++)
+
+    {
+
+        if (i < (5 - 2))
+
+        {
+
+            do {if (((((void*)0)) != (sMsg0204.aCallbackArray[i]))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(75)));}} while(0);
+
+            do {if (((((void*)0)) != (sMsg2010.aCallbackArray[i]))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(76)));}} while(0);
+
+        }
+
+        else
+
+        {
+
+            UnityAssertEqualNumber((UNITY_INT)((((void*)0))), (UNITY_INT)((sMsg0204.aCallbackArray[i])), (((void*)0)), (UNITY_UINT)(80), UNITY_DISPLAY_STYLE_INT);
+
+            UnityAssertEqualNumber((UNITY_INT)((((void*)0))), (UNITY_INT)((sMsg2010.aCallbackArray[i])), (((void*)0)), (UNITY_UINT)(81), UNITY_DISPLAY_STYLE_INT);
+
+        }
+
+    }
+
+}
+
+
+
+void test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument()
+
+{
+
+    status_t status = MessageBroker_subscribe(E_MSG_2010, ((void*)0));
+
+    UnityAssertEqualNumber((UNITY_INT)(((31))), (UNITY_INT)((status)), (((void*)0)), (UNITY_UINT)(89), UNITY_DISPLAY_STYLE_INT);
+
+}
+
+
+
+uint32_t u32CallbackMsg2010Counter_1;
+
+status_t testyMsg2010Callback_1(MessageBroker_message_t in_sMessage)
+
+{
+
+    u32CallbackMsg2010Counter_1++;
+
+    return (0);
+
+}
+
+
+
+uint32_t u32CallbackMsg2010Counter_2;
+
+status_t testyMsg2010Callback_2(MessageBroker_message_t in_sMessage)
+
+{
+
+    u32CallbackMsg2010Counter_2++;
+
+    return (0);
+
+}
+
+
+
+uint32_t u32CallbackMsg0204Counter;
+
+status_t testyMsg0204Callback(MessageBroker_message_t in_sMessage)
+
+{
+
+    u32CallbackMsg0204Counter++;
+
+    return (0);
+
+}
+
+void test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers()
+
+{
+
+    MessageBroker_message_t mag2010;
+
+    MessageBroker_message_t msg0204;
+
+
+
+    mag2010.eMsgTopic = E_MSG_2010;
+
+    msg0204.eMsgTopic = E_MSG_0204;
+
+
+
+    u32CallbackMsg2010Counter_1 = 0;
+
+    u32CallbackMsg2010Counter_2 = 0;
+
+    u32CallbackMsg0204Counter = 0;
+
+
+
+    MessageBroker_init();
+
+
+
+
+
+    MessageBroker_subscribe(E_MSG_0204, testyMsg0204Callback);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    MessageBroker_subscribe(E_MSG_2010, testyMsg2010Callback_1);
+
+    MessageBroker_subscribe(E_MSG_2010, testyMsg2010Callback_1);
+
+
+
+
+
+
+
+
+
+
+
+    MessageBroker_subscribe(E_MSG_2010, testyMsg2010Callback_2);
+
+
+
+
+
+
+
+
+
+    MessageBroker_publish(mag2010);
+
+    MessageBroker_publish(msg0204);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    uint32_t u32TargetCallbackMsg2010Counter_1 = 2;
+
+    UnityAssertEqualNumber((UNITY_INT)((u32TargetCallbackMsg2010Counter_1)), (UNITY_INT)((u32CallbackMsg2010Counter_1)), (((void*)0)), (UNITY_UINT)(157), UNITY_DISPLAY_STYLE_INT);
+
+
+
+    uint32_t u32TargetCallbackMsg2010Counter_2 = 1;
+
+    UnityAssertEqualNumber((UNITY_INT)((u32TargetCallbackMsg2010Counter_2)), (UNITY_INT)((u32CallbackMsg2010Counter_2)), (((void*)0)), (UNITY_UINT)(160), UNITY_DISPLAY_STYLE_INT);
+
+
+
+    uint32_t u32TargetCallbackMsg0204Counter = 1;
+
+    UnityAssertEqualNumber((UNITY_INT)((u32TargetCallbackMsg0204Counter)), (UNITY_INT)((u32CallbackMsg0204Counter)), (((void*)0)), (UNITY_UINT)(163), UNITY_DISPLAY_STYLE_INT);
+
+
+
+
 
 }
