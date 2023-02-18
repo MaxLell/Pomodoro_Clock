@@ -2,6 +2,9 @@
 
 /*=======Automagically Detected Files To Include=====*/
 #include "unity.h"
+#include "cmock.h"
+#include "mock_GPIO.h"
+#include "mock_EXTI.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -10,7 +13,9 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_Button_Hardware_NeedToImplement(void);
+extern void test_Button_Hardware_init_shall_InitTheGPIOAndEXTIPeripherals();
+extern void test_Button_Hardware_wasPressed_shall_ReturnTrue_when_ButtonWasPressed();
+extern void test_Button_Hardware_wasPressed_shall_ReturnFalse_when_ButtonWasNotPressed();
 
 
 /*=======Mock Management=====*/
@@ -19,12 +24,18 @@ static void CMock_Init(void)
   GlobalExpectCount = 0;
   GlobalVerifyOrder = 0;
   GlobalOrderError = NULL;
+  mock_GPIO_Init();
+  mock_EXTI_Init();
 }
 static void CMock_Verify(void)
 {
+  mock_GPIO_Verify();
+  mock_EXTI_Verify();
 }
 static void CMock_Destroy(void)
 {
+  mock_GPIO_Destroy();
+  mock_EXTI_Destroy();
 }
 
 /*=======Test Reset Options=====*/
@@ -75,7 +86,10 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_Button_Hardware.c");
-  run_test(test_Button_Hardware_NeedToImplement, "test_Button_Hardware_NeedToImplement", 13);
+  run_test(test_Button_Hardware_init_shall_InitTheGPIOAndEXTIPeripherals, "test_Button_Hardware_init_shall_InitTheGPIOAndEXTIPeripherals", 14);
+  run_test(test_Button_Hardware_wasPressed_shall_ReturnTrue_when_ButtonWasPressed, "test_Button_Hardware_wasPressed_shall_ReturnTrue_when_ButtonWasPressed", 22);
+  run_test(test_Button_Hardware_wasPressed_shall_ReturnFalse_when_ButtonWasNotPressed, "test_Button_Hardware_wasPressed_shall_ReturnFalse_when_ButtonWasNotPressed", 32);
 
+  CMock_Guts_MemFreeFinal();
   return UnityEnd();
 }

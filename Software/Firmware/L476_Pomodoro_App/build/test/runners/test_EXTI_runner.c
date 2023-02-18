@@ -10,7 +10,17 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_EXTI_NeedToImplement(void);
+extern void test_EXTI_PushButtonPC13_init_should_EnableTheSYSCFGClock(void);
+extern void test_EXTI_PushButtonPC13_init_should_RouteTheButtonSignalToTheEXTI(void);
+extern void test_EXTI_PushButtonPC13_init_should_EnableISRMaskRegister(void);
+extern void test_EXTI_PushButtonPC13_init_should_SetTheTriggerToFallingEdge(void);
+extern void test_EXTI_PushButtonPC13_init_should_SetISRPriority(void);
+extern void test_EXTI_PushButtonPC13_init_should_EnableTheInterrupt(void);
+extern void test_EXTI15_10_IRQHandler_should_ClearPendingRegister(void);
+extern void test_Button_isrHandler_should_UpdateTheButtonState(void);
+extern void test_EXTI_PushButtonPC13_wasPressed_should_ReturnTrue_when_ButtonWasPressed(void);
+extern void test_EXTI_PushButtonPC13_wasPressed_should_ReturnFalse_when_ButtonWasNotPressed(void);
+extern void test_EXTI_PushButtonPC13_wasPressed_should_ResetTheReadingStatus_when_Called(void);
 
 
 /*=======Mock Management=====*/
@@ -75,7 +85,17 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_EXTI.c");
-  run_test(test_EXTI_NeedToImplement, "test_EXTI_NeedToImplement", 13);
+  run_test(test_EXTI_PushButtonPC13_init_should_EnableTheSYSCFGClock, "test_EXTI_PushButtonPC13_init_should_EnableTheSYSCFGClock", 17);
+  run_test(test_EXTI_PushButtonPC13_init_should_RouteTheButtonSignalToTheEXTI, "test_EXTI_PushButtonPC13_init_should_RouteTheButtonSignalToTheEXTI", 37);
+  run_test(test_EXTI_PushButtonPC13_init_should_EnableISRMaskRegister, "test_EXTI_PushButtonPC13_init_should_EnableISRMaskRegister", 57);
+  run_test(test_EXTI_PushButtonPC13_init_should_SetTheTriggerToFallingEdge, "test_EXTI_PushButtonPC13_init_should_SetTheTriggerToFallingEdge", 77);
+  run_test(test_EXTI_PushButtonPC13_init_should_SetISRPriority, "test_EXTI_PushButtonPC13_init_should_SetISRPriority", 98);
+  run_test(test_EXTI_PushButtonPC13_init_should_EnableTheInterrupt, "test_EXTI_PushButtonPC13_init_should_EnableTheInterrupt", 118);
+  run_test(test_EXTI15_10_IRQHandler_should_ClearPendingRegister, "test_EXTI15_10_IRQHandler_should_ClearPendingRegister", 138);
+  run_test(test_Button_isrHandler_should_UpdateTheButtonState, "test_Button_isrHandler_should_UpdateTheButtonState", 160);
+  run_test(test_EXTI_PushButtonPC13_wasPressed_should_ReturnTrue_when_ButtonWasPressed, "test_EXTI_PushButtonPC13_wasPressed_should_ReturnTrue_when_ButtonWasPressed", 167);
+  run_test(test_EXTI_PushButtonPC13_wasPressed_should_ReturnFalse_when_ButtonWasNotPressed, "test_EXTI_PushButtonPC13_wasPressed_should_ReturnFalse_when_ButtonWasNotPressed", 177);
+  run_test(test_EXTI_PushButtonPC13_wasPressed_should_ResetTheReadingStatus_when_Called, "test_EXTI_PushButtonPC13_wasPressed_should_ResetTheReadingStatus_when_Called", 187);
 
   return UnityEnd();
 }

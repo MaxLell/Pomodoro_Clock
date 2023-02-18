@@ -41,3 +41,7 @@ src/GPIO.c:
 - TEST
 build/test/mocks/mock_MessageBroker.c:
 - TEST
+build/test/mocks/mock_GPIO.c:
+- TEST
+build/test/mocks/mock_EXTI.c:
+- TEST
