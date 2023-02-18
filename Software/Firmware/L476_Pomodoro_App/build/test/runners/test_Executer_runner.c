@@ -2,6 +2,11 @@
 
 /*=======Automagically Detected Files To Include=====*/
 #include "unity.h"
+#include "cmock.h"
+#include "mock_Rcc.h"
+#include "mock_BlinkyLed.h"
+#include "mock_SysTick.h"
+#include "mock_Button.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -10,7 +15,7 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_Executer_NeedToImplement(void);
+extern void test_Executer_init_shall_initializeAllTheModules(void);
 
 
 /*=======Mock Management=====*/
@@ -19,12 +24,24 @@ static void CMock_Init(void)
   GlobalExpectCount = 0;
   GlobalVerifyOrder = 0;
   GlobalOrderError = NULL;
+  mock_Rcc_Init();
+  mock_BlinkyLed_Init();
+  mock_SysTick_Init();
+  mock_Button_Init();
 }
 static void CMock_Verify(void)
 {
+  mock_Rcc_Verify();
+  mock_BlinkyLed_Verify();
+  mock_SysTick_Verify();
+  mock_Button_Verify();
 }
 static void CMock_Destroy(void)
 {
+  mock_Rcc_Destroy();
+  mock_BlinkyLed_Destroy();
+  mock_SysTick_Destroy();
+  mock_Button_Destroy();
 }
 
 /*=======Test Reset Options=====*/
@@ -75,7 +92,8 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_Executer.c");
-  run_test(test_Executer_NeedToImplement, "test_Executer_NeedToImplement", 13);
+  run_test(test_Executer_init_shall_initializeAllTheModules, "test_Executer_init_shall_initializeAllTheModules", 18);
 
+  CMock_Guts_MemFreeFinal();
   return UnityEnd();
 }

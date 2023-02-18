@@ -5,8 +5,13 @@
  * This is only a dummy message for experimentation.
  * You manually need to set these topics here up.
  */
-STATIC MessageBroker_msgDictinary_t sMsg2010;
-STATIC MessageBroker_msgDictinary_t sMsg0204;
+STATIC MessageBroker_msgDictinary_t sTestTopic_1;
+STATIC MessageBroker_msgDictinary_t sTestTopic_2;
+
+/**
+ * The Message Topics are defined here
+ */
+STATIC MessageBroker_msgDictinary_t sTopicTriggerButton;
 
 /* Contains all dictinaries, so that they can be searched through iterativly */
 STATIC MessageBroker_msgDictinary_t *sMessageTopicIndex[MESSAGE_BROKER_NUMBER_OF_MESSAGE_TOPICS] = {NULL};
@@ -14,12 +19,16 @@ STATIC MessageBroker_msgDictinary_t *sMessageTopicIndex[MESSAGE_BROKER_NUMBER_OF
 status_t MessageBroker_init()
 {
     /* Set the Topics of the respective messages */
-    sMsg2010.eMsgTopic = E_MSG_2010;
-    sMsg0204.eMsgTopic = E_MSG_0204;
+    sTestTopic_1.eMsgTopic = E_TEST_1;
+    sTestTopic_2.eMsgTopic = E_TEST_2;
+
+    sTopicTriggerButton.eMsgTopic = E_TRIGGER_BUTTON_EVENT;
 
     /* Place the different topics / message types in the Library */
-    sMessageTopicIndex[E_MSG_2010] = &sMsg2010;
-    sMessageTopicIndex[E_MSG_0204] = &sMsg0204;
+    sMessageTopicIndex[E_TEST_1] = &sTestTopic_1;
+    sMessageTopicIndex[E_TEST_2] = &sTestTopic_2;
+
+    sMessageTopicIndex[E_TRIGGER_BUTTON_EVENT] = &sTopicTriggerButton;
 
     /* set all the elements of the Callback arrays to zero */
     for (uint16_t topic = 0; topic < MESSAGE_BROKER_NUMBER_OF_MESSAGE_TOPICS; topic++)

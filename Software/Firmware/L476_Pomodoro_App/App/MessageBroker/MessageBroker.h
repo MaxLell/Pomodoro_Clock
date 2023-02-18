@@ -7,13 +7,15 @@
  * The number of Message Topics needs to match the number of enumsthere are
  * in the messageTopics enum
  */
-#define MESSAGE_BROKER_NUMBER_OF_MESSAGE_TOPICS 2
+
+#define MESSAGE_BROKER_NUMBER_OF_MESSAGE_TOPICS 3
 #define MESSAGE_BROKER_CALLBACK_ARRAY_SIZE 5
 
 typedef enum
 {
-    E_MSG_2010 = 0U,
-    E_MSG_0204,
+    E_TEST_1 = 0U,
+    E_TEST_2,
+    E_TRIGGER_BUTTON_EVENT,
 } MessageBroker_messageTopics_e;
 
 typedef struct

@@ -9,7 +9,11 @@
         "__locale": "c",
         "testsupport.h": "c",
         "types.h": "c",
-        "mock_executer.h": "c"
+        "mock_executer.h": "c",
+        "executer.h": "c",
+        "rcc.h": "c",
+        "button_model.h": "c",
+        "messagebroker.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
