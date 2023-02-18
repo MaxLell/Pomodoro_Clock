@@ -11,3 +11,5 @@ Bsp/Button/Button.c:
 - TEST
 src/MessageBroker.c:
 - TEST
+App/MessageBroker/MessageBroker.c:
+- TEST
