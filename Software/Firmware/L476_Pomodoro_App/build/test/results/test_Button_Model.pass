@@ -19,8 +19,10 @@
   :failed: 0
   :ignored: 0
 :stdout:
-- "[ERROR] (src/Button_Model.c:28: errno: None) Trigger Button Event was not published"
-- "[ERROR] (src/Button_Model.c:6: errno: None) The provided Button Event is FALSE.
-  It should always be TRUE"
-- "[ERROR] (src/Button_Model.c:28: errno: None) Trigger Button Event was not published"
-:time: 0.004969000001437962
+- "[ERROR] (Bsp/Button/Button_Model.c:28: errno: None) Trigger Button Event was not
+  published"
+- "[ERROR] (Bsp/Button/Button_Model.c:6: errno: None) The provided Button Event is
+  FALSE. It should always be TRUE"
+- "[ERROR] (Bsp/Button/Button_Model.c:28: errno: None) Trigger Button Event was not
+  published"
+:time: 0.004887000017333776

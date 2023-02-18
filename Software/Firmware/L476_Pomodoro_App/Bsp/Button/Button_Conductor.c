@@ -14,4 +14,5 @@ status_t Button_Conductor_exec()
     {
         Button_Model_publishData(bButtonWasPressed);
     }
+    return STATUS_OK;
 }
