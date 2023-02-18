@@ -1,4 +1,6 @@
 #include "GPIO.h"
+#include "stm32l476xx.h"
+#include "Common.h"
 
 void GPIO_PushButtonPC13_init()
 {

@@ -10,7 +10,8 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_GPIO_NeedToImplement(void);
+extern void test_GPIO_PushButtonPC13_init_should_EnableTheClockForGPIOC();
+extern void test_GPIO_PushButtonPC13_init_should_SetModeToInput();
 
 
 /*=======Mock Management=====*/
@@ -75,7 +76,8 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_GPIO.c");
-  run_test(test_GPIO_NeedToImplement, "test_GPIO_NeedToImplement", 13);
+  run_test(test_GPIO_PushButtonPC13_init_should_EnableTheClockForGPIOC, "test_GPIO_PushButtonPC13_init_should_EnableTheClockForGPIOC", 17);
+  run_test(test_GPIO_PushButtonPC13_init_should_SetModeToInput, "test_GPIO_PushButtonPC13_init_should_SetModeToInput", 32);
 
   return UnityEnd();
 }

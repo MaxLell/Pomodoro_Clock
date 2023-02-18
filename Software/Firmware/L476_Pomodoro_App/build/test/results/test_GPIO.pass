@@ -2,17 +2,21 @@
 :source:
   :path: test
   :file: test_GPIO.c
-:successes: []
-:failures: []
-:ignores:
-- :test: test_GPIO_NeedToImplement
-  :line: 15
-  :message: Need to Implement GPIO
+:successes:
+- :test: test_GPIO_PushButtonPC13_init_should_EnableTheClockForGPIOC
+  :line: 17
+  :message: ''
   :unity_test_time: 0
+- :test: test_GPIO_PushButtonPC13_init_should_SetModeToInput
+  :line: 32
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
 :counts:
-  :total: 1
-  :passed: 0
+  :total: 2
+  :passed: 2
   :failed: 0
-  :ignored: 1
+  :ignored: 0
 :stdout: []
-:time: 0.0046530000399798155
+:time: 0.23753099999157712
