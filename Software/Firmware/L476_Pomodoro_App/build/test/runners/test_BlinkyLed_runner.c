@@ -79,11 +79,11 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_BlinkyLed.c");
-  run_test(test_BlinkyLed_init_should_EnableTheClockForGPIOA, "test_BlinkyLed_init_should_EnableTheClockForGPIOA", 20);
-  run_test(test_BlinkyLed_init_should_SetTheGPIOModeToOutput, "test_BlinkyLed_init_should_SetTheGPIOModeToOutput", 40);
-  run_test(test_BlinkyLed_enable_should_SetTheOutputPinToHigh, "test_BlinkyLed_enable_should_SetTheOutputPinToHigh", 54);
-  run_test(test_BlinkyLed_enable_should_SetTheOutputPinToLow, "test_BlinkyLed_enable_should_SetTheOutputPinToLow", 65);
-  run_test(test_BlinkyLed_toggle_should_ToggleTheOutputPin, "test_BlinkyLed_toggle_should_ToggleTheOutputPin", 76);
+  run_test(test_BlinkyLed_init_should_EnableTheClockForGPIOA, "test_BlinkyLed_init_should_EnableTheClockForGPIOA", 21);
+  run_test(test_BlinkyLed_init_should_SetTheGPIOModeToOutput, "test_BlinkyLed_init_should_SetTheGPIOModeToOutput", 41);
+  run_test(test_BlinkyLed_enable_should_SetTheOutputPinToHigh, "test_BlinkyLed_enable_should_SetTheOutputPinToHigh", 55);
+  run_test(test_BlinkyLed_enable_should_SetTheOutputPinToLow, "test_BlinkyLed_enable_should_SetTheOutputPinToLow", 66);
+  run_test(test_BlinkyLed_toggle_should_ToggleTheOutputPin, "test_BlinkyLed_toggle_should_ToggleTheOutputPin", 77);
 
   return UnityEnd();
 }

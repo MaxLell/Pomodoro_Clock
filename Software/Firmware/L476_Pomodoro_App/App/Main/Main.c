@@ -17,4 +17,5 @@ int main(void)
          * Run the application in the Executer_exec()
          */
     }
+    return 0;
 }

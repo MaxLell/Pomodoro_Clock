@@ -1,6 +1,6 @@
 #include "App/Support/Common.h"
 #include "Drivers/L476_Mappings/stm32l476xx.h"
-#include "src/GPIO.h"
+#include "Drivers/GPIO/GPIO.h"
 #include "/Library/Ruby/Gems/2.6.0/gems/ceedling-0.31.1/vendor/unity/src/unity.h"
 
 

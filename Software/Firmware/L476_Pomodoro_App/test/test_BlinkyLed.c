@@ -6,8 +6,9 @@
 #include "stm32l476xx.h"
 
 #include "Common.h"
-#include "DbgMacros.h"
 #include "RegisterAccess.h"
+
+#include "GPIO.h"
 
 void setUp(void)
 {

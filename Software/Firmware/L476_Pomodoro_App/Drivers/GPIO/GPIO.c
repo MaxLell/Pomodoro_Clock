@@ -1,14 +1,18 @@
-#include "BlinkyLed.h"
-
-#include "Common.h"
+#include "GPIO.h"
 #include "stm32l476xx.h"
-#include "RegisterAccess.h"
+#include "Common.h"
 
-/**
- * The LED blinky LED is connected to PA5
- */
+void GPIO_PushButtonPC13_init()
+{
+    /* Enable GPIOC Clock*/
+    RCC->AHB2ENR |= RCC_AHB2ENR_GPIOCEN;
 
-void BlinkyLed_init(void)
+    /* Set the Mode Register to 0 for Pin 13 - Input Mode */
+    GPIOC->MODER &= ~(GPIO_MODER_MODE13_0);
+    GPIOC->MODER &= ~(GPIO_MODER_MODE13_1);
+}
+
+void GPIO_BlinkyLedPA5_init()
 {
     /* Turn on the Clock for GPIOA */
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
@@ -18,18 +22,19 @@ void BlinkyLed_init(void)
     GPIOA->MODER |= GPIO_MODER_MODE5_0;
 }
 
-void BlinkyLed_enable(void)
+void GPIO_BlinkyLedPA5_enable()
 {
     /* set HIGH value on pin PA5 */
     GPIOA->BSRR |= GPIO_BSRR_BS_5;
 }
-void BlinkyLed_disable(void)
+
+void GPIO_BlinkyLedPA5_disable(void)
 {
     /* set LOW value on pin PA5 */
     GPIOA->BSRR |= GPIO_BSRR_BR_5;
 }
 
-void BlinkyLed_toggle(void)
+void GPIO_BlinkyLedPA5_toggle(void)
 {
     /**
      * This reads in the 5th register of PortA -> PA5
@@ -41,7 +46,7 @@ void BlinkyLed_toggle(void)
         /**
          * When the LED was on: Switch it off.
          */
-        BlinkyLed_disable();
+        GPIO_BlinkyLedPA5_disable();
     }
     else
     {
@@ -52,6 +57,6 @@ void BlinkyLed_toggle(void)
          * Setting the LED, changes the value that is read
          * on the Input Data Register
          */
-        BlinkyLed_enable();
+        GPIO_BlinkyLedPA5_enable();
     }
 }

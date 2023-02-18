@@ -2,4 +2,4 @@
 - "/Library/Ruby/Gems/2.6.0/gems/ceedling-0.31.1/vendor/unity/src/unity.h"
 - build/test/mocks/mock_GPIO.h
 - build/test/mocks/mock_EXTI.h
-- src/Button_Hardware.h
+- Bsp/Button/Button_Hardware.h

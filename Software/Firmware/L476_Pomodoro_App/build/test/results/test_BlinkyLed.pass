@@ -4,23 +4,23 @@
   :file: test_BlinkyLed.c
 :successes:
 - :test: test_BlinkyLed_init_should_EnableTheClockForGPIOA
-  :line: 20
+  :line: 21
   :message: ''
   :unity_test_time: 0
 - :test: test_BlinkyLed_init_should_SetTheGPIOModeToOutput
-  :line: 40
+  :line: 41
   :message: ''
   :unity_test_time: 0
 - :test: test_BlinkyLed_enable_should_SetTheOutputPinToHigh
-  :line: 54
+  :line: 55
   :message: ''
   :unity_test_time: 0
 - :test: test_BlinkyLed_enable_should_SetTheOutputPinToLow
-  :line: 65
+  :line: 66
   :message: ''
   :unity_test_time: 0
 - :test: test_BlinkyLed_toggle_should_ToggleTheOutputPin
-  :line: 76
+  :line: 77
   :message: ''
   :unity_test_time: 0
 :failures: []
@@ -31,4 +31,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.4176970000262372
+:time: 0.4151399999973364

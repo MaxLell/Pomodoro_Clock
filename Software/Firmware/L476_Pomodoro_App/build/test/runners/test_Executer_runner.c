@@ -6,7 +6,8 @@
 #include "mock_Rcc.h"
 #include "mock_BlinkyLed.h"
 #include "mock_SysTick.h"
-#include "mock_Button.h"
+#include "mock_Button_Conductor.h"
+#include "mock_MessageBroker.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -27,21 +28,24 @@ static void CMock_Init(void)
   mock_Rcc_Init();
   mock_BlinkyLed_Init();
   mock_SysTick_Init();
-  mock_Button_Init();
+  mock_Button_Conductor_Init();
+  mock_MessageBroker_Init();
 }
 static void CMock_Verify(void)
 {
   mock_Rcc_Verify();
   mock_BlinkyLed_Verify();
   mock_SysTick_Verify();
-  mock_Button_Verify();
+  mock_Button_Conductor_Verify();
+  mock_MessageBroker_Verify();
 }
 static void CMock_Destroy(void)
 {
   mock_Rcc_Destroy();
   mock_BlinkyLed_Destroy();
   mock_SysTick_Destroy();
-  mock_Button_Destroy();
+  mock_Button_Conductor_Destroy();
+  mock_MessageBroker_Destroy();
 }
 
 /*=======Test Reset Options=====*/
@@ -92,7 +96,7 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_Executer.c");
-  run_test(test_Executer_init_shall_initializeAllTheModules, "test_Executer_init_shall_initializeAllTheModules", 18);
+  run_test(test_Executer_init_shall_initializeAllTheModules, "test_Executer_init_shall_initializeAllTheModules", 19);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

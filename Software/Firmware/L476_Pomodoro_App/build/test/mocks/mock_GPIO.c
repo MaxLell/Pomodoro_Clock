@@ -5,6 +5,10 @@
 #include "cmock.h"
 #include "mock_GPIO.h"
 
+static const char* CMockString_GPIO_BlinkyLedPA5_disable = "GPIO_BlinkyLedPA5_disable";
+static const char* CMockString_GPIO_BlinkyLedPA5_enable = "GPIO_BlinkyLedPA5_enable";
+static const char* CMockString_GPIO_BlinkyLedPA5_init = "GPIO_BlinkyLedPA5_init";
+static const char* CMockString_GPIO_BlinkyLedPA5_toggle = "GPIO_BlinkyLedPA5_toggle";
 static const char* CMockString_GPIO_PushButtonPC13_init = "GPIO_PushButtonPC13_init";
 
 typedef struct _CMOCK_GPIO_PushButtonPC13_init_CALL_INSTANCE
@@ -14,6 +18,34 @@ typedef struct _CMOCK_GPIO_PushButtonPC13_init_CALL_INSTANCE
 
 } CMOCK_GPIO_PushButtonPC13_init_CALL_INSTANCE;
 
+typedef struct _CMOCK_GPIO_BlinkyLedPA5_init_CALL_INSTANCE
+{
+  UNITY_LINE_TYPE LineNumber;
+  int CallOrder;
+
+} CMOCK_GPIO_BlinkyLedPA5_init_CALL_INSTANCE;
+
+typedef struct _CMOCK_GPIO_BlinkyLedPA5_enable_CALL_INSTANCE
+{
+  UNITY_LINE_TYPE LineNumber;
+  int CallOrder;
+
+} CMOCK_GPIO_BlinkyLedPA5_enable_CALL_INSTANCE;
+
+typedef struct _CMOCK_GPIO_BlinkyLedPA5_disable_CALL_INSTANCE
+{
+  UNITY_LINE_TYPE LineNumber;
+  int CallOrder;
+
+} CMOCK_GPIO_BlinkyLedPA5_disable_CALL_INSTANCE;
+
+typedef struct _CMOCK_GPIO_BlinkyLedPA5_toggle_CALL_INSTANCE
+{
+  UNITY_LINE_TYPE LineNumber;
+  int CallOrder;
+
+} CMOCK_GPIO_BlinkyLedPA5_toggle_CALL_INSTANCE;
+
 static struct mock_GPIOInstance
 {
   char GPIO_PushButtonPC13_init_IgnoreBool;
@@ -21,6 +53,26 @@ static struct mock_GPIOInstance
   CMOCK_GPIO_PushButtonPC13_init_CALLBACK GPIO_PushButtonPC13_init_CallbackFunctionPointer;
   int GPIO_PushButtonPC13_init_CallbackCalls;
   CMOCK_MEM_INDEX_TYPE GPIO_PushButtonPC13_init_CallInstance;
+  char GPIO_BlinkyLedPA5_init_IgnoreBool;
+  char GPIO_BlinkyLedPA5_init_CallbackBool;
+  CMOCK_GPIO_BlinkyLedPA5_init_CALLBACK GPIO_BlinkyLedPA5_init_CallbackFunctionPointer;
+  int GPIO_BlinkyLedPA5_init_CallbackCalls;
+  CMOCK_MEM_INDEX_TYPE GPIO_BlinkyLedPA5_init_CallInstance;
+  char GPIO_BlinkyLedPA5_enable_IgnoreBool;
+  char GPIO_BlinkyLedPA5_enable_CallbackBool;
+  CMOCK_GPIO_BlinkyLedPA5_enable_CALLBACK GPIO_BlinkyLedPA5_enable_CallbackFunctionPointer;
+  int GPIO_BlinkyLedPA5_enable_CallbackCalls;
+  CMOCK_MEM_INDEX_TYPE GPIO_BlinkyLedPA5_enable_CallInstance;
+  char GPIO_BlinkyLedPA5_disable_IgnoreBool;
+  char GPIO_BlinkyLedPA5_disable_CallbackBool;
+  CMOCK_GPIO_BlinkyLedPA5_disable_CALLBACK GPIO_BlinkyLedPA5_disable_CallbackFunctionPointer;
+  int GPIO_BlinkyLedPA5_disable_CallbackCalls;
+  CMOCK_MEM_INDEX_TYPE GPIO_BlinkyLedPA5_disable_CallInstance;
+  char GPIO_BlinkyLedPA5_toggle_IgnoreBool;
+  char GPIO_BlinkyLedPA5_toggle_CallbackBool;
+  CMOCK_GPIO_BlinkyLedPA5_toggle_CALLBACK GPIO_BlinkyLedPA5_toggle_CallbackFunctionPointer;
+  int GPIO_BlinkyLedPA5_toggle_CallbackCalls;
+  CMOCK_MEM_INDEX_TYPE GPIO_BlinkyLedPA5_toggle_CallInstance;
 } Mock;
 
 extern jmp_buf AbortFrame;
@@ -40,6 +92,58 @@ void mock_GPIO_Verify(void)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledLess);
   }
   if (Mock.GPIO_PushButtonPC13_init_CallbackFunctionPointer != NULL)
+  {
+    call_instance = CMOCK_GUTS_NONE;
+    (void)call_instance;
+  }
+  call_instance = Mock.GPIO_BlinkyLedPA5_init_CallInstance;
+  if (Mock.GPIO_BlinkyLedPA5_init_IgnoreBool)
+    call_instance = CMOCK_GUTS_NONE;
+  if (CMOCK_GUTS_NONE != call_instance)
+  {
+    UNITY_SET_DETAIL(CMockString_GPIO_BlinkyLedPA5_init);
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLess);
+  }
+  if (Mock.GPIO_BlinkyLedPA5_init_CallbackFunctionPointer != NULL)
+  {
+    call_instance = CMOCK_GUTS_NONE;
+    (void)call_instance;
+  }
+  call_instance = Mock.GPIO_BlinkyLedPA5_enable_CallInstance;
+  if (Mock.GPIO_BlinkyLedPA5_enable_IgnoreBool)
+    call_instance = CMOCK_GUTS_NONE;
+  if (CMOCK_GUTS_NONE != call_instance)
+  {
+    UNITY_SET_DETAIL(CMockString_GPIO_BlinkyLedPA5_enable);
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLess);
+  }
+  if (Mock.GPIO_BlinkyLedPA5_enable_CallbackFunctionPointer != NULL)
+  {
+    call_instance = CMOCK_GUTS_NONE;
+    (void)call_instance;
+  }
+  call_instance = Mock.GPIO_BlinkyLedPA5_disable_CallInstance;
+  if (Mock.GPIO_BlinkyLedPA5_disable_IgnoreBool)
+    call_instance = CMOCK_GUTS_NONE;
+  if (CMOCK_GUTS_NONE != call_instance)
+  {
+    UNITY_SET_DETAIL(CMockString_GPIO_BlinkyLedPA5_disable);
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLess);
+  }
+  if (Mock.GPIO_BlinkyLedPA5_disable_CallbackFunctionPointer != NULL)
+  {
+    call_instance = CMOCK_GUTS_NONE;
+    (void)call_instance;
+  }
+  call_instance = Mock.GPIO_BlinkyLedPA5_toggle_CallInstance;
+  if (Mock.GPIO_BlinkyLedPA5_toggle_IgnoreBool)
+    call_instance = CMOCK_GUTS_NONE;
+  if (CMOCK_GUTS_NONE != call_instance)
+  {
+    UNITY_SET_DETAIL(CMockString_GPIO_BlinkyLedPA5_toggle);
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLess);
+  }
+  if (Mock.GPIO_BlinkyLedPA5_toggle_CallbackFunctionPointer != NULL)
   {
     call_instance = CMOCK_GUTS_NONE;
     (void)call_instance;
@@ -125,5 +229,277 @@ void GPIO_PushButtonPC13_init_Stub(CMOCK_GPIO_PushButtonPC13_init_CALLBACK Callb
   Mock.GPIO_PushButtonPC13_init_IgnoreBool = (char)0;
   Mock.GPIO_PushButtonPC13_init_CallbackBool = (char)0;
   Mock.GPIO_PushButtonPC13_init_CallbackFunctionPointer = Callback;
+}
+
+void GPIO_BlinkyLedPA5_init(void)
+{
+  UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
+  CMOCK_GPIO_BlinkyLedPA5_init_CALL_INSTANCE* cmock_call_instance;
+  UNITY_SET_DETAIL(CMockString_GPIO_BlinkyLedPA5_init);
+  cmock_call_instance = (CMOCK_GPIO_BlinkyLedPA5_init_CALL_INSTANCE*)CMock_Guts_GetAddressFor(Mock.GPIO_BlinkyLedPA5_init_CallInstance);
+  Mock.GPIO_BlinkyLedPA5_init_CallInstance = CMock_Guts_MemNext(Mock.GPIO_BlinkyLedPA5_init_CallInstance);
+  if (Mock.GPIO_BlinkyLedPA5_init_IgnoreBool)
+  {
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  if (!Mock.GPIO_BlinkyLedPA5_init_CallbackBool &&
+      Mock.GPIO_BlinkyLedPA5_init_CallbackFunctionPointer != NULL)
+  {
+    Mock.GPIO_BlinkyLedPA5_init_CallbackFunctionPointer(Mock.GPIO_BlinkyLedPA5_init_CallbackCalls++);
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
+  cmock_line = cmock_call_instance->LineNumber;
+  if (cmock_call_instance->CallOrder > ++GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
+  if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (Mock.GPIO_BlinkyLedPA5_init_CallbackFunctionPointer != NULL)
+  {
+    Mock.GPIO_BlinkyLedPA5_init_CallbackFunctionPointer(Mock.GPIO_BlinkyLedPA5_init_CallbackCalls++);
+  }
+  UNITY_CLR_DETAILS();
+}
+
+void GPIO_BlinkyLedPA5_init_CMockIgnore(void)
+{
+  Mock.GPIO_BlinkyLedPA5_init_IgnoreBool = (char)1;
+}
+
+void GPIO_BlinkyLedPA5_init_CMockStopIgnore(void)
+{
+  Mock.GPIO_BlinkyLedPA5_init_IgnoreBool = (char)0;
+}
+
+void GPIO_BlinkyLedPA5_init_CMockExpect(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_GPIO_BlinkyLedPA5_init_CALL_INSTANCE));
+  CMOCK_GPIO_BlinkyLedPA5_init_CALL_INSTANCE* cmock_call_instance = (CMOCK_GPIO_BlinkyLedPA5_init_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringOutOfMemory);
+  memset(cmock_call_instance, 0, sizeof(*cmock_call_instance));
+  Mock.GPIO_BlinkyLedPA5_init_CallInstance = CMock_Guts_MemChain(Mock.GPIO_BlinkyLedPA5_init_CallInstance, cmock_guts_index);
+  Mock.GPIO_BlinkyLedPA5_init_IgnoreBool = (char)0;
+  cmock_call_instance->LineNumber = cmock_line;
+  cmock_call_instance->CallOrder = ++GlobalExpectCount;
+}
+
+void GPIO_BlinkyLedPA5_init_AddCallback(CMOCK_GPIO_BlinkyLedPA5_init_CALLBACK Callback)
+{
+  Mock.GPIO_BlinkyLedPA5_init_IgnoreBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_init_CallbackBool = (char)1;
+  Mock.GPIO_BlinkyLedPA5_init_CallbackFunctionPointer = Callback;
+}
+
+void GPIO_BlinkyLedPA5_init_Stub(CMOCK_GPIO_BlinkyLedPA5_init_CALLBACK Callback)
+{
+  Mock.GPIO_BlinkyLedPA5_init_IgnoreBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_init_CallbackBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_init_CallbackFunctionPointer = Callback;
+}
+
+void GPIO_BlinkyLedPA5_enable(void)
+{
+  UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
+  CMOCK_GPIO_BlinkyLedPA5_enable_CALL_INSTANCE* cmock_call_instance;
+  UNITY_SET_DETAIL(CMockString_GPIO_BlinkyLedPA5_enable);
+  cmock_call_instance = (CMOCK_GPIO_BlinkyLedPA5_enable_CALL_INSTANCE*)CMock_Guts_GetAddressFor(Mock.GPIO_BlinkyLedPA5_enable_CallInstance);
+  Mock.GPIO_BlinkyLedPA5_enable_CallInstance = CMock_Guts_MemNext(Mock.GPIO_BlinkyLedPA5_enable_CallInstance);
+  if (Mock.GPIO_BlinkyLedPA5_enable_IgnoreBool)
+  {
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  if (!Mock.GPIO_BlinkyLedPA5_enable_CallbackBool &&
+      Mock.GPIO_BlinkyLedPA5_enable_CallbackFunctionPointer != NULL)
+  {
+    Mock.GPIO_BlinkyLedPA5_enable_CallbackFunctionPointer(Mock.GPIO_BlinkyLedPA5_enable_CallbackCalls++);
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
+  cmock_line = cmock_call_instance->LineNumber;
+  if (cmock_call_instance->CallOrder > ++GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
+  if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (Mock.GPIO_BlinkyLedPA5_enable_CallbackFunctionPointer != NULL)
+  {
+    Mock.GPIO_BlinkyLedPA5_enable_CallbackFunctionPointer(Mock.GPIO_BlinkyLedPA5_enable_CallbackCalls++);
+  }
+  UNITY_CLR_DETAILS();
+}
+
+void GPIO_BlinkyLedPA5_enable_CMockIgnore(void)
+{
+  Mock.GPIO_BlinkyLedPA5_enable_IgnoreBool = (char)1;
+}
+
+void GPIO_BlinkyLedPA5_enable_CMockStopIgnore(void)
+{
+  Mock.GPIO_BlinkyLedPA5_enable_IgnoreBool = (char)0;
+}
+
+void GPIO_BlinkyLedPA5_enable_CMockExpect(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_GPIO_BlinkyLedPA5_enable_CALL_INSTANCE));
+  CMOCK_GPIO_BlinkyLedPA5_enable_CALL_INSTANCE* cmock_call_instance = (CMOCK_GPIO_BlinkyLedPA5_enable_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringOutOfMemory);
+  memset(cmock_call_instance, 0, sizeof(*cmock_call_instance));
+  Mock.GPIO_BlinkyLedPA5_enable_CallInstance = CMock_Guts_MemChain(Mock.GPIO_BlinkyLedPA5_enable_CallInstance, cmock_guts_index);
+  Mock.GPIO_BlinkyLedPA5_enable_IgnoreBool = (char)0;
+  cmock_call_instance->LineNumber = cmock_line;
+  cmock_call_instance->CallOrder = ++GlobalExpectCount;
+}
+
+void GPIO_BlinkyLedPA5_enable_AddCallback(CMOCK_GPIO_BlinkyLedPA5_enable_CALLBACK Callback)
+{
+  Mock.GPIO_BlinkyLedPA5_enable_IgnoreBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_enable_CallbackBool = (char)1;
+  Mock.GPIO_BlinkyLedPA5_enable_CallbackFunctionPointer = Callback;
+}
+
+void GPIO_BlinkyLedPA5_enable_Stub(CMOCK_GPIO_BlinkyLedPA5_enable_CALLBACK Callback)
+{
+  Mock.GPIO_BlinkyLedPA5_enable_IgnoreBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_enable_CallbackBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_enable_CallbackFunctionPointer = Callback;
+}
+
+void GPIO_BlinkyLedPA5_disable(void)
+{
+  UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
+  CMOCK_GPIO_BlinkyLedPA5_disable_CALL_INSTANCE* cmock_call_instance;
+  UNITY_SET_DETAIL(CMockString_GPIO_BlinkyLedPA5_disable);
+  cmock_call_instance = (CMOCK_GPIO_BlinkyLedPA5_disable_CALL_INSTANCE*)CMock_Guts_GetAddressFor(Mock.GPIO_BlinkyLedPA5_disable_CallInstance);
+  Mock.GPIO_BlinkyLedPA5_disable_CallInstance = CMock_Guts_MemNext(Mock.GPIO_BlinkyLedPA5_disable_CallInstance);
+  if (Mock.GPIO_BlinkyLedPA5_disable_IgnoreBool)
+  {
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  if (!Mock.GPIO_BlinkyLedPA5_disable_CallbackBool &&
+      Mock.GPIO_BlinkyLedPA5_disable_CallbackFunctionPointer != NULL)
+  {
+    Mock.GPIO_BlinkyLedPA5_disable_CallbackFunctionPointer(Mock.GPIO_BlinkyLedPA5_disable_CallbackCalls++);
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
+  cmock_line = cmock_call_instance->LineNumber;
+  if (cmock_call_instance->CallOrder > ++GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
+  if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (Mock.GPIO_BlinkyLedPA5_disable_CallbackFunctionPointer != NULL)
+  {
+    Mock.GPIO_BlinkyLedPA5_disable_CallbackFunctionPointer(Mock.GPIO_BlinkyLedPA5_disable_CallbackCalls++);
+  }
+  UNITY_CLR_DETAILS();
+}
+
+void GPIO_BlinkyLedPA5_disable_CMockIgnore(void)
+{
+  Mock.GPIO_BlinkyLedPA5_disable_IgnoreBool = (char)1;
+}
+
+void GPIO_BlinkyLedPA5_disable_CMockStopIgnore(void)
+{
+  Mock.GPIO_BlinkyLedPA5_disable_IgnoreBool = (char)0;
+}
+
+void GPIO_BlinkyLedPA5_disable_CMockExpect(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_GPIO_BlinkyLedPA5_disable_CALL_INSTANCE));
+  CMOCK_GPIO_BlinkyLedPA5_disable_CALL_INSTANCE* cmock_call_instance = (CMOCK_GPIO_BlinkyLedPA5_disable_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringOutOfMemory);
+  memset(cmock_call_instance, 0, sizeof(*cmock_call_instance));
+  Mock.GPIO_BlinkyLedPA5_disable_CallInstance = CMock_Guts_MemChain(Mock.GPIO_BlinkyLedPA5_disable_CallInstance, cmock_guts_index);
+  Mock.GPIO_BlinkyLedPA5_disable_IgnoreBool = (char)0;
+  cmock_call_instance->LineNumber = cmock_line;
+  cmock_call_instance->CallOrder = ++GlobalExpectCount;
+}
+
+void GPIO_BlinkyLedPA5_disable_AddCallback(CMOCK_GPIO_BlinkyLedPA5_disable_CALLBACK Callback)
+{
+  Mock.GPIO_BlinkyLedPA5_disable_IgnoreBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_disable_CallbackBool = (char)1;
+  Mock.GPIO_BlinkyLedPA5_disable_CallbackFunctionPointer = Callback;
+}
+
+void GPIO_BlinkyLedPA5_disable_Stub(CMOCK_GPIO_BlinkyLedPA5_disable_CALLBACK Callback)
+{
+  Mock.GPIO_BlinkyLedPA5_disable_IgnoreBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_disable_CallbackBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_disable_CallbackFunctionPointer = Callback;
+}
+
+void GPIO_BlinkyLedPA5_toggle(void)
+{
+  UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
+  CMOCK_GPIO_BlinkyLedPA5_toggle_CALL_INSTANCE* cmock_call_instance;
+  UNITY_SET_DETAIL(CMockString_GPIO_BlinkyLedPA5_toggle);
+  cmock_call_instance = (CMOCK_GPIO_BlinkyLedPA5_toggle_CALL_INSTANCE*)CMock_Guts_GetAddressFor(Mock.GPIO_BlinkyLedPA5_toggle_CallInstance);
+  Mock.GPIO_BlinkyLedPA5_toggle_CallInstance = CMock_Guts_MemNext(Mock.GPIO_BlinkyLedPA5_toggle_CallInstance);
+  if (Mock.GPIO_BlinkyLedPA5_toggle_IgnoreBool)
+  {
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  if (!Mock.GPIO_BlinkyLedPA5_toggle_CallbackBool &&
+      Mock.GPIO_BlinkyLedPA5_toggle_CallbackFunctionPointer != NULL)
+  {
+    Mock.GPIO_BlinkyLedPA5_toggle_CallbackFunctionPointer(Mock.GPIO_BlinkyLedPA5_toggle_CallbackCalls++);
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
+  cmock_line = cmock_call_instance->LineNumber;
+  if (cmock_call_instance->CallOrder > ++GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
+  if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (Mock.GPIO_BlinkyLedPA5_toggle_CallbackFunctionPointer != NULL)
+  {
+    Mock.GPIO_BlinkyLedPA5_toggle_CallbackFunctionPointer(Mock.GPIO_BlinkyLedPA5_toggle_CallbackCalls++);
+  }
+  UNITY_CLR_DETAILS();
+}
+
+void GPIO_BlinkyLedPA5_toggle_CMockIgnore(void)
+{
+  Mock.GPIO_BlinkyLedPA5_toggle_IgnoreBool = (char)1;
+}
+
+void GPIO_BlinkyLedPA5_toggle_CMockStopIgnore(void)
+{
+  Mock.GPIO_BlinkyLedPA5_toggle_IgnoreBool = (char)0;
+}
+
+void GPIO_BlinkyLedPA5_toggle_CMockExpect(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_GPIO_BlinkyLedPA5_toggle_CALL_INSTANCE));
+  CMOCK_GPIO_BlinkyLedPA5_toggle_CALL_INSTANCE* cmock_call_instance = (CMOCK_GPIO_BlinkyLedPA5_toggle_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringOutOfMemory);
+  memset(cmock_call_instance, 0, sizeof(*cmock_call_instance));
+  Mock.GPIO_BlinkyLedPA5_toggle_CallInstance = CMock_Guts_MemChain(Mock.GPIO_BlinkyLedPA5_toggle_CallInstance, cmock_guts_index);
+  Mock.GPIO_BlinkyLedPA5_toggle_IgnoreBool = (char)0;
+  cmock_call_instance->LineNumber = cmock_line;
+  cmock_call_instance->CallOrder = ++GlobalExpectCount;
+}
+
+void GPIO_BlinkyLedPA5_toggle_AddCallback(CMOCK_GPIO_BlinkyLedPA5_toggle_CALLBACK Callback)
+{
+  Mock.GPIO_BlinkyLedPA5_toggle_IgnoreBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_toggle_CallbackBool = (char)1;
+  Mock.GPIO_BlinkyLedPA5_toggle_CallbackFunctionPointer = Callback;
+}
+
+void GPIO_BlinkyLedPA5_toggle_Stub(CMOCK_GPIO_BlinkyLedPA5_toggle_CALLBACK Callback)
+{
+  Mock.GPIO_BlinkyLedPA5_toggle_IgnoreBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_toggle_CallbackBool = (char)0;
+  Mock.GPIO_BlinkyLedPA5_toggle_CallbackFunctionPointer = Callback;
 }
 

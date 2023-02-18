@@ -45,3 +45,17 @@ build/test/mocks/mock_GPIO.c:
 - TEST
 build/test/mocks/mock_EXTI.c:
 - TEST
+build/test/mocks/mock_Button_Conductor.c:
+- TEST
+Drivers/EXTI/EXTI.c:
+- TEST
+Drivers/GPIO/GPIO.c:
+- TEST
+Bsp/Button/Button_Conductor.c:
+- TEST
+Bsp/Button/Button_Hardware.c:
+- TEST
+Bsp/Button/Button_Model.c:
+- TEST
+Bsp/BlinkyLed/BlinkyLed.c:
+- TEST
