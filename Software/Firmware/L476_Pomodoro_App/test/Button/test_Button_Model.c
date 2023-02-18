@@ -2,7 +2,6 @@
 
 #include "Button_Model.h"
 #include "mock_MessageBroker.h"
-#include "MessageBroker.h"
 
 void setUp(void)
 {
@@ -26,8 +25,4 @@ void test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPre
 
     BOOL bButtonWasPressed = FALSE;
     Button_Model_publishData(bButtonWasPressed);
-}
-
-void test_Button_Model_publishData_ShallSendOutAValidMessage(void)
-{
 }

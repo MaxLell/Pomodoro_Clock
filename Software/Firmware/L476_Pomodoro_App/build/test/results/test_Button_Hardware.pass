@@ -1,6 +1,6 @@
 ---
 :source:
-  :path: test
+  :path: test/Button
   :file: test_Button_Hardware.c
 :successes: []
 :failures: []
@@ -15,4 +15,4 @@
   :failed: 0
   :ignored: 1
 :stdout: []
-:time: 0.004283999965991825
+:time: 0.00458700000308454

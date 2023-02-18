@@ -24,7 +24,7 @@ void Button_Model_publishData(BOOL in_bButtonEvent)
 
     /* Publish the data */
     MessageBroker_publish(tTriggerButtonMessage);
-
 error:
+    log_error("Trigger Button Event was not published");
     return;
 }

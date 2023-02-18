@@ -13,7 +13,8 @@
         "executer.h": "c",
         "rcc.h": "c",
         "button_model.h": "c",
-        "messagebroker.h": "c"
+        "messagebroker.h": "c",
+        "mock_messagebroker.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -5,8 +5,6 @@
 
 
 
-
-
 void setUp(void)
 
 {
@@ -27,7 +25,7 @@ void test_Button_Model_publishData_Shall_PublishAMessageWithTheMessageBroker(voi
 
 {
 
-    MessageBroker_publish_CMockIgnoreAndReturn(17, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(16, (0));
 
 
 
@@ -43,20 +41,12 @@ void test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPre
 
 {
 
-    MessageBroker_publish_CMockIgnoreAndReturn(25, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(24, (0));
 
 
 
     BOOL bButtonWasPressed = 0;
 
     Button_Model_publishData(bButtonWasPressed);
-
-}
-
-
-
-void test_Button_Model_publishData_ShallSendOutAValidMessage(void)
-
-{
 
 }

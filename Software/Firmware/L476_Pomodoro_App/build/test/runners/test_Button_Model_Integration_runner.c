@@ -2,8 +2,6 @@
 
 /*=======Automagically Detected Files To Include=====*/
 #include "unity.h"
-#include "cmock.h"
-#include "mock_MessageBroker.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -12,8 +10,8 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_Button_Model_publishData_Shall_PublishAMessageWithTheMessageBroker(void);
-extern void test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPressed(void);
+extern void test_Button_Model_publishData_ShallSendOutAValidMessage(void);
+extern void test_Button_Model_publishData_ShallNotSendOutAnInvalidMessage(void);
 
 
 /*=======Mock Management=====*/
@@ -22,15 +20,12 @@ static void CMock_Init(void)
   GlobalExpectCount = 0;
   GlobalVerifyOrder = 0;
   GlobalOrderError = NULL;
-  mock_MessageBroker_Init();
 }
 static void CMock_Verify(void)
 {
-  mock_MessageBroker_Verify();
 }
 static void CMock_Destroy(void)
 {
-  mock_MessageBroker_Destroy();
 }
 
 /*=======Test Reset Options=====*/
@@ -80,10 +75,9 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 /*=======MAIN=====*/
 int main(void)
 {
-  UnityBegin("test_Button_Model.c");
-  run_test(test_Button_Model_publishData_Shall_PublishAMessageWithTheMessageBroker, "test_Button_Model_publishData_Shall_PublishAMessageWithTheMessageBroker", 14);
-  run_test(test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPressed, "test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPressed", 22);
+  UnityBegin("test_Button_Model_Integration.c");
+  run_test(test_Button_Model_publishData_ShallSendOutAValidMessage, "test_Button_Model_publishData_ShallSendOutAValidMessage", 44);
+  run_test(test_Button_Model_publishData_ShallNotSendOutAnInvalidMessage, "test_Button_Model_publishData_ShallNotSendOutAnInvalidMessage", 57);
 
-  CMock_Guts_MemFreeFinal();
   return UnityEnd();
 }

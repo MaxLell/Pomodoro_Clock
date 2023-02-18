@@ -1,14 +1,14 @@
 ---
 :source:
   :path: test/Button
-  :file: test_Button_Model.c
+  :file: test_Button_Model_MessageBroker_Integration.c
 :successes:
-- :test: test_Button_Model_publishData_Shall_PublishAMessageWithTheMessageBroker
-  :line: 14
+- :test: test_Button_Model_publishData_ShallSendOutAValidMessage
+  :line: 44
   :message: ''
   :unity_test_time: 0
-- :test: test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPressed
-  :line: 22
+- :test: test_Button_Model_publishData_ShallNotSendOutAnInvalidMessage
+  :line: 57
   :message: ''
   :unity_test_time: 0
 :failures: []
@@ -23,4 +23,4 @@
 - "[ERROR] (src/Button_Model.c:6: errno: None) The provided Button Event is FALSE.
   It should always be TRUE"
 - "[ERROR] (src/Button_Model.c:28: errno: None) Trigger Button Event was not published"
-:time: 0.00479300000006333
+:time: 0.405451999977231
