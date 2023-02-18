@@ -1,6 +1,6 @@
 ---
 :source:
-  :path: test
+  :path: test/App
   :file: test_MessageBroker.c
 :successes:
 - :test: test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero
@@ -29,4 +29,4 @@
 :stdout:
 - "[ERROR] (App/MessageBroker/MessageBroker.c:51: errno: None) input function pointer
   is NULL"
-:time: 0.004475999972783029
+:time: 0.23575599998002872

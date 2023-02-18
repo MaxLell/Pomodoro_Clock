@@ -1,6 +1,6 @@
 ---
 :source:
-  :path: test
+  :path: test/Driver
   :file: test_GPIO.c
 :successes:
 - :test: test_GPIO_PushButtonPC13_init_should_EnableTheClockForGPIOC
@@ -19,4 +19,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.004972000024281442
+:time: 0.23374300001887605

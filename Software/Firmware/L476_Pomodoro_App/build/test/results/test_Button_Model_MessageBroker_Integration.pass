@@ -1,6 +1,6 @@
 ---
 :source:
-  :path: test/Button
+  :path: test/BSP/Button
   :file: test_Button_Model_MessageBroker_Integration.c
 :successes:
 - :test: test_Button_Model_publishData_ShallSendOutAValidMessage
@@ -25,4 +25,4 @@
   FALSE. It should always be TRUE"
 - "[ERROR] (Bsp/Button/Button_Model.c:28: errno: None) Trigger Button Event was not
   published"
-:time: 0.003995999984908849
+:time: 0.24668799998471513

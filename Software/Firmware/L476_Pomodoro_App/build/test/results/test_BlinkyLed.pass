@@ -1,6 +1,6 @@
 ---
 :source:
-  :path: test
+  :path: test/BSP
   :file: test_BlinkyLed.c
 :successes:
 - :test: test_BlinkyLed_init_should_EnableTheClockForGPIOA
@@ -31,4 +31,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.006013999984133989
+:time: 0.2229799999622628

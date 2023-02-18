@@ -1,6 +1,6 @@
 ---
 :source:
-  :path: test
+  :path: test/Driver
   :file: test_EXTI.c
 :successes:
 - :test: test_EXTI_PushButtonPC13_init_should_EnableTheSYSCFGClock
@@ -55,4 +55,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.004310999996960163
+:time: 0.2346959999995306
