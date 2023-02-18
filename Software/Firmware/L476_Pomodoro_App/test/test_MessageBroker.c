@@ -49,7 +49,7 @@ status_t dummyMsg0204Callback(MessageBroker_message_t in_sMessage)
 
 void test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot()
 {
-    /* Clears all the Callback Arrays */
+    /* Clears all the Callback Arrays and sets all of its entries to NULL*/
     MessageBroker_init();
 
     /* Write one Callback function into the first spot */

@@ -4,22 +4,26 @@
 #include "BlinkyLed.h"
 #include "SysTick.h"
 #include "Button.h"
+#include "Executer.h"
 
 #ifdef TEST
-int TestableMain(void)
+int testableMain(void)
 #else
 int main(void)
 #endif
 {
-    printf("huhu\n");
-    Rcc_init();
-    SysTick_init();
-    BlinkyLed_init();
-    Button_init();
+    // printf("huhu\n");
+    // Rcc_init();
+    // SysTick_init();
+    // BlinkyLed_init();
+    // Button_init();
 
-    while (TRUE)
+    Executer_init();
+
+    while (Executer_exec() == STATUS_OK)
     {
-        BlinkyLed_toggle();
-        delay_ms(100);
+        /**
+         * Run the application in the Executer_exec()
+         */
     }
 }

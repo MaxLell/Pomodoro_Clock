@@ -1,8 +1,10 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include "Common.h"
+
 #ifdef TEST
-int TestableMain(void)
+int testableMain(void);
 #else
 int main(void);
 #endif
