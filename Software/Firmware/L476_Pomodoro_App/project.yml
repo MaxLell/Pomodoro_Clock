@@ -104,5 +104,4 @@
     - stdout_pretty_tests_report
     - module_generator
     - gcov
-    - cppcheck
 ...

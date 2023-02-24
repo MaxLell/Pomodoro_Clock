@@ -27,7 +27,7 @@
     </tr>
     <tr>
       <th scope="row">Date:</th>
-      <td>2023-02-24 12:49:17</td>
+      <td>2023-02-24 15:53:21</td>
     </tr>
   </table>
 </div>
@@ -75,13 +75,13 @@
     </tr>
     <tr>
       <td>
-        <a href="#l27">Executer_exec</a>
+        <a href="#l26">Executer_exec</a>
       </td>
       <td>
-        <a href="#l27">27</a>
+        <a href="#l26">26</a>
       </td>
       <td>
-        <a href="#l27"> not called</a>
+        <a href="#l26"> not called</a>
       </td>
     </tr>
     <tr>
@@ -92,18 +92,18 @@
         <a href="#l12">12</a>
       </td>
       <td>
-        <a href="#l12"> called 2 times</a>
+        <a href="#l12"> called 3 times</a>
       </td>
     </tr>
     <tr>
       <td>
-        <a href="#l45">tDummyTriggerCallback</a>
+        <a href="#l41">tDummyTriggerCallback</a>
       </td>
       <td>
-        <a href="#l45">45</a>
+        <a href="#l41">41</a>
       </td>
       <td>
-        <a href="#l45"> not called</a>
+        <a href="#l41"> not called</a>
       </td>
     </tr>
   </table>
@@ -142,7 +142,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Rcc.h&quot;</span><span class="cp"></span></td>
+      <td class="src "><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;BlinkyLed.h&quot;</span><span class="cp"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -150,7 +150,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;BlinkyLed.h&quot;</span><span class="cp"></span></td>
+      <td class="src "><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Button_Conductor.h&quot;</span><span class="cp"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -158,7 +158,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;SysTick.h&quot;</span><span class="cp"></span></td>
+      <td class="src "><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;MessageBroker.h&quot;</span><span class="cp"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -166,7 +166,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Button_Conductor.h&quot;</span><span class="cp"></span></td>
+      <td class="src "><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Rcc.h&quot;</span><span class="cp"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -174,7 +174,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;MessageBroker.h&quot;</span><span class="cp"></span></td>
+      <td class="src "><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;SysTick.h&quot;</span><span class="cp"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -213,56 +213,56 @@
       <td class="lineno"><a id="l12" href="#l12">12</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
-      <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Executer_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span></td>
+      <td class="linecount coveredLine">3</td>
+      <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Executer_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l13" href="#l13">13</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount "></td>
-      <td class="src "><span class="p">{</span><span class="w"></span></td>
+      <td class="linecount coveredLine">3</td>
+      <td class="src coveredLine"><span class="w">  </span><span class="n">Rcc_init</span><span class="p">();</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l14" href="#l14">14</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
-      <td class="src coveredLine"><span class="w">    </span><span class="n">Rcc_init</span><span class="p">();</span><span class="w"></span></td>
+      <td class="linecount coveredLine">3</td>
+      <td class="src coveredLine"><span class="w">  </span><span class="n">SysTick_init</span><span class="p">();</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l15" href="#l15">15</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
-      <td class="src coveredLine"><span class="w">    </span><span class="n">SysTick_init</span><span class="p">();</span><span class="w"></span></td>
+      <td class="linecount coveredLine">3</td>
+      <td class="src coveredLine"><span class="w">  </span><span class="n">BlinkyLed_init</span><span class="p">();</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l16" href="#l16">16</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
-      <td class="src coveredLine"><span class="w">    </span><span class="n">BlinkyLed_init</span><span class="p">();</span><span class="w"></span></td>
+      <td class="linecount coveredLine">3</td>
+      <td class="src coveredLine"><span class="w">  </span><span class="n">Button_Conductor_init</span><span class="p">();</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l17" href="#l17">17</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
-      <td class="src coveredLine"><span class="w">    </span><span class="n">Button_Conductor_init</span><span class="p">();</span><span class="w"></span></td>
+      <td class="linecount coveredLine">3</td>
+      <td class="src coveredLine"><span class="w">  </span><span class="n">MessageBroker_init</span><span class="p">();</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l18" href="#l18">18</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
-      <td class="src coveredLine"><span class="w">    </span><span class="n">MessageBroker_init</span><span class="p">();</span><span class="w"></span></td>
+      <td class="linecount "></td>
+      <td class="src "></td>
     </tr>
 
     <tr class="source-line">
@@ -270,7 +270,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "></td>
+      <td class="src "><span class="w">  </span><span class="cm">/**</span></td>
     </tr>
 
     <tr class="source-line">
@@ -278,7 +278,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="w">    </span><span class="cm">/**</span></td>
+      <td class="src "><span class="cm">   * Register the current dummy function as being the</span></td>
     </tr>
 
     <tr class="source-line">
@@ -286,7 +286,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="cm">     * Register the current dummy function as being the</span></td>
+      <td class="src "><span class="cm">   * Callback function of the Button Trigger</span></td>
     </tr>
 
     <tr class="source-line">
@@ -294,35 +294,27 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="cm">     * Callback function of the Button Trigger</span></td>
+      <td class="src "><span class="cm">   */</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l23" href="#l23">23</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount "></td>
-      <td class="src "><span class="cm">     */</span><span class="w"></span></td>
+      <td class="linecount coveredLine">3</td>
+      <td class="src coveredLine"><span class="w">  </span><span class="n">MessageBroker_subscribe</span><span class="p">(</span><span class="n">E_TRIGGER_BUTTON_EVENT</span><span class="p">,</span><span class="w"> </span><span class="n">tDummyTriggerCallback</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l24" href="#l24">24</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
-      <td class="src coveredLine"><span class="w">    </span><span class="n">MessageBroker_subscribe</span><span class="p">(</span><span class="n">E_TRIGGER_BUTTON_EVENT</span><span class="p">,</span><span class="w"> </span><span class="n">tDummyTriggerCallback</span><span class="p">);</span><span class="w"></span></td>
-    </tr>
-
-    <tr class="source-line">
-      <td class="lineno"><a id="l25" href="#l25">25</a></td>
-      <td class="linebranch">
-      </td>
-      <td class="linecount coveredLine">2</td>
+      <td class="linecount coveredLine">3</td>
       <td class="src coveredLine"><span class="p">}</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l26" href="#l26">26</a></td>
+      <td class="lineno"><a id="l25" href="#l25">25</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
@@ -330,11 +322,19 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l27" href="#l27">27</a></td>
+      <td class="lineno"><a id="l26" href="#l26">26</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="n">status_t</span><span class="w"> </span><span class="nf">Executer_exec</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span></td>
+      <td class="src uncoveredLine"><span class="n">status_t</span><span class="w"> </span><span class="nf">Executer_exec</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></td>
+    </tr>
+
+    <tr class="source-line">
+      <td class="lineno"><a id="l27" href="#l27">27</a></td>
+      <td class="linebranch">
+      </td>
+      <td class="linecount "></td>
+      <td class="src "><span class="w">  </span><span class="cm">/**</span></td>
     </tr>
 
     <tr class="source-line">
@@ -342,7 +342,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="p">{</span><span class="w"></span></td>
+      <td class="src "><span class="cm">   * Run the Button Conductor</span></td>
     </tr>
 
     <tr class="source-line">
@@ -350,7 +350,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "></td>
+      <td class="src "><span class="cm">   * This polls on the ISR output.</span></td>
     </tr>
 
     <tr class="source-line">
@@ -358,15 +358,15 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="w">    </span><span class="cm">/**</span></td>
+      <td class="src "><span class="cm">   */</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l31" href="#l31">31</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount "></td>
-      <td class="src "><span class="cm">     * Run the Button Conductor</span></td>
+      <td class="linecount uncoveredLine">&cross;</td>
+      <td class="src uncoveredLine"><span class="w">  </span><span class="n">Button_Conductor_exec</span><span class="p">();</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -374,15 +374,15 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="cm">     * This polls on the ISR output.</span></td>
+      <td class="src "></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l33" href="#l33">33</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount "></td>
-      <td class="src "><span class="cm">     */</span><span class="w"></span></td>
+      <td class="linecount uncoveredLine">&cross;</td>
+      <td class="src uncoveredLine"><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bTriggered</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TRUE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -390,23 +390,23 @@
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">    </span><span class="n">Button_Conductor_exec</span><span class="p">();</span><span class="w"></span></td>
+      <td class="src uncoveredLine"><span class="w">    </span><span class="n">bTriggered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l35" href="#l35">35</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount "></td>
-      <td class="src "></td>
+      <td class="linecount uncoveredLine">&cross;</td>
+      <td class="src uncoveredLine"><span class="w">    </span><span class="n">BlinkyLed_toggle</span><span class="p">();</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l36" href="#l36">36</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bTriggered</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TRUE</span><span class="p">)</span><span class="w"></span></td>
+      <td class="linecount "></td>
+      <td class="src "><span class="w">  </span><span class="p">}</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -414,7 +414,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="w">    </span><span class="p">{</span><span class="w"></span></td>
+      <td class="src "></td>
     </tr>
 
     <tr class="source-line">
@@ -422,15 +422,15 @@
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">        </span><span class="n">bTriggered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span><span class="w"></span></td>
+      <td class="src uncoveredLine"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">STATUS_OK</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l39" href="#l39">39</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">        </span><span class="n">BlinkyLed_toggle</span><span class="p">();</span><span class="w"></span></td>
+      <td class="linecount "></td>
+      <td class="src "><span class="p">}</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -438,15 +438,15 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="w">    </span><span class="p">}</span><span class="w"></span></td>
+      <td class="src "></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l41" href="#l41">41</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount "></td>
-      <td class="src "></td>
+      <td class="linecount uncoveredLine">&cross;</td>
+      <td class="src uncoveredLine"><span class="n">status_t</span><span class="w"> </span><span class="nf">tDummyTriggerCallback</span><span class="p">(</span><span class="n">MessageBroker_message_t</span><span class="w"> </span><span class="n">tDummyMessage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -454,15 +454,15 @@
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">STATUS_OK</span><span class="p">;</span><span class="w"></span></td>
+      <td class="src uncoveredLine"><span class="w">  </span><span class="n">bTriggered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TRUE</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l43" href="#l43">43</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount "></td>
-      <td class="src "><span class="p">}</span><span class="w"></span></td>
+      <td class="linecount uncoveredLine">&cross;</td>
+      <td class="src uncoveredLine"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">STATUS_OK</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -470,51 +470,11 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "></td>
-    </tr>
-
-    <tr class="source-line">
-      <td class="lineno"><a id="l45" href="#l45">45</a></td>
-      <td class="linebranch">
-      </td>
-      <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="n">status_t</span><span class="w"> </span><span class="nf">tDummyTriggerCallback</span><span class="p">(</span><span class="n">MessageBroker_message_t</span><span class="w"> </span><span class="n">tDummyMessage</span><span class="p">)</span><span class="w"></span></td>
-    </tr>
-
-    <tr class="source-line">
-      <td class="lineno"><a id="l46" href="#l46">46</a></td>
-      <td class="linebranch">
-      </td>
-      <td class="linecount "></td>
-      <td class="src "><span class="p">{</span><span class="w"></span></td>
-    </tr>
-
-    <tr class="source-line">
-      <td class="lineno"><a id="l47" href="#l47">47</a></td>
-      <td class="linebranch">
-      </td>
-      <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">    </span><span class="n">bTriggered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TRUE</span><span class="p">;</span><span class="w"></span></td>
-    </tr>
-
-    <tr class="source-line">
-      <td class="lineno"><a id="l48" href="#l48">48</a></td>
-      <td class="linebranch">
-      </td>
-      <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">STATUS_OK</span><span class="p">;</span><span class="w"></span></td>
-    </tr>
-
-    <tr class="source-line">
-      <td class="lineno"><a id="l49" href="#l49">49</a></td>
-      <td class="linebranch">
-      </td>
-      <td class="linecount "></td>
       <td class="src "><span class="p">}</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l50" href="#l50">50</a></td>
+      <td class="lineno"><a id="l45" href="#l45">45</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount "></td>

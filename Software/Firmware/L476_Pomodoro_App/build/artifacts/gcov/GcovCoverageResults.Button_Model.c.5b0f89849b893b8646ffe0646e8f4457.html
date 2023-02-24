@@ -27,7 +27,7 @@
     </tr>
     <tr>
       <th scope="row">Date:</th>
-      <td>2023-02-24 12:49:17</td>
+      <td>2023-02-24 15:53:21</td>
     </tr>
   </table>
 </div>
@@ -81,7 +81,7 @@
         <a href="#l4">4</a>
       </td>
       <td>
-        <a href="#l4"> called 8 times</a>
+        <a href="#l4"> called 12 times</a>
       </td>
     </tr>
   </table>
@@ -127,7 +127,7 @@
       <td class="lineno"><a id="l4" href="#l4">4</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Button_Model_publishData</span><span class="p">(</span><span class="n">BOOL</span><span class="w"> </span><span class="n">in_bButtonEvent</span><span class="p">)</span><span class="w"></span></td>
     </tr>
 
@@ -145,14 +145,14 @@
         <details class="linebranchDetails">
         <summary class="linebranchSummary">3/4</summary>
         <div class="linebranchContents">
-          <div class="takenBranch">&check; Branch 0 taken 4 times.</div>
-          <div class="takenBranch">&check; Branch 1 taken 4 times.</div>
-          <div class="takenBranch">&check; Branch 2 taken 4 times.</div>
+          <div class="takenBranch">&check; Branch 0 taken 6 times.</div>
+          <div class="takenBranch">&check; Branch 1 taken 6 times.</div>
+          <div class="takenBranch">&check; Branch 2 taken 6 times.</div>
           <div class="notTakenBranch">&cross; Branch 3 not taken.</div>
         </div>
         </details>
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">check</span><span class="p">(</span><span class="n">in_bButtonEvent</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;The provided Button Event is FALSE. It should always be TRUE&quot;</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
@@ -192,7 +192,7 @@
       <td class="lineno"><a id="l11" href="#l11">11</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">4</td>
+      <td class="linecount coveredLine">6</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">tTriggerButtonMessage</span><span class="p">.</span><span class="n">eMsgTopic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">E_TRIGGER_BUTTON_EVENT</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
@@ -264,7 +264,7 @@
       <td class="lineno"><a id="l20" href="#l20">20</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">4</td>
+      <td class="linecount coveredLine">6</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">tTriggerButtonMessage</span><span class="p">.</span><span class="n">au32Data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">au32ButtonData</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
@@ -288,7 +288,7 @@
       <td class="lineno"><a id="l23" href="#l23">23</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">4</td>
+      <td class="linecount coveredLine">6</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">tTriggerButtonMessage</span><span class="p">.</span><span class="n">u16DataSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE_OF</span><span class="p">(</span><span class="n">au32ButtonData</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
@@ -312,7 +312,7 @@
       <td class="lineno"><a id="l26" href="#l26">26</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">4</td>
+      <td class="linecount coveredLine">6</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">MessageBroker_publish</span><span class="p">(</span><span class="n">tTriggerButtonMessage</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
@@ -331,11 +331,11 @@
         <summary class="linebranchSummary">1/2</summary>
         <div class="linebranchContents">
           <div class="notTakenBranch">&cross; Branch 0 not taken.</div>
-          <div class="takenBranch">&check; Branch 1 taken 8 times.</div>
+          <div class="takenBranch">&check; Branch 1 taken 12 times.</div>
         </div>
         </details>
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">log_error</span><span class="p">(</span><span class="s">&quot;Trigger Button Event was not published&quot;</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
@@ -343,7 +343,7 @@
       <td class="lineno"><a id="l29" href="#l29">29</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="w">    </span><span class="k">return</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 

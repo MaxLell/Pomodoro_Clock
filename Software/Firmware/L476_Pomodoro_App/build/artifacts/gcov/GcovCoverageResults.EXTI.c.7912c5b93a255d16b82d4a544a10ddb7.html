@@ -27,7 +27,7 @@
     </tr>
     <tr>
       <th scope="row">Date:</th>
-      <td>2023-02-24 12:49:17</td>
+      <td>2023-02-24 15:53:21</td>
     </tr>
   </table>
 </div>
@@ -81,7 +81,7 @@
         <a href="#l73">73</a>
       </td>
       <td>
-        <a href="#l73"> called 2 times</a>
+        <a href="#l73"> called 3 times</a>
       </td>
     </tr>
     <tr>
@@ -92,7 +92,7 @@
         <a href="#l24">24</a>
       </td>
       <td>
-        <a href="#l24"> called 10 times</a>
+        <a href="#l24"> called 15 times</a>
       </td>
     </tr>
     <tr>
@@ -103,7 +103,7 @@
         <a href="#l86">86</a>
       </td>
       <td>
-        <a href="#l86"> called 8 times</a>
+        <a href="#l86"> called 12 times</a>
       </td>
     </tr>
     <tr>
@@ -114,7 +114,7 @@
         <a href="#l92">92</a>
       </td>
       <td>
-        <a href="#l92"> called 8 times</a>
+        <a href="#l92"> called 12 times</a>
       </td>
     </tr>
   </table>
@@ -320,7 +320,7 @@
       <td class="lineno"><a id="l24" href="#l24">24</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">10</td>
+      <td class="linecount coveredLine">15</td>
       <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">EXTI_PushButtonPC13_init</span><span class="p">()</span><span class="w"></span></td>
     </tr>
 
@@ -344,7 +344,7 @@
       <td class="lineno"><a id="l27" href="#l27">27</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">10</td>
+      <td class="linecount coveredLine">15</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">RCC</span><span class="o">-&gt;</span><span class="n">APB2ENR</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">RCC_APB2ENR_SYSCFGEN</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
@@ -464,7 +464,7 @@
       <td class="lineno"><a id="l42" href="#l42">42</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">10</td>
+      <td class="linecount coveredLine">15</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">SYSCFG</span><span class="o">-&gt;</span><span class="n">EXTICR</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="mb">0b0000</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span><span class="w"> </span><span class="c1">// Clear before writing</span></td>
     </tr>
 
@@ -472,7 +472,7 @@
       <td class="lineno"><a id="l43" href="#l43">43</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">10</td>
+      <td class="linecount coveredLine">15</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">SYSCFG</span><span class="o">-&gt;</span><span class="n">EXTICR</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mb">0b0010</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span><span class="w">  </span><span class="c1">// Set the relevant bits</span></td>
     </tr>
 
@@ -552,7 +552,7 @@
       <td class="lineno"><a id="l53" href="#l53">53</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">10</td>
+      <td class="linecount coveredLine">15</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">EXTI</span><span class="o">-&gt;</span><span class="n">IMR1</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">EXTI_IMR1_IM13</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
@@ -608,7 +608,7 @@
       <td class="lineno"><a id="l60" href="#l60">60</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">10</td>
+      <td class="linecount coveredLine">15</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">EXTI</span><span class="o">-&gt;</span><span class="n">FTSR1</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">EXTI_FTSR1_FT13</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
@@ -648,7 +648,7 @@
       <td class="lineno"><a id="l65" href="#l65">65</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">10</td>
+      <td class="linecount coveredLine">15</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">NVIC_SetPriority</span><span class="p">(</span><span class="n">EXTI15_10_IRQn</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
@@ -688,7 +688,7 @@
       <td class="lineno"><a id="l70" href="#l70">70</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">10</td>
+      <td class="linecount coveredLine">15</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">NVIC_EnableIRQ</span><span class="p">(</span><span class="n">EXTI15_10_IRQn</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
@@ -696,7 +696,7 @@
       <td class="lineno"><a id="l71" href="#l71">71</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">10</td>
+      <td class="linecount coveredLine">15</td>
       <td class="src coveredLine"><span class="p">}</span><span class="w"></span></td>
     </tr>
 
@@ -712,7 +712,7 @@
       <td class="lineno"><a id="l73" href="#l73">73</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
+      <td class="linecount coveredLine">3</td>
       <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">EXTI15_10_IRQHandler</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span></td>
     </tr>
 
@@ -768,7 +768,7 @@
       <td class="lineno"><a id="l80" href="#l80">80</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
+      <td class="linecount coveredLine">3</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">NVIC_ClearPendingIRQ</span><span class="p">(</span><span class="n">EXTI15_10_IRQn</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
@@ -776,7 +776,7 @@
       <td class="lineno"><a id="l81" href="#l81">81</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
+      <td class="linecount coveredLine">3</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">EXTI</span><span class="o">-&gt;</span><span class="n">PR1</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">EXTI_PR1_PIF13</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
@@ -792,7 +792,7 @@
       <td class="lineno"><a id="l83" href="#l83">83</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
+      <td class="linecount coveredLine">3</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">EXTI_PushButtonPC13_isrHandler</span><span class="p">();</span><span class="w"></span></td>
     </tr>
 
@@ -800,7 +800,7 @@
       <td class="lineno"><a id="l84" href="#l84">84</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">2</td>
+      <td class="linecount coveredLine">3</td>
       <td class="src coveredLine"><span class="p">}</span><span class="w"></span></td>
     </tr>
 
@@ -816,7 +816,7 @@
       <td class="lineno"><a id="l86" href="#l86">86</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="n">STATIC</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">EXTI_PushButtonPC13_isrHandler</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span></td>
     </tr>
 
@@ -840,7 +840,7 @@
       <td class="lineno"><a id="l89" href="#l89">89</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">EXTI_PushButtonPC13_bWasPressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TRUE</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
@@ -848,7 +848,7 @@
       <td class="lineno"><a id="l90" href="#l90">90</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="p">}</span><span class="w"></span></td>
     </tr>
 
@@ -864,7 +864,7 @@
       <td class="lineno"><a id="l92" href="#l92">92</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="n">BOOL</span><span class="w"> </span><span class="n">EXTI_PushButtonPC13_wasPressed</span><span class="p">()</span><span class="w"></span></td>
     </tr>
 
@@ -928,7 +928,7 @@
       <td class="lineno"><a id="l100" href="#l100">100</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">BOOL</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EXTI_PushButtonPC13_bWasPressed</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
@@ -936,7 +936,7 @@
       <td class="lineno"><a id="l101" href="#l101">101</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="w">    </span><span class="n">EXTI_PushButtonPC13_bWasPressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
@@ -944,7 +944,7 @@
       <td class="lineno"><a id="l102" href="#l102">102</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">8</td>
+      <td class="linecount coveredLine">12</td>
       <td class="src coveredLine"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
