@@ -1,0 +1,58 @@
+---
+:source:
+  :path: test/Driver
+  :file: test_EXTI.c
+:successes:
+- :test: test_EXTI_PushButtonPC13_init_should_EnableTheSYSCFGClock
+  :line: 17
+  :message: ''
+  :unity_test_time: 0
+- :test: test_EXTI_PushButtonPC13_init_should_RouteTheButtonSignalToTheEXTI
+  :line: 37
+  :message: ''
+  :unity_test_time: 0
+- :test: test_EXTI_PushButtonPC13_init_should_EnableISRMaskRegister
+  :line: 57
+  :message: ''
+  :unity_test_time: 0
+- :test: test_EXTI_PushButtonPC13_init_should_SetTheTriggerToFallingEdge
+  :line: 77
+  :message: ''
+  :unity_test_time: 0
+- :test: test_EXTI_PushButtonPC13_init_should_SetISRPriority
+  :line: 98
+  :message: ''
+  :unity_test_time: 0
+- :test: test_EXTI_PushButtonPC13_init_should_EnableTheInterrupt
+  :line: 118
+  :message: ''
+  :unity_test_time: 0
+- :test: test_EXTI15_10_IRQHandler_should_ClearPendingRegister
+  :line: 138
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Button_isrHandler_should_UpdateTheButtonState
+  :line: 160
+  :message: ''
+  :unity_test_time: 0
+- :test: test_EXTI_PushButtonPC13_wasPressed_should_ReturnTrue_when_ButtonWasPressed
+  :line: 167
+  :message: ''
+  :unity_test_time: 0
+- :test: test_EXTI_PushButtonPC13_wasPressed_should_ReturnFalse_when_ButtonWasNotPressed
+  :line: 177
+  :message: ''
+  :unity_test_time: 0
+- :test: test_EXTI_PushButtonPC13_wasPressed_should_ResetTheReadingStatus_when_Called
+  :line: 187
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 11
+  :passed: 11
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.0033030000049620867

@@ -2,17 +2,17 @@
 :source:
   :path: test/App
   :file: test_Executer.c
-:successes:
+:successes: []
+:failures:
 - :test: test_Executer_init_shall_initializeAllTheModules
   :line: 19
-  :message: ''
+  :message: Function MessageBroker_subscribe.  Called more times than expected.
   :unity_test_time: 0
-:failures: []
 :ignores: []
 :counts:
   :total: 1
-  :passed: 1
-  :failed: 0
+  :passed: 0
+  :failed: 1
   :ignored: 0
 :stdout: []
-:time: 0.4123140000156127
+:time: 0.004948000016156584
