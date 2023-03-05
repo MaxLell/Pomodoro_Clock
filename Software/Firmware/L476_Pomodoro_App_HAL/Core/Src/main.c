@@ -26,7 +26,6 @@
 /* USER CODE BEGIN Includes */
 #include "Common.h"
 #include "Executer.h"
-#include "assert.h"
 
 /* USER CODE END Includes */
 
@@ -104,6 +103,8 @@ int main(void) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    HAL_Delay(100);
+    log_info("Huhuhu");
   }
   /* USER CODE END 3 */
 }

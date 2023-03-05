@@ -32,8 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 //					Implementation of printf like feature using ARM Cortex M3/M4/ ITM functionality
-//					This function will not work for ARM Cortex M0/M0+
-//					If you are using Cortex M0, then you can use semihosting feature of openOCD
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -113,7 +111,8 @@ __attribute__((weak)) int _write(int file, char *ptr, int len)
 
 	for (DataIdx = 0; DataIdx < len; DataIdx++)
 	{
-		ITM_SendChar(*ptr++);
+		ITM_SendChar(*ptr);
+		ptr++;
 	}
 	return len;
 }
