@@ -38,6 +38,7 @@
     - Drivers/**
     - App/**
     - Bsp/**
+    - Core/**
     #- test/support/**
   :support:
     - test/support
