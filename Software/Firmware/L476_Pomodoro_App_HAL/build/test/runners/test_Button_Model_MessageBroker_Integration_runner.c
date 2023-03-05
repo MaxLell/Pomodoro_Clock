@@ -76,8 +76,8 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_Button_Model_MessageBroker_Integration.c");
-  run_test(test_Button_Model_publishData_ShallSendOutAValidMessage, "test_Button_Model_publishData_ShallSendOutAValidMessage", 44);
-  run_test(test_Button_Model_publishData_ShallNotSendOutAnInvalidMessage, "test_Button_Model_publishData_ShallNotSendOutAnInvalidMessage", 57);
+  run_test(test_Button_Model_publishData_ShallSendOutAValidMessage, "test_Button_Model_publishData_ShallSendOutAValidMessage", 38);
+  run_test(test_Button_Model_publishData_ShallNotSendOutAnInvalidMessage, "test_Button_Model_publishData_ShallNotSendOutAnInvalidMessage", 50);
 
   return UnityEnd();
 }

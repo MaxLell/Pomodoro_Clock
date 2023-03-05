@@ -1,0 +1,18 @@
+---
+:source:
+  :path: test
+  :file: test_RTC_Model.c
+:successes: []
+:failures: []
+:ignores:
+- :test: test_RTC_Model_NeedToImplement
+  :line: 17
+  :message: Need to Implement RTC_Model
+  :unity_test_time: 0
+:counts:
+  :total: 1
+  :passed: 0
+  :failed: 0
+  :ignored: 1
+:stdout: []
+:time: 0.21435899997595698

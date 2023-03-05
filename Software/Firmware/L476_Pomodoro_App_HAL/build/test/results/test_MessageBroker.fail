@@ -27,5 +27,5 @@
   :failed: 1
   :ignored: 0
 :stdout:
-- "[ASSERT FAILURE] (App/MessageBroker/MessageBroker.c:49:)"
-:time: 0.005067000049166381
+- "[ASSERT FAILURE] (App/MessageBroker/MessageBroker.c:49)"
+:time: 0.005819999962113798

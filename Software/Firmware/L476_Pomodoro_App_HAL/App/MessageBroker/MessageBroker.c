@@ -17,7 +17,7 @@ STATIC MessageBroker_msgDictinary_t sTopicTriggerButton;
 
 /* Contains all dictinaries, so that they can be searched through iterativly */
 STATIC MessageBroker_msgDictinary_t
-    *sMessageTopicIndex[MESSAGE_BROKER_NUMBER_OF_MESSAGE_TOPICS] = {NULL};
+    *sMessageTopicIndex[MESSAGE_TOPIC_TOTAL_NUMBER] = {NULL};
 
 status_t MessageBroker_init() {
   /* Set the Topics of the respective messages */
@@ -33,8 +33,7 @@ status_t MessageBroker_init() {
   sMessageTopicIndex[E_TRIGGER_BUTTON_EVENT] = &sTopicTriggerButton;
 
   /* set all the elements of the Callback arrays to zero */
-  for (uint16_t topic = 0; topic < MESSAGE_BROKER_NUMBER_OF_MESSAGE_TOPICS;
-       topic++) {
+  for (uint16_t topic = 0; topic < MESSAGE_TOPIC_TOTAL_NUMBER; topic++) {
     for (uint16_t index = 0; index < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE;
          index++) {
       sMessageTopicIndex[topic]->aCallbackArray[index] = 0;
@@ -44,7 +43,7 @@ status_t MessageBroker_init() {
   return STATUS_OK;
 }
 
-status_t MessageBroker_subscribe(MessageBroker_messageTopics_e in_eMsgTopic,
+status_t MessageBroker_subscribe(MessageTopics_e in_eMsgTopic,
                                  Module_msgCallback_t in_p32FunctionCallback) {
   assert_true(NULL != in_p32FunctionCallback);
 
@@ -68,7 +67,7 @@ status_t MessageBroker_subscribe(MessageBroker_messageTopics_e in_eMsgTopic,
 
 status_t MessageBroker_publish(MessageBroker_message_t in_tMessage) {
   /* find the dictinary that corresponds to the message's Topic */
-  MessageBroker_messageTopics_e eTopic = in_tMessage.eMsgTopic;
+  MessageTopics_e eTopic = in_tMessage.eMsgTopic;
 
   /* Run all the Callback functions there are in the Callback Array and pass the
    * Message over */

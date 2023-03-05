@@ -25,7 +25,7 @@ typedef struct _CMOCK_MessageBroker_subscribe_CALL_INSTANCE
   UNITY_LINE_TYPE LineNumber;
   status_t ReturnVal;
   int CallOrder;
-  MessageBroker_messageTopics_e Expected_in_eMsgTopic;
+  MessageTopics_e Expected_in_eMsgTopic;
   Module_msgCallback_t Expected_in_p32FunctionCallback;
   char IgnoreArg_in_eMsgTopic;
   char IgnoreArg_in_p32FunctionCallback;
@@ -211,7 +211,7 @@ void MessageBroker_init_Stub(CMOCK_MessageBroker_init_CALLBACK Callback)
   Mock.MessageBroker_init_CallbackFunctionPointer = Callback;
 }
 
-status_t MessageBroker_subscribe(MessageBroker_messageTopics_e in_eMsgTopic, Module_msgCallback_t in_p32FunctionCallback)
+status_t MessageBroker_subscribe(MessageTopics_e in_eMsgTopic, Module_msgCallback_t in_p32FunctionCallback)
 {
   UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
   CMOCK_MessageBroker_subscribe_CALL_INSTANCE* cmock_call_instance;
@@ -243,7 +243,7 @@ status_t MessageBroker_subscribe(MessageBroker_messageTopics_e in_eMsgTopic, Mod
   if (!cmock_call_instance->IgnoreArg_in_eMsgTopic)
   {
     UNITY_SET_DETAILS(CMockString_MessageBroker_subscribe,CMockString_in_eMsgTopic);
-    UNITY_TEST_ASSERT_EQUAL_MEMORY((void*)(&cmock_call_instance->Expected_in_eMsgTopic), (void*)(&in_eMsgTopic), sizeof(MessageBroker_messageTopics_e), cmock_line, CMockStringMismatch);
+    UNITY_TEST_ASSERT_EQUAL_MEMORY((void*)(&cmock_call_instance->Expected_in_eMsgTopic), (void*)(&in_eMsgTopic), sizeof(MessageTopics_e), cmock_line, CMockStringMismatch);
   }
   if (!cmock_call_instance->IgnoreArg_in_p32FunctionCallback)
   {
@@ -258,11 +258,11 @@ status_t MessageBroker_subscribe(MessageBroker_messageTopics_e in_eMsgTopic, Mod
   return cmock_call_instance->ReturnVal;
 }
 
-void CMockExpectParameters_MessageBroker_subscribe(CMOCK_MessageBroker_subscribe_CALL_INSTANCE* cmock_call_instance, MessageBroker_messageTopics_e in_eMsgTopic, Module_msgCallback_t in_p32FunctionCallback);
-void CMockExpectParameters_MessageBroker_subscribe(CMOCK_MessageBroker_subscribe_CALL_INSTANCE* cmock_call_instance, MessageBroker_messageTopics_e in_eMsgTopic, Module_msgCallback_t in_p32FunctionCallback)
+void CMockExpectParameters_MessageBroker_subscribe(CMOCK_MessageBroker_subscribe_CALL_INSTANCE* cmock_call_instance, MessageTopics_e in_eMsgTopic, Module_msgCallback_t in_p32FunctionCallback);
+void CMockExpectParameters_MessageBroker_subscribe(CMOCK_MessageBroker_subscribe_CALL_INSTANCE* cmock_call_instance, MessageTopics_e in_eMsgTopic, Module_msgCallback_t in_p32FunctionCallback)
 {
   memcpy((void*)(&cmock_call_instance->Expected_in_eMsgTopic), (void*)(&in_eMsgTopic),
-         sizeof(MessageBroker_messageTopics_e[sizeof(in_eMsgTopic) == sizeof(MessageBroker_messageTopics_e) ? 1 : -1])); /* add MessageBroker_messageTopics_e to :treat_as_array if this causes an error */
+         sizeof(MessageTopics_e[sizeof(in_eMsgTopic) == sizeof(MessageTopics_e) ? 1 : -1])); /* add MessageTopics_e to :treat_as_array if this causes an error */
   cmock_call_instance->IgnoreArg_in_eMsgTopic = 0;
   memcpy((void*)(&cmock_call_instance->Expected_in_p32FunctionCallback), (void*)(&in_p32FunctionCallback),
          sizeof(Module_msgCallback_t[sizeof(in_p32FunctionCallback) == sizeof(Module_msgCallback_t) ? 1 : -1])); /* add Module_msgCallback_t to :treat_as_array if this causes an error */
@@ -289,7 +289,7 @@ void MessageBroker_subscribe_CMockStopIgnore(void)
   Mock.MessageBroker_subscribe_IgnoreBool = (char)0;
 }
 
-void MessageBroker_subscribe_CMockExpectAndReturn(UNITY_LINE_TYPE cmock_line, MessageBroker_messageTopics_e in_eMsgTopic, Module_msgCallback_t in_p32FunctionCallback, status_t cmock_to_return)
+void MessageBroker_subscribe_CMockExpectAndReturn(UNITY_LINE_TYPE cmock_line, MessageTopics_e in_eMsgTopic, Module_msgCallback_t in_p32FunctionCallback, status_t cmock_to_return)
 {
   CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_MessageBroker_subscribe_CALL_INSTANCE));
   CMOCK_MessageBroker_subscribe_CALL_INSTANCE* cmock_call_instance = (CMOCK_MessageBroker_subscribe_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);

@@ -4,11 +4,11 @@
   :file: test_Button_Model_MessageBroker_Integration.c
 :successes:
 - :test: test_Button_Model_publishData_ShallSendOutAValidMessage
-  :line: 44
+  :line: 38
   :message: ''
   :unity_test_time: 0
 - :test: test_Button_Model_publishData_ShallNotSendOutAnInvalidMessage
-  :line: 57
+  :line: 50
   :message: ''
   :unity_test_time: 0
 :failures: []
@@ -25,4 +25,4 @@
   FALSE. It should always be TRUE"
 - "[ERROR] (Bsp/Button/Button_Model.c:28: errno: None) Trigger Button Event was not
   published"
-:time: 0.004358000005595386
+:time: 0.0053610000759363174

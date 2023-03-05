@@ -1,3 +1,4 @@
+#include "App/MessageBroker/MessageTopics.h"
 #include "App/Support/Common.h"
 
 
@@ -5,29 +6,13 @@
 
 
 
-typedef enum
+typedef struct {
 
-{
+  MessageTopics_e eMsgTopic;
 
-    E_TEST_1 = 0U,
+  uint16_t u16DataSize;
 
-    E_TEST_2,
-
-    E_TRIGGER_BUTTON_EVENT,
-
-} MessageBroker_messageTopics_e;
-
-
-
-typedef struct
-
-{
-
-    MessageBroker_messageTopics_e eMsgTopic;
-
-    uint16_t u16DataSize;
-
-    uint32_t *au32Data;
+  uint32_t *au32Data;
 
 } MessageBroker_message_t;
 
@@ -45,13 +30,11 @@ typedef status_t (*Module_msgCallback_t)(MessageBroker_message_t in_sMessage);
 
 
 
-typedef struct
+typedef struct {
 
-{
+  MessageTopics_e eMsgTopic;
 
-    MessageBroker_messageTopics_e eMsgTopic;
-
-    Module_msgCallback_t aCallbackArray[5];
+  Module_msgCallback_t aCallbackArray[5];
 
 } MessageBroker_msgDictinary_t;
 
@@ -67,11 +50,9 @@ status_t MessageBroker_init(void);
 
 
 
-status_t MessageBroker_subscribe(
+status_t MessageBroker_subscribe(MessageTopics_e in_eMsgTopic,
 
-    MessageBroker_messageTopics_e in_eMsgTopic,
-
-    Module_msgCallback_t in_p32FunctionCallback);
+                                 Module_msgCallback_t in_p32FunctionCallback);
 
 
 
