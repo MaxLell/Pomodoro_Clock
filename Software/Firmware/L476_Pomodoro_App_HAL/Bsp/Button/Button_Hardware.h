@@ -7,4 +7,6 @@ void Button_Hardware_init();
 
 BOOL Button_Hardware_wasPressed();
 
-#endif // BUTTON_HARDWARE_H
+void Button_Hardware_Interrupt();
+
+#endif  // BUTTON_HARDWARE_H

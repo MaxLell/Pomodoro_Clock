@@ -3,15 +3,11 @@
 #include "BlinkyLed.h"
 #include "Button_Conductor.h"
 #include "MessageBroker.h"
-#include "Rcc.h"
-#include "SysTick.h"
 
 status_t tDummyTriggerCallback(MessageBroker_message_t);
 BOOL bTriggered = FALSE;
 
 void Executer_init(void) {
-  Rcc_init();
-  SysTick_init();
   BlinkyLed_init();
   Button_Conductor_init();
   MessageBroker_init();

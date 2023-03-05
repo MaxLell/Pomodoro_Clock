@@ -1,14 +1,16 @@
 #include "Button_Hardware.h"
-#include "GPIO.h"
-#include "EXTI.h"
 
-void Button_Hardware_init()
-{
-    GPIO_PushButtonPC13_init();
-    EXTI_PushButtonPC13_init();
+#include "main.h"
+
+STATIC BOOL bButtonWasPressed;
+
+void Button_Hardware_init() { bButtonWasPressed = FALSE; }
+
+BOOL Button_Hardware_wasPressed() {
+  BOOL tmp;
+  tmp = bButtonWasPressed;
+  bButtonWasPressed = FALSE;
+  return tmp;
 }
 
-BOOL Button_Hardware_wasPressed()
-{
-    return EXTI_PushButtonPC13_wasPressed();
-}
+void Button_Hardware_Interrupt() { bButtonWasPressed = TRUE; }
