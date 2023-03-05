@@ -8,6 +8,7 @@
         "button_hardware.h": "c",
         "common.h": "c",
         "__availability": "c",
-        "string": "c"
+        "string": "c",
+        "mock_button_conductor.h": "c"
     }
 }

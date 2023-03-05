@@ -11,22 +11,21 @@
   :line: 49
   :message: ''
   :unity_test_time: 0
-- :test: test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument
-  :line: 91
-  :message: ''
-  :unity_test_time: 0
 - :test: test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers
   :line: 117
   :message: ''
   :unity_test_time: 0
-:failures: []
+:failures:
+- :test: test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument
+  :line: 94
+  :message: Expected 31 Was 0
+  :unity_test_time: 0
 :ignores: []
 :counts:
   :total: 4
-  :passed: 4
-  :failed: 0
+  :passed: 3
+  :failed: 1
   :ignored: 0
 :stdout:
-- "[ERROR] (App/MessageBroker/MessageBroker.c:51: errno: None) input function pointer
-  is NULL"
-:time: 0.0064700000220909715
+- "[ASSERT FAILURE] (App/MessageBroker/MessageBroker.c:49:)"
+:time: 0.005067000049166381

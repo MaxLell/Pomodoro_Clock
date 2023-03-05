@@ -1,13 +1,18 @@
 #ifndef DBGMACROS_H
 #define DBGMACROS_H
 
+#include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
-#define SIZE_OF(a) (sizeof(a) / sizeof(a[0]))
+#ifdef TEST
+#define TEST_RUNNING 1
+#else
+#define TEST_RUNNING 0
+#endif
 
-void DbgMacros_error(char* in_cpFile, uint32_t in_u32Line);
+#define SIZE_OF(a) (sizeof(a) / sizeof(a[0]))
 
 #ifdef NDEBUG
 #define debug(M, ...)
@@ -16,12 +21,15 @@ void DbgMacros_error(char* in_cpFile, uint32_t in_u32Line);
   printf(" DEBUG  (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 #endif
 
-#define log_error(M, ...) \
-  printf("[ERROR] (%s:%d:) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define clean_errno() (errno == 0 ? "None" : strerror(errno))
 
-#define log_warning(M, ...)                                             \
-  printf("[WARN]  (%s:%d:) " M "\n", __FILE__, __LINE__, clean_errno(), \
-         ##__VA_ARGS__)
+#define log_error(M, ...)                                          \
+  printf("[ERROR] (%s:%d: errno: %s) " M "\n", __FILE__, __LINE__, \
+         clean_errno(), ##__VA_ARGS__)
+
+#define log_warning(M, ...)                                        \
+  printf("[WARN]  (%s:%d: errno: %s) " M "\n", __FILE__, __LINE__, \
+         clean_errno(), ##__VA_ARGS__)
 
 #define log_info(M, ...) \
   printf("[INFO]  (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
@@ -49,7 +57,17 @@ void DbgMacros_error(char* in_cpFile, uint32_t in_u32Line);
     goto error;                \
   }
 
-#define assert_true(expression) \
-  ((expression == 1) ? (void)0U : DbgMacros_error((char*)__FILE__, __LINE__))
+#define assert_true(expression)                                      \
+  if (expression) {                                                  \
+    (void)0U;                                                        \
+  } else {                                                           \
+    if ((TEST_RUNNING == 1)) {                                       \
+      printf("[ASSERT FAILURE] (%s:%d)", (char*)__FILE__, __LINE__); \
+    } else {                                                         \
+      printf("[ASSERT FAILURE] (%s:%d)", (char*)__FILE__, __LINE__); \
+      while (1)                                                      \
+        ;                                                            \
+    }                                                                \
+  }
 
 #endif  // DBGMACROS_H
