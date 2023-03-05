@@ -24,6 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stdint.h"
 
 /* USER CODE END Includes */
 
@@ -44,6 +45,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
+uint8_t bButtonWasPressed = 0;
 
 /* USER CODE END PV */
 
@@ -90,6 +93,7 @@ int main(void) {
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
+  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -97,8 +101,10 @@ int main(void) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-    HAL_Delay(400);
+    if (bButtonWasPressed == 1) {
+      bButtonWasPressed = 0;
+      HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    }
   }
   /* USER CODE END 3 */
 }
@@ -149,6 +155,16 @@ void SystemClock_Config(void) {
 }
 
 /* USER CODE BEGIN 4 */
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(GPIO_Pin);
+
+  /* NOTE: This function should not be modified, when the callback is needed,
+           the HAL_GPIO_EXTI_Callback could be implemented in the user file
+   */
+  bButtonWasPressed = 1;
+}
 
 /* USER CODE END 4 */
 
