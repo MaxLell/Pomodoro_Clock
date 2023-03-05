@@ -23,3 +23,5 @@ build/test/mocks/mock_main.c:
 - TEST
 Bsp/Button/Button_Model.c:
 - TEST
+App/Support/DbgMacros.c:
+- TEST
