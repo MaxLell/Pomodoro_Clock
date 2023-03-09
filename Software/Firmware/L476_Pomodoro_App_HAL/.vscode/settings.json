@@ -10,6 +10,7 @@
         "__availability": "c",
         "string": "c",
         "mock_button_conductor.h": "c",
-        "mock_rtc_hardware.h": "c"
+        "mock_rtc_hardware.h": "c",
+        "rtc.h": "c"
     }
 }
