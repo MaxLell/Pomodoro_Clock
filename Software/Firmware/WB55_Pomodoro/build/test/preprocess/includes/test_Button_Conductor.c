@@ -1,5 +1,5 @@
 ---
 - "/Library/Ruby/Gems/2.6.0/gems/ceedling-0.31.1/vendor/unity/src/unity.h"
-- mock_Button_Model.h
-- mock_Button_Hardware.h
+- build/test/mocks/mock_Button_Model.h
+- build/test/mocks/mock_Button_Hardware.h
 - BoardSupportPackage/Button/Button_Conductor.h

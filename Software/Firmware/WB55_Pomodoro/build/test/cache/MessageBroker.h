@@ -22,7 +22,9 @@
 
 
 
-typedef struct {
+typedef struct
+
+{
 
   MessageTopics_e eMsgTopic;
 
@@ -46,7 +48,9 @@ typedef status_t (*Module_msgCallback_t)(MessageBroker_message_t in_sMessage);
 
 
 
-typedef struct {
+typedef struct
+
+{
 
   MessageTopics_e eMsgTopic;
 

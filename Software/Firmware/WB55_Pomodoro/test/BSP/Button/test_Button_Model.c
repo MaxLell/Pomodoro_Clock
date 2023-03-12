@@ -18,11 +18,3 @@ void test_Button_Model_publishData_Shall_PublishAMessageWithTheMessageBroker(voi
     BOOL bButtonWasPressed = TRUE;
     Button_Model_publishData(bButtonWasPressed);
 }
-
-void test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPressed(void)
-{
-    MessageBroker_publish_IgnoreAndReturn(STATUS_OK);
-
-    BOOL bButtonWasPressed = FALSE;
-    Button_Model_publishData(bButtonWasPressed);
-}

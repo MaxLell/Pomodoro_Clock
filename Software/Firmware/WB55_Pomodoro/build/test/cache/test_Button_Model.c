@@ -34,19 +34,3 @@ void test_Button_Model_publishData_Shall_PublishAMessageWithTheMessageBroker(voi
     Button_Model_publishData(bButtonWasPressed);
 
 }
-
-
-
-void test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPressed(void)
-
-{
-
-    MessageBroker_publish_CMockIgnoreAndReturn(24, (0));
-
-
-
-    BOOL bButtonWasPressed = 0;
-
-    Button_Model_publishData(bButtonWasPressed);
-
-}

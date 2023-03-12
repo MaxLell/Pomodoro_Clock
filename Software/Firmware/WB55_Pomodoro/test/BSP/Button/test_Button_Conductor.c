@@ -15,7 +15,6 @@ void tearDown(void)
 void test_Button_Conductor_init_shall_InitializeModelAndHardware(void)
 {
     Button_Hardware_init_Expect();
-
     Button_Conductor_init();
 }
 

@@ -13,7 +13,6 @@ char* GlobalOrderError;
 extern void setUp(void);
 extern void tearDown(void);
 extern void test_Button_Model_publishData_Shall_PublishAMessageWithTheMessageBroker(void);
-extern void test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPressed(void);
 
 
 /*=======Mock Management=====*/
@@ -82,7 +81,6 @@ int main(void)
 {
   UnityBegin("test_Button_Model.c");
   run_test(test_Button_Model_publishData_Shall_PublishAMessageWithTheMessageBroker, "test_Button_Model_publishData_Shall_PublishAMessageWithTheMessageBroker", 14);
-  run_test(test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPressed, "test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPressed", 22);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

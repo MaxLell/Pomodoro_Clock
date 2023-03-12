@@ -1,6 +1,6 @@
 #include "BoardSupportPackage/Button/Button_Conductor.h"
-#include "mock_Button_Hardware.h"
-#include "mock_Button_Model.h"
+#include "build/test/mocks/mock_Button_Hardware.h"
+#include "build/test/mocks/mock_Button_Model.h"
 #include "/Library/Ruby/Gems/2.6.0/gems/ceedling-0.31.1/vendor/unity/src/unity.h"
 
 

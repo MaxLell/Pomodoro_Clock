@@ -2,9 +2,6 @@
 
 #include "Common.h"
 #include "main.h"
-/**
- * The LED blinky LED is connected to PA5
- */
 
 void BlinkyLed_init(void)
 { /* You do nuthin John Snow!! */

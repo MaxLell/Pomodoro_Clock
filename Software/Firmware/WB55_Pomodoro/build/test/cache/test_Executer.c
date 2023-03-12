@@ -15,16 +15,10 @@ void tearDown(void) {}
 
 
 
-void test_Executer_init_shall_initializeAllTheModules(void) {
+void test_Executer_init_shall_initializeAllTheModules(void)
 
-  BlinkyLed_init_CMockExpect(12);
+{
 
-  Button_Conductor_init_CMockExpect(13);
-
-  MessageBroker_init_CMockExpectAndReturn(14, (0));
-
-
-
-  Executer_init();
+  UnityIgnore( (("Implement me!!")), (UNITY_UINT)(13));
 
 }

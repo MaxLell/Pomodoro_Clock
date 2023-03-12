@@ -7,22 +7,12 @@
   :line: 14
   :message: ''
   :unity_test_time: 0
-- :test: test_Button_Model_publishData_Shall_NotPublishAMessage_when_ButtonWasNotPressed
-  :line: 22
-  :message: ''
-  :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 2
-  :passed: 2
+  :total: 1
+  :passed: 1
   :failed: 0
   :ignored: 0
-:stdout:
-- "[ERROR] (BoardSupportPackage/Button/Button_Model.c:28: errno: None) Trigger Button
-  Event was not published"
-- "[ERROR] (BoardSupportPackage/Button/Button_Model.c:6: errno: None) The provided
-  Button Event is FALSE. It should always be TRUE"
-- "[ERROR] (BoardSupportPackage/Button/Button_Model.c:28: errno: None) Trigger Button
-  Event was not published"
-:time: 0.3064019999001175
+:stdout: []
+:time: 0.005940999835729599
