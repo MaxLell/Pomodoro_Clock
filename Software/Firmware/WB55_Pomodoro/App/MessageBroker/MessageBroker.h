@@ -11,7 +11,8 @@
 
 #define MESSAGE_BROKER_CALLBACK_ARRAY_SIZE 5
 
-typedef struct {
+typedef struct
+{
   MessageTopics_e eMsgTopic;
   uint16_t u16DataSize;
   uint32_t *au32Data;
@@ -23,7 +24,8 @@ typedef status_t (*Module_msgCallback_t)(MessageBroker_message_t in_sMessage);
 /**
  * Standard Message Dictinary
  */
-typedef struct {
+typedef struct
+{
   MessageTopics_e eMsgTopic;
   Module_msgCallback_t aCallbackArray[MESSAGE_BROKER_CALLBACK_ARRAY_SIZE];
 } MessageBroker_msgDictinary_t;
@@ -38,4 +40,4 @@ status_t MessageBroker_subscribe(MessageTopics_e in_eMsgTopic,
 
 status_t MessageBroker_publish(MessageBroker_message_t in_tMessage);
 
-#endif  // MESSAGEBROKER_H
+#endif // MESSAGEBROKER_H

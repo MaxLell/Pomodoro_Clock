@@ -1,0 +1,14 @@
+---
+:source:
+  :path: test/BSP/Button
+  :file: test_Button_Hardware.c
+:successes: []
+:failures: []
+:ignores: []
+:counts:
+  :total: 0
+  :passed: 0
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.3099519999232143

@@ -1,0 +1,26 @@
+---
+:source:
+  :path: test/BSP/Button
+  :file: test_Button_Conductor.c
+:successes:
+- :test: test_Button_Conductor_init_shall_InitializeModelAndHardware
+  :line: 15
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Button_Conductor_exec_shall_PublishData_when_aNewButtonEventHappend
+  :line: 22
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Button_Conductor_exec_shall_NotPublishData_when_aNoNewButtonEventHappend
+  :line: 33
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 3
+  :passed: 3
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.31392100010998547
