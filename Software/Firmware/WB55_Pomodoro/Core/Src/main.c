@@ -26,6 +26,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "Common.h"
+#include "BlinkyLed.h"
+//#include "MessageBroker.h"
 
 /* USER CODE END Includes */
 
@@ -46,7 +48,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-BOOL bButtonWasPressed = FALSE;
 
 /* USER CODE END PV */
 
@@ -129,15 +130,9 @@ int main(void)
 		/**
 		 * Toggle an LED when a Button Press has occured
 		 */
-		if (bButtonWasPressed == TRUE)
-		{
-			HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-			HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
-			HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
-			bButtonWasPressed = FALSE;
-		}
+		BlinkyLed_toggle();
 
-		HAL_Delay(1000);
+		HAL_Delay(100);
 	}
 	/* USER CODE END 3 */
 }
@@ -226,13 +221,6 @@ void PeriphCommonClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	if (GPIO_Pin == TriggerButton_Pin)
-	{
-		bButtonWasPressed = TRUE;
-	}
-}
 
 /* USER CODE END 4 */
 
