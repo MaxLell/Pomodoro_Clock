@@ -13,4 +13,9 @@ BOOL Button_Hardware_wasPressed() {
   return tmp;
 }
 
-void Button_Hardware_Interrupt() { bButtonWasPressed = TRUE; }
+void Button_Hardware_Interrupt() {
+	/**
+	 *  Sets the Flag to true
+	 */
+	bButtonWasPressed = TRUE;
+}

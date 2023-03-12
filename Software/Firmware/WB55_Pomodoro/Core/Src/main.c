@@ -27,7 +27,9 @@
 /* USER CODE BEGIN Includes */
 #include "Common.h"
 #include "BlinkyLed.h"
-//#include "MessageBroker.h"
+#include "MessageBroker.h"
+#include "Button_Conductor.h"
+#include "Button_Hardware.h"
 
 /* USER CODE END Includes */
 
@@ -48,6 +50,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
+status_t tDummyTriggerCallback(MessageBroker_message_t);
+BOOL bTriggered = FALSE;
 
 /* USER CODE END PV */
 
@@ -98,6 +103,10 @@ int main(void)
 	MX_USB_PCD_Init();
 	MX_RTC_Init();
 	/* USER CODE BEGIN 2 */
+	Button_Hardware_init();
+	MessageBroker_init();
+
+	MessageBroker_subscribe(E_TRIGGER_BUTTON_EVENT, tDummyTriggerCallback);
 
 	/* USER CODE END 2 */
 
@@ -120,19 +129,20 @@ int main(void)
 		RTC_TimeTypeDef sTime = {0};
 		RTC_DateTypeDef sDate = {0};
 
-		HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
-		HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
+//		HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+//		HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
+//
+//		log_info("%d:%d:%d", sTime.Hours, sTime.Minutes, sTime.Seconds);
+//		log_info("%d-%d-%d-%d", sDate.Year, sDate.Date, sDate.Month, sDate.WeekDay);
+//		log_info("--------------------");
 
-		log_info("%d:%d:%d", sTime.Hours, sTime.Minutes, sTime.Seconds);
-		log_info("%d-%d-%d-%d", sDate.Year, sDate.Date, sDate.Month, sDate.WeekDay);
-		log_info("--------------------");
+		Button_Conductor_exec();
 
-		/**
-		 * Toggle an LED when a Button Press has occured
-		 */
-		BlinkyLed_toggle();
-
-		HAL_Delay(100);
+		if (bTriggered == TRUE)
+		{
+			bTriggered = FALSE;
+			BlinkyLed_toggle();
+		}
 	}
 	/* USER CODE END 3 */
 }
@@ -221,6 +231,12 @@ void PeriphCommonClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+status_t tDummyTriggerCallback(MessageBroker_message_t tDummyMessage)
+{
+	bTriggered = TRUE;
+	return STATUS_OK;
+}
 
 /* USER CODE END 4 */
 
