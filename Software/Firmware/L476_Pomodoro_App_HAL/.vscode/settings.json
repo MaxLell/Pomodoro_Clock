@@ -11,6 +11,7 @@
         "string": "c",
         "mock_button_conductor.h": "c",
         "mock_rtc_hardware.h": "c",
-        "rtc.h": "c"
+        "rtc.h": "c",
+        "stdint.h": "c"
     }
 }
