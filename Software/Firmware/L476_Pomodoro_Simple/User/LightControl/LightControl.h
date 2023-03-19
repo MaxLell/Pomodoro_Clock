@@ -1,0 +1,6 @@
+
+
+#ifndef LIGHTCONTROL_H
+#define LIGHTCONTROL_H
+
+#endif // LIGHTCONTROL_H

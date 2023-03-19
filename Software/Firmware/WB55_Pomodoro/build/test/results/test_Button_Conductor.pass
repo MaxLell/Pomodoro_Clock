@@ -8,11 +8,11 @@
   :message: ''
   :unity_test_time: 0
 - :test: test_Button_Conductor_exec_shall_PublishData_when_aNewButtonEventHappend
-  :line: 22
+  :line: 21
   :message: ''
   :unity_test_time: 0
 - :test: test_Button_Conductor_exec_shall_NotPublishData_when_aNoNewButtonEventHappend
-  :line: 33
+  :line: 32
   :message: ''
   :unity_test_time: 0
 :failures: []
@@ -23,4 +23,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.005273000104352832
+:time: 0.23799600009806454

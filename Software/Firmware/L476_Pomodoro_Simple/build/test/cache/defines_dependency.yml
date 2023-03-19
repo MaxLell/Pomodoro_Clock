@@ -1,0 +1,25 @@
+---
+build/test/mocks/mock_BlinkyLed.c:
+- TEST
+build/test/mocks/mock_Button_Conductor.c:
+- TEST
+build/test/mocks/mock_MessageBroker.c:
+- TEST
+src/BlinkyLed.c:
+- TEST
+src/Button.c:
+- TEST
+src/Buzzer.c:
+- TEST
+src/Executer.c:
+- TEST
+src/LightControl.c:
+- TEST
+src/MessageBoard.c:
+- TEST
+src/RealTimeClock.c:
+- TEST
+src/RgbLED.c:
+- TEST
+src/Score.c:
+- TEST

@@ -63,8 +63,8 @@ static void MX_TIM1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-// #define TOTAL_LEDS (8 + 16 + 24 + 35)
-#define TOTAL_LEDS (16)
+#define TOTAL_LEDS (8 + 16 + 24)
+// #define TOTAL_LEDS (16)
 #define BRIGHTNESS_CTRL_FLAG 1
 
 uint8_t LED_Data[TOTAL_LEDS][4]; // This stores the color data values of the LEDs
@@ -315,8 +315,9 @@ int main(void)
     if (BRIGHTNESS_CTRL_FLAG == 1)
     {
       Set_Brightness(2);
-      HAL_Delay(70);
+
     }
+    HAL_Delay(40);
     WS2812_Send();
     led_index++;
     // HAL_Delay(20);

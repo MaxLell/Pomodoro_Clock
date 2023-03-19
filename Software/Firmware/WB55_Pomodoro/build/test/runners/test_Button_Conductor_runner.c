@@ -87,8 +87,8 @@ int main(void)
 {
   UnityBegin("test_Button_Conductor.c");
   run_test(test_Button_Conductor_init_shall_InitializeModelAndHardware, "test_Button_Conductor_init_shall_InitializeModelAndHardware", 15);
-  run_test(test_Button_Conductor_exec_shall_PublishData_when_aNewButtonEventHappend, "test_Button_Conductor_exec_shall_PublishData_when_aNewButtonEventHappend", 22);
-  run_test(test_Button_Conductor_exec_shall_NotPublishData_when_aNoNewButtonEventHappend, "test_Button_Conductor_exec_shall_NotPublishData_when_aNoNewButtonEventHappend", 33);
+  run_test(test_Button_Conductor_exec_shall_PublishData_when_aNewButtonEventHappend, "test_Button_Conductor_exec_shall_PublishData_when_aNewButtonEventHappend", 21);
+  run_test(test_Button_Conductor_exec_shall_NotPublishData_when_aNoNewButtonEventHappend, "test_Button_Conductor_exec_shall_NotPublishData_when_aNoNewButtonEventHappend", 32);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

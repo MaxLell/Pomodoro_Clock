@@ -1,0 +1,18 @@
+---
+:source:
+  :path: test
+  :file: test_LightControl.c
+:successes: []
+:failures: []
+:ignores:
+- :test: test_LightControl_NeedToImplement
+  :line: 17
+  :message: Need to Implement LightControl
+  :unity_test_time: 0
+:counts:
+  :total: 1
+  :passed: 0
+  :failed: 0
+  :ignored: 1
+:stdout: []
+:time: 0.21330000000307336

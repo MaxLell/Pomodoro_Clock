@@ -28,8 +28,6 @@ void test_Button_Conductor_init_shall_InitializeModelAndHardware(void)
 
     Button_Hardware_init_CMockExpect(17);
 
-
-
     Button_Conductor_init();
 
 }
@@ -46,9 +44,9 @@ void test_Button_Conductor_exec_shall_PublishData_when_aNewButtonEventHappend()
 
 
 
-    Button_Hardware_wasPressed_CMockExpectAndReturn(27, bButtonWasPressed);
+    Button_Hardware_wasPressed_CMockExpectAndReturn(26, bButtonWasPressed);
 
-    Button_Model_publishData_CMockExpect(28, bButtonWasPressed);
+    Button_Model_publishData_CMockExpect(27, bButtonWasPressed);
 
 
 
@@ -68,7 +66,7 @@ void test_Button_Conductor_exec_shall_NotPublishData_when_aNoNewButtonEventHappe
 
 
 
-    Button_Hardware_wasPressed_CMockExpectAndReturn(38, bButtonWasPressed);
+    Button_Hardware_wasPressed_CMockExpectAndReturn(37, bButtonWasPressed);
 
 
 
