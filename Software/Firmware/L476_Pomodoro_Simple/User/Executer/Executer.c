@@ -1,11 +1,18 @@
 #include "Executer.h"
+#include "main.h"
+#include "BlinkyLed.h"
+#include "StopWatch.h"
 
 void Executer_init(void)
 {
 }
 
-void Executer_execute(void)
+BOOL Executer_execute(void)
 {
+    BlinkyLed_Toggle();
+    StopWatch_delayMs(1000);
+    log_info("Hello World!");
+    return EXECUTER_OK;
 }
 
 void Executer_run(void)

@@ -2,7 +2,7 @@
 
 static BOOL oneSecondPassed = FALSE;
 
-void StopWatch_delay(uint32_t delay)
+void StopWatch_delayMs(uint32_t delay)
 {
     HAL_Delay(delay);
 }

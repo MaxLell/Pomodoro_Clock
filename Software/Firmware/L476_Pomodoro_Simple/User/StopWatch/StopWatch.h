@@ -3,9 +3,9 @@
 
 #include "Common.h"
 
-void StopWatch_delay(uint32_t delay);
+void StopWatch_delayMs(uint32_t delay);
 
-BOOL StopWatch_timeInSecondsPassed(uint32_t timeInSeconds);
+BOOL StopWatch_oneSecondPassed(void);
 
 void StopWatch_ISR(void);
 
