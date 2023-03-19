@@ -2,6 +2,7 @@
 #include "main.h"
 #include "BlinkyLed.h"
 #include "StopWatch.h"
+#include "Button.h"
 
 void Executer_init(void)
 {
@@ -9,9 +10,12 @@ void Executer_init(void)
 
 BOOL Executer_execute(void)
 {
-    BlinkyLed_Toggle();
-    StopWatch_delayMs(1000);
-    log_info("Hello World!");
+    ButtonState_e buttonState = Button_getState();
+    if (buttonState == BUTTON_WAS_PRESSED)
+    {
+        BlinkyLed_toggle();
+        StopWatch_delayMs(100);
+    }
     return EXECUTER_OK;
 }
 
