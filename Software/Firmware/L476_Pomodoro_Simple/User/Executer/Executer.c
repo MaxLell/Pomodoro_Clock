@@ -5,14 +5,17 @@
 #include "Button.h"
 #include "RealTimeClock.h"
 
-extern RTC_HandleTypeDef hrtc;
-
 void Executer_init(void)
 {
 }
 RTC_TimeTypeDef rtcTime = {0};
 BOOL Executer_execute(void)
 {
+    RealTimeClock_Time currentTime = {0};
+    currentTime = RealTimeClock_getTime();
+    log_info("%d:%d:%d", currentTime.hour, currentTime.minute, currentTime.second);
+    log_info("--------------------");
+    HAL_Delay(1000);
 
     return EXECUTER_OK;
 }
