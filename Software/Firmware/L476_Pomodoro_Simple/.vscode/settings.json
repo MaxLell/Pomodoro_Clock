@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "blinkyled.h": "c"
+        "blinkyled.h": "c",
+        "realtimeclock.h": "c"
     }
 }

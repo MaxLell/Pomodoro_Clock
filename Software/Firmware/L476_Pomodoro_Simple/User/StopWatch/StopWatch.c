@@ -1,4 +1,5 @@
 #include "StopWatch.h"
+#include "main.h"
 
 static BOOL oneSecondPassed = FALSE;
 

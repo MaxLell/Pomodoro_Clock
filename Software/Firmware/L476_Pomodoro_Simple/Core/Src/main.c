@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "rtc.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -44,6 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+extern RTC_HandleTypeDef hrtc;
 
 /* USER CODE END PV */
 
@@ -87,8 +89,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_RTC_Init();
   /* USER CODE BEGIN 2 */
-  Executer_run();
+  // Executer_run();
 
   /* USER CODE END 2 */
 
@@ -99,9 +102,18 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    /**
-     * This loop is never reached
-     */
+    RTC_TimeTypeDef sTime = {0};
+    RTC_DateTypeDef sDate = {0};
+    // RTC_AlarmTypeDef sAlarm = {0};
+
+    HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+    HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
+
+    log_info("%d:%d:%d", sTime.Hours, sTime.Minutes, sTime.Seconds);
+    log_info("%d-%d-%d-%d", sDate.Year, sDate.Date, sDate.Month, sDate.WeekDay);
+    log_info("--------------------");
+
+    HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }

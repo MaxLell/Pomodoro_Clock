@@ -3,19 +3,17 @@
 #include "BlinkyLed.h"
 #include "StopWatch.h"
 #include "Button.h"
+#include "RealTimeClock.h"
+
+extern RTC_HandleTypeDef hrtc;
 
 void Executer_init(void)
 {
 }
-
+RTC_TimeTypeDef rtcTime = {0};
 BOOL Executer_execute(void)
 {
-    ButtonState_e buttonState = Button_getState();
-    if (buttonState == BUTTON_WAS_PRESSED)
-    {
-        BlinkyLed_toggle();
-        StopWatch_delayMs(100);
-    }
+
     return EXECUTER_OK;
 }
 
