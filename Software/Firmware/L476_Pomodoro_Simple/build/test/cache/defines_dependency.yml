@@ -23,3 +23,11 @@ src/RgbLED.c:
 - TEST
 src/Score.c:
 - TEST
+User/BlinkyLed/BlinkyLed.c:
+- TEST
+User/LightControl/Buffer.c:
+- TEST
+User/LightControl/LightControl.c:
+- TEST
+build/test/mocks/mock_RgbLed.c:
+- TEST

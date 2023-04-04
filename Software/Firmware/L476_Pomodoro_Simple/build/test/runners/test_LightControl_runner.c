@@ -2,6 +2,8 @@
 
 /*=======Automagically Detected Files To Include=====*/
 #include "unity.h"
+#include "cmock.h"
+#include "mock_RgbLed.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -10,7 +12,18 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_LightControl_NeedToImplement(void);
+extern void test_LightControl_fillMinuteToColorArray_Test1();
+extern void test_LightControl_fillMinuteToColorArray_Test2();
+extern void test_LightControl_fillMinuteToColorArray_Test3();
+extern void test_LightControl_fillMinuteToColorArray_Test4();
+extern void test_LightControl_fillMinuteToColorArray_Test5();
+extern void test_LightControl_fillMinuteToColorArray_Test6();
+extern void test_LightControl_fillMinuteToColorArray_Test7();
+extern void test_LightControl_fillMinuteToColorArray_Test8();
+extern void test_LightControl_fillMinuteToColorArray_Test9();
+extern void test_LightControl_fillMinuteToColorArray_Test10();
+extern void test_LightControl_fillLedToColorArray_Test11();
+extern void test_LightControl_setLedsToColor_Test12();
 
 
 /*=======Mock Management=====*/
@@ -19,12 +32,15 @@ static void CMock_Init(void)
   GlobalExpectCount = 0;
   GlobalVerifyOrder = 0;
   GlobalOrderError = NULL;
+  mock_RgbLed_Init();
 }
 static void CMock_Verify(void)
 {
+  mock_RgbLed_Verify();
 }
 static void CMock_Destroy(void)
 {
+  mock_RgbLed_Destroy();
 }
 
 /*=======Test Reset Options=====*/
@@ -75,7 +91,19 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_LightControl.c");
-  run_test(test_LightControl_NeedToImplement, "test_LightControl_NeedToImplement", 15);
+  run_test(test_LightControl_fillMinuteToColorArray_Test1, "test_LightControl_fillMinuteToColorArray_Test1", 83);
+  run_test(test_LightControl_fillMinuteToColorArray_Test2, "test_LightControl_fillMinuteToColorArray_Test2", 105);
+  run_test(test_LightControl_fillMinuteToColorArray_Test3, "test_LightControl_fillMinuteToColorArray_Test3", 134);
+  run_test(test_LightControl_fillMinuteToColorArray_Test4, "test_LightControl_fillMinuteToColorArray_Test4", 169);
+  run_test(test_LightControl_fillMinuteToColorArray_Test5, "test_LightControl_fillMinuteToColorArray_Test5", 210);
+  run_test(test_LightControl_fillMinuteToColorArray_Test6, "test_LightControl_fillMinuteToColorArray_Test6", 242);
+  run_test(test_LightControl_fillMinuteToColorArray_Test7, "test_LightControl_fillMinuteToColorArray_Test7", 263);
+  run_test(test_LightControl_fillMinuteToColorArray_Test8, "test_LightControl_fillMinuteToColorArray_Test8", 284);
+  run_test(test_LightControl_fillMinuteToColorArray_Test9, "test_LightControl_fillMinuteToColorArray_Test9", 305);
+  run_test(test_LightControl_fillMinuteToColorArray_Test10, "test_LightControl_fillMinuteToColorArray_Test10", 325);
+  run_test(test_LightControl_fillLedToColorArray_Test11, "test_LightControl_fillLedToColorArray_Test11", 369);
+  run_test(test_LightControl_setLedsToColor_Test12, "test_LightControl_setLedsToColor_Test12", 400);
 
+  CMock_Guts_MemFreeFinal();
   return UnityEnd();
 }

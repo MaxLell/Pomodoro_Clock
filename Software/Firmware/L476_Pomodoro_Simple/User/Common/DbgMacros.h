@@ -23,9 +23,13 @@
 
 #define clean_errno() (errno == 0 ? "None" : strerror(errno))
 
+#ifdef TEST
+#define log_error(M, ...)
+#else
 #define log_error(M, ...)                                          \
   printf("[ERROR] (%s:%d: errno: %s) " M "\n", __FILE__, __LINE__, \
          clean_errno(), ##__VA_ARGS__)
+#endif
 
 #define log_warning(M, ...)                                        \
   printf("[WARN]  (%s:%d: errno: %s) " M "\n", __FILE__, __LINE__, \
@@ -35,7 +39,8 @@
   printf("[INFO]  (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 
 #define check(A, M, ...)         \
-  if (!(A)) {                    \
+  if (!(A))                      \
+  {                              \
     log_error(M, ##__VA_ARGS__); \
     errno = 0;                   \
     goto error;                  \
@@ -51,23 +56,30 @@
 #define check_memory(A) check((A), "Out of memory.")
 
 #define check_debug(A, M, ...) \
-  if (!(A)) {                  \
+  if (!(A))                    \
+  {                            \
     debug(M, ##__VA_ARGS__);   \
     errno = 0;                 \
     goto error;                \
   }
 
-#define assert_true(expression)                                      \
-  if (expression) {                                                  \
-    (void)0U;                                                        \
-  } else {                                                           \
-    if ((TEST_RUNNING == 1)) {                                       \
-      printf("[ASSERT FAILURE] (%s:%d)", (char*)__FILE__, __LINE__); \
-    } else {                                                         \
-      printf("[ASSERT FAILURE] (%s:%d)", (char*)__FILE__, __LINE__); \
-      while (1)                                                      \
-        ;                                                            \
-    }                                                                \
+#define assert_true(expression)                                       \
+  if (expression)                                                     \
+  {                                                                   \
+    (void)0U;                                                         \
+  }                                                                   \
+  else                                                                \
+  {                                                                   \
+    if ((TEST_RUNNING == 1))                                          \
+    {                                                                 \
+      printf("[ASSERT FAILURE] (%s:%d)", (char *)__FILE__, __LINE__); \
+    }                                                                 \
+    else                                                              \
+    {                                                                 \
+      printf("[ASSERT FAILURE] (%s:%d)", (char *)__FILE__, __LINE__); \
+      while (1)                                                       \
+        ;                                                             \
+    }                                                                 \
   }
 
-#endif  // DBGMACROS_H
+#endif // DBGMACROS_H

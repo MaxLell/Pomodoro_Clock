@@ -1,6 +1,12 @@
 {
     "files.associations": {
         "blinkyled.h": "c",
-        "realtimeclock.h": "c"
+        "realtimeclock.h": "c",
+        "common.h": "c",
+        "status.h": "c",
+        "types.h": "c",
+        "testsupport.h": "c",
+        "dbgmacros.h": "c",
+        "lightcontrol.h": "c"
     }
 }

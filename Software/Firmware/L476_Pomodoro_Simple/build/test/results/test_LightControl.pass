@@ -2,17 +2,61 @@
 :source:
   :path: test
   :file: test_LightControl.c
-:successes: []
-:failures: []
-:ignores:
-- :test: test_LightControl_NeedToImplement
-  :line: 17
-  :message: Need to Implement LightControl
+:successes:
+- :test: test_LightControl_fillMinuteToColorArray_Test1
+  :line: 83
+  :message: ''
   :unity_test_time: 0
+- :test: test_LightControl_fillMinuteToColorArray_Test2
+  :line: 105
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_fillMinuteToColorArray_Test3
+  :line: 134
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_fillMinuteToColorArray_Test4
+  :line: 169
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_fillMinuteToColorArray_Test5
+  :line: 210
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_fillMinuteToColorArray_Test6
+  :line: 242
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_fillMinuteToColorArray_Test7
+  :line: 263
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_fillMinuteToColorArray_Test8
+  :line: 284
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_fillMinuteToColorArray_Test9
+  :line: 305
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_fillMinuteToColorArray_Test10
+  :line: 325
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_fillLedToColorArray_Test11
+  :line: 369
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_setLedsToColor_Test12
+  :line: 400
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
 :counts:
-  :total: 1
-  :passed: 0
+  :total: 12
+  :passed: 12
   :failed: 0
-  :ignored: 1
+  :ignored: 0
 :stdout: []
-:time: 0.21330000000307336
+:time: 0.31523100001504645
