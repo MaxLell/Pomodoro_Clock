@@ -4,6 +4,7 @@
 #include "StopWatch.h"
 #include "Button.h"
 #include "RealTimeClock.h"
+#include "LightControl.h"
 
 void Executer_init(void)
 {
@@ -13,15 +14,30 @@ RTC_TimeTypeDef rtcTime = {0};
 /**
  * @brief  The main execution steps are run in this function.
  */
-BOOL Executer_execute(void)
+status_t Executer_execute(void)
 {
-    RealTimeClock_Time currentTime = {0};
-    currentTime = RealTimeClock_getTime();
-    log_info("%d:%d:%d", currentTime.hour, currentTime.minute, currentTime.second);
-    log_info("--------------------");
-    HAL_Delay(1000);
+    /**
+     * Get all the inputs
+     */
+    // Get the current Minute from the RTC
+    uint8_t u8Minute = 0;
+    RealTimeClock_getCurrentMinute(&u8Minute);
 
-    return EXECUTER_OK;
+    // Figure out if the button was pressed
+    BOOL bButtonPressed = FALSE;
+    Button_wasPressed(&bButtonPressed);
+
+    /**
+     * Run the sequence
+     */
+
+    if (bButtonPressed == TRUE)
+    {
+        // Start the Light control sequence if it is not already running
+        LightControl_execute(u8Minute);
+
+        // OR if the sequence is running, stop it
+    }
 }
 
 /**

@@ -14,4 +14,6 @@ typedef unsigned char BOOL;
 #define NULL 0
 #endif
 
+typedef uint8_t status_t;
+
 #endif // TYPES_H

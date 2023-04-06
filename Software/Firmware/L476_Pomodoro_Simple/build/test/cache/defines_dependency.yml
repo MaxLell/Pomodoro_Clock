@@ -31,3 +31,5 @@ User/LightControl/LightControl.c:
 - TEST
 build/test/mocks/mock_RgbLed.c:
 - TEST
+User/Common/Config.c:
+- TEST

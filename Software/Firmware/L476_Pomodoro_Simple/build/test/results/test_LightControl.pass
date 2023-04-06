@@ -3,60 +3,72 @@
   :path: test
   :file: test_LightControl.c
 :successes:
-- :test: test_LightControl_fillMinuteToColorArray_Test1
-  :line: 83
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_fillMinuteToColorArray_Test2
-  :line: 105
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_fillMinuteToColorArray_Test3
-  :line: 134
-  :message: ''
-  :unity_test_time: 0
 - :test: test_LightControl_fillMinuteToColorArray_Test4
-  :line: 169
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_fillMinuteToColorArray_Test5
-  :line: 210
+  :line: 36
   :message: ''
   :unity_test_time: 0
 - :test: test_LightControl_fillMinuteToColorArray_Test6
-  :line: 242
+  :line: 82
   :message: ''
   :unity_test_time: 0
 - :test: test_LightControl_fillMinuteToColorArray_Test7
-  :line: 263
+  :line: 103
   :message: ''
   :unity_test_time: 0
 - :test: test_LightControl_fillMinuteToColorArray_Test8
-  :line: 284
+  :line: 124
   :message: ''
   :unity_test_time: 0
 - :test: test_LightControl_fillMinuteToColorArray_Test9
-  :line: 305
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_fillMinuteToColorArray_Test10
-  :line: 325
+  :line: 145
   :message: ''
   :unity_test_time: 0
 - :test: test_LightControl_fillLedToColorArray_Test11
-  :line: 369
+  :line: 166
   :message: ''
   :unity_test_time: 0
-- :test: test_LightControl_setLedsToColor_Test12
-  :line: 400
+- :test: test_LightControl_removeColorsFromMinuteArray_Test12
+  :line: 197
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_removeColorsFromMinuteArray_Test13
+  :line: 226
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_init_should_SetWorktimeAndBreaktimeInterval
+  :line: 253
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_init_should_FillMinuteToColorArray
+  :line: 268
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_init_should_SetSequenceCounter
+  :line: 294
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_init_should_SetSequenceInitializedFlagToTrue
+  :line: 313
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_endSequence_should_TurnOffAllLeds
+  :line: 328
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_endSequence_should_SetSequenceInitializedFlagToFalse
+  :line: 349
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightControl_endSequence_should_SetSequenceCounterToZero
+  :line: 365
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 12
-  :passed: 12
+  :total: 15
+  :passed: 15
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.31523100001504645
+:time: 0.42562999995425344

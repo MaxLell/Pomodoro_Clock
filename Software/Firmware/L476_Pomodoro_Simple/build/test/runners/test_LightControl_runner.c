@@ -12,18 +12,21 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_LightControl_fillMinuteToColorArray_Test1();
-extern void test_LightControl_fillMinuteToColorArray_Test2();
-extern void test_LightControl_fillMinuteToColorArray_Test3();
 extern void test_LightControl_fillMinuteToColorArray_Test4();
-extern void test_LightControl_fillMinuteToColorArray_Test5();
 extern void test_LightControl_fillMinuteToColorArray_Test6();
 extern void test_LightControl_fillMinuteToColorArray_Test7();
 extern void test_LightControl_fillMinuteToColorArray_Test8();
 extern void test_LightControl_fillMinuteToColorArray_Test9();
-extern void test_LightControl_fillMinuteToColorArray_Test10();
 extern void test_LightControl_fillLedToColorArray_Test11();
-extern void test_LightControl_setLedsToColor_Test12();
+extern void test_LightControl_removeColorsFromMinuteArray_Test12();
+extern void test_LightControl_removeColorsFromMinuteArray_Test13();
+extern void test_LightControl_init_should_SetWorktimeAndBreaktimeInterval();
+extern void test_LightControl_init_should_FillMinuteToColorArray();
+extern void test_LightControl_init_should_SetSequenceCounter();
+extern void test_LightControl_init_should_SetSequenceInitializedFlagToTrue();
+extern void test_LightControl_endSequence_should_TurnOffAllLeds();
+extern void test_LightControl_endSequence_should_SetSequenceInitializedFlagToFalse();
+extern void test_LightControl_endSequence_should_SetSequenceCounterToZero();
 
 
 /*=======Mock Management=====*/
@@ -91,18 +94,21 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_LightControl.c");
-  run_test(test_LightControl_fillMinuteToColorArray_Test1, "test_LightControl_fillMinuteToColorArray_Test1", 83);
-  run_test(test_LightControl_fillMinuteToColorArray_Test2, "test_LightControl_fillMinuteToColorArray_Test2", 105);
-  run_test(test_LightControl_fillMinuteToColorArray_Test3, "test_LightControl_fillMinuteToColorArray_Test3", 134);
-  run_test(test_LightControl_fillMinuteToColorArray_Test4, "test_LightControl_fillMinuteToColorArray_Test4", 169);
-  run_test(test_LightControl_fillMinuteToColorArray_Test5, "test_LightControl_fillMinuteToColorArray_Test5", 210);
-  run_test(test_LightControl_fillMinuteToColorArray_Test6, "test_LightControl_fillMinuteToColorArray_Test6", 242);
-  run_test(test_LightControl_fillMinuteToColorArray_Test7, "test_LightControl_fillMinuteToColorArray_Test7", 263);
-  run_test(test_LightControl_fillMinuteToColorArray_Test8, "test_LightControl_fillMinuteToColorArray_Test8", 284);
-  run_test(test_LightControl_fillMinuteToColorArray_Test9, "test_LightControl_fillMinuteToColorArray_Test9", 305);
-  run_test(test_LightControl_fillMinuteToColorArray_Test10, "test_LightControl_fillMinuteToColorArray_Test10", 325);
-  run_test(test_LightControl_fillLedToColorArray_Test11, "test_LightControl_fillLedToColorArray_Test11", 369);
-  run_test(test_LightControl_setLedsToColor_Test12, "test_LightControl_setLedsToColor_Test12", 400);
+  run_test(test_LightControl_fillMinuteToColorArray_Test4, "test_LightControl_fillMinuteToColorArray_Test4", 36);
+  run_test(test_LightControl_fillMinuteToColorArray_Test6, "test_LightControl_fillMinuteToColorArray_Test6", 82);
+  run_test(test_LightControl_fillMinuteToColorArray_Test7, "test_LightControl_fillMinuteToColorArray_Test7", 103);
+  run_test(test_LightControl_fillMinuteToColorArray_Test8, "test_LightControl_fillMinuteToColorArray_Test8", 124);
+  run_test(test_LightControl_fillMinuteToColorArray_Test9, "test_LightControl_fillMinuteToColorArray_Test9", 145);
+  run_test(test_LightControl_fillLedToColorArray_Test11, "test_LightControl_fillLedToColorArray_Test11", 166);
+  run_test(test_LightControl_removeColorsFromMinuteArray_Test12, "test_LightControl_removeColorsFromMinuteArray_Test12", 197);
+  run_test(test_LightControl_removeColorsFromMinuteArray_Test13, "test_LightControl_removeColorsFromMinuteArray_Test13", 226);
+  run_test(test_LightControl_init_should_SetWorktimeAndBreaktimeInterval, "test_LightControl_init_should_SetWorktimeAndBreaktimeInterval", 253);
+  run_test(test_LightControl_init_should_FillMinuteToColorArray, "test_LightControl_init_should_FillMinuteToColorArray", 268);
+  run_test(test_LightControl_init_should_SetSequenceCounter, "test_LightControl_init_should_SetSequenceCounter", 294);
+  run_test(test_LightControl_init_should_SetSequenceInitializedFlagToTrue, "test_LightControl_init_should_SetSequenceInitializedFlagToTrue", 313);
+  run_test(test_LightControl_endSequence_should_TurnOffAllLeds, "test_LightControl_endSequence_should_TurnOffAllLeds", 328);
+  run_test(test_LightControl_endSequence_should_SetSequenceInitializedFlagToFalse, "test_LightControl_endSequence_should_SetSequenceInitializedFlagToFalse", 349);
+  run_test(test_LightControl_endSequence_should_SetSequenceCounterToZero, "test_LightControl_endSequence_should_SetSequenceCounterToZero", 365);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

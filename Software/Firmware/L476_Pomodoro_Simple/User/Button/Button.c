@@ -1,13 +1,17 @@
 #include "Button.h"
 
-static ButtonState_e buttonState = BUTTON_IS_NOT_PRESSED;
+static BOOL bButtonState = FALSE;
 
-ButtonState_e Button_getState(void)
+status_t Button_wasPressed(BOOL *pBButtonWasPressed)
 {
-    return buttonState;
+    *pBButtonWasPressed = bButtonState;
+
+    // Reset the button state after reading it
+    bButtonState = FALSE;
+    return STATUS_OK;
 }
 
 void Button_ISR(void)
 {
-    buttonState = BUTTON_WAS_PRESSED;
+    bButtonState = TRUE;
 }
