@@ -33,14 +33,14 @@ status_t MessageBroker_init()
     sMessageTopicIndex[E_TEST_2] = &sTestTopic_2;
 #endif
     /* Set the Topics of the respective messages */
-    sTopicTriggerButton.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON;
+    sTopicTriggerButton.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED;
     sTopicCurrentMinute.eMsgTopic = E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE;
     sTopicPfsmWorktimeState.eMsgTopic = E_MESSAGE_BROKER_TOPIC_PFSM_WORKTIME_STATE;
     sTopicPfsmBreaktimeState.eMsgTopic = E_MESSAGE_BROKER_TOPIC_PFSM_BREAKTIME_STATE;
     sTopicOnSecondPassed.eMsgTopic = E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED;
 
     /* Place the different topics / message types in the Library */
-    sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON] = &sTopicTriggerButton;
+    sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED] = &sTopicTriggerButton;
     sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE] = &sTopicCurrentMinute;
     sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_PFSM_WORKTIME_STATE] = &sTopicPfsmWorktimeState;
     sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_PFSM_BREAKTIME_STATE] = &sTopicPfsmBreaktimeState;

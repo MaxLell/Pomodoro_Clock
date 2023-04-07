@@ -22,6 +22,7 @@ status_t Executer_execute(void)
 {
     StopWatch_execute();
     RealTimeClock_execute();
+    Button_execute();
 
     return STATUS_OK;
 }
