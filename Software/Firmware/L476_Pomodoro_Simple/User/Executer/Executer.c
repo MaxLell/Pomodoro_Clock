@@ -9,35 +9,19 @@
 void Executer_init(void)
 {
 }
-RTC_TimeTypeDef rtcTime = {0};
 
 /**
  * @brief  The main execution steps are run in this function.
  */
 status_t Executer_execute(void)
 {
-    /**
-     * Get all the inputs
-     */
-    // Get the current Minute from the RTC
-    uint8_t u8Minute = 0;
-    RealTimeClock_getCurrentMinute(&u8Minute);
+    // Run the Button module
 
-    // Figure out if the button was pressed
-    BOOL bButtonPressed = FALSE;
-    Button_wasPressed(&bButtonPressed);
+    // Run the RealTimeClock module
 
-    /**
-     * Run the sequence
-     */
+    // Run the PomodoroFSM module
 
-    if (bButtonPressed == TRUE)
-    {
-        // Start the Light control sequence if it is not already running
-        LightControl_execute(u8Minute);
-
-        // OR if the sequence is running, stop it
-    }
+    // Run the LightControl module
 }
 
 /**
