@@ -35,3 +35,5 @@ User/Common/Config.c:
 - TEST
 User/MessageBroker/MessageBroker.c:
 - TEST
+User/RealTimeClock/RealTimeClock.c:
+- TEST

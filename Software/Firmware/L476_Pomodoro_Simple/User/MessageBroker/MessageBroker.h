@@ -11,6 +11,9 @@
 #define MESSAGE_BROKER_NUMBER_OF_MESSAGE_TOPICS 3
 #define MESSAGE_BROKER_CALLBACK_ARRAY_SIZE 5
 
+/**
+ * Message Topics
+ */
 typedef enum
 {
 #ifdef TEST
@@ -21,15 +24,19 @@ typedef enum
     E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE,
     E_MESSAGE_BROKER_TOPIC_PFSM_WORKTIME_STATE,
     E_MESSAGE_BROKER_TOPIC_PFSM_BREAKTIME_STATE,
+    E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED,
 
     E_MESSAGE_BROKER_LAST_TOPIC
 } MessageBroker_messageTopics_e;
 
+/**
+ * Message Structure
+ */
 typedef struct
 {
     MessageBroker_messageTopics_e eMsgTopic;
     uint16_t u16DataSize;
-    uint32_t *au32Data;
+    uint8_t *au8DataBytes;
 } MessageBroker_message_t;
 
 /* Function Callback Type */

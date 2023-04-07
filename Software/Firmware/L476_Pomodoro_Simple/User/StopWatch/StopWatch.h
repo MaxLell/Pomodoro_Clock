@@ -5,8 +5,12 @@
 
 void StopWatch_delayMs(uint32_t delay);
 
-BOOL StopWatch_oneSecondPassed(void);
+status_t StopWatch_oneSecondPassed(BOOL *bOneSecondPassed);
 
 void StopWatch_ISR(void);
+
+void StopWatch_init(void);
+
+void StopWatch_execute(void);
 
 #endif // STOPWATCH_H

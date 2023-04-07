@@ -4,10 +4,15 @@
 #include "StopWatch.h"
 #include "Button.h"
 #include "RealTimeClock.h"
+#include "StopWatch.h"
+#include "MessageBroker.h"
 #include "LightControl.h"
 
 void Executer_init(void)
 {
+    MessageBroker_init();
+    StopWatch_init();
+    RealTimeClock_init();
 }
 
 /**
@@ -15,13 +20,10 @@ void Executer_init(void)
  */
 status_t Executer_execute(void)
 {
-    // Run the Button module
+    StopWatch_execute();
+    RealTimeClock_execute();
 
-    // Run the RealTimeClock module
-
-    // Run the PomodoroFSM module
-
-    // Run the LightControl module
+    return STATUS_OK;
 }
 
 /**
@@ -34,7 +36,7 @@ status_t Executer_execute(void)
 void Executer_run(void)
 {
     Executer_init();
-    while (Executer_execute() == EXECUTER_OK)
+    while (Executer_execute() == STATUS_OK)
     {
         /**
          * The main execution steps are run in the Executer_execute() function.
