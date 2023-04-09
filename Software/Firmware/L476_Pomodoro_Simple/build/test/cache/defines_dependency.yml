@@ -39,3 +39,5 @@ User/RealTimeClock/RealTimeClock.c:
 - TEST
 User/PomodoroFsm/PomodoroFsm.c:
 - TEST
+build/test/mocks/mock_LightControl.c:
+- TEST

@@ -14,9 +14,9 @@ STATIC MessageBroker_msgDictinary_t sTestTopic_2;
  */
 STATIC MessageBroker_msgDictinary_t sTopicTriggerButton;
 STATIC MessageBroker_msgDictinary_t sTopicCurrentMinute;
-STATIC MessageBroker_msgDictinary_t sTopicPfsmWorktimeState;
-STATIC MessageBroker_msgDictinary_t sTopicPfsmBreaktimeState;
 STATIC MessageBroker_msgDictinary_t sTopicOnSecondPassed;
+STATIC MessageBroker_msgDictinary_t sTopicPomodoroFsmStateChanged;
+STATIC MessageBroker_msgDictinary_t sTopicLctrlStateChanged;
 
 /* Contains all dictinaries, so that they can be searched through iterativly */
 STATIC MessageBroker_msgDictinary_t *sMessageTopicIndex[E_MESSAGE_BROKER_LAST_TOPIC] = {NULL};
@@ -35,16 +35,16 @@ status_t MessageBroker_init()
     /* Set the Topics of the respective messages */
     sTopicTriggerButton.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED;
     sTopicCurrentMinute.eMsgTopic = E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE;
-    sTopicPfsmWorktimeState.eMsgTopic = E_MESSAGE_BROKER_TOPIC_PFSM_WORKTIME_STATE;
-    sTopicPfsmBreaktimeState.eMsgTopic = E_MESSAGE_BROKER_TOPIC_PFSM_BREAKTIME_STATE;
     sTopicOnSecondPassed.eMsgTopic = E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED;
+    sTopicPomodoroFsmStateChanged.eMsgTopic = E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED;
+    sTopicLctrlStateChanged.eMsgTopic = E_MESSAGE_BROKER_TOPIC_LCTRL_STATE_CHANGED;
 
     /* Place the different topics / message types in the Library */
     sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED] = &sTopicTriggerButton;
     sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE] = &sTopicCurrentMinute;
-    sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_PFSM_WORKTIME_STATE] = &sTopicPfsmWorktimeState;
-    sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_PFSM_BREAKTIME_STATE] = &sTopicPfsmBreaktimeState;
     sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED] = &sTopicOnSecondPassed;
+    sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED] = &sTopicPomodoroFsmStateChanged;
+    sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_LCTRL_STATE_CHANGED] = &sTopicLctrlStateChanged;
 
     /* set all the elements of the Callback arrays to zero */
     for (uint16_t topic = 0; topic < E_MESSAGE_BROKER_LAST_TOPIC; topic++)

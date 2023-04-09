@@ -4,23 +4,63 @@
   :file: test_PomodoroFsm.c
 :successes:
 - :test: test_PomodoroFsm_init_should_SetInitialStateToIdle
-  :line: 18
+  :line: 38
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_init_should_SubscribeToTriggerButtonPressedTopic
-  :line: 30
+  :line: 52
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_buttonPressedCallback_should_SetButtonPressedFlagInInputStruct
+  :line: 80
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerButtonPressedMessage
-  :line: 44
+  :line: 94
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_init_should_SubscribeToCurrentMinuteTopic
+  :line: 125
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_currentMinuteCallback_should_SetCurrentMinuteInInputStruct
+  :line: 145
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_5MinutesPassedWithoutButtonPressed
+  :line: 162
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_when_TriggerButtonPressedMessage
+  :line: 194
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerButtonPressedMessage
+  :line: 222
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_init_should_SubscribeToLightControlStateChanges
+  :line: 251
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_LightControlPublishesWorktimeCompleted
+  :line: 275
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_LightControlPublishesBreaktimeCompleted
+  :line: 310
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_TriggerButtonPressedMessage
+  :line: 346
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 3
-  :passed: 3
+  :total: 13
+  :passed: 13
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.20276100002229214
+:time: 0.2001340000424534
