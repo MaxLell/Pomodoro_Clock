@@ -44,18 +44,22 @@ void test_PomodoroFsm_init_should_SetInitialStateToIdle(void)
 }
 
 /**
- * The init function shall subscribe to the 'trigger button was pressed' topic
+ * Test PomodorFsm_init()
+ * - The init function shall subscribe to the trigger button pressed topic
+ * - The init function shall subscribe to the TimeAndDate topic
+ * - The init function shall subscribe to the LightControlState topic
  */
 
 void test_PomodoroFsm_init_should_SubscribeToTriggerButtonPressedTopic(void)
 {
+    MessageBroker_publish_IgnoreArg_in_tMessage();
     MessageBroker_subscribe_ExpectAndReturn(
         E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED,
-        PomodoroFsm_callback,
+        NULL,
         STATUS_OK);
 
     MessageBroker_subscribe_ExpectAndReturn(
-        E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE,
+        E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE,
         PomodoroFsm_callback,
         STATUS_OK);
 
@@ -112,32 +116,6 @@ void test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerB
 
     // Check the new state
     TEST_ASSERT_EQUAL(E_PFSM_STATE_WORKTIME, ePomodoroFsmState);
-}
-
-/**
- * Test the the receival of the current Minute
- * - The init function shall subscribe to the current Minute
- * - The callback shall set the current Minute in the input struct
- */
-
-void test_PomodoroFsm_init_should_SubscribeToCurrentMinuteTopic(void)
-{
-    MessageBroker_subscribe_ExpectAndReturn(
-        E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED,
-        PomodoroFsm_callback,
-        STATUS_OK);
-
-    MessageBroker_subscribe_ExpectAndReturn(
-        E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE,
-        PomodoroFsm_callback,
-        STATUS_OK);
-
-    MessageBroker_subscribe_ExpectAndReturn(
-        E_MESSAGE_BROKER_TOPIC_LCTRL_STATE_CHANGED,
-        PomodoroFsm_callback,
-        STATUS_OK);
-
-    PomodoroFsm_init();
 }
 
 void test_PomodoroFsm_currentMinuteCallback_should_SetCurrentMinuteInInputStruct(void)
@@ -240,30 +218,6 @@ void test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerB
 
     // Check the new state
     TEST_ASSERT_EQUAL(E_PFSM_STATE_IDLE, ePomodoroFsmState);
-}
-
-/**
- * Test the init function
- * - The init function shall subscribe to the state changes of the LightControl
- */
-void test_PomodoroFsm_init_should_SubscribeToLightControlStateChanges(void)
-{
-    MessageBroker_subscribe_ExpectAndReturn(
-        E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED,
-        PomodoroFsm_callback,
-        STATUS_OK);
-
-    MessageBroker_subscribe_ExpectAndReturn(
-        E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE,
-        PomodoroFsm_callback,
-        STATUS_OK);
-
-    MessageBroker_subscribe_ExpectAndReturn(
-        E_MESSAGE_BROKER_TOPIC_LCTRL_STATE_CHANGED,
-        PomodoroFsm_callback,
-        STATUS_OK);
-
-    PomodoroFsm_init();
 }
 
 /**
