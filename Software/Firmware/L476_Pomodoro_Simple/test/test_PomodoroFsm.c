@@ -37,8 +37,6 @@ void tearDown(void)
 
 void test_PomodoroFsm_init_should_SetInitialStateToIdle(void)
 {
-    helper_cleanInputs();
-
     ePomodoroFsmState = E_PFSM_STATE_WORKTIME;
     MessageBroker_subscribe_IgnoreAndReturn(STATUS_OK);
     PomodoroFsm_init();
@@ -345,7 +343,6 @@ void test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_LightCo
 
 void test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_TriggerButtonPressedMessage(void)
 {
-
     // The right Message needs to be sent out.
     MessageBroker_publish_IgnoreAndReturn(STATUS_OK);
 

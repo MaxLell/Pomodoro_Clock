@@ -5,8 +5,10 @@
 
 STATIC uint8_t u8WorktimeIntervalMin = 0;
 STATIC uint8_t u8BreaktimeIntervalMin = 0;
+
 STATIC uint8_t au8MinuteToColorArray[MINUTES_IN_HOUR] = {0};
 STATIC uint8_t au8LedToColorArray[TOTAL_LEDS] = {0};
+
 STATIC BOOL bSequenceWasInitialized = FALSE;
 STATIC uint8_t u8SequenceCounter = 0;
 STATIC BOOL bSequenceIsCompleted = TRUE;
@@ -179,47 +181,6 @@ status_t LightControl_removeColorsFromMinuteArray(uint8_t *inout_au8MinuteToColo
 
 status_t LightControl_execute(uint8_t in_u8CurrentMinute)
 {
-    /**
-     * This function shall be executed once every minute
-     */
-
-    // Input Checks
-    assert_true(in_u8CurrentMinute < MINUTES_IN_HOUR);
-    if (in_u8CurrentMinute >= MINUTES_IN_HOUR)
-    {
-        log_error("in_u8CurrentMinute is >= 60");
-        return STATUS_INVALID_ARG;
-    }
-
-    // Check if the minute has changed
-    if (u8PreviousMinute == in_u8CurrentMinute)
-    {
-        // The minute has not changed, so we do not need to execute the code
-        return STATUS_OK;
-    }
-    else
-    {
-        // The minute has changed
-
-        // Check if the color array has already been initialized
-        if (bSequenceWasInitialized == FALSE)
-        {
-            LightControl_init(in_u8CurrentMinute);
-        }
-        else
-        {
-            // If the sequence counter is 0, then the sequence is completed
-            if (u8SequenceCounter == 0)
-            {
-                LightControl_endSequence();
-            }
-            else
-            {
-                LightControl_runSequence(in_u8CurrentMinute);
-            }
-        }
-        return STATUS_OK;
-    }
 }
 
 status_t LightControl_init(uint8_t in_u8CurrentMinute)

@@ -3,7 +3,7 @@
 
 extern RTC_HandleTypeDef hrtc;
 
-status_t RealTimeClock_getCurrentMinute(uint8_t *u8Minute)
+status_t RealTimeClockHW_getTimeAndDate(RealTimeClock_TimeAndDate_t *inout_pTimeAndDate)
 {
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
@@ -22,6 +22,12 @@ status_t RealTimeClock_getCurrentMinute(uint8_t *u8Minute)
         return STATUS_UNKNOWN_ERR;
     }
 
-    *u8Minute = sTime.Minutes;
+    inout_pTimeAndDate->u8Hour = sTime.Hours;
+    inout_pTimeAndDate->u8Minute = sTime.Minutes;
+    inout_pTimeAndDate->u8Second = sTime.Seconds;
+    inout_pTimeAndDate->u8Day = sDate.Date;
+    inout_pTimeAndDate->u8Month = sDate.Month;
+    inout_pTimeAndDate->u8Year = sDate.Year;
+
     return STATUS_OK;
 }

@@ -8,6 +8,7 @@
         "testsupport.h": "c",
         "dbgmacros.h": "c",
         "lightcontrol.h": "c",
-        "messagebroker.h": "c"
+        "messagebroker.h": "c",
+        "__config": "c"
     }
 }

@@ -4,7 +4,6 @@
 #include "unity.h"
 #include "cmock.h"
 #include "mock_RealTimeClock_Hardware.h"
-#include "mock_MessageBroker.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -13,8 +12,7 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_RealTimeClock_publishTimeAndDate_should_PublishTheProvidedTimeAndDateViaTheMessageBroker(void);
-extern void test_RealTimeClock_init_should_SubscribeToTheE_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSEDTopic(void);
+extern void test_RealTimeClock_execute_with_MessageBroker_should_PublishTheTimeAndDateViaTheMessageBroker(void);
 
 
 /*=======Mock Management=====*/
@@ -24,17 +22,14 @@ static void CMock_Init(void)
   GlobalVerifyOrder = 0;
   GlobalOrderError = NULL;
   mock_RealTimeClock_Hardware_Init();
-  mock_MessageBroker_Init();
 }
 static void CMock_Verify(void)
 {
   mock_RealTimeClock_Hardware_Verify();
-  mock_MessageBroker_Verify();
 }
 static void CMock_Destroy(void)
 {
   mock_RealTimeClock_Hardware_Destroy();
-  mock_MessageBroker_Destroy();
 }
 
 /*=======Test Reset Options=====*/
@@ -84,9 +79,8 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 /*=======MAIN=====*/
 int main(void)
 {
-  UnityBegin("test_RealTimeClock.c");
-  run_test(test_RealTimeClock_publishTimeAndDate_should_PublishTheProvidedTimeAndDateViaTheMessageBroker, "test_RealTimeClock_publishTimeAndDate_should_PublishTheProvidedTimeAndDateViaTheMessageBroker", 21);
-  run_test(test_RealTimeClock_init_should_SubscribeToTheE_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSEDTopic, "test_RealTimeClock_init_should_SubscribeToTheE_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSEDTopic", 51);
+  UnityBegin("test_RealTimeClock_And_MessageBroker.c");
+  run_test(test_RealTimeClock_execute_with_MessageBroker_should_PublishTheTimeAndDateViaTheMessageBroker, "test_RealTimeClock_execute_with_MessageBroker_should_PublishTheTimeAndDateViaTheMessageBroker", 49);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

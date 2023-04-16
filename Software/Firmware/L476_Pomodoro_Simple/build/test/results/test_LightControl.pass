@@ -35,40 +35,12 @@
   :line: 226
   :message: ''
   :unity_test_time: 0
-- :test: test_LightControl_init_should_SetWorktimeAndBreaktimeInterval
-  :line: 253
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_init_should_FillMinuteToColorArray
-  :line: 268
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_init_should_SetSequenceCounter
-  :line: 294
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_init_should_SetSequenceInitializedFlagToTrue
-  :line: 313
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_endSequence_should_TurnOffAllLeds
-  :line: 328
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_endSequence_should_SetSequenceInitializedFlagToFalse
-  :line: 349
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_endSequence_should_SetSequenceCounterToZero
-  :line: 365
-  :message: ''
-  :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 15
-  :passed: 15
+  :total: 8
+  :passed: 8
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.005216000019572675
+:time: 0.004569999990053475

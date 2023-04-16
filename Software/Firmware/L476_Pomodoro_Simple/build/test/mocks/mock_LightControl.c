@@ -33,6 +33,9 @@ typedef struct _CMOCK_LightControl_fillMinuteToColorArray_CALL_INSTANCE
   uint8_t Expected_in_u8WorktimeIntervalMin;
   uint8_t Expected_in_u8BreaktimeIntervalMin;
   uint8_t* Expected_inout_au8ColorArray;
+  char ReturnThruPtr_inout_au8ColorArray_Used;
+  uint8_t* ReturnThruPtr_inout_au8ColorArray_Val;
+  size_t ReturnThruPtr_inout_au8ColorArray_Size;
   char IgnoreArg_in_u8CurrentMinute;
   char IgnoreArg_in_u8WorktimeIntervalMin;
   char IgnoreArg_in_u8BreaktimeIntervalMin;
@@ -47,6 +50,9 @@ typedef struct _CMOCK_LightControl_removeColorsFromMinuteArray_CALL_INSTANCE
   int CallOrder;
   uint8_t* Expected_inout_au8MinuteToColorArray;
   uint8_t Expected_in_u8CurrentMinute;
+  char ReturnThruPtr_inout_au8MinuteToColorArray_Used;
+  uint8_t* ReturnThruPtr_inout_au8MinuteToColorArray_Val;
+  size_t ReturnThruPtr_inout_au8MinuteToColorArray_Size;
   char IgnoreArg_inout_au8MinuteToColorArray;
   char IgnoreArg_in_u8CurrentMinute;
 
@@ -59,6 +65,12 @@ typedef struct _CMOCK_LightControl_fillLedToColorArray_CALL_INSTANCE
   int CallOrder;
   uint8_t* Expected_in_au8MinuteToColorArray;
   uint8_t* Expected_inout_au8LedToColorArray;
+  char ReturnThruPtr_in_au8MinuteToColorArray_Used;
+  uint8_t* ReturnThruPtr_in_au8MinuteToColorArray_Val;
+  size_t ReturnThruPtr_in_au8MinuteToColorArray_Size;
+  char ReturnThruPtr_inout_au8LedToColorArray_Used;
+  uint8_t* ReturnThruPtr_inout_au8LedToColorArray_Val;
+  size_t ReturnThruPtr_inout_au8LedToColorArray_Size;
   char IgnoreArg_in_au8MinuteToColorArray;
   char IgnoreArg_inout_au8LedToColorArray;
 
@@ -70,6 +82,9 @@ typedef struct _CMOCK_LightControl_setLedsToColor_CALL_INSTANCE
   status_t ReturnVal;
   int CallOrder;
   uint8_t* Expected_in_au8LedToColorArray;
+  char ReturnThruPtr_in_au8LedToColorArray_Used;
+  uint8_t* ReturnThruPtr_in_au8LedToColorArray_Val;
+  size_t ReturnThruPtr_in_au8LedToColorArray_Size;
   char IgnoreArg_in_au8LedToColorArray;
 
 } CMOCK_LightControl_setLedsToColor_CALL_INSTANCE;
@@ -118,6 +133,9 @@ typedef struct _CMOCK_LightControl_sequenceIsCompleted_CALL_INSTANCE
   status_t ReturnVal;
   int CallOrder;
   BOOL* Expected_out_bSequenceIsCompleted;
+  char ReturnThruPtr_out_bSequenceIsCompleted_Used;
+  BOOL* ReturnThruPtr_out_bSequenceIsCompleted_Val;
+  size_t ReturnThruPtr_out_bSequenceIsCompleted_Size;
   char IgnoreArg_out_bSequenceIsCompleted;
 
 } CMOCK_LightControl_sequenceIsCompleted_CALL_INSTANCE;
@@ -376,6 +394,12 @@ status_t LightControl_fillMinuteToColorArray(uint8_t in_u8CurrentMinute, uint8_t
   {
     cmock_call_instance->ReturnVal = Mock.LightControl_fillMinuteToColorArray_CallbackFunctionPointer(in_u8CurrentMinute, in_u8WorktimeIntervalMin, in_u8BreaktimeIntervalMin, inout_au8ColorArray, Mock.LightControl_fillMinuteToColorArray_CallbackCalls++);
   }
+  if (cmock_call_instance->ReturnThruPtr_inout_au8ColorArray_Used)
+  {
+    UNITY_TEST_ASSERT_NOT_NULL(inout_au8ColorArray, cmock_line, CMockStringPtrIsNULL);
+    memcpy((void*)inout_au8ColorArray, (void*)cmock_call_instance->ReturnThruPtr_inout_au8ColorArray_Val,
+      cmock_call_instance->ReturnThruPtr_inout_au8ColorArray_Size);
+  }
   UNITY_CLR_DETAILS();
   return cmock_call_instance->ReturnVal;
 }
@@ -391,6 +415,7 @@ void CMockExpectParameters_LightControl_fillMinuteToColorArray(CMOCK_LightContro
   cmock_call_instance->IgnoreArg_in_u8BreaktimeIntervalMin = 0;
   cmock_call_instance->Expected_inout_au8ColorArray = inout_au8ColorArray;
   cmock_call_instance->IgnoreArg_inout_au8ColorArray = 0;
+  cmock_call_instance->ReturnThruPtr_inout_au8ColorArray_Used = 0;
 }
 
 void LightControl_fillMinuteToColorArray_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, status_t cmock_to_return)
@@ -440,6 +465,15 @@ void LightControl_fillMinuteToColorArray_Stub(CMOCK_LightControl_fillMinuteToCol
   Mock.LightControl_fillMinuteToColorArray_IgnoreBool = (char)0;
   Mock.LightControl_fillMinuteToColorArray_CallbackBool = (char)0;
   Mock.LightControl_fillMinuteToColorArray_CallbackFunctionPointer = Callback;
+}
+
+void LightControl_fillMinuteToColorArray_CMockReturnMemThruPtr_inout_au8ColorArray(UNITY_LINE_TYPE cmock_line, uint8_t* inout_au8ColorArray, size_t cmock_size)
+{
+  CMOCK_LightControl_fillMinuteToColorArray_CALL_INSTANCE* cmock_call_instance = (CMOCK_LightControl_fillMinuteToColorArray_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.LightControl_fillMinuteToColorArray_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringPtrPreExp);
+  cmock_call_instance->ReturnThruPtr_inout_au8ColorArray_Used = 1;
+  cmock_call_instance->ReturnThruPtr_inout_au8ColorArray_Val = inout_au8ColorArray;
+  cmock_call_instance->ReturnThruPtr_inout_au8ColorArray_Size = cmock_size;
 }
 
 void LightControl_fillMinuteToColorArray_CMockIgnoreArg_in_u8CurrentMinute(UNITY_LINE_TYPE cmock_line)
@@ -516,6 +550,12 @@ status_t LightControl_removeColorsFromMinuteArray(uint8_t* inout_au8MinuteToColo
   {
     cmock_call_instance->ReturnVal = Mock.LightControl_removeColorsFromMinuteArray_CallbackFunctionPointer(inout_au8MinuteToColorArray, in_u8CurrentMinute, Mock.LightControl_removeColorsFromMinuteArray_CallbackCalls++);
   }
+  if (cmock_call_instance->ReturnThruPtr_inout_au8MinuteToColorArray_Used)
+  {
+    UNITY_TEST_ASSERT_NOT_NULL(inout_au8MinuteToColorArray, cmock_line, CMockStringPtrIsNULL);
+    memcpy((void*)inout_au8MinuteToColorArray, (void*)cmock_call_instance->ReturnThruPtr_inout_au8MinuteToColorArray_Val,
+      cmock_call_instance->ReturnThruPtr_inout_au8MinuteToColorArray_Size);
+  }
   UNITY_CLR_DETAILS();
   return cmock_call_instance->ReturnVal;
 }
@@ -525,6 +565,7 @@ void CMockExpectParameters_LightControl_removeColorsFromMinuteArray(CMOCK_LightC
 {
   cmock_call_instance->Expected_inout_au8MinuteToColorArray = inout_au8MinuteToColorArray;
   cmock_call_instance->IgnoreArg_inout_au8MinuteToColorArray = 0;
+  cmock_call_instance->ReturnThruPtr_inout_au8MinuteToColorArray_Used = 0;
   cmock_call_instance->Expected_in_u8CurrentMinute = in_u8CurrentMinute;
   cmock_call_instance->IgnoreArg_in_u8CurrentMinute = 0;
 }
@@ -576,6 +617,15 @@ void LightControl_removeColorsFromMinuteArray_Stub(CMOCK_LightControl_removeColo
   Mock.LightControl_removeColorsFromMinuteArray_IgnoreBool = (char)0;
   Mock.LightControl_removeColorsFromMinuteArray_CallbackBool = (char)0;
   Mock.LightControl_removeColorsFromMinuteArray_CallbackFunctionPointer = Callback;
+}
+
+void LightControl_removeColorsFromMinuteArray_CMockReturnMemThruPtr_inout_au8MinuteToColorArray(UNITY_LINE_TYPE cmock_line, uint8_t* inout_au8MinuteToColorArray, size_t cmock_size)
+{
+  CMOCK_LightControl_removeColorsFromMinuteArray_CALL_INSTANCE* cmock_call_instance = (CMOCK_LightControl_removeColorsFromMinuteArray_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.LightControl_removeColorsFromMinuteArray_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringPtrPreExp);
+  cmock_call_instance->ReturnThruPtr_inout_au8MinuteToColorArray_Used = 1;
+  cmock_call_instance->ReturnThruPtr_inout_au8MinuteToColorArray_Val = inout_au8MinuteToColorArray;
+  cmock_call_instance->ReturnThruPtr_inout_au8MinuteToColorArray_Size = cmock_size;
 }
 
 void LightControl_removeColorsFromMinuteArray_CMockIgnoreArg_inout_au8MinuteToColorArray(UNITY_LINE_TYPE cmock_line)
@@ -641,6 +691,18 @@ status_t LightControl_fillLedToColorArray(uint8_t* in_au8MinuteToColorArray, uin
   {
     cmock_call_instance->ReturnVal = Mock.LightControl_fillLedToColorArray_CallbackFunctionPointer(in_au8MinuteToColorArray, inout_au8LedToColorArray, Mock.LightControl_fillLedToColorArray_CallbackCalls++);
   }
+  if (cmock_call_instance->ReturnThruPtr_in_au8MinuteToColorArray_Used)
+  {
+    UNITY_TEST_ASSERT_NOT_NULL(in_au8MinuteToColorArray, cmock_line, CMockStringPtrIsNULL);
+    memcpy((void*)in_au8MinuteToColorArray, (void*)cmock_call_instance->ReturnThruPtr_in_au8MinuteToColorArray_Val,
+      cmock_call_instance->ReturnThruPtr_in_au8MinuteToColorArray_Size);
+  }
+  if (cmock_call_instance->ReturnThruPtr_inout_au8LedToColorArray_Used)
+  {
+    UNITY_TEST_ASSERT_NOT_NULL(inout_au8LedToColorArray, cmock_line, CMockStringPtrIsNULL);
+    memcpy((void*)inout_au8LedToColorArray, (void*)cmock_call_instance->ReturnThruPtr_inout_au8LedToColorArray_Val,
+      cmock_call_instance->ReturnThruPtr_inout_au8LedToColorArray_Size);
+  }
   UNITY_CLR_DETAILS();
   return cmock_call_instance->ReturnVal;
 }
@@ -650,8 +712,10 @@ void CMockExpectParameters_LightControl_fillLedToColorArray(CMOCK_LightControl_f
 {
   cmock_call_instance->Expected_in_au8MinuteToColorArray = in_au8MinuteToColorArray;
   cmock_call_instance->IgnoreArg_in_au8MinuteToColorArray = 0;
+  cmock_call_instance->ReturnThruPtr_in_au8MinuteToColorArray_Used = 0;
   cmock_call_instance->Expected_inout_au8LedToColorArray = inout_au8LedToColorArray;
   cmock_call_instance->IgnoreArg_inout_au8LedToColorArray = 0;
+  cmock_call_instance->ReturnThruPtr_inout_au8LedToColorArray_Used = 0;
 }
 
 void LightControl_fillLedToColorArray_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, status_t cmock_to_return)
@@ -701,6 +765,24 @@ void LightControl_fillLedToColorArray_Stub(CMOCK_LightControl_fillLedToColorArra
   Mock.LightControl_fillLedToColorArray_IgnoreBool = (char)0;
   Mock.LightControl_fillLedToColorArray_CallbackBool = (char)0;
   Mock.LightControl_fillLedToColorArray_CallbackFunctionPointer = Callback;
+}
+
+void LightControl_fillLedToColorArray_CMockReturnMemThruPtr_in_au8MinuteToColorArray(UNITY_LINE_TYPE cmock_line, uint8_t* in_au8MinuteToColorArray, size_t cmock_size)
+{
+  CMOCK_LightControl_fillLedToColorArray_CALL_INSTANCE* cmock_call_instance = (CMOCK_LightControl_fillLedToColorArray_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.LightControl_fillLedToColorArray_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringPtrPreExp);
+  cmock_call_instance->ReturnThruPtr_in_au8MinuteToColorArray_Used = 1;
+  cmock_call_instance->ReturnThruPtr_in_au8MinuteToColorArray_Val = in_au8MinuteToColorArray;
+  cmock_call_instance->ReturnThruPtr_in_au8MinuteToColorArray_Size = cmock_size;
+}
+
+void LightControl_fillLedToColorArray_CMockReturnMemThruPtr_inout_au8LedToColorArray(UNITY_LINE_TYPE cmock_line, uint8_t* inout_au8LedToColorArray, size_t cmock_size)
+{
+  CMOCK_LightControl_fillLedToColorArray_CALL_INSTANCE* cmock_call_instance = (CMOCK_LightControl_fillLedToColorArray_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.LightControl_fillLedToColorArray_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringPtrPreExp);
+  cmock_call_instance->ReturnThruPtr_inout_au8LedToColorArray_Used = 1;
+  cmock_call_instance->ReturnThruPtr_inout_au8LedToColorArray_Val = inout_au8LedToColorArray;
+  cmock_call_instance->ReturnThruPtr_inout_au8LedToColorArray_Size = cmock_size;
 }
 
 void LightControl_fillLedToColorArray_CMockIgnoreArg_in_au8MinuteToColorArray(UNITY_LINE_TYPE cmock_line)
@@ -758,6 +840,12 @@ status_t LightControl_setLedsToColor(uint8_t* in_au8LedToColorArray)
   {
     cmock_call_instance->ReturnVal = Mock.LightControl_setLedsToColor_CallbackFunctionPointer(in_au8LedToColorArray, Mock.LightControl_setLedsToColor_CallbackCalls++);
   }
+  if (cmock_call_instance->ReturnThruPtr_in_au8LedToColorArray_Used)
+  {
+    UNITY_TEST_ASSERT_NOT_NULL(in_au8LedToColorArray, cmock_line, CMockStringPtrIsNULL);
+    memcpy((void*)in_au8LedToColorArray, (void*)cmock_call_instance->ReturnThruPtr_in_au8LedToColorArray_Val,
+      cmock_call_instance->ReturnThruPtr_in_au8LedToColorArray_Size);
+  }
   UNITY_CLR_DETAILS();
   return cmock_call_instance->ReturnVal;
 }
@@ -767,6 +855,7 @@ void CMockExpectParameters_LightControl_setLedsToColor(CMOCK_LightControl_setLed
 {
   cmock_call_instance->Expected_in_au8LedToColorArray = in_au8LedToColorArray;
   cmock_call_instance->IgnoreArg_in_au8LedToColorArray = 0;
+  cmock_call_instance->ReturnThruPtr_in_au8LedToColorArray_Used = 0;
 }
 
 void LightControl_setLedsToColor_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, status_t cmock_to_return)
@@ -816,6 +905,15 @@ void LightControl_setLedsToColor_Stub(CMOCK_LightControl_setLedsToColor_CALLBACK
   Mock.LightControl_setLedsToColor_IgnoreBool = (char)0;
   Mock.LightControl_setLedsToColor_CallbackBool = (char)0;
   Mock.LightControl_setLedsToColor_CallbackFunctionPointer = Callback;
+}
+
+void LightControl_setLedsToColor_CMockReturnMemThruPtr_in_au8LedToColorArray(UNITY_LINE_TYPE cmock_line, uint8_t* in_au8LedToColorArray, size_t cmock_size)
+{
+  CMOCK_LightControl_setLedsToColor_CALL_INSTANCE* cmock_call_instance = (CMOCK_LightControl_setLedsToColor_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.LightControl_setLedsToColor_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringPtrPreExp);
+  cmock_call_instance->ReturnThruPtr_in_au8LedToColorArray_Used = 1;
+  cmock_call_instance->ReturnThruPtr_in_au8LedToColorArray_Val = in_au8LedToColorArray;
+  cmock_call_instance->ReturnThruPtr_in_au8LedToColorArray_Size = cmock_size;
 }
 
 void LightControl_setLedsToColor_CMockIgnoreArg_in_au8LedToColorArray(UNITY_LINE_TYPE cmock_line)
@@ -1266,6 +1364,12 @@ status_t LightControl_sequenceIsCompleted(BOOL* out_bSequenceIsCompleted)
   {
     cmock_call_instance->ReturnVal = Mock.LightControl_sequenceIsCompleted_CallbackFunctionPointer(out_bSequenceIsCompleted, Mock.LightControl_sequenceIsCompleted_CallbackCalls++);
   }
+  if (cmock_call_instance->ReturnThruPtr_out_bSequenceIsCompleted_Used)
+  {
+    UNITY_TEST_ASSERT_NOT_NULL(out_bSequenceIsCompleted, cmock_line, CMockStringPtrIsNULL);
+    memcpy((void*)out_bSequenceIsCompleted, (void*)cmock_call_instance->ReturnThruPtr_out_bSequenceIsCompleted_Val,
+      cmock_call_instance->ReturnThruPtr_out_bSequenceIsCompleted_Size);
+  }
   UNITY_CLR_DETAILS();
   return cmock_call_instance->ReturnVal;
 }
@@ -1275,6 +1379,7 @@ void CMockExpectParameters_LightControl_sequenceIsCompleted(CMOCK_LightControl_s
 {
   cmock_call_instance->Expected_out_bSequenceIsCompleted = out_bSequenceIsCompleted;
   cmock_call_instance->IgnoreArg_out_bSequenceIsCompleted = 0;
+  cmock_call_instance->ReturnThruPtr_out_bSequenceIsCompleted_Used = 0;
 }
 
 void LightControl_sequenceIsCompleted_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, status_t cmock_to_return)
@@ -1324,6 +1429,15 @@ void LightControl_sequenceIsCompleted_Stub(CMOCK_LightControl_sequenceIsComplete
   Mock.LightControl_sequenceIsCompleted_IgnoreBool = (char)0;
   Mock.LightControl_sequenceIsCompleted_CallbackBool = (char)0;
   Mock.LightControl_sequenceIsCompleted_CallbackFunctionPointer = Callback;
+}
+
+void LightControl_sequenceIsCompleted_CMockReturnMemThruPtr_out_bSequenceIsCompleted(UNITY_LINE_TYPE cmock_line, BOOL* out_bSequenceIsCompleted, size_t cmock_size)
+{
+  CMOCK_LightControl_sequenceIsCompleted_CALL_INSTANCE* cmock_call_instance = (CMOCK_LightControl_sequenceIsCompleted_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.LightControl_sequenceIsCompleted_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringPtrPreExp);
+  cmock_call_instance->ReturnThruPtr_out_bSequenceIsCompleted_Used = 1;
+  cmock_call_instance->ReturnThruPtr_out_bSequenceIsCompleted_Val = out_bSequenceIsCompleted;
+  cmock_call_instance->ReturnThruPtr_out_bSequenceIsCompleted_Size = cmock_size;
 }
 
 void LightControl_sequenceIsCompleted_CMockIgnoreArg_out_bSequenceIsCompleted(UNITY_LINE_TYPE cmock_line)

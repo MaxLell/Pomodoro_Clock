@@ -690,9 +690,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_Trigger
 
 
 
-
-
-    MessageBroker_publish_CMockIgnoreAndReturn(350, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(349, (0));
 
 
 
@@ -720,16 +718,16 @@ void test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_Trigger
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(364), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(363), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(365), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(364), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_BREAKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(366), UNITY_DISPLAY_STYLE_INT);
-
-
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_BREAKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(365), UNITY_DISPLAY_STYLE_INT);
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(369), UNITY_DISPLAY_STYLE_INT);
+
+
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(368), UNITY_DISPLAY_STYLE_INT);
 
 }

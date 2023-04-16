@@ -41,3 +41,5 @@ User/PomodoroFsm/PomodoroFsm.c:
 - TEST
 build/test/mocks/mock_LightControl.c:
 - TEST
+build/test/mocks/mock_RealTimeClock_Hardware.c:
+- TEST

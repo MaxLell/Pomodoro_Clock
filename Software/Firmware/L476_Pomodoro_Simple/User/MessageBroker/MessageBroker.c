@@ -17,6 +17,7 @@ STATIC MessageBroker_msgDictinary_t sTopicCurrentMinute;
 STATIC MessageBroker_msgDictinary_t sTopicOnSecondPassed;
 STATIC MessageBroker_msgDictinary_t sTopicPomodoroFsmStateChanged;
 STATIC MessageBroker_msgDictinary_t sTopicLctrlStateChanged;
+STATIC MessageBroker_msgDictinary_t sTopicTimeAndDate;
 
 /* Contains all dictinaries, so that they can be searched through iterativly */
 STATIC MessageBroker_msgDictinary_t *sMessageTopicIndex[E_MESSAGE_BROKER_LAST_TOPIC] = {NULL};
@@ -38,6 +39,7 @@ status_t MessageBroker_init()
     sTopicOnSecondPassed.eMsgTopic = E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED;
     sTopicPomodoroFsmStateChanged.eMsgTopic = E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED;
     sTopicLctrlStateChanged.eMsgTopic = E_MESSAGE_BROKER_TOPIC_LCTRL_STATE_CHANGED;
+    sTopicTimeAndDate.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE;
 
     /* Place the different topics / message types in the Library */
     sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED] = &sTopicTriggerButton;
@@ -45,6 +47,7 @@ status_t MessageBroker_init()
     sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED] = &sTopicOnSecondPassed;
     sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED] = &sTopicPomodoroFsmStateChanged;
     sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_LCTRL_STATE_CHANGED] = &sTopicLctrlStateChanged;
+    sMessageTopicIndex[E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE] = &sTopicTimeAndDate;
 
     /* set all the elements of the Callback arrays to zero */
     for (uint16_t topic = 0; topic < E_MESSAGE_BROKER_LAST_TOPIC; topic++)

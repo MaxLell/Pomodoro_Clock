@@ -43,4 +43,8 @@ status_t LightControl_execute(uint8_t in_u8CurrentMinute);
 
 status_t LightControl_sequenceIsCompleted(BOOL *out_bSequenceIsCompleted);
 
+// status_t LightControl_execute();
+
+// void LightControl_init();
+
 #endif // LIGHTCONTROL_H
