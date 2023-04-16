@@ -240,8 +240,8 @@ void test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_Lig
     MessageBroker_message_t sMessage;
     sMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_LCTRL_STATE_CHANGED;
     uint8_t u8Data[2] = {
-        E_LCTRL_STATE_BREAKTIME,
-        E_LCTRL_STATE_WORKTIME};
+        E_LCTRL_STATE_POMODORO_BREAKTIME,
+        E_LCTRL_STATE_POMODORO_WORKTIME};
     sMessage.au8DataBytes = u8Data;
     status_t sStatus = PomodoroFsm_callback(sMessage);
     TEST_ASSERT_EQUAL(STATUS_OK, sStatus);
@@ -276,7 +276,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_LightCo
     sMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_LCTRL_STATE_CHANGED;
     uint8_t u8Data[2] = {
         E_LCTRL_STATE_IDLE,
-        E_LCTRL_STATE_BREAKTIME};
+        E_LCTRL_STATE_POMODORO_BREAKTIME};
     sMessage.au8DataBytes = u8Data;
     status_t sStatus = PomodoroFsm_callback(sMessage);
     TEST_ASSERT_EQUAL(STATUS_OK, sStatus);

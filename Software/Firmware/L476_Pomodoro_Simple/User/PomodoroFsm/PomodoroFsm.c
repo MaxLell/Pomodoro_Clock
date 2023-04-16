@@ -59,7 +59,9 @@ void PomodoroFsm_init(void)
         PomodoroFsm_callback);
 }
 
-STATIC status_t PomodoroFsm_publishMessage(PomodoroFsm_state_e in_eNextState, PomodoroFsm_state_e in_eCurrentState)
+STATIC status_t PomodoroFsm_publishMessage(
+    PomodoroFsm_state_e in_eNextState,
+    PomodoroFsm_state_e in_eCurrentState)
 {
     sPublishingMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED;
     sPublishingMessage.u16DataSize = 2;
@@ -139,7 +141,7 @@ void PomodoroFsm_execute(void)
                 E_PFSM_STATE_WORKTIME);
         }
 
-        if (sPomodoroFsmInputs.u8LightControlState == E_LCTRL_STATE_BREAKTIME)
+        if (sPomodoroFsmInputs.u8LightControlState == E_LCTRL_STATE_POMODORO_BREAKTIME)
         {
             // Set the state to break time
             ePomodoroFsmState = E_PFSM_STATE_BREAKTIME;

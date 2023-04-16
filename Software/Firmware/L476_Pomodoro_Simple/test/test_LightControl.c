@@ -2,7 +2,9 @@
 #include "Common.h"
 #include "Config.h"
 #include "LightControl.h"
+#include "mock_MessageBroker.h"
 #include "mock_RgbLed.h"
+#include "PomodoroFsm.h"
 
 void setUp(void)
 {
@@ -11,6 +13,36 @@ void setUp(void)
 void tearDown(void)
 {
 }
+
+/**
+ * Extern static functions
+ */
+extern status_t LightControl_fillMinuteToColorArray(uint8_t in_u8CurrentMinute,
+                                                    uint8_t in_u8WorktimeIntervalMin,
+                                                    uint8_t in_u8BreaktimeIntervalMin,
+                                                    uint8_t *inout_au8ColorArray);
+
+extern status_t LightControl_removeColorsFromMinuteArray(uint8_t *inout_au8MinuteToColorArray,
+                                                         uint8_t in_u8CurrentMinute);
+
+extern status_t LightControl_fillLedToColorArray(uint8_t *in_au8MinuteToColorArray,
+                                                 uint8_t *inout_au8LedToColorArray);
+
+extern status_t LightControl_setLedsToColor(uint8_t *in_au8LedToColorArray);
+
+/**
+ * extern static variables
+ */
+
+extern uint8_t u8PFsmState;
+extern uint8_t u8CurrentMinute;
+extern uint8_t u8PFsmState;
+extern uint8_t u8LightControlState;
+extern BOOL bPomodoroSequenceInitialized;
+
+/**
+ * Helper functions
+ */
 
 void helper_printArray(uint8_t *in_au8Array, uint8_t in_u8ArraySize)
 {
@@ -248,4 +280,167 @@ void test_LightControl_removeColorsFromMinuteArray_Test13()
  * Tests for LightControl_init()
  * - It shall subscribe to the current time topic
  * - It shall subscribe to the PFSM State Change topic
+ */
+void test_LightControl_init_should_SubscribeToMessageBrokerTopics()
+{
+    // Subscribe to the current time topic
+    MessageBroker_subscribe_ExpectAndReturn(
+        E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE,
+        NULL,
+        STATUS_OK);
+    MessageBroker_subscribe_IgnoreArg_in_p32FunctionCallback();
+
+    // Subscribe to the PFSM State Change topic
+    MessageBroker_subscribe_ExpectAndReturn(
+        E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED,
+        NULL,
+        STATUS_OK);
+    MessageBroker_subscribe_IgnoreArg_in_p32FunctionCallback();
+    LightControl_init();
+}
+
+/**
+ * Tests for LightControl_init()
+ * - It shall set the internal Pfsm state to Idle
+ * - It shall set the internal LightControl State to Idle
+ */
+void test_LightControl_init_should_SetInternalPfsmAndLightControlStateToIdle()
+{
+    // Subscribe to the current time topic
+    MessageBroker_subscribe_ExpectAndReturn(
+        E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE,
+        NULL,
+        STATUS_OK);
+    MessageBroker_subscribe_IgnoreArg_in_p32FunctionCallback();
+
+    // Subscribe to the PFSM State Change topic
+    MessageBroker_subscribe_ExpectAndReturn(
+        E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED,
+        NULL,
+        STATUS_OK);
+    MessageBroker_subscribe_IgnoreArg_in_p32FunctionCallback();
+
+    LightControl_init();
+
+    TEST_ASSERT_EQUAL(E_PFSM_STATE_IDLE, u8PFsmState);
+    TEST_ASSERT_EQUAL(E_LCTRL_STATE_IDLE, u8LightControlState);
+}
+
+/**
+ * Tests for LightControl_messageBrokerCallback()
+ * - should parse the current time and set the current minute
+ */
+
+extern status_t LightControl_messageBrokerCallback(MessageBroker_message_t in_tMessage);
+void test_LightControl_messageBrokerCallback_should_ParseCurrentTimeAndSetCurrentMinute()
+{
+    MessageBroker_message_t tTestMessage;
+    tTestMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE;
+    uint8_t au8TestTime[2] = {0, 50};
+    tTestMessage.au8DataBytes = au8TestTime;
+    tTestMessage.u16DataSize = 2;
+    LightControl_messageBrokerCallback(tTestMessage);
+
+    TEST_ASSERT_EQUAL(50, u8CurrentMinute);
+}
+
+/**
+ * Tests for LightControl_messageBrokerCallback()
+ * - should parse the PFSM state
+ */
+
+void test_LightControl_messageBrokerCallback_should_ParsePFSMState()
+{
+    u8PFsmState = 0;
+    MessageBroker_message_t tTestMessage;
+    tTestMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED;
+    uint8_t au8TestPFSMStates[2] = {E_PFSM_STATE_SEEKING_ATTENTION, E_PFSM_STATE_IDLE};
+    tTestMessage.au8DataBytes = au8TestPFSMStates;
+    tTestMessage.u16DataSize = 2;
+    LightControl_messageBrokerCallback(tTestMessage);
+
+    TEST_ASSERT_EQUAL(E_PFSM_STATE_SEEKING_ATTENTION, u8PFsmState);
+}
+
+/**
+ * Tests for LightControl_messageBrokerCallback()
+ * - should return STATUS_OK when everything is fine
+ */
+void test_LightControl_messageBrokerCallback_should_ReturnStatusOk_when_EverythingIsFine()
+{
+    MessageBroker_message_t tTestMessage;
+    tTestMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE;
+    uint8_t au8TestTime[2] = {0, 50};
+    tTestMessage.au8DataBytes = au8TestTime;
+    tTestMessage.u16DataSize = 2;
+    TEST_ASSERT_EQUAL(STATUS_OK, LightControl_messageBrokerCallback(tTestMessage));
+
+    tTestMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED;
+    uint8_t au8TestPFSMStates[2] = {E_PFSM_STATE_SEEKING_ATTENTION, E_PFSM_STATE_IDLE};
+    tTestMessage.au8DataBytes = au8TestPFSMStates;
+    tTestMessage.u16DataSize = 2;
+    TEST_ASSERT_EQUAL(STATUS_OK, LightControl_messageBrokerCallback(tTestMessage));
+}
+
+/**
+ * Tests for LightControl_messageBrokerCallback()
+ * - should return STATUS_INVALID_ARG when the message topic is not supported
+ */
+void test_LightControl_messageBrokerCallback_should_ReturnStatusInvalidArg_when_MessageTopicIsNotSupported()
+{
+    MessageBroker_message_t tTestMessage;
+    tTestMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED + 1;
+    uint8_t au8TestTime[2] = {0, 50};
+    tTestMessage.au8DataBytes = au8TestTime;
+    tTestMessage.u16DataSize = 2;
+    TEST_ASSERT_EQUAL(STATUS_INVALID_ARG, LightControl_messageBrokerCallback(tTestMessage));
+}
+
+/**
+ * Tests for LightControl_execute()
+ * - should return STATUS_OK when everything is fine
+ */
+
+void test_LightControl_execute_should_ReturnStatusOk_when_EverythingIsFine()
+{
+    TEST_ASSERT_EQUAL(STATUS_OK, LightControl_execute());
+}
+
+/**
+ * Tests for LightControl_execute()
+ * - Should transition from Idle to SeekingAttention when PFSM changes to SeekingAttention
+ */
+
+void test_LightControl_execute_should_TransitionFromIdleToSeekingAttention_when_PFSMChangesToSeekingAttention()
+{
+    u8PFsmState = E_PFSM_STATE_IDLE;
+    u8LightControlState = E_LCTRL_STATE_IDLE;
+    LightControl_execute();
+    TEST_ASSERT_EQUAL(E_LCTRL_STATE_IDLE, u8LightControlState);
+
+    u8PFsmState = E_PFSM_STATE_SEEKING_ATTENTION;
+    LightControl_execute();
+    TEST_ASSERT_EQUAL(E_LCTRL_STATE_SEEKING_ATTENTION, u8LightControlState);
+}
+
+/**
+ * Tests for LightControl_execute()
+ * - Should transition from SeekingAttention to Pomodoro Worktime when PFSM changes to Worktime
+ */
+
+void test_LightControl_execute_should_TransitionFromSeekingAttentionToPomodoroWorktime_when_PFSMChangesToWorktime()
+{
+    u8PFsmState = E_PFSM_STATE_SEEKING_ATTENTION;
+    u8LightControlState = E_LCTRL_STATE_SEEKING_ATTENTION;
+    LightControl_execute();
+    TEST_ASSERT_EQUAL(E_LCTRL_STATE_SEEKING_ATTENTION, u8LightControlState);
+
+    u8PFsmState = E_PFSM_STATE_WORKTIME;
+    LightControl_execute();
+    TEST_ASSERT_EQUAL(E_LCTRL_STATE_POMODORO_WORKTIME, u8LightControlState);
+}
+
+/**
+ * Tests for LightControl_execute()
+ * - When in Pomodoro Worktime state, the Array should be initialized once
  */

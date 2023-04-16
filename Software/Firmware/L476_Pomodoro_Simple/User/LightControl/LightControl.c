@@ -2,6 +2,12 @@
 #include "RgbLed.h"
 #include "Common.h"
 #include "Config.h"
+#include "MessageBroker.h"
+#include "PomodoroFsm.h"
+
+/**
+ * Static Variables
+ */
 
 STATIC uint8_t u8WorktimeIntervalMin = 0;
 STATIC uint8_t u8BreaktimeIntervalMin = 0;
@@ -13,12 +19,39 @@ STATIC BOOL bSequenceWasInitialized = FALSE;
 STATIC uint8_t u8SequenceCounter = 0;
 STATIC BOOL bSequenceIsCompleted = TRUE;
 
+STATIC uint8_t u8CurrentMinute = MINUTES_IN_HOUR + 10;  // Gives it an impossible value
 STATIC uint8_t u8PreviousMinute = MINUTES_IN_HOUR + 10; // Gives it an impossible value
 
-status_t LightControl_fillMinuteToColorArray(uint8_t in_u8CurrentMinute,
-                                             uint8_t in_u8WorktimeIntervalMin,
-                                             uint8_t in_u8BreaktimeIntervalMin,
-                                             uint8_t *inout_au8ColorArray)
+STATIC uint8_t u8PFsmState = 100;         // Gives it an impossible value
+STATIC uint8_t u8LightControlState = 100; // Gives it an impossible value
+
+STATIC BOOL bPomodoroSequenceInitialized = FALSE;
+
+/**
+ * Static Function Prototypes
+ */
+
+STATIC status_t LightControl_fillMinuteToColorArray(uint8_t in_u8CurrentMinute,
+                                                    uint8_t in_u8WorktimeIntervalMin,
+                                                    uint8_t in_u8BreaktimeIntervalMin,
+                                                    uint8_t *inout_au8ColorArray);
+
+STATIC status_t LightControl_removeColorsFromMinuteArray(uint8_t *inout_au8MinuteToColorArray,
+                                                         uint8_t in_u8CurrentMinute);
+
+STATIC status_t LightControl_fillLedToColorArray(uint8_t *in_au8MinuteToColorArray,
+                                                 uint8_t *inout_au8LedToColorArray);
+
+STATIC status_t LightControl_setLedsToColor(uint8_t *in_au8LedToColorArray);
+
+/**
+ * Static Functions Definitions
+ */
+
+STATIC status_t LightControl_fillMinuteToColorArray(uint8_t in_u8CurrentMinute,
+                                                    uint8_t in_u8WorktimeIntervalMin,
+                                                    uint8_t in_u8BreaktimeIntervalMin,
+                                                    uint8_t *inout_au8ColorArray)
 {
     // Input Checks
     assert_true(inout_au8ColorArray != NULL);
@@ -179,122 +212,206 @@ status_t LightControl_removeColorsFromMinuteArray(uint8_t *inout_au8MinuteToColo
     return STATUS_OK;
 }
 
-status_t LightControl_execute(uint8_t in_u8CurrentMinute)
-{
-}
-
-status_t LightControl_init(uint8_t in_u8CurrentMinute)
+status_t LightControl_initSequence(uint8_t in_u8CurrentMinute)
 {
     status_t tStatus = STATUS_OK;
 
     // Get the Worktime Interval from the Config
     tStatus = Config_getWorktime(&u8WorktimeIntervalMin);
-    if (tStatus != STATUS_OK)
-    {
-        log_error("Config_getWorktime returned an error");
-        return tStatus;
-    }
 
     // Get the Breaktime Interval from the Config
     tStatus = Config_getBreaktime(&u8BreaktimeIntervalMin);
-    if (tStatus != STATUS_OK)
-    {
-        log_error("Config_getBreaktime returned an error");
-        return tStatus;
-    }
 
     // Fill the Minute to Color Array)
-    tStatus = LightControl_fillMinuteToColorArray(in_u8CurrentMinute, u8WorktimeIntervalMin, u8BreaktimeIntervalMin, au8MinuteToColorArray);
-    if (tStatus != STATUS_OK)
-    {
-        log_error("LightControl_fillMinuteToColorArray returned an error");
-        return tStatus;
-    }
-    // Sequence was initialized
-    bSequenceWasInitialized = TRUE;
+    tStatus = LightControl_fillMinuteToColorArray(
+        in_u8CurrentMinute,
+        u8WorktimeIntervalMin,
+        u8BreaktimeIntervalMin,
+        au8MinuteToColorArray);
 
     // Set the sequence counter to u8WorktimeIntervalMin + u8BreaktimeIntervalMin
     u8SequenceCounter = u8WorktimeIntervalMin + u8BreaktimeIntervalMin;
 
-    // Set the sequence is completed flag to false
-    bSequenceIsCompleted = FALSE;
+    if (STATUS_OK != tStatus)
+    {
+        log_error("LightControl_initSequence failed");
+        return tStatus;
+    }
+    else
+    {
+        return STATUS_OK;
+    }
+}
 
+// status_t LightControl_endSequence(void)
+// {
+//     // Set the all LEDs in the au8LedToColorArray to LED_OFF
+//     for (uint8_t i = 0; i < TOTAL_LEDS; i++)
+//     {
+//         au8LedToColorArray[i] = LIGHTCONTROL_LED_OFF;
+//     }
+//     status_t tStatus = LightControl_setLedsToColor(au8LedToColorArray);
+//     if (tStatus != STATUS_OK)
+//     {
+//         log_error("LightControl_setLedsToColor returned an error");
+//         return tStatus;
+//     }
+
+//     // Set the sequence counter to 0
+//     u8SequenceCounter = 0;
+
+//     // Set the sequence was initialized flag to false
+//     bSequenceWasInitialized = FALSE;
+
+//     // Set the sequence is completed flag to true
+//     bSequenceIsCompleted = TRUE;
+
+//     return STATUS_OK;
+// }
+
+// status_t LightControl_runSequence(uint8_t in_u8CurrentMinute)
+// {
+//     // Remove the color from the minute array
+//     status_t tStatus = LightControl_removeColorsFromMinuteArray(au8MinuteToColorArray, u8PreviousMinute);
+//     if (tStatus != STATUS_OK)
+//     {
+//         log_error("LightControl_removeColorsFromMinuteArray returned an error");
+//         return tStatus;
+//     }
+
+//     // Fill the LED Array
+//     tStatus = LightControl_fillLedToColorArray(au8MinuteToColorArray, au8LedToColorArray);
+//     if (tStatus != STATUS_OK)
+//     {
+//         log_error("LightControl_fillLedToRgbArray returned an error");
+//         return tStatus;
+//     }
+
+//     // Set the LEDs to the respective color
+//     tStatus = LightControl_setLedsToColor(au8LedToColorArray);
+//     if (tStatus != STATUS_OK)
+//     {
+//         log_error("LightControl_setLedsToColor returned an error");
+//         return tStatus;
+//     }
+
+//     // Update the previous minute
+//     u8PreviousMinute = in_u8CurrentMinute;
+
+//     // Decrement the sequence counter
+//     u8SequenceCounter--;
+
+//     return STATUS_OK;
+// }
+
+// status_t LightControl_sequenceIsCompleted(BOOL *out_bSequenceIsCompleted)
+// {
+//     // Input Checks
+//     assert_true(out_bSequenceIsCompleted != NULL);
+//     if (out_bSequenceIsCompleted == NULL)
+//     {
+//         log_error("out_bSequenceIsCompleted is NULL");
+//         return STATUS_NULL_POINTER;
+//     }
+
+//     // Set the out_bSequenceIsCompleted to the bSequenceIsCompleted flag
+//     *out_bSequenceIsCompleted = bSequenceIsCompleted;
+
+//     return STATUS_OK;
+// }
+
+STATIC status_t LightControl_messageBrokerCallback(MessageBroker_message_t in_tMessage)
+{
+    switch (in_tMessage.eMsgTopic)
+    {
+    case E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE:
+        // Parse the Minute from the data
+        u8CurrentMinute = in_tMessage.au8DataBytes[1];
+        break;
+    case E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED:
+
+        // Parse the State from the data - Index 0 = New State
+        u8PFsmState = in_tMessage.au8DataBytes[0];
+        break;
+    default:
+        log_error("Unknown Message Topic");
+        return STATUS_INVALID_ARG;
+    }
     return STATUS_OK;
 }
 
-status_t LightControl_endSequence(void)
+void LightControl_init()
 {
-    // Set the all LEDs in the au8LedToColorArray to LED_OFF
-    for (uint8_t i = 0; i < TOTAL_LEDS; i++)
-    {
-        au8LedToColorArray[i] = LIGHTCONTROL_LED_OFF;
-    }
-    status_t tStatus = LightControl_setLedsToColor(au8LedToColorArray);
-    if (tStatus != STATUS_OK)
-    {
-        log_error("LightControl_setLedsToColor returned an error");
-        return tStatus;
-    }
+    // Subscribe to the Message Broker Topics
+    MessageBroker_subscribe(
+        E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE,
+        LightControl_messageBrokerCallback);
 
-    // Set the sequence counter to 0
-    u8SequenceCounter = 0;
+    MessageBroker_subscribe(
+        E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED,
+        LightControl_messageBrokerCallback);
 
-    // Set the sequence was initialized flag to false
-    bSequenceWasInitialized = FALSE;
-
-    // Set the sequence is completed flag to true
-    bSequenceIsCompleted = TRUE;
-
-    return STATUS_OK;
+    // Set internal States
+    u8PFsmState = E_PFSM_STATE_IDLE;
+    u8LightControlState = E_LCTRL_STATE_IDLE;
 }
 
-status_t LightControl_runSequence(uint8_t in_u8CurrentMinute)
+status_t LightControl_execute()
 {
-    // Remove the color from the minute array
-    status_t tStatus = LightControl_removeColorsFromMinuteArray(au8MinuteToColorArray, u8PreviousMinute);
-    if (tStatus != STATUS_OK)
+    switch (u8LightControlState)
     {
-        log_error("LightControl_removeColorsFromMinuteArray returned an error");
-        return tStatus;
+    case E_LCTRL_STATE_IDLE:
+        // Check if the PFsm State is Worktime
+        switch (u8PFsmState)
+        {
+        case E_PFSM_STATE_IDLE:
+            // Set the LightControl State to Idle
+            u8LightControlState = E_LCTRL_STATE_IDLE;
+            break;
+
+        case E_PFSM_STATE_WORKTIME:
+            // Set the LightControl State to Pomodoro Worktime
+            u8LightControlState = E_LCTRL_STATE_POMODORO_WORKTIME;
+            break;
+
+        case E_PFSM_STATE_SEEKING_ATTENTION:
+            // Set the LightControl State to Seeking Attention
+            u8LightControlState = E_LCTRL_STATE_SEEKING_ATTENTION;
+            break;
+
+        default:
+            log_error("Unknown State");
+            return STATUS_INVALID_ARG;
+            break;
+        }
+        break;
+
+    case E_LCTRL_STATE_SEEKING_ATTENTION:
+        // Check if the PFsm State is Seeking Attention
+        switch (u8PFsmState)
+        {
+        case E_PFSM_STATE_WORKTIME:
+            // Change the LightControl State to Pomodoro Worktime
+            u8LightControlState = E_LCTRL_STATE_POMODORO_WORKTIME;
+            break;
+
+        case E_PFSM_STATE_SEEKING_ATTENTION:
+            // Do the LightControl Routine for Seeking Attention
+            // TBD
+            break;
+
+        default:
+            log_error("Unknown State");
+            return STATUS_INVALID_ARG;
+            break;
+        }
+        break;
+
+    default:
+        log_error("Unknown State");
+        return STATUS_INVALID_ARG;
+        break;
+
+        return STATUS_OK;
     }
-
-    // Fill the LED Array
-    tStatus = LightControl_fillLedToColorArray(au8MinuteToColorArray, au8LedToColorArray);
-    if (tStatus != STATUS_OK)
-    {
-        log_error("LightControl_fillLedToRgbArray returned an error");
-        return tStatus;
-    }
-
-    // Set the LEDs to the respective color
-    tStatus = LightControl_setLedsToColor(au8LedToColorArray);
-    if (tStatus != STATUS_OK)
-    {
-        log_error("LightControl_setLedsToColor returned an error");
-        return tStatus;
-    }
-
-    // Update the previous minute
-    u8PreviousMinute = in_u8CurrentMinute;
-
-    // Decrement the sequence counter
-    u8SequenceCounter--;
-
-    return STATUS_OK;
-}
-
-status_t LightControl_sequenceIsCompleted(BOOL *out_bSequenceIsCompleted)
-{
-    // Input Checks
-    assert_true(out_bSequenceIsCompleted != NULL);
-    if (out_bSequenceIsCompleted == NULL)
-    {
-        log_error("out_bSequenceIsCompleted is NULL");
-        return STATUS_NULL_POINTER;
-    }
-
-    // Set the out_bSequenceIsCompleted to the bSequenceIsCompleted flag
-    *out_bSequenceIsCompleted = bSequenceIsCompleted;
-
-    return STATUS_OK;
 }

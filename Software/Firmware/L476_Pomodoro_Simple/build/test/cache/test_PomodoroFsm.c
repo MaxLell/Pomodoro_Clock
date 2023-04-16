@@ -462,9 +462,9 @@ void test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_Lig
 
     uint8_t u8Data[2] = {
 
-        E_LCTRL_STATE_BREAKTIME,
+        E_LCTRL_STATE_POMODORO_BREAKTIME,
 
-        E_LCTRL_STATE_WORKTIME};
+        E_LCTRL_STATE_POMODORO_WORKTIME};
 
     sMessage.au8DataBytes = u8Data;
 
@@ -534,7 +534,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_LightCo
 
         E_LCTRL_STATE_IDLE,
 
-        E_LCTRL_STATE_BREAKTIME};
+        E_LCTRL_STATE_POMODORO_BREAKTIME};
 
     sMessage.au8DataBytes = u8Data;
 

@@ -3,4 +3,6 @@
 - User/Common/Common.h
 - User/Common/Config.h
 - User/LightControl/LightControl.h
+- build/test/mocks/mock_MessageBroker.h
 - build/test/mocks/mock_RgbLed.h
+- User/PomodoroFsm/PomodoroFsm.h
