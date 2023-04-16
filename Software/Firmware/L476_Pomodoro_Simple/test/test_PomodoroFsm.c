@@ -52,10 +52,9 @@ void test_PomodoroFsm_init_should_SetInitialStateToIdle(void)
 
 void test_PomodoroFsm_init_should_SubscribeToTriggerButtonPressedTopic(void)
 {
-    MessageBroker_publish_IgnoreArg_in_tMessage();
     MessageBroker_subscribe_ExpectAndReturn(
         E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED,
-        NULL,
+        PomodoroFsm_callback,
         STATUS_OK);
 
     MessageBroker_subscribe_ExpectAndReturn(
@@ -124,8 +123,11 @@ void test_PomodoroFsm_currentMinuteCallback_should_SetCurrentMinuteInInputStruct
     uint8_t u8CurrentMinute = 5;
 
     MessageBroker_message_t sMessage;
-    sMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE;
-    sMessage.au8DataBytes = &u8CurrentMinute;
+    sMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE;
+
+    uint8_t mockData[2] = {0, u8CurrentMinute};
+
+    sMessage.au8DataBytes = mockData;
     PomodoroFsm_callback(sMessage);
 
     TEST_ASSERT_EQUAL(u8CurrentMinute, sPomodoroFsmInputs.u8CurrentMinute);
@@ -141,7 +143,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_
     MessageBroker_publish_IgnoreAndReturn(STATUS_OK);
 
     MessageBroker_message_t sMessage;
-    sMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE;
+    sMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE;
     uint8_t u8CurrentMinute = 10;
 
     // Starting State
@@ -152,7 +154,8 @@ void test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_
     for (uint8_t u8Counter = u8CurrentMinute; u8Counter < (5 + u8CurrentMinute + 1); u8Counter++)
     {
         // This sets the Button Pressed flag in the Input struct
-        sMessage.au8DataBytes = &u8Counter;
+        uint8_t mockData[2] = {0, u8Counter};
+        sMessage.au8DataBytes = mockData;
         PomodoroFsm_callback(sMessage);
 
         // Execute the FSM

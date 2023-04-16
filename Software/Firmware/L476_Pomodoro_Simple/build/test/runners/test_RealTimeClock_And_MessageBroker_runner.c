@@ -80,7 +80,7 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_RealTimeClock_And_MessageBroker.c");
-  run_test(test_RealTimeClock_execute_with_MessageBroker_should_PublishTheTimeAndDateViaTheMessageBroker, "test_RealTimeClock_execute_with_MessageBroker_should_PublishTheTimeAndDateViaTheMessageBroker", 49);
+  run_test(test_RealTimeClock_execute_with_MessageBroker_should_PublishTheTimeAndDateViaTheMessageBroker, "test_RealTimeClock_execute_with_MessageBroker_should_PublishTheTimeAndDateViaTheMessageBroker", 40);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

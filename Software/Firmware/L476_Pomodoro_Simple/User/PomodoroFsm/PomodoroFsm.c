@@ -15,9 +15,12 @@ STATIC status_t PomodoroFsm_callback(MessageBroker_message_t in_sMessage)
         sPomodoroFsmInputs.bButtonPressed = TRUE;
         break;
     }
-    case E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE:
+    case E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE:
     {
-        sPomodoroFsmInputs.u8CurrentMinute = in_sMessage.au8DataBytes[0];
+        // parse the current Minute from the data bytes
+        // the data bytes are in the format: [Hour, Minute, Second, Day, Month, Year]
+        // so the minute is the second byte -> Index 1
+        sPomodoroFsmInputs.u8CurrentMinute = in_sMessage.au8DataBytes[1];
         break;
     }
     case E_MESSAGE_BROKER_TOPIC_LCTRL_STATE_CHANGED:
@@ -47,7 +50,7 @@ void PomodoroFsm_init(void)
 
     // Subscribe to the current Minute
     MessageBroker_subscribe(
-        E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE,
+        E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE,
         PomodoroFsm_callback);
 
     // Subscribe to the LightControl State Messages

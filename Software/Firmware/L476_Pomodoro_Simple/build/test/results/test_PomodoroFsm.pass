@@ -8,59 +8,51 @@
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_init_should_SubscribeToTriggerButtonPressedTopic
-  :line: 52
+  :line: 53
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_buttonPressedCallback_should_SetButtonPressedFlagInInputStruct
-  :line: 80
+  :line: 81
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerButtonPressedMessage
-  :line: 94
-  :message: ''
-  :unity_test_time: 0
-- :test: test_PomodoroFsm_init_should_SubscribeToCurrentMinuteTopic
-  :line: 125
+  :line: 95
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_currentMinuteCallback_should_SetCurrentMinuteInInputStruct
-  :line: 145
+  :line: 120
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_5MinutesPassedWithoutButtonPressed
-  :line: 162
+  :line: 140
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_when_TriggerButtonPressedMessage
-  :line: 194
+  :line: 173
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerButtonPressedMessage
-  :line: 222
-  :message: ''
-  :unity_test_time: 0
-- :test: test_PomodoroFsm_init_should_SubscribeToLightControlStateChanges
-  :line: 251
+  :line: 201
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_LightControlPublishesWorktimeCompleted
-  :line: 275
+  :line: 230
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_LightControlPublishesBreaktimeCompleted
-  :line: 310
+  :line: 265
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_TriggerButtonPressedMessage
-  :line: 346
+  :line: 301
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 13
-  :passed: 13
+  :total: 11
+  :passed: 11
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.005046999984188005
+:time: 0.31939499999862164
