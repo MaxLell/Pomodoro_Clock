@@ -2,81 +2,13 @@
 :source:
   :path: test
   :file: test_LightControl.c
-:successes:
-- :test: test_LightControl_fillMinuteToColorArray_Test4
-  :line: 68
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_fillMinuteToColorArray_Test6
-  :line: 114
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_fillMinuteToColorArray_Test7
-  :line: 135
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_fillMinuteToColorArray_Test8
-  :line: 156
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_fillMinuteToColorArray_Test9
-  :line: 177
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_fillLedToColorArray_Test11
-  :line: 198
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_removeColorsFromMinuteArray_Test12
-  :line: 229
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_removeColorsFromMinuteArray_Test13
-  :line: 258
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_init_should_SubscribeToMessageBrokerTopics
-  :line: 284
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_init_should_SetInternalPfsmAndLightControlStateToIdle
-  :line: 307
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_messageBrokerCallback_should_ParseCurrentTimeAndSetCurrentMinute
-  :line: 335
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_messageBrokerCallback_should_ParsePFSMState
-  :line: 352
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_messageBrokerCallback_should_ReturnStatusOk_when_EverythingIsFine
-  :line: 369
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_messageBrokerCallback_should_ReturnStatusInvalidArg_when_MessageTopicIsNotSupported
-  :line: 389
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_execute_should_ReturnStatusOk_when_EverythingIsFine
-  :line: 404
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_execute_should_TransitionFromIdleToSeekingAttention_when_PFSMChangesToSeekingAttention
-  :line: 414
-  :message: ''
-  :unity_test_time: 0
-- :test: test_LightControl_execute_should_TransitionFromSeekingAttentionToPomodoroWorktime_when_PFSMChangesToWorktime
-  :line: 431
-  :message: ''
-  :unity_test_time: 0
+:successes: []
 :failures: []
 :ignores: []
 :counts:
-  :total: 17
-  :passed: 17
+  :total: 0
+  :passed: 0
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.3295079999952577
+:time: 0.004889999981969595

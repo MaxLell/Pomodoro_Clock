@@ -17,7 +17,7 @@ RealTimeClock_TimeAndDate_t tTimeAndDate = {0};
 // The test subscribes to the TimeAndDate Topic, with a dummy callback that is created only here.
 status_t dummy_messageCallback(MessageBroker_message_t msg)
 {
-    if (msg.eMsgTopic == E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE)
+    if (msg.eMsgTopic == E_TOPIC_TIME_AND_DATE)
     {
         // This copies the data from the message into the global variable tTimeAndDate
         memcpy(&tTimeAndDate, msg.au8DataBytes, msg.u16DataSize);
@@ -57,11 +57,11 @@ void test_RealTimeClock_execute_with_MessageBroker_should_PublishTheTimeAndDateV
     // Send a message to the RealTimeClock, that one second has passed
     // -> So that the execute function actually does something
     MessageBroker_message_t tMessage = {0};
-    tMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED;
+    tMessage.eMsgTopic = E_TOPIC_ONE_SECOND_PASSED;
     MessageBroker_publish(tMessage);
 
     // The Test subscribes to the TimeAndDate Topic, with a dummy callback that is created only here.
-    MessageBroker_subscribe(E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE, dummy_messageCallback);
+    MessageBroker_subscribe(E_TOPIC_TIME_AND_DATE, dummy_messageCallback);
 
     // Set the return value of the RealTimeClockHW_getTimeAndDate function
     RealTimeClockHW_getTimeAndDate_ExpectAndReturn(NULL, STATUS_OK);

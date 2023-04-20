@@ -8,7 +8,7 @@ STATIC BOOL bOneSecondPassed = FALSE;
 STATIC status_t RealTimeClock_publishTimeAndDate(RealTimeClock_TimeAndDate_t *in_psTimeAndDate)
 {
     MessageBroker_message_t tMessage = {0};
-    tMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE;
+    tMessage.eMsgTopic = E_TOPIC_TIME_AND_DATE;
     tMessage.u16DataSize = TIME_AND_DATE_DATA_SIZE_BYTES;
     tMessage.au8DataBytes = (uint8_t *)in_psTimeAndDate;
     status_t tStatus = MessageBroker_publish(tMessage);
@@ -54,7 +54,7 @@ status_t RealTimeClock_execute(void)
 
 status_t RealTimeClock_callback(MessageBroker_message_t in_sMessage)
 {
-    if (in_sMessage.eMsgTopic == E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED)
+    if (in_sMessage.eMsgTopic == E_TOPIC_ONE_SECOND_PASSED)
     {
         bOneSecondPassed = TRUE;
     }
@@ -64,7 +64,7 @@ status_t RealTimeClock_callback(MessageBroker_message_t in_sMessage)
 void RealTimeClock_init(void)
 {
     // Subscribe to the StopWatch topic
-    status_t tStatus = MessageBroker_subscribe(E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED, RealTimeClock_callback);
+    status_t tStatus = MessageBroker_subscribe(E_TOPIC_ONE_SECOND_PASSED, RealTimeClock_callback);
     if (tStatus != STATUS_OK)
     {
         log_error("MessageBroker_subscribe() failed with error code: %d", tStatus);

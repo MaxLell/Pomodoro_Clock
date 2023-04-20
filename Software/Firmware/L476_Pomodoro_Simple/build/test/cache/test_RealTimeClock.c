@@ -58,7 +58,7 @@ void test_RealTimeClock_publishTimeAndDate_should_PublishTheProvidedTimeAndDateV
 
     MessageBroker_message_t tMessage = {0};
 
-    tMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE;
+    tMessage.eMsgTopic = E_TOPIC_TIME_AND_DATE;
 
     tMessage.u16DataSize = 6U;
 

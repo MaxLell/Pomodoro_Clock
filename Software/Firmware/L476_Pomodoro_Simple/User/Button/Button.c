@@ -29,7 +29,7 @@ void Button_execute(void)
     if (bButtonWasPressed == TRUE)
     {
         MessageBroker_message_t tMessage = {0};
-        tMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED;
+        tMessage.eMsgTopic = E_TOPIC_TRIGGER_BUTTON_PRESSED;
         tMessage.u16DataSize = 0;
         tMessage.au8DataBytes = NULL;
         status_t tStatus = MessageBroker_publish(tMessage);

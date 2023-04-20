@@ -1,42 +1,5 @@
+#include "User/MessageBroker/MessageTopics.h"
 #include "User/Common/Common.h"
-
-
-
-
-
-
-typedef enum
-
-{
-
-
-
-    E_TEST_1 = 0U,
-
-    E_TEST_2,
-
-
-
-    E_MESSAGE_BROKER_TOPIC_TRIGGER_BUTTON_PRESSED,
-
-    E_MESSAGE_BROKER_TOPIC_CURRENT_MINUTE,
-
-    E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE,
-
-    E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED,
-
-    E_MESSAGE_BROKER_TOPIC_PFSM_STATE_CHANGED,
-
-    E_MESSAGE_BROKER_TOPIC_LCTRL_STATE_CHANGED,
-
-
-
-    E_MESSAGE_BROKER_LAST_TOPIC
-
-} MessageBroker_messageTopics_e;
-
-
-
 
 
 
@@ -47,7 +10,7 @@ typedef struct
 
 {
 
-    MessageBroker_messageTopics_e eMsgTopic;
+    MessageTopics_e eMsgTopic;
 
     uint16_t u16DataSize;
 
@@ -73,7 +36,7 @@ typedef struct
 
 {
 
-    MessageBroker_messageTopics_e eMsgTopic;
+    MessageTopics_e eMsgTopic;
 
     Module_msgCallback_t aCallbackArray[5];
 
@@ -93,7 +56,7 @@ status_t MessageBroker_init(void);
 
 status_t MessageBroker_subscribe(
 
-    MessageBroker_messageTopics_e in_eMsgTopic,
+    MessageTopics_e in_eMsgTopic,
 
     Module_msgCallback_t in_p32FunctionCallback);
 

@@ -4,7 +4,7 @@
 STATIC const uint8_t WORKTIME = 50;
 STATIC const uint8_t BREAKTIME = 10;
 
-uint8_t Config_getBreaktime(uint8_t *out_u8BreaktimeIntervalMin)
+status_t Config_getBreaktime(uint8_t *out_u8BreaktimeIntervalMin)
 {
     assert_true(out_u8BreaktimeIntervalMin != NULL);
     if (out_u8BreaktimeIntervalMin == NULL)
@@ -16,7 +16,7 @@ uint8_t Config_getBreaktime(uint8_t *out_u8BreaktimeIntervalMin)
     return STATUS_OK;
 }
 
-uint8_t Config_getWorktime(uint8_t *out_u8WorktimeIntervalMin)
+status_t Config_getWorktime(uint8_t *out_u8WorktimeIntervalMin)
 {
     assert_true(out_u8WorktimeIntervalMin != NULL);
     if (out_u8WorktimeIntervalMin == NULL)

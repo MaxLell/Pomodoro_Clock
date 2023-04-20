@@ -2,20 +2,14 @@
 #define POMODOROFSM_H
 
 #include "Common.h"
-
-typedef enum
-{
-    E_PFSM_STATE_IDLE = 0U,
-    E_PFSM_STATE_WORKTIME,
-    E_PFSM_STATE_BREAKTIME,
-    E_PFSM_STATE_SEEKING_ATTENTION,
-} PomodoroFsm_state_e;
+#include "PomodoroFsm_Interface.h"
 
 typedef struct
 {
     BOOL bButtonPressed;
     uint8_t u8CurrentMinute;
-    uint8_t u8LightControlState;
+    uint8_t u8WorktimeEndMin;
+    uint8_t u8BreaktimeEndMin;
 } PomodoroFsm_inputs_t;
 
 void PomodoroFsm_init(void);

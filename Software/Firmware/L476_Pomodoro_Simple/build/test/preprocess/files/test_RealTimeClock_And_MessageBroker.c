@@ -32,7 +32,7 @@ status_t dummy_messageCallback(MessageBroker_message_t msg)
 
 {
 
-    if (msg.eMsgTopic == E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE)
+    if (msg.eMsgTopic == E_TOPIC_TIME_AND_DATE)
 
     {
 
@@ -86,7 +86,7 @@ void test_RealTimeClock_execute_with_MessageBroker_should_PublishTheTimeAndDateV
 
     MessageBroker_message_t tMessage = {0};
 
-    tMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED;
+    tMessage.eMsgTopic = E_TOPIC_ONE_SECOND_PASSED;
 
     MessageBroker_publish(tMessage);
 
@@ -94,7 +94,7 @@ void test_RealTimeClock_execute_with_MessageBroker_should_PublishTheTimeAndDateV
 
 
 
-    MessageBroker_subscribe(E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE, dummy_messageCallback);
+    MessageBroker_subscribe(E_TOPIC_TIME_AND_DATE, dummy_messageCallback);
 
 
 

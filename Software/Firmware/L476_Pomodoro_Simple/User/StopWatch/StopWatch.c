@@ -41,7 +41,7 @@ void StopWatch_execute(void)
         oneSecondPassed = FALSE;
 
         MessageBroker_message_t tMessage = {0};
-        tMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED;
+        tMessage.eMsgTopic = E_TOPIC_ONE_SECOND_PASSED;
         tMessage.u16DataSize = 0;
         tMessage.au8DataBytes = NULL;
         status_t tStatus = MessageBroker_publish(tMessage);

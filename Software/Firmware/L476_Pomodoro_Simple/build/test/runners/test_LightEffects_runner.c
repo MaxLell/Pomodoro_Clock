@@ -2,6 +2,8 @@
 
 /*=======Automagically Detected Files To Include=====*/
 #include "unity.h"
+#include "cmock.h"
+#include "mock_MessageBroker.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -10,7 +12,7 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_Score_NeedToImplement(void);
+extern void test_LightEffects_NeedToImplement(void);
 
 
 /*=======Mock Management=====*/
@@ -19,12 +21,15 @@ static void CMock_Init(void)
   GlobalExpectCount = 0;
   GlobalVerifyOrder = 0;
   GlobalOrderError = NULL;
+  mock_MessageBroker_Init();
 }
 static void CMock_Verify(void)
 {
+  mock_MessageBroker_Verify();
 }
 static void CMock_Destroy(void)
 {
+  mock_MessageBroker_Destroy();
 }
 
 /*=======Test Reset Options=====*/
@@ -74,8 +79,9 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 /*=======MAIN=====*/
 int main(void)
 {
-  UnityBegin("test_Score.c");
-  run_test(test_Score_NeedToImplement, "test_Score_NeedToImplement", 15);
+  UnityBegin("test_LightEffects.c");
+  run_test(test_LightEffects_NeedToImplement, "test_LightEffects_NeedToImplement", 16);
 
+  CMock_Guts_MemFreeFinal();
   return UnityEnd();
 }

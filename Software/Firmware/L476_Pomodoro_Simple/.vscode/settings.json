@@ -9,6 +9,8 @@
         "dbgmacros.h": "c",
         "lightcontrol.h": "c",
         "messagebroker.h": "c",
-        "__config": "c"
+        "__config": "c",
+        "config.h": "c",
+        "messagetopics.h": "c"
     }
 }

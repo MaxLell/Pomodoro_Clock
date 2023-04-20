@@ -30,7 +30,7 @@ void test_RealTimeClock_publishTimeAndDate_should_PublishTheProvidedTimeAndDateV
     tTimeAndDate.u8Year = 3;
 
     MessageBroker_message_t tMessage = {0};
-    tMessage.eMsgTopic = E_MESSAGE_BROKER_TOPIC_TIME_AND_DATE;
+    tMessage.eMsgTopic = E_TOPIC_TIME_AND_DATE;
     tMessage.u16DataSize = TIME_AND_DATE_DATA_SIZE_BYTES;
     tMessage.au8DataBytes = (uint8_t *)&tTimeAndDate;
 
@@ -45,7 +45,7 @@ void test_RealTimeClock_publishTimeAndDate_should_PublishTheProvidedTimeAndDateV
 
 /**
  * Test: RealTimeClock_init()
- * - should subscribe to the E_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSED topic
+ * - should subscribe to the E_TOPIC_ONE_SECOND_PASSED topic
  */
 
 void test_RealTimeClock_init_should_SubscribeToTheE_MESSAGE_BROKER_TOPIC_ONC_SECOND_PASSEDTopic(void)

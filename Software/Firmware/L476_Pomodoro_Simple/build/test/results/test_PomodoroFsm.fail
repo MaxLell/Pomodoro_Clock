@@ -4,55 +4,55 @@
   :file: test_PomodoroFsm.c
 :successes:
 - :test: test_PomodoroFsm_init_should_SetInitialStateToIdle
-  :line: 38
+  :line: 47
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_init_should_SubscribeToTriggerButtonPressedTopic
-  :line: 53
+  :line: 62
   :message: ''
   :unity_test_time: 0
-- :test: test_PomodoroFsm_buttonPressedCallback_should_SetButtonPressedFlagInInputStruct
-  :line: 81
+- :test: test_PomodoroFsm_callback_should_SetButtonPressedFlagInInputStruct
+  :line: 90
+  :message: ''
+  :unity_test_time: 0
+- :test: test_PomodoroFsm_Callback_should_SetCurrentMinuteInInputStruct
+  :line: 104
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerButtonPressedMessage
-  :line: 95
-  :message: ''
-  :unity_test_time: 0
-- :test: test_PomodoroFsm_currentMinuteCallback_should_SetCurrentMinuteInInputStruct
-  :line: 120
+  :line: 125
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_5MinutesPassedWithoutButtonPressed
-  :line: 140
+  :line: 154
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_when_TriggerButtonPressedMessage
-  :line: 173
+  :line: 187
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerButtonPressedMessage
-  :line: 201
-  :message: ''
-  :unity_test_time: 0
-- :test: test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_LightControlPublishesWorktimeCompleted
-  :line: 230
-  :message: ''
-  :unity_test_time: 0
-- :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_LightControlPublishesBreaktimeCompleted
-  :line: 265
+  :line: 215
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_TriggerButtonPressedMessage
-  :line: 301
+  :line: 262
   :message: ''
   :unity_test_time: 0
-:failures: []
+- :test: test_PomodoroFsm_calculateTimeStampsForChangingStates_should_CalculateTimeStamps
+  :line: 287
+  :message: ''
+  :unity_test_time: 0
+:failures:
+- :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_BreaktimeIsOver
+  :line: 254
+  :message: Expected 0 Was 2
+  :unity_test_time: 0
 :ignores: []
 :counts:
   :total: 11
-  :passed: 11
-  :failed: 0
+  :passed: 10
+  :failed: 1
   :ignored: 0
 :stdout: []
-:time: 0.004966000007698312
+:time: 0.37886799999978393

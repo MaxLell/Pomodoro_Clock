@@ -1,45 +1,17 @@
 ---
-build/test/mocks/mock_BlinkyLed.c:
-- TEST
-build/test/mocks/mock_Button_Conductor.c:
-- TEST
 build/test/mocks/mock_MessageBroker.c:
 - TEST
-src/BlinkyLed.c:
-- TEST
-src/Button.c:
-- TEST
-src/Buzzer.c:
-- TEST
-src/Executer.c:
-- TEST
-src/LightControl.c:
-- TEST
-src/MessageBoard.c:
-- TEST
-src/RealTimeClock.c:
-- TEST
-src/RgbLED.c:
-- TEST
-src/Score.c:
-- TEST
-User/BlinkyLed/BlinkyLed.c:
-- TEST
-User/LightControl/Buffer.c:
-- TEST
-User/LightControl/LightControl.c:
-- TEST
-build/test/mocks/mock_RgbLed.c:
+User/LightEffects/LightEffects.c:
 - TEST
 User/Common/Config.c:
 - TEST
 User/MessageBroker/MessageBroker.c:
 - TEST
-User/RealTimeClock/RealTimeClock.c:
+build/test/mocks/mock_LightControl.c:
 - TEST
 User/PomodoroFsm/PomodoroFsm.c:
 - TEST
-build/test/mocks/mock_LightControl.c:
-- TEST
 build/test/mocks/mock_RealTimeClock_Hardware.c:
+- TEST
+User/RealTimeClock/RealTimeClock.c:
 - TEST
