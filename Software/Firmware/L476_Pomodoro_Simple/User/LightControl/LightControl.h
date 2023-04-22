@@ -3,8 +3,6 @@
 #include "Common.h"
 #include "Config.h"
 
-#define MINUTES_IN_HOUR 60
-
 typedef enum
 {
     LIGHTCONTROL_LED_OFF = 1U,

@@ -5,6 +5,7 @@
 #define TOTAL_LEDS 24
 #define TOTAL_LEDS_OUTER_RING 24
 #define TOTAL_LEDS_INNER_RING 0
+#define MINUTES_IN_HOUR 60
 
 status_t Config_setBreaktime(uint8_t in_u8BreaktimeIntervalMin);
 status_t Config_getBreaktime(uint8_t *inout_u8BreaktimeIntervalMin);

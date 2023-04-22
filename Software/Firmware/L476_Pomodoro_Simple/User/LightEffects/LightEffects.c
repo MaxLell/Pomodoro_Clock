@@ -79,6 +79,17 @@ void LightEffects_transformMinuteToLedConfigArrayToLedConfigArray(
     }
 }
 
+void LightEffects_removeColorsFromMinuteArray(uint8_t *inout_au8MinuteToColorArray,
+                                              uint8_t in_u8CurrentMinute)
+{
+    // Input Checks
+    assert_true(inout_au8MinuteToColorArray != NULL);
+    assert_true(in_u8CurrentMinute < MINUTES_IN_HOUR);
+
+    // Remove the Colors from the Minute Array
+    inout_au8MinuteToColorArray[in_u8CurrentMinute] = LIGHTEFFECTS_LED_OFF;
+}
+
 STATIC status_t LightEffects_messageBrokerCallback(
     MessageBroker_message_t in_pMessage)
 {

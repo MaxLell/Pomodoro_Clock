@@ -12,7 +12,9 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_LightEffects_NeedToImplement(void);
+extern void test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitialWorkBreakAndOffConditions(void);
+extern void test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecificIndexFromArray(void);
+extern void test_LightEffects_fillLedToColorArray_Test11();
 
 
 /*=======Mock Management=====*/
@@ -80,7 +82,9 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_LightEffects.c");
-  run_test(test_LightEffects_NeedToImplement, "test_LightEffects_NeedToImplement", 16);
+  run_test(test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitialWorkBreakAndOffConditions, "test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitialWorkBreakAndOffConditions", 54);
+  run_test(test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecificIndexFromArray, "test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecificIndexFromArray", 94);
+  run_test(test_LightEffects_fillLedToColorArray_Test11, "test_LightEffects_fillLedToColorArray_Test11", 117);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();
