@@ -63,23 +63,23 @@
     goto error;                \
   }
 
-#define assert_true(expression)                                       \
-  if (expression)                                                     \
-  {                                                                   \
-    (void)0U;                                                         \
-  }                                                                   \
-  else                                                                \
-  {                                                                   \
-    if ((TEST_RUNNING == 1))                                          \
-    {                                                                 \
-      printf("[ASSERT FAILURE] (%s:%d)", (char *)__FILE__, __LINE__); \
-    }                                                                 \
-    else                                                              \
-    {                                                                 \
-      printf("[ASSERT FAILURE] (%s:%d)", (char *)__FILE__, __LINE__); \
-      while (1)                                                       \
-        ;                                                             \
-    }                                                                 \
+#define assert_true(expression)                                         \
+  if (expression)                                                       \
+  {                                                                     \
+    (void)0U;                                                           \
+  }                                                                     \
+  else                                                                  \
+  {                                                                     \
+    if ((TEST_RUNNING == 1))                                            \
+    {                                                                   \
+      printf("[ASSERT FAILURE] (%s:%d)\n", (char *)__FILE__, __LINE__); \
+    }                                                                   \
+    else                                                                \
+    {                                                                   \
+      printf("[ASSERT FAILURE] (%s:%d)\n", (char *)__FILE__, __LINE__); \
+      while (1)                                                         \
+        ;                                                               \
+    }                                                                   \
   }
 
 #endif // DBGMACROS_H

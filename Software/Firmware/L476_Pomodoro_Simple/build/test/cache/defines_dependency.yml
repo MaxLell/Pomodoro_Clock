@@ -15,3 +15,7 @@ build/test/mocks/mock_RealTimeClock_Hardware.c:
 - TEST
 User/RealTimeClock/RealTimeClock.c:
 - TEST
+User/LightControl/LightControl.c:
+- TEST
+User/RgbLED/RgbLed.c:
+- TEST

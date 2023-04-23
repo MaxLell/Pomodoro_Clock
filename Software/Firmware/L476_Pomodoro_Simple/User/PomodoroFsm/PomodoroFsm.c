@@ -2,6 +2,7 @@
 #include "MessageBroker.h"
 #include "LightControl.h"
 #include "Config.h"
+#include "Common.h"
 
 /**
  * global static variables
@@ -9,7 +10,7 @@
 STATIC PomodoroFsm_state_e ePomodoroFsmState;
 STATIC PomodoroFsm_inputs_t sPomodoroFsmInputs = {0};
 STATIC MessageBroker_message_t sPublishingMessage = {0};
-STATIC BOOL bPomodoroSequenceIsRunning = FALSE;
+STATIC BOOL bRunOnce = FALSE;
 
 /**
  * private functions
@@ -65,16 +66,6 @@ STATIC status_t PomodoroFsm_callback(MessageBroker_message_t in_sMessage)
         // Get the current Minute
         sPomodoroFsmInputs.u8CurrentMinute = in_sMessage.au8DataBytes[1];
 
-        if ((ePomodoroFsmState == E_PFSM_STATE_IDLE) ||
-            (ePomodoroFsmState == E_PFSM_STATE_SEEKING_ATTENTION))
-        {
-            // Calculate the Time Stamps for the End of the Work Time and the Break Time
-            // And assign it to local global variables
-            PomodoroFsm_calculateTimeStampsForChangingStates(
-                &sPomodoroFsmInputs.u8WorktimeEndMin,
-                &sPomodoroFsmInputs.u8BreaktimeEndMin,
-                &sPomodoroFsmInputs.u8CurrentMinute);
-        }
         break;
     }
     default:
@@ -126,7 +117,6 @@ void PomodoroFsm_execute(void)
     {
     case E_PFSM_STATE_IDLE:
     {
-
         uint8_t u8CurrentMinute = 0;
         uint8_t u8PreviousMinute = 100;
         static uint8_t u8MinutesElapsedCounter = 0U;
@@ -157,14 +147,14 @@ void PomodoroFsm_execute(void)
         }
 
         // State change to work time
-        if (sPomodoroFsmInputs.bButtonPressed)
+        else if (sPomodoroFsmInputs.bButtonPressed)
         {
             // Reset respective variables
             u8CurrentMinute = 0;
             u8PreviousMinute = 100;
             u8MinutesElapsedCounter = 0U;
             sPomodoroFsmInputs.bButtonPressed = FALSE;
-            bPomodoroSequenceIsRunning = TRUE;
+            bRunOnce = TRUE;
 
             // Publish the state change message
             PomodoroFsm_publishMessage(
@@ -174,14 +164,35 @@ void PomodoroFsm_execute(void)
             // Set the state to work time
             ePomodoroFsmState = E_PFSM_STATE_WORKTIME;
         }
+        else
+        {
+            // Do nothing
+        }
         break;
     }
     case E_PFSM_STATE_WORKTIME:
     {
+        if (bRunOnce == FALSE)
+        {
+            bRunOnce = TRUE;
+
+            // Calculate the timestamps for changing the state
+            PomodoroFsm_calculateTimeStampsForChangingStates(
+                &sPomodoroFsmInputs.u8WorktimeEndMin,
+                &sPomodoroFsmInputs.u8BreaktimeEndMin,
+                &sPomodoroFsmInputs.u8CurrentMinute);
+        }
+
+        /**
+         * State Changes
+         */
+
+        // Change the state -> Idle (Button Pressed)
         if (sPomodoroFsmInputs.bButtonPressed)
         {
             // Reset respective variables
             sPomodoroFsmInputs.bButtonPressed = FALSE;
+            bRunOnce = FALSE;
 
             // Set the state to break time
             ePomodoroFsmState = E_PFSM_STATE_IDLE;
@@ -192,20 +203,24 @@ void PomodoroFsm_execute(void)
                 E_PFSM_STATE_WORKTIME);
         }
 
-        if (sPomodoroFsmInputs.u8BreaktimeEndMin == 0) // TODO: Refactor this
+        // Change the state -> Breaktime (Time Elapsed)
+        else if (sPomodoroFsmInputs.u8WorktimeEndMin == sPomodoroFsmInputs.u8CurrentMinute)
         {
             // Set the state to break time
             ePomodoroFsmState = E_PFSM_STATE_BREAKTIME;
 
-            // reset the perceived light control state
-            sPomodoroFsmInputs.u8WorktimeEndMin = 0; // TODO: Refactor this
+            // Reset the RunOnce Flag
+            bRunOnce = FALSE;
 
             // Publish the state change message
             PomodoroFsm_publishMessage(
                 E_PFSM_STATE_BREAKTIME,
                 E_PFSM_STATE_WORKTIME);
         }
-
+        else
+        {
+            // Do nothing
+        }
         break;
     }
     case E_PFSM_STATE_BREAKTIME:
@@ -224,18 +239,19 @@ void PomodoroFsm_execute(void)
                 E_PFSM_STATE_BREAKTIME);
         }
 
-        if (sPomodoroFsmInputs.u8BreaktimeEndMin == 0) // TODO Refactor this
+        else if (sPomodoroFsmInputs.u8BreaktimeEndMin == sPomodoroFsmInputs.u8CurrentMinute)
         {
             // Set the state to work time
             ePomodoroFsmState = E_PFSM_STATE_IDLE;
-
-            // reset the perceived light control state
-            sPomodoroFsmInputs.u8WorktimeEndMin = 0; // TODO Refactor this
 
             // Publish the state change message
             PomodoroFsm_publishMessage(
                 E_PFSM_STATE_IDLE,       // Next State
                 E_PFSM_STATE_BREAKTIME); // Current State
+        }
+        else
+        {
+            // Do nothing
         }
 
         break;
