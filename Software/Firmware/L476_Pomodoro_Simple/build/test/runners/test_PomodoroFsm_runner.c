@@ -4,7 +4,6 @@
 #include "unity.h"
 #include "cmock.h"
 #include "mock_MessageBroker.h"
-#include "mock_LightControl.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -35,17 +34,14 @@ static void CMock_Init(void)
   GlobalVerifyOrder = 0;
   GlobalOrderError = NULL;
   mock_MessageBroker_Init();
-  mock_LightControl_Init();
 }
 static void CMock_Verify(void)
 {
   mock_MessageBroker_Verify();
-  mock_LightControl_Verify();
 }
 static void CMock_Destroy(void)
 {
   mock_MessageBroker_Destroy();
-  mock_LightControl_Destroy();
 }
 
 /*=======Test Reset Options=====*/
@@ -96,19 +92,19 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_PomodoroFsm.c");
-  run_test(test_PomodoroFsm_init_should_SetInitialStateToIdle, "test_PomodoroFsm_init_should_SetInitialStateToIdle", 49);
-  run_test(test_PomodoroFsm_init_should_SubscribeToTopics, "test_PomodoroFsm_init_should_SubscribeToTopics", 57);
-  run_test(test_PomodoroFsm_callback_should_SetButtonPressedFlagInInputStruct, "test_PomodoroFsm_callback_should_SetButtonPressedFlagInInputStruct", 83);
-  run_test(test_PomodoroFsm_callback_should_SetCurrentMinuteInInputStruct, "test_PomodoroFsm_callback_should_SetCurrentMinuteInInputStruct", 92);
-  run_test(test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerButtonPressedMessage, "test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerButtonPressedMessage", 118);
-  run_test(test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_5MinutesPassedWithoutButtonPressed, "test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_5MinutesPassedWithoutButtonPressed", 146);
-  run_test(test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_when_TriggerButtonPressedMessage, "test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_when_TriggerButtonPressedMessage", 178);
-  run_test(test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerButtonPressedMessage, "test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerButtonPressedMessage", 205);
-  run_test(test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_WorktimeElapsed, "test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_WorktimeElapsed", 241);
-  run_test(test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_BreaktimeIsOver, "test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_BreaktimeIsOver", 272);
-  run_test(test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_TriggerButtonPressedMessage, "test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_TriggerButtonPressedMessage", 300);
-  run_test(test_PomodoroFsm_execute_should_SetTheTimestampsInitiallyInWorktimeState, "test_PomodoroFsm_execute_should_SetTheTimestampsInitiallyInWorktimeState", 333);
-  run_test(test_PomodoroFsm_calculateTimeStampsForChangingStates_should_CalculateTimeStamps, "test_PomodoroFsm_calculateTimeStampsForChangingStates_should_CalculateTimeStamps", 386);
+  run_test(test_PomodoroFsm_init_should_SetInitialStateToIdle, "test_PomodoroFsm_init_should_SetInitialStateToIdle", 48);
+  run_test(test_PomodoroFsm_init_should_SubscribeToTopics, "test_PomodoroFsm_init_should_SubscribeToTopics", 56);
+  run_test(test_PomodoroFsm_callback_should_SetButtonPressedFlagInInputStruct, "test_PomodoroFsm_callback_should_SetButtonPressedFlagInInputStruct", 82);
+  run_test(test_PomodoroFsm_callback_should_SetCurrentMinuteInInputStruct, "test_PomodoroFsm_callback_should_SetCurrentMinuteInInputStruct", 91);
+  run_test(test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerButtonPressedMessage, "test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerButtonPressedMessage", 117);
+  run_test(test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_5MinutesPassedWithoutButtonPressed, "test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_5MinutesPassedWithoutButtonPressed", 145);
+  run_test(test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_when_TriggerButtonPressedMessage, "test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_when_TriggerButtonPressedMessage", 177);
+  run_test(test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerButtonPressedMessage, "test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerButtonPressedMessage", 204);
+  run_test(test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_WorktimeElapsed, "test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_WorktimeElapsed", 240);
+  run_test(test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_BreaktimeIsOver, "test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_BreaktimeIsOver", 271);
+  run_test(test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_TriggerButtonPressedMessage, "test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_TriggerButtonPressedMessage", 299);
+  run_test(test_PomodoroFsm_execute_should_SetTheTimestampsInitiallyInWorktimeState, "test_PomodoroFsm_execute_should_SetTheTimestampsInitiallyInWorktimeState", 332);
+  run_test(test_PomodoroFsm_calculateTimeStampsForChangingStates_should_CalculateTimeStamps, "test_PomodoroFsm_calculateTimeStampsForChangingStates_should_CalculateTimeStamps", 385);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

@@ -3,6 +3,5 @@
 - User/PomodoroFsm/PomodoroFsm.h
 - User/PomodoroFsm/PomodoroFsm_Interface.h
 - build/test/mocks/mock_MessageBroker.h
-- build/test/mocks/mock_LightControl.h
 - User/MessageBroker/MessageTopics.h
 - User/Common/Config.h

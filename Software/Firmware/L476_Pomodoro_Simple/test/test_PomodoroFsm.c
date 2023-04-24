@@ -2,7 +2,6 @@
 #include "PomodoroFsm.h"
 #include "PomodoroFsm_Interface.h"
 #include "mock_MessageBroker.h"
-#include "mock_LightControl.h"
 #include "MessageTopics.h"
 #include "Config.h"
 

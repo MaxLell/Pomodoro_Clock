@@ -4,55 +4,55 @@
   :file: test_PomodoroFsm.c
 :successes:
 - :test: test_PomodoroFsm_init_should_SetInitialStateToIdle
-  :line: 49
+  :line: 48
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_init_should_SubscribeToTopics
-  :line: 57
+  :line: 56
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_callback_should_SetButtonPressedFlagInInputStruct
-  :line: 83
+  :line: 82
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_callback_should_SetCurrentMinuteInInputStruct
-  :line: 92
+  :line: 91
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerButtonPressedMessage
-  :line: 118
+  :line: 117
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_5MinutesPassedWithoutButtonPressed
-  :line: 146
+  :line: 145
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_when_TriggerButtonPressedMessage
-  :line: 178
+  :line: 177
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerButtonPressedMessage
-  :line: 205
+  :line: 204
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_WorktimeElapsed
-  :line: 241
+  :line: 240
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_BreaktimeIsOver
-  :line: 272
+  :line: 271
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_TriggerButtonPressedMessage
-  :line: 300
+  :line: 299
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_SetTheTimestampsInitiallyInWorktimeState
-  :line: 333
+  :line: 332
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_calculateTimeStampsForChangingStates_should_CalculateTimeStamps
-  :line: 386
+  :line: 385
   :message: ''
   :unity_test_time: 0
 :failures: []
@@ -63,4 +63,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.1976170000853017
+:time: 1.0425609999801964
