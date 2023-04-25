@@ -114,7 +114,7 @@ void test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecific
     TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8TestCurrentMinute]);
 }
 
-void test_LightEffects_fillLedToColorArray_Test11()
+void test_LightEffects_LightEffects_transformMinuteToLedConfigArrayToLedConfigArray_should_Transform()
 {
     uint8_t u8TestCurrentMinute = 0;
     uint8_t u8TestWorktimeIntervalMin = 30;
@@ -130,7 +130,7 @@ void test_LightEffects_fillLedToColorArray_Test11()
 
     LightEffects_transformMinuteToLedConfigArrayToLedConfigArray(au8TestMinuteToColorArray, au8TestLedToColorArray);
 
-    float u8LedsPerMinute = (float)TOTAL_LEDS / (float)MINUTES_IN_HOUR;
+    float u8LedsPerMinute = (float)TOTAL_LEDS_OUTER_RING / (float)MINUTES_IN_HOUR;
 
     for (float i = 0; i < MINUTES_IN_HOUR; i++)
     {

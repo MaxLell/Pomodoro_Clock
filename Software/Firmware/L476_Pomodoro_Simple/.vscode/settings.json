@@ -11,6 +11,8 @@
         "messagebroker.h": "c",
         "__config": "c",
         "config.h": "c",
-        "messagetopics.h": "c"
+        "messagetopics.h": "c",
+        "mock_messagebroker.h": "c",
+        "lighteffects_interface.h": "c"
     }
 }

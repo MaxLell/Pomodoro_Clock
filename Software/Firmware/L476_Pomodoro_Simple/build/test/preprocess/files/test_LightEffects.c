@@ -191,7 +191,7 @@ void test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecific
 
     uint8_t au8TestMinuteToColorArray[60] = {0};
 
-    uint8_t au8TestLedToColorArray[24] = {0};
+    uint8_t au8TestLedToColorArray[(24 + 16 + 8)] = {0};
 
 
 
@@ -225,7 +225,7 @@ void test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecific
 
 
 
-void test_LightEffects_fillLedToColorArray_Test11()
+void test_LightEffects_LightEffects_transformMinuteToLedConfigArrayToLedConfigArray_should_Transform()
 
 {
 
@@ -237,7 +237,7 @@ void test_LightEffects_fillLedToColorArray_Test11()
 
     uint8_t au8TestMinuteToColorArray[60] = {0};
 
-    uint8_t au8TestLedToColorArray[24] = {0};
+    uint8_t au8TestLedToColorArray[(24 + 16 + 8)] = {0};
 
 
 
@@ -261,13 +261,17 @@ void test_LightEffects_fillLedToColorArray_Test11()
 
 
 
+    helper_printArray(au8TestMinuteToColorArray, 60);
+
+
+
     for (float i = 0; i < 60; i++)
 
     {
 
         uint8_t index = (uint8_t)(i * u8LedsPerMinute);
 
-        UnityAssertEqualNumber((UNITY_INT)((au8TestMinuteToColorArray[(uint8_t)i])), (UNITY_INT)((au8TestLedToColorArray[index])), (((void*)0)), (UNITY_UINT)(138), UNITY_DISPLAY_STYLE_INT);
+        UnityAssertEqualNumber((UNITY_INT)((au8TestMinuteToColorArray[(uint8_t)i])), (UNITY_INT)((au8TestLedToColorArray[index])), (((void*)0)), (UNITY_UINT)(140), UNITY_DISPLAY_STYLE_INT);
 
     }
 

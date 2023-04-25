@@ -2,9 +2,11 @@
 #define CONFIG_H
 #include "Common.h"
 
-#define TOTAL_LEDS 24
 #define TOTAL_LEDS_OUTER_RING 24
-#define TOTAL_LEDS_INNER_RING 0
+#define TOTAL_LEDS_MIDDLE_RING 16
+#define TOTAL_LEDS_INNER_RING 8
+#define TOTAL_LEDS (TOTAL_LEDS_OUTER_RING + TOTAL_LEDS_MIDDLE_RING + TOTAL_LEDS_INNER_RING)
+
 #define MINUTES_IN_HOUR 60
 
 status_t Config_setBreaktime(uint8_t in_u8BreaktimeIntervalMin);

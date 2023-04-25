@@ -17,10 +17,6 @@ void LightEffects_initMinuteToLedConfigArray(
 {
     // Input Checks
     assert_true(inout_au8MinuteToLedConfigArray != NULL);
-    assert_true(in_u8WorktimeIntervalMin <= MINUTES_IN_HOUR);
-    assert_true(in_u8BreaktimeIntervalMin <= MINUTES_IN_HOUR);
-    assert_true(
-        (in_u8WorktimeIntervalMin + in_u8BreaktimeIntervalMin) <= MINUTES_IN_HOUR);
 
     uint8_t currentMinuteCounter = in_u8CurrentMinute;
 
@@ -49,7 +45,7 @@ void LightEffects_initMinuteToLedConfigArray(
     // Write the Entries for the Off Time
     for (
         uint8_t i = 0;
-        i < (MINUTES_IN_HOUR - in_u8WorktimeIntervalMin - in_u8BreaktimeIntervalMin);
+        i < ((MINUTES_IN_HOUR * 2) - in_u8WorktimeIntervalMin - in_u8BreaktimeIntervalMin);
         i++)
     {
         inout_au8MinuteToLedConfigArray[currentMinuteCounter] = LIGHTEFFECTS_LED_OFF;

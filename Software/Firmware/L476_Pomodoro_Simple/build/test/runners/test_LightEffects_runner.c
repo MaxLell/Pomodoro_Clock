@@ -14,7 +14,7 @@ extern void setUp(void);
 extern void tearDown(void);
 extern void test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitialWorkBreakAndOffConditions(void);
 extern void test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecificIndexFromArray(void);
-extern void test_LightEffects_fillLedToColorArray_Test11();
+extern void test_LightEffects_LightEffects_transformMinuteToLedConfigArrayToLedConfigArray_should_Transform();
 
 
 /*=======Mock Management=====*/
@@ -84,7 +84,7 @@ int main(void)
   UnityBegin("test_LightEffects.c");
   run_test(test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitialWorkBreakAndOffConditions, "test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitialWorkBreakAndOffConditions", 54);
   run_test(test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecificIndexFromArray, "test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecificIndexFromArray", 94);
-  run_test(test_LightEffects_fillLedToColorArray_Test11, "test_LightEffects_fillLedToColorArray_Test11", 117);
+  run_test(test_LightEffects_LightEffects_transformMinuteToLedConfigArrayToLedConfigArray_should_Transform, "test_LightEffects_LightEffects_transformMinuteToLedConfigArrayToLedConfigArray_should_Transform", 117);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();
