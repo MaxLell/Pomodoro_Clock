@@ -1,6 +1,5 @@
 #include "PomodoroFsm.h"
 #include "MessageBroker.h"
-#include "LightControl.h"
 #include "Config.h"
 #include "Common.h"
 

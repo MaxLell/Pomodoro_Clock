@@ -9,7 +9,38 @@
 STATIC uint8_t u8CurrentMinute = 0U;
 STATIC uint8_t u8PFsmState = 0U;
 
-void LightEffects_initMinuteToLedConfigArray(
+/**
+ * Function Prototypes
+ */
+STATIC void LightEffects_initMinuteToLedConfigArray(
+    uint8_t in_u8CurrentMinute,
+    uint8_t in_u8WorktimeIntervalMin,
+    uint8_t in_u8BreaktimeIntervalMin,
+    uint8_t *inout_au8MinuteToLedConfig);
+
+STATIC void LightEffects_removeColorsFromMinuteArray(uint8_t *inout_au8MinuteToColorArray,
+                                                     uint8_t in_u8CurrentMinute);
+
+STATIC void LightEffects_scaleArray(
+    uint8_t *in_au8SourceArray, uint8_t in_u8SourceArraySize,
+    uint8_t *inout_au8TargetArray, uint8_t in_u8TargetArraySize);
+
+STATIC void LightEffects_assembleLEDArray(
+    uint8_t *in_au8OuterRingArray, uint8_t in_u8OuterRingArraySize,
+    uint8_t *in_au8MiddleRingArray, uint8_t in_u8MiddleRingArraySize,
+    uint8_t *in_au8InnerRingArray, uint8_t in_u8InnerRingArraySize,
+    uint8_t *inout_au8AssembledLEDArray, uint8_t in_u8AssembledLEDArraySize);
+
+STATIC void LightEffects_setScoreToArray(
+    uint8_t in_u8Score,
+    uint8_t *inout_au8ScoreArray,
+    uint8_t in_u8ScoreArraySize);
+
+/**
+ * Function Definitions
+ */
+
+STATIC void LightEffects_initMinuteToLedConfigArray(
     uint8_t in_u8CurrentMinute,
     uint8_t in_u8WorktimeIntervalMin,
     uint8_t in_u8BreaktimeIntervalMin,
@@ -19,6 +50,7 @@ void LightEffects_initMinuteToLedConfigArray(
     assert_true(inout_au8MinuteToLedConfig != NULL);
     assert_true(
         (in_u8BreaktimeIntervalMin + in_u8WorktimeIntervalMin) <= TOTAL_MINUTES);
+    assert_true(in_u8CurrentMinute < MINUTES_IN_HOUR);
 
     uint8_t currentIndex = in_u8CurrentMinute;
     uint8_t remainingWorktimeMin = in_u8WorktimeIntervalMin;
@@ -77,26 +109,8 @@ void LightEffects_initMinuteToLedConfigArray(
     }
 }
 
-void LightEffects_transformMinuteToLedConfigArrayToLedConfigArray(
-    uint8_t *in_au8MinuteToLedConfigArray,
-    uint8_t *inout_au8LedConfigArray)
-{
-    // Input Checks
-    assert_true(in_au8MinuteToLedConfigArray != NULL);
-    assert_true(inout_au8LedConfigArray != NULL);
-
-    // Calculate the number of LEDs per Minute
-    float fLedsPerMinute = (float)TOTAL_LEDS / (float)TOTAL_MINUTES;
-
-    // Fill the LED Config Array for the outer Ring
-    for (float i = 0; i < MINUTES_IN_HOUR; i++)
-    {
-        inout_au8LedConfigArray[(uint8_t)(i * fLedsPerMinute)] = in_au8MinuteToLedConfigArray[(uint8_t)i];
-    }
-}
-
-void LightEffects_removeColorsFromMinuteArray(uint8_t *inout_au8MinuteToColorArray,
-                                              uint8_t in_u8CurrentMinute)
+STATIC void LightEffects_removeColorsFromMinuteArray(uint8_t *inout_au8MinuteToColorArray,
+                                                     uint8_t in_u8CurrentMinute)
 {
     // Input Checks
     assert_true(inout_au8MinuteToColorArray != NULL);
@@ -126,6 +140,81 @@ STATIC status_t LightEffects_messageBrokerCallback(
         break;
     }
     return STATUS_OK;
+}
+
+STATIC void LightEffects_scaleArray(
+    uint8_t *in_au8SourceArray, uint8_t in_u8SourceArraySize,
+    uint8_t *inout_au8TargetArray, uint8_t in_u8TargetArraySize)
+{
+    // Input Checks
+    assert_true(in_au8SourceArray != NULL);
+    assert_true(inout_au8TargetArray != NULL);
+    assert_true(in_u8SourceArraySize > 0);
+    assert_true(in_u8TargetArraySize > 0);
+
+    // Calculate the Scale Factor
+    float fScaleFactor = (float)in_u8SourceArraySize / (float)in_u8TargetArraySize;
+
+    // Scale the Array
+    for (uint8_t i = 0; i < in_u8TargetArraySize; i++)
+    {
+        inout_au8TargetArray[i] = in_au8SourceArray[(uint8_t)(i * fScaleFactor)];
+    }
+}
+
+STATIC void LightEffects_assembleLEDArray(
+    uint8_t *in_au8OuterRingArray, uint8_t in_u8OuterRingArraySize,
+    uint8_t *in_au8MiddleRingArray, uint8_t in_u8MiddleRingArraySize,
+    uint8_t *in_au8InnerRingArray, uint8_t in_u8InnerRingArraySize,
+    uint8_t *inout_au8AssembledLEDArray, uint8_t in_u8AssembledLEDArraySize)
+{
+    // Input Checks
+    assert_true(in_au8OuterRingArray != NULL);
+    assert_true(in_au8MiddleRingArray != NULL);
+    assert_true(in_au8InnerRingArray != NULL);
+    assert_true(inout_au8AssembledLEDArray != NULL);
+    assert_true(in_u8OuterRingArraySize > 0);
+    assert_true(in_u8MiddleRingArraySize > 0);
+    assert_true(in_u8InnerRingArraySize > 0);
+    assert_true(in_u8AssembledLEDArraySize > 0);
+
+    // Concatenate the Arrays into the Assembled Array
+    for (uint8_t i = 0; i < in_u8AssembledLEDArraySize; i++)
+    {
+        if (i < in_u8OuterRingArraySize)
+        {
+            inout_au8AssembledLEDArray[i] = in_au8OuterRingArray[i];
+        }
+        else if (i < in_u8OuterRingArraySize + in_u8MiddleRingArraySize)
+        {
+            inout_au8AssembledLEDArray[i] = in_au8MiddleRingArray[i - in_u8OuterRingArraySize];
+        }
+        else
+        {
+            inout_au8AssembledLEDArray[i] = in_au8InnerRingArray[i - in_u8OuterRingArraySize - in_u8MiddleRingArraySize];
+        }
+    }
+}
+
+STATIC void LightEffects_setScoreToArray(
+    uint8_t in_u8Score,
+    uint8_t *inout_au8ScoreArray,
+    uint8_t in_u8ScoreArraySize)
+{
+    // Input Checks
+    assert_true(inout_au8ScoreArray != NULL);
+    assert_true(in_u8ScoreArraySize > 0);
+    assert_true(in_u8Score <= in_u8ScoreArraySize);
+
+    // Set the Score to the Array
+    for (uint8_t i = 0; i < in_u8Score; i++)
+    {
+        inout_au8ScoreArray[i] = LIGHTEFFECTS_LED_WHITE_LOW;
+    }
+    for (uint8_t i = in_u8Score; i < in_u8ScoreArraySize; i++)
+    {
+        inout_au8ScoreArray[i] = LIGHTEFFECTS_LED_OFF;
+    }
 }
 
 void LightEffects_init()
