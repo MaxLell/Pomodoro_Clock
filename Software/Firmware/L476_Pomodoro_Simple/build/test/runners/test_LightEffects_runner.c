@@ -12,9 +12,10 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitialWorkBreakAndOffConditions(void);
-extern void test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecificIndexFromArray(void);
-extern void test_LightEffects_LightEffects_transformMinuteToLedConfigArrayToLedConfigArray_should_Transform();
+extern void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne(void);
+extern void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationTwo(void);
+extern void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationThree(void);
+extern void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationFour(void);
 
 
 /*=======Mock Management=====*/
@@ -82,9 +83,10 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_LightEffects.c");
-  run_test(test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitialWorkBreakAndOffConditions, "test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitialWorkBreakAndOffConditions", 54);
-  run_test(test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecificIndexFromArray, "test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecificIndexFromArray", 94);
-  run_test(test_LightEffects_LightEffects_transformMinuteToLedConfigArrayToLedConfigArray_should_Transform, "test_LightEffects_LightEffects_transformMinuteToLedConfigArrayToLedConfigArray_should_Transform", 117);
+  run_test(test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne, "test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne", 156);
+  run_test(test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationTwo, "test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationTwo", 233);
+  run_test(test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationThree, "test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationThree", 306);
+  run_test(test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationFour, "test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationFour", 371);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

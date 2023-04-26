@@ -5,6 +5,7 @@
 
 typedef enum LightEffect_LedConfig_e
 {
+    LIGHTEFFECTS_LED_UNDEFINED = 0U,
     LIGHTEFFECTS_LED_OFF = 1U,
 
     LIGHTEFFECTS_LED_RED_LOW = 5U,

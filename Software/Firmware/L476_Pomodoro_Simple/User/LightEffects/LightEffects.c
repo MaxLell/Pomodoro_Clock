@@ -13,46 +13,66 @@ void LightEffects_initMinuteToLedConfigArray(
     uint8_t in_u8CurrentMinute,
     uint8_t in_u8WorktimeIntervalMin,
     uint8_t in_u8BreaktimeIntervalMin,
-    uint8_t *inout_au8MinuteToLedConfigArray)
+    uint8_t *inout_au8MinuteToLedConfig)
 {
     // Input Checks
-    assert_true(inout_au8MinuteToLedConfigArray != NULL);
+    assert_true(inout_au8MinuteToLedConfig != NULL);
+    assert_true(
+        (in_u8BreaktimeIntervalMin + in_u8WorktimeIntervalMin) <= TOTAL_MINUTES);
 
-    uint8_t currentMinuteCounter = in_u8CurrentMinute;
+    uint8_t currentIndex = in_u8CurrentMinute;
+    uint8_t remainingWorktimeMin = in_u8WorktimeIntervalMin;
+    uint8_t remainingBreaktimeMin = in_u8BreaktimeIntervalMin;
+    BOOL bOneRingCompleted = FALSE;
 
-    // Write the Entries for the Work Time (with the respective offset)
-    for (uint8_t i = 0; i < in_u8WorktimeIntervalMin; i++)
+    // Fill the array with the LED OFF
+    for (uint8_t i = 0; i < TOTAL_MINUTES; i++)
     {
-        inout_au8MinuteToLedConfigArray[currentMinuteCounter] = LIGHTEFFECTS_LED_RED_LOW;
-        currentMinuteCounter++;
-        if (currentMinuteCounter >= MINUTES_IN_HOUR)
+        inout_au8MinuteToLedConfig[i] = LIGHTEFFECTS_LED_OFF;
+    }
+
+    // Fill in the worktime
+    while (remainingWorktimeMin > 0)
+    {
+        remainingWorktimeMin--;
+        inout_au8MinuteToLedConfig[currentIndex] = LIGHTEFFECTS_LED_RED_LOW;
+
+        currentIndex++;
+        if (currentIndex == in_u8CurrentMinute)
         {
-            currentMinuteCounter = 0;
+            bOneRingCompleted = TRUE;
+            currentIndex += MINUTES_IN_HOUR;
+        }
+        if ((currentIndex > MINUTES_IN_HOUR - 1) && (!bOneRingCompleted))
+        {
+            currentIndex = 0;
+        }
+        if ((currentIndex >= TOTAL_MINUTES) && (bOneRingCompleted))
+        {
+            currentIndex = MINUTES_IN_HOUR;
         }
     }
 
-    // Write the Entries for the Break Time
-    for (uint8_t i = 0; i < in_u8BreaktimeIntervalMin; i++)
+    // Fill in the breaktime
+    while (remainingBreaktimeMin > 0)
     {
-        inout_au8MinuteToLedConfigArray[currentMinuteCounter] = LIGHTEFFECTS_LED_GREEN_LOW;
-        currentMinuteCounter++;
-        if (currentMinuteCounter >= MINUTES_IN_HOUR)
-        {
-            currentMinuteCounter = 0;
-        }
-    }
+        remainingBreaktimeMin--;
 
-    // Write the Entries for the Off Time
-    for (
-        uint8_t i = 0;
-        i < ((MINUTES_IN_HOUR * 2) - in_u8WorktimeIntervalMin - in_u8BreaktimeIntervalMin);
-        i++)
-    {
-        inout_au8MinuteToLedConfigArray[currentMinuteCounter] = LIGHTEFFECTS_LED_OFF;
-        currentMinuteCounter++;
-        if (currentMinuteCounter >= MINUTES_IN_HOUR)
+        inout_au8MinuteToLedConfig[currentIndex] = LIGHTEFFECTS_LED_GREEN_LOW;
+
+        currentIndex++;
+        if (currentIndex == in_u8CurrentMinute)
         {
-            currentMinuteCounter = 0;
+            bOneRingCompleted = TRUE;
+            currentIndex += MINUTES_IN_HOUR + 1;
+        }
+        if ((currentIndex > MINUTES_IN_HOUR - 1) && (!bOneRingCompleted))
+        {
+            currentIndex = 0;
+        }
+        if ((currentIndex >= TOTAL_MINUTES) && (bOneRingCompleted))
+        {
+            currentIndex = MINUTES_IN_HOUR;
         }
     }
 }
@@ -66,7 +86,7 @@ void LightEffects_transformMinuteToLedConfigArrayToLedConfigArray(
     assert_true(inout_au8LedConfigArray != NULL);
 
     // Calculate the number of LEDs per Minute
-    float fLedsPerMinute = (float)TOTAL_LEDS_OUTER_RING / (float)MINUTES_IN_HOUR;
+    float fLedsPerMinute = (float)TOTAL_LEDS / (float)TOTAL_MINUTES;
 
     // Fill the LED Config Array for the outer Ring
     for (float i = 0; i < MINUTES_IN_HOUR; i++)

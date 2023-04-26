@@ -32,33 +32,127 @@ extern void LightEffects_setLedsToColor(uint8_t *in_au8LedToColorArray);
 
 void helper_printArray(uint8_t *in_au8Array, uint8_t in_u8ArraySize)
 {
-    for (uint8_t i = 0; i < in_u8ArraySize; i++)
+    /**
+     * This function prints the index of the array next to the value line by line
+     * Example:
+     * 0 - 0
+     * 1 - 2
+     * 2 - 2
+     * 3 - 2
+     * ...
+     */
+    for (uint8_t i = 0;
+         i < in_u8ArraySize;
+         i++)
     {
         if (i < 10)
         {
-            printf("%d  ", i);
+            printf("%d ---> %d\n", i, in_au8Array[i]);
+        }
+        else if ((i < 100) && (i >= 10))
+        {
+            printf("%d --> %d\n", i, in_au8Array[i]);
         }
         else
         {
-            printf("%d ", i);
+            printf("%d -> %d\n", i, in_au8Array[i]);
         }
     }
-    printf("\n");
-    for (uint8_t i = 0; i < in_u8ArraySize; i++)
-    {
-        printf("%d  ", in_au8Array[i]);
-    }
-    printf("\n");
 }
 
-void test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitialWorkBreakAndOffConditions(void)
+void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne(void)
 {
-    // - Input: currentMinute = 17, worktimeIntervalMin = 50, breaktimeIntervalMin = 7
-    // - Expected Output: [0...7] = W, [8...14] = B, [15...17] = 0, [18...59] = W
-    uint8_t u8TestCurrentMinute = 17;
+    /**
+     * t_start = 20min
+     * T_worktime = 1h15min
+     * T_Breaktime = 30min
+     *
+     * -> t_worktime = [20...59][0...19][80...94]
+     * -> t_breaktime = [95...119][60...64]
+     */
+
+    uint8_t u8TestCurrentMinute = 20;
+    uint8_t u8TestWorktimeIntervalMin = 75;
+    uint8_t u8TestBreaktimeIntervalMin = 30;
+
+    uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
+
+    LightEffects_initMinuteToLedConfigArray(
+        u8TestCurrentMinute,
+        u8TestWorktimeIntervalMin,
+        u8TestBreaktimeIntervalMin,
+        au8TestMinuteToColorArray);
+
+    // Count the number of occurences of each color in the array
+    // These need to match the intial values
+    uint8_t u8RedLowCount = 0;
+    uint8_t u8GreenLowCount = 0;
+    uint8_t u8LedOffCount = 0;
+
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_RED_LOW)
+        {
+            u8RedLowCount++;
+        }
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_GREEN_LOW)
+        {
+            u8GreenLowCount++;
+        }
+    }
+
+    TEST_ASSERT_EQUAL(u8TestWorktimeIntervalMin, u8RedLowCount);
+    TEST_ASSERT_EQUAL(u8TestBreaktimeIntervalMin, u8GreenLowCount);
+
+    // Check the first Ring - All entries need to be set to RED_LOW
+    for (uint8_t u8Index = 0; u8Index < MINUTES_IN_HOUR; u8Index++)
+    {
+        TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestMinuteToColorArray[u8Index]);
+    }
+
+    for (uint8_t u8Index = MINUTES_IN_HOUR; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        // Green Low
+        if (u8Index < 65)
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        // LED Off
+        if ((u8Index >= 65) && (u8Index < 80))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
+        }
+
+        // Red Low
+        if ((u8Index >= 80) && (u8Index < 95))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+
+        // Green Low
+        if ((u8Index >= 95) && (u8Index < 120))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+    }
+}
+
+void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationTwo(void)
+{
+    /**
+     * t_start = 50min
+     * T_worktime = 50min
+     * T_Breaktime = 50min
+     *
+     * -> t_worktime = [50...40] (Array 1)
+     * -> t_breaktime = [40...50](Array 1) [60...40] (Array 2)
+     */
+
+    uint8_t u8TestCurrentMinute = 50;
     uint8_t u8TestWorktimeIntervalMin = 50;
-    uint8_t u8TestBreaktimeIntervalMin = 7;
-    uint8_t au8TestMinuteToColorArray[MINUTES_IN_HOUR] = {0};
+    uint8_t u8TestBreaktimeIntervalMin = 50;
+
+    uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
     LightEffects_initMinuteToLedConfigArray(
         u8TestCurrentMinute,
@@ -66,38 +160,72 @@ void test_LightEffects_LightEffects_initMinuteToLedConfigArray_should_SetInitial
         u8TestBreaktimeIntervalMin,
         au8TestMinuteToColorArray);
 
-    // Check the first 8 Minutes (Work Time)
-    for (uint8_t u8Index = 0; u8Index < 7; u8Index++)
+    // Count the number of occurences of each color in the array
+    // These need to match the intial values
+    uint8_t u8RedLowCount = 0;
+    uint8_t u8GreenLowCount = 0;
+
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
     {
-        TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestMinuteToColorArray[u8Index]);
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_RED_LOW)
+        {
+            u8RedLowCount++;
+        }
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_GREEN_LOW)
+        {
+            u8GreenLowCount++;
+        }
     }
 
-    // Check the next 7 Minutes (Break Time)
-    for (uint8_t u8Index = 7; u8Index < 14; u8Index++)
-    {
-        TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestMinuteToColorArray[u8Index]);
-    }
+    TEST_ASSERT_EQUAL(u8TestWorktimeIntervalMin, u8RedLowCount);
+    TEST_ASSERT_EQUAL(u8TestBreaktimeIntervalMin, u8GreenLowCount);
 
-    // Check the next 3 Minutes (Off Time)
-    for (uint8_t u8Index = 14; u8Index < 17; u8Index++)
+    // Check the positions of the entries
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
     {
-        TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
-    }
-
-    // Check the last 42 Minutes (Work Time)
-    for (uint8_t u8Index = 17; u8Index < MINUTES_IN_HOUR; u8Index++)
-    {
-        TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestMinuteToColorArray[u8Index]);
+        if (u8Index < 40)
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index >= 40) && (u8Index < 50))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index >= 50) && (u8Index < 60))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index >= 60) && (u8Index <= 90))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index > 90) && (u8Index <= 110))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index > 110) && (u8Index < 120))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
     }
 }
 
-void test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecificIndexFromArray(void)
+void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationThree(void)
 {
-    uint8_t u8TestCurrentMinute = 0;
-    uint8_t u8TestWorktimeIntervalMin = 30;
-    uint8_t u8TestBreaktimeIntervalMin = 20;
-    uint8_t au8TestMinuteToColorArray[MINUTES_IN_HOUR] = {0};
-    uint8_t au8TestLedToColorArray[TOTAL_LEDS] = {0};
+    /**
+     * t_start = 20min
+     * T_worktime = 50min
+     * T_Breaktime = 10min
+     *
+     * -> t_worktime = [20...60] [0...10] (Array 1)
+     * -> t_breaktime = [10...20] (Array 1)
+     */
+
+    uint8_t u8TestCurrentMinute = 20;
+    uint8_t u8TestWorktimeIntervalMin = 50;
+    uint8_t u8TestBreaktimeIntervalMin = 10;
+
+    uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
     LightEffects_initMinuteToLedConfigArray(
         u8TestCurrentMinute,
@@ -105,22 +233,64 @@ void test_LightEffects_removeColorsFromMinuteArray_should_RemoveColorsAtSpecific
         u8TestBreaktimeIntervalMin,
         au8TestMinuteToColorArray);
 
-    LightEffects_removeColorsFromMinuteArray(au8TestMinuteToColorArray, u8TestCurrentMinute);
-    TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8TestCurrentMinute]);
+    // Count the number of occurences of each color in the array
+    // These need to match the intial values
+    uint8_t u8RedLowCount = 0;
+    uint8_t u8GreenLowCount = 0;
 
-    // try another minute
-    u8TestCurrentMinute = 12;
-    LightEffects_removeColorsFromMinuteArray(au8TestMinuteToColorArray, u8TestCurrentMinute);
-    TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8TestCurrentMinute]);
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_RED_LOW)
+        {
+            u8RedLowCount++;
+        }
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_GREEN_LOW)
+        {
+            u8GreenLowCount++;
+        }
+    }
+
+    TEST_ASSERT_EQUAL(u8TestWorktimeIntervalMin, u8RedLowCount);
+    TEST_ASSERT_EQUAL(u8TestBreaktimeIntervalMin, u8GreenLowCount);
+
+    // Check the positions of the entries
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        if ((u8Index >= 0) && (u8Index < 10))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index >= 10) && (u8Index < 20))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index >= 20) && (u8Index < 60))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index >= 60) && (u8Index < 120))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
+        }
+    }
 }
 
-void test_LightEffects_LightEffects_transformMinuteToLedConfigArrayToLedConfigArray_should_Transform()
+void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationFour(void)
 {
-    uint8_t u8TestCurrentMinute = 0;
-    uint8_t u8TestWorktimeIntervalMin = 30;
-    uint8_t u8TestBreaktimeIntervalMin = 20;
-    uint8_t au8TestMinuteToColorArray[MINUTES_IN_HOUR] = {0};
-    uint8_t au8TestLedToColorArray[TOTAL_LEDS] = {0};
+    /**
+     * t_start = 10min
+     * T_worktime = 52min
+     * T_Breaktime = 18min
+     *
+     * -> t_worktime = [10...60][60...2] (Array 1)
+     * -> t_breaktime = [2...10] (Array 1) [10...18] (Array 2)
+     */
+
+    uint8_t u8TestCurrentMinute = 10;
+    uint8_t u8TestWorktimeIntervalMin = 52;
+    uint8_t u8TestBreaktimeIntervalMin = 18;
+
+    uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
     LightEffects_initMinuteToLedConfigArray(
         u8TestCurrentMinute,
@@ -128,13 +298,48 @@ void test_LightEffects_LightEffects_transformMinuteToLedConfigArrayToLedConfigAr
         u8TestBreaktimeIntervalMin,
         au8TestMinuteToColorArray);
 
-    LightEffects_transformMinuteToLedConfigArrayToLedConfigArray(au8TestMinuteToColorArray, au8TestLedToColorArray);
+    // Count the number of occurences of each color in the array
+    // These need to match the intial values
+    uint8_t u8RedLowCount = 0;
+    uint8_t u8GreenLowCount = 0;
 
-    float u8LedsPerMinute = (float)TOTAL_LEDS_OUTER_RING / (float)MINUTES_IN_HOUR;
-
-    for (float i = 0; i < MINUTES_IN_HOUR; i++)
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
     {
-        uint8_t index = (uint8_t)(i * u8LedsPerMinute);
-        TEST_ASSERT_EQUAL(au8TestMinuteToColorArray[(uint8_t)i], au8TestLedToColorArray[index]);
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_RED_LOW)
+        {
+            u8RedLowCount++;
+        }
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_GREEN_LOW)
+        {
+            u8GreenLowCount++;
+        }
+    }
+
+    TEST_ASSERT_EQUAL(u8TestWorktimeIntervalMin, u8RedLowCount);
+    TEST_ASSERT_EQUAL(u8TestBreaktimeIntervalMin, u8GreenLowCount);
+
+    // Check the positions of the entries
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        if ((u8Index >= 0) && (u8Index < 2))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index >= 2) && (u8Index < 10))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index >= 10) && (u8Index < 60))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index >= 71) && (u8Index < 81))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestMinuteToColorArray[u8Index]);
+        }
+        if ((u8Index >= 81) && (u8Index < 120))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
+        }
     }
 }
