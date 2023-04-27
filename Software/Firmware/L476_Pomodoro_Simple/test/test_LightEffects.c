@@ -781,7 +781,6 @@ void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedT
      * 45 to 55
      * (Check index 105 - 115)
      */
-
     for (uint8_t u8CurrentMinuteIndex = 45;
          u8CurrentMinuteIndex < 55;
          u8CurrentMinuteIndex++)

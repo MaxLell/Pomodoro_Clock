@@ -1423,8 +1423,6 @@ void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedT
 
 
 
-
-
     for (uint8_t u8CurrentMinuteIndex = 45;
 
          u8CurrentMinuteIndex < 55;
@@ -1449,7 +1447,7 @@ void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedT
 
     {
 
-        UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(797), UNITY_DISPLAY_STYLE_INT);
+        UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(796), UNITY_DISPLAY_STYLE_INT);
 
     }
 
