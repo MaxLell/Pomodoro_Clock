@@ -31,12 +31,16 @@
   :line: 516
   :message: ''
   :unity_test_time: 0
+- :test: test_LightEffects_init_should_SubscribeToTopics
+  :line: 575
+  :message: ''
+  :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 7
-  :passed: 7
+  :total: 8
+  :passed: 8
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.3561720000579953
+:time: 0.3669039998203516

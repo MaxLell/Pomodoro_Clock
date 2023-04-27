@@ -8,6 +8,7 @@
 
 STATIC uint8_t u8CurrentMinute = 0U;
 STATIC uint8_t u8PFsmState = 0U;
+STATIC uint8_t u8DailyPomodoroScore = 0U;
 
 #ifdef TEST
 STATIC uint8_t au8TestPublishedLedArray[TOTAL_LEDS] = {0U};
@@ -141,6 +142,10 @@ STATIC status_t LightEffects_messageBrokerCallback(
         /* Get the Current PFSM State */
         u8PFsmState = in_pMessage.au8DataBytes[0]; // New State
         break;
+    case E_TOPIC_DAILY_POMODORO_SCORE:
+        /* Get the Daily Pomodoro Score */
+        u8DailyPomodoroScore = in_pMessage.au8DataBytes[0];
+        break;
     default:
         /* Unknown Topic */
         log_error("Unknown Message Topic");
@@ -233,10 +238,14 @@ STATIC void LightEffect_createAndPublishLedArray(
     assert_true(in_au8MinuteToLedConfig != NULL);
     assert_true(in_u8DailyPomodoroScore <= MAX_POMODORO_SCORE);
 
-    // outer ring
     uint8_t au8OuterRingArrayLed[TOTAL_LEDS_OUTER_RING] = {0};
     uint8_t au8OuterRingArrayMin[MINUTES_IN_HOUR] = {0};
+    uint8_t au8MiddleRingArrayLed[TOTAL_LEDS_MIDDLE_RING] = {0};
+    uint8_t au8MiddleRingArrayMin[MINUTES_IN_HOUR] = {0};
+    uint8_t au8InnerRingArrayLed[TOTAL_LEDS_INNER_RING] = {0};
+    static uint8_t au8AssembledLEDArray[TOTAL_LEDS] = {0};
 
+    // outer ring
     memcpy(au8OuterRingArrayMin, in_au8MinuteToLedConfig, MINUTES_IN_HOUR);
 
     // scale the Minute representation to the existing ring size
@@ -247,9 +256,6 @@ STATIC void LightEffect_createAndPublishLedArray(
         TOTAL_LEDS_OUTER_RING);
 
     // middle ring
-    uint8_t au8MiddleRingArray[TOTAL_LEDS_MIDDLE_RING] = {0};
-    uint8_t au8MiddleRingArrayMin[MINUTES_IN_HOUR] = {0};
-
     memcpy(
         au8MiddleRingArrayMin,
         &in_au8MinuteToLedConfig[MINUTES_IN_HOUR], // Start Copy at offset
@@ -259,24 +265,21 @@ STATIC void LightEffect_createAndPublishLedArray(
     LightEffects_scaleArray(
         au8MiddleRingArrayMin,
         MINUTES_IN_HOUR,
-        au8MiddleRingArray,
+        au8MiddleRingArrayLed,
         TOTAL_LEDS_MIDDLE_RING);
 
     // Inner Ring
-    uint8_t au8InnerRingArray[TOTAL_LEDS_INNER_RING] = {0};
-
     // Calculate the score filling from the daily pomodoro score
     LightEffects_setScoreToArray(
         in_u8DailyPomodoroScore,
-        au8InnerRingArray,
+        au8InnerRingArrayLed,
         TOTAL_LEDS_INNER_RING);
 
     // Assemble the LED Array
-    uint8_t au8AssembledLEDArray[TOTAL_LEDS] = {0};
     LightEffects_assembleLEDArray(
         au8OuterRingArrayLed, TOTAL_LEDS_OUTER_RING,
-        au8MiddleRingArray, TOTAL_LEDS_MIDDLE_RING,
-        au8InnerRingArray, TOTAL_LEDS_INNER_RING,
+        au8MiddleRingArrayLed, TOTAL_LEDS_MIDDLE_RING,
+        au8InnerRingArrayLed, TOTAL_LEDS_INNER_RING,
         au8AssembledLEDArray, TOTAL_LEDS);
 
 #ifdef TEST
@@ -302,6 +305,11 @@ void LightEffects_init()
     /* Subscribe to the current PFSM State */
     MessageBroker_subscribe(
         E_TOPIC_PFSM_STATE_CHANGED,
+        LightEffects_messageBrokerCallback);
+
+    /* Subscribe to the Daily Pomodoro Score */
+    MessageBroker_subscribe(
+        E_TOPIC_DAILY_POMODORO_SCORE,
         LightEffects_messageBrokerCallback);
 
     /* Initialize the PFSM State */

@@ -1048,3 +1048,23 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
     }
 
 }
+
+
+
+void test_LightEffects_init_should_SubscribeToTopics(void)
+
+{
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

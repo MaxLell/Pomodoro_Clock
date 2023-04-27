@@ -19,6 +19,7 @@ extern void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProp
 extern void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void);
 extern void test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings(void);
 extern void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysAndCreateOneOutputArrayAndPublishIt(void);
+extern void test_LightEffects_init_should_SubscribeToTopics(void);
 
 
 /*=======Mock Management=====*/
@@ -93,6 +94,7 @@ int main(void)
   run_test(test_LightEffects_scaleArray_should_scaleMinuteToColorArray, "test_LightEffects_scaleArray_should_scaleMinuteToColorArray", 363);
   run_test(test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings, "test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings", 430);
   run_test(test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysAndCreateOneOutputArrayAndPublishIt, "test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysAndCreateOneOutputArrayAndPublishIt", 516);
+  run_test(test_LightEffects_init_should_SubscribeToTopics, "test_LightEffects_init_should_SubscribeToTopics", 575);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();
