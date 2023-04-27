@@ -5,14 +5,6 @@
 #include "LightEffects_Interface.h"
 #include "Config.h"
 
-void setUp(void)
-{
-}
-
-void tearDown(void)
-{
-}
-
 extern void LightEffects_initMinuteToLedConfigArray(uint8_t in_u8CurrentMinute,
                                                     uint8_t in_u8WorktimeIntervalMin,
                                                     uint8_t in_u8BreaktimeIntervalMin,
@@ -37,6 +29,20 @@ extern void LightEffects_setScoreToArray(
     uint8_t in_u8Score,
     uint8_t *inout_au8ScoreArray,
     uint8_t in_u8ScoreArraySize);
+
+extern void LightEffect_createAndPublishLedArray(
+    uint8_t in_u8DailyPomodoroScore,
+    uint8_t *in_au8MinuteToLedConfig);
+
+extern uint8_t au8TestPublishedLedArray[TOTAL_LEDS];
+
+void setUp(void)
+{
+}
+
+void tearDown(void)
+{
+}
 
 /**
  * Helper functions
@@ -511,7 +517,7 @@ void test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings(vo
 
 void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysAndCreateOneOutputArrayAndPublishIt(void)
 {
-    // Create a MinuteToColorArray
+    // Create all Input Arrays
     uint8_t u8TestCurrentMinute = 50;
     uint8_t u8TestWorktimeIntervalMin = 50;
     uint8_t u8TestBreaktimeIntervalMin = 50;
@@ -523,4 +529,47 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
         u8TestWorktimeIntervalMin,
         u8TestBreaktimeIntervalMin,
         au8TestMinuteToColorArray);
+
+    MessageBroker_publish_IgnoreAndReturn(STATUS_OK);
+
+    LightEffect_createAndPublishLedArray(
+        u8TestDailyPomodoroScore,
+        au8TestMinuteToColorArray);
+
+    // Check the positions of the entries - Needs to be the same as for the previous test
+    for (uint8_t u8Index = 0; u8Index < TOTAL_LEDS; u8Index++)
+    {
+        if ((u8Index >= 0) && (u8Index <= 15))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestPublishedLedArray[u8Index]);
+        }
+        if ((u8Index > 15) && (u8Index < 20))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestPublishedLedArray[u8Index]);
+        }
+        if ((u8Index >= 20) && (u8Index < 24))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_RED_LOW, au8TestPublishedLedArray[u8Index]);
+        }
+        if ((u8Index >= 24) && (u8Index < 32))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestPublishedLedArray[u8Index]);
+        }
+        if ((u8Index > 32) && (u8Index < 38))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestPublishedLedArray[u8Index]);
+        }
+        if ((u8Index >= 38) && (u8Index < 40))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_GREEN_LOW, au8TestPublishedLedArray[u8Index]);
+        }
+        if ((u8Index >= 40) && (u8Index < 45))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_WHITE_LOW, au8TestPublishedLedArray[u8Index]);
+        }
+        if ((u8Index >= 45) && (u8Index < 48))
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestPublishedLedArray[u8Index]);
+        }
+    }
 }

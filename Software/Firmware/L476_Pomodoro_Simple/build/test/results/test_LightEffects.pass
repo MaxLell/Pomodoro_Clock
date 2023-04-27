@@ -4,83 +4,39 @@
   :file: test_LightEffects.c
 :successes:
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne
-  :line: 75
+  :line: 81
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationTwo
-  :line: 152
+  :line: 158
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationThree
-  :line: 225
+  :line: 231
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationFour
-  :line: 290
+  :line: 296
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_scaleArray_should_scaleMinuteToColorArray
-  :line: 359
+  :line: 365
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings
-  :line: 426
+  :line: 432
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysAndCreateOneOutputArrayAndPublishIt
+  :line: 518
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 6
-  :passed: 6
+  :total: 7
+  :passed: 7
   :failed: 0
   :ignored: 0
-:stdout:
-- 0 ---> 5
-- 1 ---> 5
-- 2 ---> 5
-- 3 ---> 5
-- 4 ---> 5
-- 5 ---> 5
-- 6 ---> 5
-- 7 ---> 5
-- 8 ---> 5
-- 9 ---> 5
-- 10 --> 5
-- 11 --> 5
-- 12 --> 5
-- 13 --> 5
-- 14 --> 5
-- 15 --> 5
-- 16 --> 9
-- 17 --> 9
-- 18 --> 9
-- 19 --> 9
-- 20 --> 5
-- 21 --> 5
-- 22 --> 5
-- 23 --> 5
-- 24 --> 9
-- 25 --> 9
-- 26 --> 9
-- 27 --> 9
-- 28 --> 9
-- 29 --> 9
-- 30 --> 9
-- 31 --> 9
-- 32 --> 9
-- 33 --> 1
-- 34 --> 1
-- 35 --> 1
-- 36 --> 1
-- 37 --> 1
-- 38 --> 9
-- 39 --> 9
-- 40 --> 20
-- 41 --> 20
-- 42 --> 20
-- 43 --> 20
-- 44 --> 20
-- 45 --> 1
-- 46 --> 1
-- 47 --> 1
-:time: 0.7929560001939535
+:stdout: []
+:time: 0.2774430001154542
