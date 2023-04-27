@@ -61,6 +61,14 @@ extern void LightEffect_createAndPublishLedArray(
 
 
 
+extern void LightEffects_updateMinuteToLedArray(
+
+    uint8_t in_u8CurrentMinute,
+
+    uint8_t *inout_au8MinuteToLedConfigArray);
+
+
+
 extern uint8_t au8TestPublishedLedArray[(24 + 16 + 8)];
 
 
@@ -195,9 +203,9 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((u8TestWorktimeIntervalMin)), (UNITY_INT)((u8RedLowCount)), (((void*)0)), (UNITY_UINT)(120), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8TestWorktimeIntervalMin)), (UNITY_INT)((u8RedLowCount)), (((void*)0)), (UNITY_UINT)(124), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((u8TestBreaktimeIntervalMin)), (UNITY_INT)((u8GreenLowCount)), (((void*)0)), (UNITY_UINT)(121), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8TestBreaktimeIntervalMin)), (UNITY_INT)((u8GreenLowCount)), (((void*)0)), (UNITY_UINT)(125), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -207,7 +215,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
     {
 
-        UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(126), UNITY_DISPLAY_STYLE_INT);
+        UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(130), UNITY_DISPLAY_STYLE_INT);
 
     }
 
@@ -223,7 +231,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(134), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(138), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -233,7 +241,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(139), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(143), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -245,7 +253,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(145), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(149), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -257,7 +265,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(151), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(155), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -329,9 +337,9 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((u8TestWorktimeIntervalMin)), (UNITY_INT)((u8RedLowCount)), (((void*)0)), (UNITY_UINT)(196), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8TestWorktimeIntervalMin)), (UNITY_INT)((u8RedLowCount)), (((void*)0)), (UNITY_UINT)(200), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((u8TestBreaktimeIntervalMin)), (UNITY_INT)((u8GreenLowCount)), (((void*)0)), (UNITY_UINT)(197), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8TestBreaktimeIntervalMin)), (UNITY_INT)((u8GreenLowCount)), (((void*)0)), (UNITY_UINT)(201), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -345,7 +353,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(204), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(208), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -353,7 +361,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(208), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(212), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -361,7 +369,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(212), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(216), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -369,7 +377,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(216), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(220), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -377,7 +385,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(220), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(224), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -385,7 +393,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(224), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(228), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -457,9 +465,9 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((u8TestWorktimeIntervalMin)), (UNITY_INT)((u8RedLowCount)), (((void*)0)), (UNITY_UINT)(269), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8TestWorktimeIntervalMin)), (UNITY_INT)((u8RedLowCount)), (((void*)0)), (UNITY_UINT)(273), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((u8TestBreaktimeIntervalMin)), (UNITY_INT)((u8GreenLowCount)), (((void*)0)), (UNITY_UINT)(270), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8TestBreaktimeIntervalMin)), (UNITY_INT)((u8GreenLowCount)), (((void*)0)), (UNITY_UINT)(274), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -473,7 +481,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(277), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(281), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -481,7 +489,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(281), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(285), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -489,7 +497,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(285), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(289), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -497,7 +505,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(289), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(293), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -569,9 +577,9 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((u8TestWorktimeIntervalMin)), (UNITY_INT)((u8RedLowCount)), (((void*)0)), (UNITY_UINT)(334), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8TestWorktimeIntervalMin)), (UNITY_INT)((u8RedLowCount)), (((void*)0)), (UNITY_UINT)(338), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((u8TestBreaktimeIntervalMin)), (UNITY_INT)((u8GreenLowCount)), (((void*)0)), (UNITY_UINT)(335), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8TestBreaktimeIntervalMin)), (UNITY_INT)((u8GreenLowCount)), (((void*)0)), (UNITY_UINT)(339), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -585,7 +593,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(342), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(346), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -593,7 +601,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(346), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(350), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -601,7 +609,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(350), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(354), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -609,7 +617,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(354), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(358), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -617,7 +625,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(358), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(362), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -683,7 +691,7 @@ void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void)
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestScaledOuterRing[u8Index])), (((void*)0)), (UNITY_UINT)(391), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestScaledOuterRing[u8Index])), (((void*)0)), (UNITY_UINT)(395), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -691,7 +699,7 @@ void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void)
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestScaledOuterRing[u8Index])), (((void*)0)), (UNITY_UINT)(395), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestScaledOuterRing[u8Index])), (((void*)0)), (UNITY_UINT)(399), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -699,7 +707,7 @@ void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void)
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestScaledOuterRing[u8Index])), (((void*)0)), (UNITY_UINT)(399), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestScaledOuterRing[u8Index])), (((void*)0)), (UNITY_UINT)(403), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -735,7 +743,7 @@ void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void)
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestScaledMiddleRing[u8Index])), (((void*)0)), (UNITY_UINT)(417), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestScaledMiddleRing[u8Index])), (((void*)0)), (UNITY_UINT)(421), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -743,7 +751,7 @@ void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void)
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestScaledMiddleRing[u8Index])), (((void*)0)), (UNITY_UINT)(421), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestScaledMiddleRing[u8Index])), (((void*)0)), (UNITY_UINT)(425), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -751,7 +759,7 @@ void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void)
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestScaledMiddleRing[u8Index])), (((void*)0)), (UNITY_UINT)(425), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestScaledMiddleRing[u8Index])), (((void*)0)), (UNITY_UINT)(429), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -867,7 +875,7 @@ void test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings(vo
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(483), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(487), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -875,7 +883,7 @@ void test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings(vo
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(487), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(491), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -883,7 +891,7 @@ void test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings(vo
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(491), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(495), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -891,7 +899,7 @@ void test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings(vo
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(495), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(499), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -899,7 +907,7 @@ void test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings(vo
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(499), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(503), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -907,7 +915,7 @@ void test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings(vo
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(503), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(507), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -915,7 +923,7 @@ void test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings(vo
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_WHITE_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(507), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_WHITE_LOW)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(511), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -923,7 +931,7 @@ void test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings(vo
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(511), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestAssembledLEDArray[u8Index])), (((void*)0)), (UNITY_UINT)(515), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -963,7 +971,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
 
 
-    MessageBroker_publish_CMockIgnoreAndReturn(531, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(535, (0));
 
 
 
@@ -985,7 +993,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(542), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(546), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -993,7 +1001,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(546), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(550), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -1001,7 +1009,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(550), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_RED_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(554), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -1009,7 +1017,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(554), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(558), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -1017,7 +1025,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(558), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(562), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -1025,7 +1033,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(562), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_GREEN_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(566), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -1033,7 +1041,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_WHITE_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(566), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_WHITE_LOW)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(570), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -1041,7 +1049,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
         {
 
-            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(570), UNITY_DISPLAY_STYLE_INT);
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestPublishedLedArray[u8Index])), (((void*)0)), (UNITY_UINT)(574), UNITY_DISPLAY_STYLE_INT);
 
         }
 
@@ -1051,7 +1059,149 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
 
 
-void test_LightEffects_init_should_SubscribeToTopics(void)
+void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffOne(void)
+
+{
+
+
+
+    uint8_t u8TestCurrentMinute = 50;
+
+    uint8_t u8TestWorktimeIntervalMin = 50;
+
+    uint8_t u8TestBreaktimeIntervalMin = 50;
+
+    uint8_t u8TestDailyPomodoroScore = 5;
+
+    uint8_t au8TestMinuteToColorArray[(60 * 2)] = {0};
+
+    uint8_t au8BeforeMinuteToLedArray[(60 * 2)] = {0};
+
+    uint8_t au8AfterMinuteToLedArray[(60 * 2)] = {0};
+
+
+
+    LightEffects_initMinuteToLedConfigArray(
+
+        u8TestCurrentMinute,
+
+        u8TestWorktimeIntervalMin,
+
+        u8TestBreaktimeIntervalMin,
+
+        au8TestMinuteToColorArray);
+
+
+
+    __builtin___memcpy_chk (au8BeforeMinuteToLedArray, au8TestMinuteToColorArray, (60 * 2), __builtin_object_size (au8BeforeMinuteToLedArray, 0));
+
+
+
+    uint8_t u8TestCurrentMinuteUpdate = 0;
+
+    LightEffects_updateMinuteToLedArray(
+
+        u8TestCurrentMinuteUpdate,
+
+        au8TestMinuteToColorArray);
+
+
+
+    __builtin___memcpy_chk (au8AfterMinuteToLedArray, au8TestMinuteToColorArray, (60 * 2), __builtin_object_size (au8AfterMinuteToLedArray, 0));
+
+
+
+
+
+    BOOL bArraysAreEqual = 1;
+
+    for (uint8_t u8Index = 0; u8Index < (60 * 2); u8Index++)
+
+    {
+
+        if (au8BeforeMinuteToLedArray[u8Index] != au8AfterMinuteToLedArray[u8Index])
+
+        {
+
+            bArraysAreEqual = 0;
+
+        }
+
+    }
+
+    do {if (!(bArraysAreEqual)) {} else {UnityFail( ((" Expected FALSE Was TRUE")), (UNITY_UINT)((UNITY_UINT)(614)));}} while(0);
+
+}
+
+
+
+void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffTwo(void)
+
+{
+
+
+
+
+
+
+
+
+
+
+
+    uint8_t u8TestCurrentMinute = 50;
+
+    uint8_t u8TestWorktimeIntervalMin = 50;
+
+    uint8_t u8TestBreaktimeIntervalMin = 50;
+
+    uint8_t u8TestDailyPomodoroScore = 5;
+
+    uint8_t au8TestMinuteToColorArray[(60 * 2)] = {0};
+
+
+
+    LightEffects_initMinuteToLedConfigArray(
+
+        u8TestCurrentMinute,
+
+        u8TestWorktimeIntervalMin,
+
+        u8TestBreaktimeIntervalMin,
+
+        au8TestMinuteToColorArray);
+
+
+
+    for (uint8_t u8Index = 0; u8Index < 60; u8Index++)
+
+    {
+
+        LightEffects_updateMinuteToLedArray(
+
+            u8Index,
+
+            au8TestMinuteToColorArray);
+
+    }
+
+
+
+
+
+    for (uint8_t u8Index = 0; u8Index < 60; u8Index++)
+
+    {
+
+        UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(646), UNITY_DISPLAY_STYLE_INT);
+
+    }
+
+}
+
+
+
+void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffThree(void)
 
 {
 
@@ -1066,5 +1216,241 @@ void test_LightEffects_init_should_SubscribeToTopics(void)
 
 
 
+
+
+
+    uint8_t u8TestCurrentMinute = 50;
+
+    uint8_t u8TestWorktimeIntervalMin = 50;
+
+    uint8_t u8TestBreaktimeIntervalMin = 50;
+
+    uint8_t u8TestDailyPomodoroScore = 5;
+
+    uint8_t au8TestMinuteToColorArray[(60 * 2)] = {0};
+
+
+
+    LightEffects_initMinuteToLedConfigArray(
+
+        u8TestCurrentMinute,
+
+        u8TestWorktimeIntervalMin,
+
+        u8TestBreaktimeIntervalMin,
+
+        au8TestMinuteToColorArray);
+
+
+
+
+
+    for (uint8_t u8Index = 0; u8Index < 60; u8Index++)
+
+    {
+
+        LightEffects_updateMinuteToLedArray(
+
+            u8Index,
+
+            au8TestMinuteToColorArray);
+
+    }
+
+    for (uint8_t u8Index = 0; u8Index < 10; u8Index++)
+
+    {
+
+        LightEffects_updateMinuteToLedArray(
+
+            u8Index,
+
+            au8TestMinuteToColorArray);
+
+    }
+
+
+
+
+
+    uint8_t u8RedLedCount = 0;
+
+    uint8_t u8GreenLedCount = 0;
+
+
+
+    for (uint8_t u8Index = 0; u8Index < (60 * 2); u8Index++)
+
+    {
+
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_RED_LOW)
+
+        {
+
+            u8RedLedCount++;
+
+        }
+
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_GREEN_LOW)
+
+        {
+
+            u8GreenLedCount++;
+
+        }
+
+    }
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((u8RedLedCount)), (((void*)0)), (UNITY_UINT)(701), UNITY_DISPLAY_STYLE_INT);
+
+    UnityAssertEqualNumber((UNITY_INT)((30)), (UNITY_INT)((u8GreenLedCount)), (((void*)0)), (UNITY_UINT)(702), UNITY_DISPLAY_STYLE_INT);
+
+}
+
+
+
+void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffFour(void)
+
+{
+
+    uint8_t u8TestCurrentMinute = 50;
+
+    uint8_t u8TestWorktimeIntervalMin = 50;
+
+    uint8_t u8TestBreaktimeIntervalMin = 50;
+
+    uint8_t u8TestDailyPomodoroScore = 5;
+
+    uint8_t au8TestMinuteToColorArray[(60 * 2)] = {0};
+
+
+
+    LightEffects_initMinuteToLedConfigArray(
+
+        u8TestCurrentMinute,
+
+        u8TestWorktimeIntervalMin,
+
+        u8TestBreaktimeIntervalMin,
+
+        au8TestMinuteToColorArray);
+
+
+
+
+
+
+
+
+
+    for (uint8_t u8CurrentMinuteIndex = 35;
+
+         u8CurrentMinuteIndex < 45;
+
+         u8CurrentMinuteIndex++)
+
+    {
+
+        LightEffects_updateMinuteToLedArray(
+
+            u8CurrentMinuteIndex,
+
+            au8TestMinuteToColorArray);
+
+    }
+
+
+
+    for (uint8_t u8Index = 35; u8Index < 45; u8Index++)
+
+    {
+
+        UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(756), UNITY_DISPLAY_STYLE_INT);
+
+    }
+
+
+
+
+
+
+
+
+
+    for (uint8_t u8CurrentMinuteIndex = 0;
+
+         u8CurrentMinuteIndex < 60;
+
+         u8CurrentMinuteIndex++)
+
+    {
+
+        LightEffects_updateMinuteToLedArray(
+
+            u8CurrentMinuteIndex,
+
+            au8TestMinuteToColorArray);
+
+    }
+
+
+
+    for (uint8_t u8Index = 0; u8Index < (60 * 2); u8Index++)
+
+    {
+
+        if (u8Index < 60)
+
+        {
+
+            UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(775), UNITY_DISPLAY_STYLE_INT);
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    for (uint8_t u8CurrentMinuteIndex = 45;
+
+         u8CurrentMinuteIndex < 55;
+
+         u8CurrentMinuteIndex++)
+
+    {
+
+        LightEffects_updateMinuteToLedArray(
+
+            u8CurrentMinuteIndex,
+
+            au8TestMinuteToColorArray);
+
+    }
+
+
+
+
+
+    for (uint8_t u8Index = 105; u8Index < 115; u8Index++)
+
+    {
+
+        UnityAssertEqualNumber((UNITY_INT)((LIGHTEFFECTS_LED_OFF)), (UNITY_INT)((au8TestMinuteToColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(797), UNITY_DISPLAY_STYLE_INT);
+
+    }
 
 }

@@ -45,6 +45,10 @@ STATIC void LightEffect_createAndPublishLedArray(
     uint8_t in_u8DailyPomodoroScore,
     uint8_t *in_au8MinuteToLedConfig);
 
+STATIC void LightEffects_updateMinuteToLedArray(
+    uint8_t in_u8CurrentMinute,
+    uint8_t *inout_au8MinuteToLedConfigArray);
+
 /**
  * Function Definitions
  */
@@ -293,6 +297,39 @@ STATIC void LightEffect_createAndPublishLedArray(
     sMessage.u16DataSize = TOTAL_LEDS;
 
     MessageBroker_publish(sMessage);
+}
+
+STATIC void LightEffects_updateMinuteToLedArray(
+    uint8_t in_u8CurrentMinute,
+    uint8_t *inout_au8MinuteToLedConfigArray)
+{
+    // Check inputs
+    assert_true(inout_au8MinuteToLedConfigArray != NULL);
+    assert_true(in_u8CurrentMinute < MINUTES_IN_HOUR);
+
+    /**
+     * If the first Ring is already cleared, then the currentMinute
+     * needs to add 60 Minutes, so that the second Ring is processed.
+     */
+    BOOL bFirstRingCleared = TRUE;
+    for (uint8_t i = 0; i < MINUTES_IN_HOUR; i++)
+    {
+        if (inout_au8MinuteToLedConfigArray[i] != LIGHTEFFECTS_LED_OFF)
+        {
+            bFirstRingCleared = FALSE;
+            break;
+        }
+    }
+    if (bFirstRingCleared)
+    {
+        // Process the entries on the second ring (index 60-120)
+        in_u8CurrentMinute += MINUTES_IN_HOUR;
+    }
+
+    assert_true(in_u8CurrentMinute < TOTAL_MINUTES);
+
+    // Clear the LED
+    inout_au8MinuteToLedConfigArray[in_u8CurrentMinute] = LIGHTEFFECTS_LED_OFF;
 }
 
 void LightEffects_init()

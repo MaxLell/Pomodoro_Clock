@@ -4,43 +4,55 @@
   :file: test_LightEffects.c
 :successes:
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne
-  :line: 79
+  :line: 83
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationTwo
-  :line: 156
+  :line: 160
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationThree
-  :line: 229
+  :line: 233
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationFour
-  :line: 294
+  :line: 298
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_scaleArray_should_scaleMinuteToColorArray
-  :line: 363
+  :line: 367
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings
-  :line: 430
+  :line: 434
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysAndCreateOneOutputArrayAndPublishIt
-  :line: 516
+  :line: 520
   :message: ''
   :unity_test_time: 0
-- :test: test_LightEffects_init_should_SubscribeToTopics
-  :line: 575
+- :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffOne
+  :line: 579
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffTwo
+  :line: 617
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffThree
+  :line: 650
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffFour
+  :line: 705
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 8
-  :passed: 8
+  :total: 11
+  :passed: 11
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.3669039998203516
+:time: 0.31748399999924004

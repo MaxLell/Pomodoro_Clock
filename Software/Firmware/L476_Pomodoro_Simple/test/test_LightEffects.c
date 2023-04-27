@@ -32,6 +32,10 @@ extern void LightEffect_createAndPublishLedArray(
     uint8_t in_u8DailyPomodoroScore,
     uint8_t *in_au8MinuteToLedConfig);
 
+extern void LightEffects_updateMinuteToLedArray(
+    uint8_t in_u8CurrentMinute,
+    uint8_t *inout_au8MinuteToLedConfigArray);
+
 extern uint8_t au8TestPublishedLedArray[TOTAL_LEDS];
 
 void setUp(void)
@@ -572,12 +576,224 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
     }
 }
 
-void test_LightEffects_init_should_SubscribeToTopics(void)
+void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffOne(void)
+{
+    // Create a MinuteToLedArray which uses both rings
+    uint8_t u8TestCurrentMinute = 50;
+    uint8_t u8TestWorktimeIntervalMin = 50;
+    uint8_t u8TestBreaktimeIntervalMin = 50;
+    uint8_t u8TestDailyPomodoroScore = 5;
+    uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
+    uint8_t au8BeforeMinuteToLedArray[TOTAL_MINUTES] = {0};
+    uint8_t au8AfterMinuteToLedArray[TOTAL_MINUTES] = {0};
+
+    LightEffects_initMinuteToLedConfigArray(
+        u8TestCurrentMinute,
+        u8TestWorktimeIntervalMin,
+        u8TestBreaktimeIntervalMin,
+        au8TestMinuteToColorArray);
+
+    memcpy(au8BeforeMinuteToLedArray, au8TestMinuteToColorArray, TOTAL_MINUTES);
+
+    uint8_t u8TestCurrentMinuteUpdate = 0;
+    LightEffects_updateMinuteToLedArray(
+        u8TestCurrentMinuteUpdate,
+        au8TestMinuteToColorArray);
+
+    memcpy(au8AfterMinuteToLedArray, au8TestMinuteToColorArray, TOTAL_MINUTES);
+
+    // Compare the 2 Arrays and see whether they are equal (because the must not be)
+    BOOL bArraysAreEqual = TRUE;
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        if (au8BeforeMinuteToLedArray[u8Index] != au8AfterMinuteToLedArray[u8Index])
+        {
+            bArraysAreEqual = FALSE;
+        }
+    }
+    TEST_ASSERT_FALSE(bArraysAreEqual);
+}
+
+void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffTwo(void)
 {
     /**
-     * Topics:
-     * - Current time
-     * - PFSM state
-     * - Daily Pomodoro Score
+     * This test switches off 60 LEDs
      */
+
+    // Create a MinuteToLedArray which uses both rings
+    uint8_t u8TestCurrentMinute = 50;
+    uint8_t u8TestWorktimeIntervalMin = 50;
+    uint8_t u8TestBreaktimeIntervalMin = 50;
+    uint8_t u8TestDailyPomodoroScore = 5;
+    uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
+
+    LightEffects_initMinuteToLedConfigArray(
+        u8TestCurrentMinute,
+        u8TestWorktimeIntervalMin,
+        u8TestBreaktimeIntervalMin,
+        au8TestMinuteToColorArray);
+
+    for (uint8_t u8Index = 0; u8Index < MINUTES_IN_HOUR; u8Index++)
+    {
+        LightEffects_updateMinuteToLedArray(
+            u8Index,
+            au8TestMinuteToColorArray);
+    }
+
+    // Check that the first 60 LEDs are off
+    for (uint8_t u8Index = 0; u8Index < MINUTES_IN_HOUR; u8Index++)
+    {
+        TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
+    }
+}
+
+void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffThree(void)
+{
+    /**
+     * This test switches off 70 LEDs
+     * (The sum of the red leds needs to 0)
+     * (The sum of the breaktime leds needs to 30)
+     */
+
+    // Create a MinuteToLedArray which uses both rings
+    uint8_t u8TestCurrentMinute = 50;
+    uint8_t u8TestWorktimeIntervalMin = 50;
+    uint8_t u8TestBreaktimeIntervalMin = 50;
+    uint8_t u8TestDailyPomodoroScore = 5;
+    uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
+
+    LightEffects_initMinuteToLedConfigArray(
+        u8TestCurrentMinute,
+        u8TestWorktimeIntervalMin,
+        u8TestBreaktimeIntervalMin,
+        au8TestMinuteToColorArray);
+
+    // Run 70 times over the array
+    for (uint8_t u8Index = 0; u8Index < MINUTES_IN_HOUR; u8Index++)
+    {
+        LightEffects_updateMinuteToLedArray(
+            u8Index,
+            au8TestMinuteToColorArray);
+    }
+    for (uint8_t u8Index = 0; u8Index < 10; u8Index++)
+    {
+        LightEffects_updateMinuteToLedArray(
+            u8Index,
+            au8TestMinuteToColorArray);
+    }
+
+    // Count the number of colors
+    uint8_t u8RedLedCount = 0;
+    uint8_t u8GreenLedCount = 0;
+
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_RED_LOW)
+        {
+            u8RedLedCount++;
+        }
+        if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_LED_GREEN_LOW)
+        {
+            u8GreenLedCount++;
+        }
+    }
+
+    TEST_ASSERT_EQUAL(0, u8RedLedCount);
+    TEST_ASSERT_EQUAL(30, u8GreenLedCount);
+}
+
+void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffFour(void)
+{
+    /**
+     * Test:
+     * Are the right elements taken from the Array?
+     * -> Remove 10 Elements from the first Ring (Minute 35 -> 45)
+     *    -> Are these gone?
+     * -> Remove 60 Elements (make sure that the first ring is cleared)
+     *    -> Are these gone, any other writes? (this should not happen)
+     * -> Remove 10 Elements from the second ring (Minute 45-55)
+     */
+
+    /**
+     * Initial Conditions:
+     * Ring 1 Minutes
+     *  0-40 -> Red
+     * 40-50 -> Green
+     * 50-60 -> Red
+     *
+     * Ring 2 Minutes
+     *  0-30 -> Green
+     * 30-50 -> Off
+     * 50-60 -> Green
+     */
+
+    uint8_t u8TestCurrentMinute = 50;
+    uint8_t u8TestWorktimeIntervalMin = 50;
+    uint8_t u8TestBreaktimeIntervalMin = 50;
+    uint8_t u8TestDailyPomodoroScore = 5;
+    uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
+
+    LightEffects_initMinuteToLedConfigArray(
+        u8TestCurrentMinute,
+        u8TestWorktimeIntervalMin,
+        u8TestBreaktimeIntervalMin,
+        au8TestMinuteToColorArray);
+
+    /**
+     * Take away 10 Elements from the first ring (Minute 35 -> 45)
+     */
+    for (uint8_t u8CurrentMinuteIndex = 35;
+         u8CurrentMinuteIndex < 45;
+         u8CurrentMinuteIndex++)
+    {
+        LightEffects_updateMinuteToLedArray(
+            u8CurrentMinuteIndex,
+            au8TestMinuteToColorArray);
+    }
+    // Check that the 10 LEDs are off
+    for (uint8_t u8Index = 35; u8Index < 45; u8Index++)
+    {
+        TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
+    }
+
+    /**
+     * Take away 60 Elements (make sure that the first ring is cleared)
+     */
+    for (uint8_t u8CurrentMinuteIndex = 0;
+         u8CurrentMinuteIndex < 60;
+         u8CurrentMinuteIndex++)
+    {
+        LightEffects_updateMinuteToLedArray(
+            u8CurrentMinuteIndex,
+            au8TestMinuteToColorArray);
+    }
+    // Check that the first 60 LEDs are off
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        if (u8Index < MINUTES_IN_HOUR)
+        {
+            TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
+        }
+    }
+
+    /**
+     * Take away 10 Elements from the second ring (Minute 45-55)
+     * 45 to 55
+     * (Check index 105 - 115)
+     */
+
+    for (uint8_t u8CurrentMinuteIndex = 45;
+         u8CurrentMinuteIndex < 55;
+         u8CurrentMinuteIndex++)
+    {
+        LightEffects_updateMinuteToLedArray(
+            u8CurrentMinuteIndex,
+            au8TestMinuteToColorArray);
+    }
+
+    // Check that the 10 LEDs are off
+    for (uint8_t u8Index = 105; u8Index < 115; u8Index++)
+    {
+        TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
+    }
 }
