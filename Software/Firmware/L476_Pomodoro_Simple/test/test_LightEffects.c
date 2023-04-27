@@ -840,3 +840,53 @@ void test_LightEffects_worktimeEntryFunction_should_initializeTheMinuteArray(voi
             TOTAL_MINUTES);
     }
 }
+
+void test_LightEffects_breaktimeEntryFunction_should_replaceAllGreenLowLedsWithGreenHighLedsAndSwitchOffAllRedLeds(void)
+{
+    uint8_t u8TestCurrentMinute = 50;
+    uint8_t u8TestWorktimeIntervalMin = 0;
+    uint8_t u8TestBreaktimeIntervalMin = 0;
+
+    Config_getWorktime(&u8TestWorktimeIntervalMin);
+    Config_getBreaktime(&u8TestBreaktimeIntervalMin);
+
+    TEST_ASSERT_EQUAL(50, u8TestWorktimeIntervalMin);
+    TEST_ASSERT_EQUAL(10, u8TestBreaktimeIntervalMin);
+
+    LightEffects_initMinuteToLedConfigArray(
+        u8TestCurrentMinute,
+        u8TestWorktimeIntervalMin,
+        u8TestBreaktimeIntervalMin,
+        au8MinuteToLedConfigArray);
+
+    // Set the starting minute to 50
+    LightEffects_BreaktimeEntryFunction();
+
+    // Count the number of green low LEDs -> Need to be 0
+    // count the number of red low LEDs -> Need to be 0
+    // count the number of green high LEDs -> Need to be 10
+
+    uint8_t u8GreenLowLedCounter = 0;
+    uint8_t u8RedLowLedCounter = 0;
+    uint8_t u8GreenHighLedCounter = 0;
+
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        if (au8MinuteToLedConfigArray[u8Index] == LIGHTEFFECTS_LED_GREEN_LOW)
+        {
+            u8GreenLowLedCounter++;
+        }
+        else if (au8MinuteToLedConfigArray[u8Index] == LIGHTEFFECTS_LED_RED_LOW)
+        {
+            u8RedLowLedCounter++;
+        }
+        else if (au8MinuteToLedConfigArray[u8Index] == LIGHTEFFECTS_LED_GREEN_HIGH)
+        {
+            u8GreenHighLedCounter++;
+        }
+    }
+
+    TEST_ASSERT_EQUAL(0, u8GreenLowLedCounter);
+    TEST_ASSERT_EQUAL(0, u8RedLowLedCounter);
+    TEST_ASSERT_EQUAL(10, u8GreenHighLedCounter);
+}
