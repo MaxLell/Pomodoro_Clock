@@ -368,16 +368,14 @@ void LightEffects_WorktimeEntryFunction()
         au8MinuteToLedConfigArray);
 }
 
-LightEffects_BreaktimeEntryFunction()
+STATIC void LightEffects_BreaktimeEntryFunction()
 {
     // Clear all the Worktime LEDs (Count and report them)
     // Set all Breaktime LEDS to a high intensity
-    uint8_t u8WorktimeCount = 0U;
     for (uint8_t i = 0; i < TOTAL_MINUTES; i++)
     {
         if (au8MinuteToLedConfigArray[i] == LIGHTEFFECTS_LED_RED_LOW)
         {
-            u8WorktimeCount++;
             au8MinuteToLedConfigArray[i] = LIGHTEFFECTS_LED_OFF;
         }
 
@@ -386,7 +384,6 @@ LightEffects_BreaktimeEntryFunction()
             au8MinuteToLedConfigArray[i] = LIGHTEFFECTS_LED_GREEN_HIGH;
         }
     }
-    log_info("Worktime Count: %d", u8WorktimeCount);
 }
 
 void LightEffects_init()
@@ -450,9 +447,8 @@ status_t LightEffects_execute()
             au8MinuteToLedConfigArray);
 
         // Create and publish the LED Array
-        LightEffects_createAndPublishLedArray(
-            au8MinuteToLedConfigArray,
-            u8DailyPomodoroScore);
+        LightEffects_createAndPublishLedArray(u8DailyPomodoroScore,
+                                              au8MinuteToLedConfigArray);
 
         break;
     case E_PFSM_STATE_BREAKTIME:
@@ -468,9 +464,8 @@ status_t LightEffects_execute()
             au8MinuteToLedConfigArray);
 
         // Create and publish the LED Array
-        LightEffects_createAndPublishLedArray(
-            au8MinuteToLedConfigArray,
-            u8DailyPomodoroScore);
+        LightEffects_createAndPublishLedArray(u8DailyPomodoroScore,
+                                              au8MinuteToLedConfigArray);
 
         break;
 

@@ -4,59 +4,63 @@
   :file: test_LightEffects.c
 :successes:
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne
-  :line: 88
+  :line: 90
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationTwo
-  :line: 165
+  :line: 167
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationThree
-  :line: 238
+  :line: 240
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationFour
-  :line: 303
+  :line: 305
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_scaleArray_should_scaleMinuteToColorArray
-  :line: 372
+  :line: 374
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings
-  :line: 439
+  :line: 441
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysAndCreateOneOutputArrayAndPublishIt
-  :line: 525
+  :line: 527
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffOne
-  :line: 584
+  :line: 586
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffTwo
-  :line: 622
+  :line: 624
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffThree
-  :line: 655
+  :line: 657
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffFour
-  :line: 710
+  :line: 712
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_worktimeEntryFunction_should_initializeTheMinuteArray
-  :line: 805
+  :line: 807
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightEffects_breaktimeEntryFunction_should_replaceAllGreenLowLedsWithGreenHighLedsAndSwitchOffAllRedLeds
+  :line: 846
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 12
-  :passed: 12
+  :total: 13
+  :passed: 13
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.3098420000169426
+:time: 0.33681900007650256

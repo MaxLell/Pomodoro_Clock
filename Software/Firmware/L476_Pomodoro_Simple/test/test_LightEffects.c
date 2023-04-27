@@ -38,6 +38,8 @@ extern void LightEffects_updateMinuteToLedArray(
 
 extern void LightEffects_WorktimeEntryFunction();
 
+extern void LightEffects_BreaktimeEntryFunction();
+
 extern uint8_t au8TestPublishedLedArray[TOTAL_LEDS];
 extern uint8_t au8MinuteToLedConfigArray[TOTAL_MINUTES];
 extern uint8_t u8CurrentMinute;
