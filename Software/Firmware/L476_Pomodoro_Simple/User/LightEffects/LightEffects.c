@@ -14,6 +14,11 @@ STATIC uint8_t u8DailyPomodoroScore = 0U;
 STATIC uint8_t au8TestPublishedLedArray[TOTAL_LEDS] = {0U};
 #endif
 
+STATIC BOOL bWorktimeEntryFunctionAlreadyCalled = FALSE;
+STATIC BOOL bBreaktimeEntryFunctionAlreadyCalled = FALSE;
+
+STATIC uint8_t au8MinuteToLedConfigArray[TOTAL_MINUTES] = {0U};
+
 /**
  * Function Prototypes
  */
@@ -48,6 +53,10 @@ STATIC void LightEffect_createAndPublishLedArray(
 STATIC void LightEffects_updateMinuteToLedArray(
     uint8_t in_u8CurrentMinute,
     uint8_t *inout_au8MinuteToLedConfigArray);
+
+STATIC void LightEffects_clearRunOnceFlags(void);
+
+STATIC void LightEffects_WorktimeEntryFunction(void);
 
 /**
  * Function Definitions
@@ -332,6 +341,28 @@ STATIC void LightEffects_updateMinuteToLedArray(
     inout_au8MinuteToLedConfigArray[in_u8CurrentMinute] = LIGHTEFFECTS_LED_OFF;
 }
 
+STATIC void LightEffects_clearRunOnceFlags()
+{
+    bWorktimeEntryFunctionAlreadyCalled = FALSE;
+    bBreaktimeEntryFunctionAlreadyCalled = FALSE;
+}
+
+void LightEffects_WorktimeEntryFunction()
+{
+    uint8_t u8WorktimeIntervalMin = 0U;
+    uint8_t u8BreaktimeIntervalMin = 0U;
+
+    Config_getWorktime(&u8WorktimeIntervalMin);
+    Config_getBreaktime(&u8BreaktimeIntervalMin);
+
+    // Initialize the Minute to LED Array
+    LightEffects_initMinuteToLedConfigArray(
+        u8CurrentMinute,
+        u8WorktimeIntervalMin,
+        u8BreaktimeIntervalMin,
+        au8MinuteToLedConfigArray);
+}
+
 void LightEffects_init()
 {
     /* Subscribe to the current Minute */
@@ -369,6 +400,11 @@ status_t LightEffects_execute()
         break;
 
     case E_PFSM_STATE_WORKTIME:
+        if (bWorktimeEntryFunctionAlreadyCalled == FALSE)
+        {
+            bWorktimeEntryFunctionAlreadyCalled = TRUE;
+            LightEffects_WorktimeEntryFunction();
+        }
 
         break;
     case E_PFSM_STATE_BREAKTIME:

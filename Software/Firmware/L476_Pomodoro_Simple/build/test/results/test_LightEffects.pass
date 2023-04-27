@@ -4,55 +4,59 @@
   :file: test_LightEffects.c
 :successes:
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne
-  :line: 83
+  :line: 88
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationTwo
-  :line: 160
+  :line: 165
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationThree
-  :line: 233
+  :line: 238
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationFour
-  :line: 298
+  :line: 303
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_scaleArray_should_scaleMinuteToColorArray
-  :line: 367
+  :line: 372
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_assembleLEDArray_should_GenerateOneArrayForAllLedRings
-  :line: 434
+  :line: 439
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysAndCreateOneOutputArrayAndPublishIt
-  :line: 520
+  :line: 525
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffOne
-  :line: 579
+  :line: 584
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffTwo
-  :line: 617
+  :line: 622
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffThree
-  :line: 650
+  :line: 655
   :message: ''
   :unity_test_time: 0
 - :test: test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffFour
-  :line: 705
+  :line: 710
+  :message: ''
+  :unity_test_time: 0
+- :test: test_LightEffects_worktimeEntryFunction_should_initializeTheMinuteArray
+  :line: 805
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 11
-  :passed: 11
+  :total: 12
+  :passed: 12
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.004305999958887696
+:time: 0.3098420000169426

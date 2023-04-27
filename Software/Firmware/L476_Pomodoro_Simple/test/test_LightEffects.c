@@ -36,7 +36,11 @@ extern void LightEffects_updateMinuteToLedArray(
     uint8_t in_u8CurrentMinute,
     uint8_t *inout_au8MinuteToLedConfigArray);
 
+extern void LightEffects_WorktimeEntryFunction();
+
 extern uint8_t au8TestPublishedLedArray[TOTAL_LEDS];
+extern uint8_t au8MinuteToLedConfigArray[TOTAL_MINUTES];
+extern uint8_t u8CurrentMinute;
 
 void setUp(void)
 {
@@ -78,6 +82,7 @@ void helper_printArray(uint8_t *in_au8Array, uint8_t in_u8ArraySize)
             printf("%d -> %d\n", i, in_au8Array[i]);
         }
     }
+    printf("\n");
 }
 
 void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne(void)
@@ -794,5 +799,44 @@ void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedT
     for (uint8_t u8Index = 105; u8Index < 115; u8Index++)
     {
         TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
+    }
+}
+
+void test_LightEffects_worktimeEntryFunction_should_initializeTheMinuteArray(void)
+{
+    uint8_t u8TestCurrentMinute = 50;
+    uint8_t u8TestWorktimeIntervalMin = 0;
+    uint8_t u8TestBreaktimeIntervalMin = 0;
+
+    Config_getWorktime(&u8TestWorktimeIntervalMin);
+    Config_getBreaktime(&u8TestBreaktimeIntervalMin);
+
+    TEST_ASSERT_EQUAL(50, u8TestWorktimeIntervalMin);
+    TEST_ASSERT_EQUAL(10, u8TestBreaktimeIntervalMin);
+
+    uint8_t au8TestMinuteToColorArrayManual[TOTAL_MINUTES] = {0};
+
+    LightEffects_initMinuteToLedConfigArray(
+        u8TestCurrentMinute,
+        u8TestWorktimeIntervalMin,
+        u8TestBreaktimeIntervalMin,
+        au8TestMinuteToColorArrayManual);
+
+    // Reset all elements of the au8MinuteToLedConfigArray
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        au8MinuteToLedConfigArray[u8Index] = 0;
+    }
+    // Set the starting minute to 50
+    u8CurrentMinute = 50;
+    LightEffects_WorktimeEntryFunction();
+
+    // Compare the Manual with the au8MinuteToLedConfigArray
+    for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++)
+    {
+        TEST_ASSERT_EQUAL_CHAR_ARRAY(
+            au8TestMinuteToColorArrayManual,
+            au8MinuteToLedConfigArray,
+            TOTAL_MINUTES);
     }
 }
