@@ -13,8 +13,6 @@ extern void LightEffects_initMinuteToLedConfigArray(uint8_t in_u8CurrentMinute,
 extern void LightEffects_removeColorsFromMinuteArray(uint8_t *inout_au8MinuteToColorArray,
                                                      uint8_t in_u8CurrentMinute);
 
-extern void LightEffects_setLedsToColor(uint8_t *in_au8LedToColorArray);
-
 extern void LightEffects_scaleArray(
     uint8_t *in_au8SourceArray, uint8_t in_u8SourceArraySize,
     uint8_t *inout_au8TargetArray, uint8_t in_u8TargetArraySize);
@@ -573,3 +571,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
         }
     }
 }
+
+/**
+ *
+ */
