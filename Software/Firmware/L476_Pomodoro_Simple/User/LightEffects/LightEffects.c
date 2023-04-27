@@ -46,7 +46,7 @@ STATIC void LightEffects_setScoreToArray(
     uint8_t *inout_au8ScoreArray,
     uint8_t in_u8ScoreArraySize);
 
-STATIC void LightEffect_createAndPublishLedArray(
+STATIC void LightEffects_createAndPublishLedArray(
     uint8_t in_u8DailyPomodoroScore,
     uint8_t *in_au8MinuteToLedConfig);
 
@@ -57,6 +57,8 @@ STATIC void LightEffects_updateMinuteToLedArray(
 STATIC void LightEffects_clearRunOnceFlags(void);
 
 STATIC void LightEffects_WorktimeEntryFunction(void);
+
+STATIC void LightEffects_BreaktimeEntryFunction(void);
 
 /**
  * Function Definitions
@@ -154,6 +156,9 @@ STATIC status_t LightEffects_messageBrokerCallback(
     case E_TOPIC_PFSM_STATE_CHANGED:
         /* Get the Current PFSM State */
         u8PFsmState = in_pMessage.au8DataBytes[0]; // New State
+
+        // Clear the Run Once Flags
+        LightEffects_clearRunOnceFlags();
         break;
     case E_TOPIC_DAILY_POMODORO_SCORE:
         /* Get the Daily Pomodoro Score */
@@ -243,7 +248,7 @@ STATIC void LightEffects_setScoreToArray(
     }
 }
 
-STATIC void LightEffect_createAndPublishLedArray(
+STATIC void LightEffects_createAndPublishLedArray(
     uint8_t in_u8DailyPomodoroScore,
     uint8_t *in_au8MinuteToLedConfig)
 {
@@ -363,6 +368,27 @@ void LightEffects_WorktimeEntryFunction()
         au8MinuteToLedConfigArray);
 }
 
+LightEffects_BreaktimeEntryFunction()
+{
+    // Clear all the Worktime LEDs (Count and report them)
+    // Set all Breaktime LEDS to a high intensity
+    uint8_t u8WorktimeCount = 0U;
+    for (uint8_t i = 0; i < TOTAL_MINUTES; i++)
+    {
+        if (au8MinuteToLedConfigArray[i] == LIGHTEFFECTS_LED_RED_LOW)
+        {
+            u8WorktimeCount++;
+            au8MinuteToLedConfigArray[i] = LIGHTEFFECTS_LED_OFF;
+        }
+
+        if (au8MinuteToLedConfigArray[i] == LIGHTEFFECTS_LED_GREEN_LOW)
+        {
+            au8MinuteToLedConfigArray[i] = LIGHTEFFECTS_LED_GREEN_HIGH;
+        }
+    }
+    log_info("Worktime Count: %d", u8WorktimeCount);
+}
+
 void LightEffects_init()
 {
     /* Subscribe to the current Minute */
@@ -383,8 +409,20 @@ void LightEffects_init()
     /* Initialize the PFSM State */
     u8PFsmState = E_PFSM_STATE_IDLE;
 
+    // Initialize the Daily Pomodoro Score
+    u8DailyPomodoroScore = 0U;
+
+    // Clear the Run Once Flags
+    LightEffects_clearRunOnceFlags();
+
     /* Initialize the Current Minute */
     u8CurrentMinute = 100U;
+
+    // Reset the Minute to LED Array
+    for (uint8_t i = 0; i < TOTAL_MINUTES; i++)
+    {
+        au8MinuteToLedConfigArray[i] = 0;
+    }
 }
 
 status_t LightEffects_execute()
@@ -406,8 +444,33 @@ status_t LightEffects_execute()
             LightEffects_WorktimeEntryFunction();
         }
 
+        // Update the Minute to LED Array
+        LightEffects_updateMinuteToLedArray(
+            u8CurrentMinute,
+            au8MinuteToLedConfigArray);
+
+        // Create and publish the LED Array
+        LightEffects_createAndPublishLedArray(
+            au8MinuteToLedConfigArray,
+            u8DailyPomodoroScore);
+
         break;
     case E_PFSM_STATE_BREAKTIME:
+        if (bBreaktimeEntryFunctionAlreadyCalled == FALSE)
+        {
+            bBreaktimeEntryFunctionAlreadyCalled = TRUE;
+            LightEffects_BreaktimeEntryFunction();
+        }
+
+        // Update the Minute to LED Array
+        LightEffects_updateMinuteToLedArray(
+            u8CurrentMinute,
+            au8MinuteToLedConfigArray);
+
+        // Create and publish the LED Array
+        LightEffects_createAndPublishLedArray(
+            au8MinuteToLedConfigArray,
+            u8DailyPomodoroScore);
 
         break;
 

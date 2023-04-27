@@ -28,7 +28,7 @@ extern void LightEffects_setScoreToArray(
     uint8_t *inout_au8ScoreArray,
     uint8_t in_u8ScoreArraySize);
 
-extern void LightEffect_createAndPublishLedArray(
+extern void LightEffects_createAndPublishLedArray(
     uint8_t in_u8DailyPomodoroScore,
     uint8_t *in_au8MinuteToLedConfig);
 
@@ -539,7 +539,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
     MessageBroker_publish_IgnoreAndReturn(STATUS_OK);
 
-    LightEffect_createAndPublishLedArray(
+    LightEffects_createAndPublishLedArray(
         u8TestDailyPomodoroScore,
         au8TestMinuteToColorArray);
 

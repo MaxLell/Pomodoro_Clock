@@ -53,7 +53,7 @@ extern void LightEffects_setScoreToArray(
 
 
 
-extern void LightEffect_createAndPublishLedArray(
+extern void LightEffects_createAndPublishLedArray(
 
     uint8_t in_u8DailyPomodoroScore,
 
@@ -985,7 +985,7 @@ void test_LightEffects_createAndPublishOutputLedArray_should_TakeInAllSubArraysA
 
 
 
-    LightEffect_createAndPublishLedArray(
+    LightEffects_createAndPublishLedArray(
 
         u8TestDailyPomodoroScore,
 
