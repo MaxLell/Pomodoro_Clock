@@ -11,4 +11,7 @@ typedef enum
     E_PFSM_STATE_SEEKING_ATTENTION,
 } PomodoroFsm_state_e;
 
+#define PFSM_NEW_STATE 0U
+#define PFSM_OLD_STATE 1U
+
 #endif // POMODORO_FSM_INTERFACE_H

@@ -18,7 +18,9 @@ STATIC void PomodoroFsm_calculateTimeStampsForChangingStates(
     uint8_t *inout_u8WorktimeEndMinute,
     uint8_t *inout_u8BreaktimeEndMinute,
     uint8_t *in_u8CurrentMinute);
+
 STATIC status_t PomodoroFsm_callback(MessageBroker_message_t in_sMessage);
+
 STATIC status_t PomodoroFsm_publishMessage(
     PomodoroFsm_state_e in_eNextState,
     PomodoroFsm_state_e in_eCurrentState);
@@ -90,11 +92,6 @@ void PomodoroFsm_init(void)
     // Subscribe to the current Minute
     MessageBroker_subscribe(
         E_TOPIC_TIME_AND_DATE,
-        PomodoroFsm_callback);
-
-    // Subscribe to the LightControl State Messages
-    MessageBroker_subscribe(
-        E_TOPIC_LCTRL_STATE_CHANGED,
         PomodoroFsm_callback);
 }
 

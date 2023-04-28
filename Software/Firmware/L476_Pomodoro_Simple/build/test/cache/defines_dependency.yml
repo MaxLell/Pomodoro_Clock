@@ -19,3 +19,9 @@ User/LightControl/LightControl.c:
 - TEST
 User/RgbLED/RgbLed.c:
 - TEST
+User/Buzzer/Buzzer.c:
+- TEST
+build/test/mocks/mock_Buzzer_Hardware.c:
+- TEST
+User/Buzzer/Buzzer_Hardware.c:
+- TEST

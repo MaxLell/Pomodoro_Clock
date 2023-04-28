@@ -65,11 +65,6 @@ void test_PomodoroFsm_init_should_SubscribeToTopics(void)
         PomodoroFsm_callback,
         STATUS_OK);
 
-    MessageBroker_subscribe_ExpectAndReturn(
-        E_TOPIC_LCTRL_STATE_CHANGED,
-        PomodoroFsm_callback,
-        STATUS_OK);
-
     // If the init function is called, the subscribe function shall be called
     // This is setup with the ExpectAndReturn function
     PomodoroFsm_init();

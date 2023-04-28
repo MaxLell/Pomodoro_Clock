@@ -13,6 +13,8 @@
         "config.h": "c",
         "messagetopics.h": "c",
         "mock_messagebroker.h": "c",
-        "lighteffects_interface.h": "c"
+        "lighteffects_interface.h": "c",
+        "pomodorofsm_interface.h": "c",
+        "mock_buzzer_hardware.h": "c"
     }
 }

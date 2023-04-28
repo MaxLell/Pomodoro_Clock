@@ -130,16 +130,6 @@ void test_PomodoroFsm_init_should_SubscribeToTopics(void)
 
 
 
-    MessageBroker_subscribe_CMockExpectAndReturn(71, E_TOPIC_LCTRL_STATE_CHANGED, PomodoroFsm_callback, (0));
-
-
-
-
-
-
-
-
-
 
 
 
@@ -170,7 +160,7 @@ void test_PomodoroFsm_callback_should_SetButtonPressedFlagInInputStruct(void)
 
 
 
-    do {if ((sPomodoroFsmInputs.bButtonPressed)) {} else {UnityFail( ((" Expected TRUE Was FALSE")), (UNITY_UINT)((UNITY_UINT)(88)));}} while(0);
+    do {if ((sPomodoroFsmInputs.bButtonPressed)) {} else {UnityFail( ((" Expected TRUE Was FALSE")), (UNITY_UINT)((UNITY_UINT)(83)));}} while(0);
 
 }
 
@@ -202,7 +192,7 @@ void test_PomodoroFsm_callback_should_SetCurrentMinuteInInputStruct(void)
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((u8CurrentMinute)), (UNITY_INT)((sPomodoroFsmInputs.u8CurrentMinute)), (((void*)0)), (UNITY_UINT)(104), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8CurrentMinute)), (UNITY_INT)((sPomodoroFsmInputs.u8CurrentMinute)), (((void*)0)), (UNITY_UINT)(99), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -214,7 +204,7 @@ void test_PomodoroFsm_callback_should_SetCurrentMinuteInInputStruct(void)
 
     PomodoroFsm_callback(sMessage);
 
-    UnityAssertEqualNumber((UNITY_INT)((u8CurrentMinute)), (UNITY_INT)((sPomodoroFsmInputs.u8CurrentMinute)), (((void*)0)), (UNITY_UINT)(110), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8CurrentMinute)), (UNITY_INT)((sPomodoroFsmInputs.u8CurrentMinute)), (((void*)0)), (UNITY_UINT)(105), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -240,7 +230,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerB
 
 
 
-    MessageBroker_publish_CMockIgnoreAndReturn(123, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(118, (0));
 
 
 
@@ -268,17 +258,17 @@ void test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerB
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(137), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(132), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(138), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(133), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(139), UNITY_DISPLAY_STYLE_INT);
-
-
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(134), UNITY_DISPLAY_STYLE_INT);
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(142), UNITY_DISPLAY_STYLE_INT);
+
+
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(137), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -296,7 +286,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_
 
 
 
-    MessageBroker_publish_CMockIgnoreAndReturn(151, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(146, (0));
 
 
 
@@ -342,7 +332,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_SEEKING_ATTENTION)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(174), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_SEEKING_ATTENTION)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(169), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -360,7 +350,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_w
 
 
 
-    MessageBroker_publish_CMockIgnoreAndReturn(183, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(178, (0));
 
 
 
@@ -386,17 +376,17 @@ void test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_w
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(196), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(191), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(197), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(192), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_SEEKING_ATTENTION)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(198), UNITY_DISPLAY_STYLE_INT);
-
-
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_SEEKING_ATTENTION)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(193), UNITY_DISPLAY_STYLE_INT);
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(201), UNITY_DISPLAY_STYLE_INT);
+
+
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(196), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -422,7 +412,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerB
 
 
 
-    MessageBroker_publish_CMockIgnoreAndReturn(214, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(209, (0));
 
 
 
@@ -458,17 +448,17 @@ void test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerB
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(232), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(227), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(233), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(228), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(234), UNITY_DISPLAY_STYLE_INT);
-
-
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(229), UNITY_DISPLAY_STYLE_INT);
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(237), UNITY_DISPLAY_STYLE_INT);
+
+
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(232), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -494,7 +484,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_Wor
 
 
 
-    MessageBroker_publish_CMockIgnoreAndReturn(250, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(245, (0));
 
 
 
@@ -520,17 +510,17 @@ void test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_Wor
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(263), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(258), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_BREAKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(264), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_BREAKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(259), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(265), UNITY_DISPLAY_STYLE_INT);
-
-
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_WORKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(260), UNITY_DISPLAY_STYLE_INT);
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_BREAKTIME)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(268), UNITY_DISPLAY_STYLE_INT);
+
+
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_BREAKTIME)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(263), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -550,7 +540,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_Breakti
 
 
 
-    MessageBroker_publish_CMockIgnoreAndReturn(278, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(273, (0));
 
 
 
@@ -576,17 +566,17 @@ void test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_Breakti
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(291), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(286), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(292), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(287), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_BREAKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(293), UNITY_DISPLAY_STYLE_INT);
-
-
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_BREAKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(288), UNITY_DISPLAY_STYLE_INT);
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(296), UNITY_DISPLAY_STYLE_INT);
+
+
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(291), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -606,7 +596,7 @@ void test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_Trigger
 
 
 
-    MessageBroker_publish_CMockIgnoreAndReturn(306, (0));
+    MessageBroker_publish_CMockIgnoreAndReturn(301, (0));
 
 
 
@@ -632,17 +622,17 @@ void test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_Trigger
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(319), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_TOPIC_PFSM_STATE_CHANGED)), (UNITY_INT)((sPublishingMessage.eMsgTopic)), (((void*)0)), (UNITY_UINT)(314), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(320), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((sPublishingMessage.au8DataBytes[0])), (((void*)0)), (UNITY_UINT)(315), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_BREAKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(321), UNITY_DISPLAY_STYLE_INT);
-
-
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_BREAKTIME)), (UNITY_INT)((sPublishingMessage.au8DataBytes[1])), (((void*)0)), (UNITY_UINT)(316), UNITY_DISPLAY_STYLE_INT);
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(324), UNITY_DISPLAY_STYLE_INT);
+
+
+    UnityAssertEqualNumber((UNITY_INT)((E_PFSM_STATE_IDLE)), (UNITY_INT)((ePomodoroFsmState)), (((void*)0)), (UNITY_UINT)(319), UNITY_DISPLAY_STYLE_INT);
 
 }
 
@@ -698,7 +688,7 @@ void test_PomodoroFsm_execute_should_SetTheTimestampsInitiallyInWorktimeState(vo
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((u8CurrentMinute)), (UNITY_INT)((sPomodoroFsmInputs.u8CurrentMinute)), (((void*)0)), (UNITY_UINT)(352), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((u8CurrentMinute)), (UNITY_INT)((sPomodoroFsmInputs.u8CurrentMinute)), (((void*)0)), (UNITY_UINT)(347), UNITY_DISPLAY_STYLE_INT);
 
 
 
@@ -710,9 +700,9 @@ void test_PomodoroFsm_execute_should_SetTheTimestampsInitiallyInWorktimeState(vo
 
 
 
-    do {if (((u8WorktimeEndMin) != (sPomodoroFsmInputs.u8WorktimeEndMin))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(358)));}} while(0);
+    do {if (((u8WorktimeEndMin) != (sPomodoroFsmInputs.u8WorktimeEndMin))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(353)));}} while(0);
 
-    do {if (((u8BreaktimeEndMin) != (sPomodoroFsmInputs.u8BreaktimeEndMin))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(359)));}} while(0);
+    do {if (((u8BreaktimeEndMin) != (sPomodoroFsmInputs.u8BreaktimeEndMin))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(354)));}} while(0);
 
 
 
@@ -748,9 +738,9 @@ void test_PomodoroFsm_execute_should_SetTheTimestampsInitiallyInWorktimeState(vo
 
 
 
-    do {if (((u8WorktimeEndMin) != (sPomodoroFsmInputs.u8WorktimeEndMin))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(377)));}} while(0);
+    do {if (((u8WorktimeEndMin) != (sPomodoroFsmInputs.u8WorktimeEndMin))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(372)));}} while(0);
 
-    do {if (((u8BreaktimeEndMin) != (sPomodoroFsmInputs.u8BreaktimeEndMin))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(378)));}} while(0);
+    do {if (((u8BreaktimeEndMin) != (sPomodoroFsmInputs.u8BreaktimeEndMin))) {} else {UnityFail( ((" Expected Not-Equal")), (UNITY_UINT)((UNITY_UINT)(373)));}} while(0);
 
 }
 
@@ -782,8 +772,8 @@ void test_PomodoroFsm_calculateTimeStampsForChangingStates_should_CalculateTimeS
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((7)), (UNITY_INT)((u8WorktimeEndMin)), (((void*)0)), (UNITY_UINT)(394), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((7)), (UNITY_INT)((u8WorktimeEndMin)), (((void*)0)), (UNITY_UINT)(389), UNITY_DISPLAY_STYLE_INT);
 
-    UnityAssertEqualNumber((UNITY_INT)((17)), (UNITY_INT)((u8BreaktimeEndMin)), (((void*)0)), (UNITY_UINT)(395), UNITY_DISPLAY_STYLE_INT);
+    UnityAssertEqualNumber((UNITY_INT)((17)), (UNITY_INT)((u8BreaktimeEndMin)), (((void*)0)), (UNITY_UINT)(390), UNITY_DISPLAY_STYLE_INT);
 
 }

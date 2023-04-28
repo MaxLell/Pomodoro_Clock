@@ -12,47 +12,47 @@
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_callback_should_SetButtonPressedFlagInInputStruct
-  :line: 82
+  :line: 77
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_callback_should_SetCurrentMinuteInInputStruct
-  :line: 91
+  :line: 86
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromIdleToWorktime_when_TriggerButtonPressedMessage
-  :line: 117
+  :line: 112
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromIdleToSeekingAttention_when_5MinutesPassedWithoutButtonPressed
-  :line: 145
+  :line: 140
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromSeekingAttentionToWorktime_when_TriggerButtonPressedMessage
-  :line: 177
+  :line: 172
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToIdle_when_TriggerButtonPressedMessage
-  :line: 204
+  :line: 199
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromWorktimeToBreaktime_when_WorktimeElapsed
-  :line: 240
+  :line: 235
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_BreaktimeIsOver
-  :line: 271
+  :line: 266
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_ChangeStateFromBreaktimeToIdle_when_TriggerButtonPressedMessage
-  :line: 299
+  :line: 294
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_execute_should_SetTheTimestampsInitiallyInWorktimeState
-  :line: 332
+  :line: 327
   :message: ''
   :unity_test_time: 0
 - :test: test_PomodoroFsm_calculateTimeStampsForChangingStates_should_CalculateTimeStamps
-  :line: 385
+  :line: 380
   :message: ''
   :unity_test_time: 0
 :failures: []
@@ -63,4 +63,4 @@
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.03388300002552569
+:time: 0.37197800003923476
