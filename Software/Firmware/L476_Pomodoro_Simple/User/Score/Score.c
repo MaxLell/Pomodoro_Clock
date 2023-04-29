@@ -13,7 +13,9 @@ STATIC status_t Score_callback(MessageBroker_message_t in_sMessage);
 /**
  * Static Variables
  */
-#define SCORE_DAILY_SCORE_MAX 8U
+#define DAILY_MAX_SCORE 8U
+
+// Reset Time Alarm is set to 3:00 AM
 #define RESET_TIME_HOUR 3U
 #define RESET_TIME_MINUTE 0U
 
@@ -24,7 +26,7 @@ STATIC BOOL bResetTimeAlarm = FALSE;
 STATIC void Score_updateDailyScore(void)
 {
     u8DailyScore++;
-    if (u8DailyScore >= SCORE_DAILY_SCORE_MAX)
+    if (u8DailyScore >= DAILY_MAX_SCORE)
     {
         u8DailyScore = 0U;
     }
