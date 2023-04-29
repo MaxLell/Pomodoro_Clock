@@ -1,3 +1,4 @@
 ---
 - User/Common/Common.h
 - User/MessageBroker/MessageTopics.h
+- User/MessageBroker/MessageFormats.h

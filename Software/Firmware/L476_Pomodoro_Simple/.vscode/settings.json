@@ -15,6 +15,7 @@
         "mock_messagebroker.h": "c",
         "lighteffects_interface.h": "c",
         "pomodorofsm_interface.h": "c",
-        "mock_buzzer_hardware.h": "c"
+        "mock_buzzer_hardware.h": "c",
+        "__locale": "c"
     }
 }

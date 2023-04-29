@@ -25,3 +25,5 @@ build/test/mocks/mock_Buzzer_Hardware.c:
 - TEST
 User/Buzzer/Buzzer_Hardware.c:
 - TEST
+User/Score/Score.c:
+- TEST

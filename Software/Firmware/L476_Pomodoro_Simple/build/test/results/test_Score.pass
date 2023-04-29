@@ -1,0 +1,42 @@
+---
+:source:
+  :path: test
+  :file: test_Score.c
+:successes:
+- :test: test_Score_init_ShallSubscribeToTopics
+  :line: 30
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Score_init_ShallResetLocalStaticValues
+  :line: 45
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Score_callback_ShallParsePfsmStateUpdate
+  :line: 61
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Score_callback_ShallParseTimeUpdate
+  :line: 78
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Score_updateScore_ShallIncrementScore
+  :line: 95
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Score_execute_ShallIncrementScoreAndResetTheFlag
+  :line: 103
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Score_execute_ShallResetScoreAndResetTheFlag
+  :line: 118
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 7
+  :passed: 7
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.32933299988508224

@@ -3,6 +3,7 @@
 
 #include "Common.h"
 #include "MessageTopics.h"
+#include "MessageFormats.h"
 
 /*
  * The number of Message Topics needs to match the number of enumsthere are
@@ -14,15 +15,6 @@
 /**
  * Message Structure
  */
-typedef struct
-{
-    MessageTopics_e eMsgTopic;
-    uint16_t u16DataSize;
-    uint8_t *au8DataBytes;
-} MessageBroker_message_t;
-
-/* Function Callback Type */
-typedef status_t (*Module_msgCallback_t)(MessageBroker_message_t in_sMessage);
 
 /**
  * Standard Message Dictinary

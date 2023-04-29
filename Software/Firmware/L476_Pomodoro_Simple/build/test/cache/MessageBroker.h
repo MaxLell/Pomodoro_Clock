@@ -1,31 +1,6 @@
+#include "User/MessageBroker/MessageFormats.h"
 #include "User/MessageBroker/MessageTopics.h"
 #include "User/Common/Common.h"
-
-
-
-
-
-
-typedef struct
-
-{
-
-    MessageTopics_e eMsgTopic;
-
-    uint16_t u16DataSize;
-
-    uint8_t *au8DataBytes;
-
-} MessageBroker_message_t;
-
-
-
-
-
-typedef status_t (*Module_msgCallback_t)(MessageBroker_message_t in_sMessage);
-
-
-
 
 
 

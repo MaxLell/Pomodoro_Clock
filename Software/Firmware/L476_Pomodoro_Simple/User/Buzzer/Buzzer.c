@@ -3,7 +3,7 @@
 #include "MessageBroker.h"
 #include "MessageTopics.h"
 #include "PomodoroFsm_Interface.h"
-#include "mock_Buzzer_Hardware.h"
+#include "Buzzer_Hardware.h"
 
 #define BUZZER_RING_DURATION_SEC 5U
 STATIC BOOL bRingBuzzer = FALSE;
@@ -56,11 +56,11 @@ void Buzzer_execute(void)
     {
         if (u8SecondsCounter < BUZZER_RING_DURATION_SEC)
         {
-            // Enable the Buzzer
+            // Enable the Buzzer // TODO
         }
         if (u8SecondsCounter == BUZZER_RING_DURATION_SEC)
         {
-            // Disable the Buzzer
+            // Disable the Buzzer // TODO
             bRingBuzzer = FALSE;
             u8SecondsCounter = 0U;
         }
