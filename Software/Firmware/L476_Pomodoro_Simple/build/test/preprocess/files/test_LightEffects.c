@@ -1,4 +1,4 @@
-#include "User/Common/Config.h"
+#include "User/Config/Config.h"
 #include "User/LightEffects/LightEffects_Interface.h"
 #include "build/test/mocks/mock_MessageBroker.h"
 #include "User/LightEffects/LightEffects.h"

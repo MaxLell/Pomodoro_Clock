@@ -27,3 +27,7 @@ User/Buzzer/Buzzer_Hardware.c:
 - TEST
 User/Score/Score.c:
 - TEST
+User/RgbLed/RgbLed.c:
+- TEST
+User/Config/Config.c:
+- TEST

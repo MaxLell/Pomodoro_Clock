@@ -1,0 +1,50 @@
+---
+:source:
+  :path: test
+  :file: test_RgbLed.c
+:successes:
+- :test: test_RgbLed_Init_ShallSubscribeToTopic
+  :line: 38
+  :message: ''
+  :unity_test_time: 0
+- :test: test_RgbLed_Init_ShallClearRgbLedArray
+  :line: 48
+  :message: ''
+  :unity_test_time: 0
+- :test: test_RgbLed_Init_ShallClearEncodedColorsArray
+  :line: 72
+  :message: ''
+  :unity_test_time: 0
+- :test: test_RgbLed_Init_ShallSetNewEntryFlagToFalse
+  :line: 90
+  :message: ''
+  :unity_test_time: 0
+- :test: test_RgbLed_Callback_ShallCopyIncomingArrayIntoEncodedColorsArray
+  :line: 101
+  :message: ''
+  :unity_test_time: 0
+- :test: test_RgbLed_Callback_ShallSetNewEntryFlagToTrue
+  :line: 123
+  :message: ''
+  :unity_test_time: 0
+- :test: test_RgbLed_DecodeColors_ShallMapEncodedColorsToRgbColors
+  :line: 136
+  :message: ''
+  :unity_test_time: 0
+- :test: test_RgbLed_SetLed_should_SetOneLed
+  :line: 169
+  :message: ''
+  :unity_test_time: 0
+- :test: test_RgbLed_CreatePwmArray_should_CreatePwmArray
+  :line: 239
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 9
+  :passed: 9
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.21099399984814227

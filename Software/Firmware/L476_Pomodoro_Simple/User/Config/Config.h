@@ -12,6 +12,11 @@
 
 #define MAX_POMODORO_SCORE 8
 
+#define LED_BRIGHTNESS_HIGH 255
+#define LED_BRIGHTNESS_MEDIUM 100
+#define LED_BRIGHTNESS_LOW 10
+#define LED_BRIGHTNESS_OFF 0
+
 status_t Config_setBreaktime(uint8_t in_u8BreaktimeIntervalMin);
 status_t Config_getBreaktime(uint8_t *inout_u8BreaktimeIntervalMin);
 

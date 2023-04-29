@@ -3,4 +3,4 @@
 - User/LightEffects/LightEffects.h
 - build/test/mocks/mock_MessageBroker.h
 - User/LightEffects/LightEffects_Interface.h
-- User/Common/Config.h
+- User/Config/Config.h

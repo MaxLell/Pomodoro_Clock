@@ -2,8 +2,16 @@
 #define RGBLED_H
 #include "Common.h"
 
-void RgbLed_Init(void);
+typedef struct
+{
+    uint8_t u8Index;
+    uint8_t u8Red;
+    uint8_t u8Green;
+    uint8_t u8Blue;
+} RgbLed_t;
 
-void RgbLed_SetLedToColor(uint8_t i, uint8_t r, uint8_t g, uint8_t b);
+void RgbLed_init(void);
+
+void RgbLed_execute(void);
 
 #endif // RGBLED_H

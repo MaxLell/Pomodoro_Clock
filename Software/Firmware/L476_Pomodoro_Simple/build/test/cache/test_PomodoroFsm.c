@@ -1,4 +1,4 @@
-#include "User/Common/Config.h"
+#include "User/Config/Config.h"
 #include "User/MessageBroker/MessageTopics.h"
 #include "build/test/mocks/mock_MessageBroker.h"
 #include "User/PomodoroFsm/PomodoroFsm_Interface.h"
