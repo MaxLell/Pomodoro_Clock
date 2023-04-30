@@ -5,3 +5,4 @@
 - User/Config/Config.h
 - User/Common/Common.h
 - User/LightEffects/LightEffects_Interface.h
+- build/test/mocks/mock_RgbLed_Hardware.h

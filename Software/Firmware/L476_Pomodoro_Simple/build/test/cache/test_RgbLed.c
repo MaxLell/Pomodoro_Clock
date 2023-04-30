@@ -1,3 +1,4 @@
+#include "build/test/mocks/mock_RgbLed_Hardware.h"
 #include "User/LightEffects/LightEffects_Interface.h"
 #include "User/Common/Common.h"
 #include "User/Config/Config.h"
@@ -14,19 +15,75 @@
 
 
 
-extern status_t RgbLed_callback(MessageBroker_message_t in_tMessage);
+extern status_t RgbLed_callback(
 
-extern void RgbLed_DecodeColors(void);
+    MessageBroker_message_t in_tMessage);
 
-extern void RgbLed_SetLed(
 
-    uint8_t u8LedIndex,
 
-    uint8_t u8Red,
+extern void RgbLed_SetLedRgbValues(
 
-    uint8_t u8Green,
+    RgbLed_t *inout_tRgbLed,
 
-    uint8_t u8Blue);
+    uint8_t in_u8LedIndex,
+
+    uint8_t in_u8Red,
+
+    uint8_t in_u8Green,
+
+    uint8_t in_u8Blue);
+
+
+
+extern void RgbLed_DecodeColorsToRgbValues(
+
+    uint8_t *in_au8ColorArray,
+
+    RgbLed_t *out_saRgbLeds,
+
+    uint8_t in_u8ArraySizes);
+
+
+
+extern void RgbLed_EncodeRgbValuesTo24Bit(
+
+    RgbLed_t *in_tRgbLed,
+
+    uint32_t *inout_u32RgbLed24Bit,
+
+    uint8_t in_u8ArraySizes);
+
+
+
+extern void RgbLed_PlaceRgbLed24BitDataInPwmDataArray(
+
+    uint32_t *in_u32RgbLed24Bit,
+
+    uint16_t *inout_au16PwmData,
+
+    uint8_t in_u8RgbLedArraySize,
+
+    uint32_t in_u32PwmDataArraySize);
+
+
+
+extern void RgbLed_PlaceEndOfSequenceInPwmDataArray(
+
+    uint16_t *inout_au16PwmData,
+
+    uint32_t in_u32PwmDataArraySize);
+
+
+
+extern void RgbLed_BuildRgbLedSequence(
+
+    uint8_t *in_au8ColorArray,
+
+    uint8_t in_u8ColorArraySize,
+
+    uint16_t *inout_au16PwmData,
+
+    uint32_t in_u32PwmDataArraySize);
 
 
 
@@ -38,9 +95,7 @@ extern void RgbLed_SetLed(
 
 extern BOOL bNewEntry;
 
-extern RgbLed_t saRgbLeds[(24 + 16 + 8)];
-
-extern uint8_t au8EncodedColors[(24 + 16 + 8)];
+extern uint8_t au8ColorArray[(24 + 16 + 8)];
 
 
 
@@ -72,7 +127,7 @@ void test_RgbLed_Init_ShallSubscribeToTopic(void)
 
 {
 
-    MessageBroker_subscribe_CMockExpectAndReturn(43, E_TOPIC_RING_LEDS_OUTPUT, RgbLed_callback, (0));
+    MessageBroker_subscribe_CMockExpectAndReturn(71, E_TOPIC_RING_LEDS_OUTPUT, RgbLed_callback, (0));
 
 
 
@@ -83,54 +138,6 @@ void test_RgbLed_Init_ShallSubscribeToTopic(void)
 
 
     RgbLed_init();
-
-}
-
-
-
-void test_RgbLed_Init_ShallClearRgbLedArray(void)
-
-{
-
-    MessageBroker_subscribe_CMockIgnoreAndReturn(50, (0));
-
-
-
-
-
-    for (uint8_t u8Index = 0; u8Index < (24 + 16 + 8); u8Index++)
-
-    {
-
-        saRgbLeds[u8Index].u8Index = u8Index;
-
-        saRgbLeds[u8Index].u8Red = u8Index;
-
-        saRgbLeds[u8Index].u8Green = u8Index;
-
-        saRgbLeds[u8Index].u8Blue = u8Index;
-
-    }
-
-
-
-    RgbLed_init();
-
-
-
-    for (uint8_t u8Index = 0; u8Index < (24 + 16 + 8); u8Index++)
-
-    {
-
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[u8Index].u8Index)), (((void*)0)), (UNITY_UINT)(65), UNITY_DISPLAY_STYLE_UINT8);
-
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[u8Index].u8Red)), (((void*)0)), (UNITY_UINT)(66), UNITY_DISPLAY_STYLE_UINT8);
-
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[u8Index].u8Green)), (((void*)0)), (UNITY_UINT)(67), UNITY_DISPLAY_STYLE_UINT8);
-
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[u8Index].u8Blue)), (((void*)0)), (UNITY_UINT)(68), UNITY_DISPLAY_STYLE_UINT8);
-
-    }
 
 }
 
@@ -140,7 +147,7 @@ void test_RgbLed_Init_ShallClearEncodedColorsArray(void)
 
 {
 
-    MessageBroker_subscribe_CMockIgnoreAndReturn(74, (0));
+    MessageBroker_subscribe_CMockIgnoreAndReturn(78, (0));
 
 
 
@@ -150,7 +157,7 @@ void test_RgbLed_Init_ShallClearEncodedColorsArray(void)
 
     {
 
-        au8EncodedColors[u8Index] = u8Index;
+        au8ColorArray[u8Index] = u8Index;
 
     }
 
@@ -164,7 +171,7 @@ void test_RgbLed_Init_ShallClearEncodedColorsArray(void)
 
     {
 
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((au8EncodedColors[u8Index])), (((void*)0)), (UNITY_UINT)(86), UNITY_DISPLAY_STYLE_UINT8);
+        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((au8ColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(90), UNITY_DISPLAY_STYLE_UINT8);
 
     }
 
@@ -176,7 +183,7 @@ void test_RgbLed_Init_ShallSetNewEntryFlagToFalse(void)
 
 {
 
-    MessageBroker_subscribe_CMockIgnoreAndReturn(92, (0));
+    MessageBroker_subscribe_CMockIgnoreAndReturn(96, (0));
 
 
 
@@ -188,7 +195,7 @@ void test_RgbLed_Init_ShallSetNewEntryFlagToFalse(void)
 
 
 
-    do {if (!(bNewEntry)) {} else {UnityFail( ((" Expected FALSE Was TRUE")), (UNITY_UINT)((UNITY_UINT)(98)));}} while(0);
+    do {if (!(bNewEntry)) {} else {UnityFail( ((" Expected FALSE Was TRUE")), (UNITY_UINT)((UNITY_UINT)(102)));}} while(0);
 
 }
 
@@ -230,7 +237,7 @@ void test_RgbLed_Callback_ShallCopyIncomingArrayIntoEncodedColorsArray(void)
 
     {
 
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((u8Index)), (UNITY_INT)(UNITY_UINT8 )((au8EncodedColors[u8Index])), (((void*)0)), (UNITY_UINT)(119), UNITY_DISPLAY_STYLE_UINT8);
+        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((u8Index)), (UNITY_INT)(UNITY_UINT8 )((au8ColorArray[u8Index])), (((void*)0)), (UNITY_UINT)(123), UNITY_DISPLAY_STYLE_UINT8);
 
     }
 
@@ -258,73 +265,7 @@ void test_RgbLed_Callback_ShallSetNewEntryFlagToTrue(void)
 
 
 
-    do {if ((bNewEntry)) {} else {UnityFail( ((" Expected TRUE Was FALSE")), (UNITY_UINT)((UNITY_UINT)(133)));}} while(0);
-
-}
-
-
-
-void test_RgbLed_DecodeColors_ShallMapEncodedColorsToRgbColors(void)
-
-{
-
-
-
-    for (uint8_t u8Index = 0; u8Index < (24 + 16 + 8); u8Index++)
-
-    {
-
-        au8EncodedColors[u8Index] = LIGHTEFFECTS_LED_GREEN_LOW;
-
-    }
-
-
-
-    RgbLed_DecodeColors();
-
-
-
-    for (uint8_t u8Index = 0; u8Index < (24 + 16 + 8); u8Index++)
-
-    {
-
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[u8Index].u8Red)), (((void*)0)), (UNITY_UINT)(148), UNITY_DISPLAY_STYLE_UINT8);
-
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((10)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[u8Index].u8Green)), (((void*)0)), (UNITY_UINT)(149), UNITY_DISPLAY_STYLE_UINT8);
-
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[u8Index].u8Blue)), (((void*)0)), (UNITY_UINT)(150), UNITY_DISPLAY_STYLE_UINT8);
-
-    }
-
-
-
-
-
-    for (uint8_t u8Index = 0; u8Index < (24 + 16 + 8); u8Index++)
-
-    {
-
-        au8EncodedColors[u8Index] = LIGHTEFFECTS_LED_WHITE_HIGH;
-
-    }
-
-
-
-    RgbLed_DecodeColors();
-
-
-
-    for (uint8_t u8Index = 0; u8Index < (24 + 16 + 8); u8Index++)
-
-    {
-
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((255)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[u8Index].u8Red)), (((void*)0)), (UNITY_UINT)(163), UNITY_DISPLAY_STYLE_UINT8);
-
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((255)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[u8Index].u8Green)), (((void*)0)), (UNITY_UINT)(164), UNITY_DISPLAY_STYLE_UINT8);
-
-        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((255)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[u8Index].u8Blue)), (((void*)0)), (UNITY_UINT)(165), UNITY_DISPLAY_STYLE_UINT8);
-
-    }
+    do {if ((bNewEntry)) {} else {UnityFail( ((" Expected TRUE Was FALSE")), (UNITY_UINT)((UNITY_UINT)(137)));}} while(0);
 
 }
 
@@ -334,50 +275,228 @@ void test_RgbLed_SetLed_should_SetOneLed(void)
 
 {
 
-
-
-    for (uint8_t u8Index = 0; u8Index < (24 + 16 + 8); u8Index++)
-
-    {
-
-        saRgbLeds[u8Index].u8Index = 0;
-
-        saRgbLeds[u8Index].u8Red = 0;
-
-        saRgbLeds[u8Index].u8Green = 0;
-
-        saRgbLeds[u8Index].u8Blue = 0;
-
-    }
+    RgbLed_t tRgbLed = {0};
 
 
 
-    RgbLed_SetLed(0, 0, 0, 0);
-
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[0].u8Index)), (((void*)0)), (UNITY_UINT)(181), UNITY_DISPLAY_STYLE_UINT8);
-
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[0].u8Red)), (((void*)0)), (UNITY_UINT)(182), UNITY_DISPLAY_STYLE_UINT8);
-
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[0].u8Green)), (((void*)0)), (UNITY_UINT)(183), UNITY_DISPLAY_STYLE_UINT8);
-
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[0].u8Blue)), (((void*)0)), (UNITY_UINT)(184), UNITY_DISPLAY_STYLE_UINT8);
+    RgbLed_SetLedRgbValues(&tRgbLed, 1, 2, 3, 4);
 
 
 
-    RgbLed_SetLed(1, 20, 50, 100);
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((1)), (UNITY_INT)(UNITY_UINT8 )((tRgbLed.u8Index)), (((void*)0)), (UNITY_UINT)(146), UNITY_DISPLAY_STYLE_UINT8);
 
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((1)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[1].u8Index)), (((void*)0)), (UNITY_UINT)(187), UNITY_DISPLAY_STYLE_UINT8);
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((2)), (UNITY_INT)(UNITY_UINT8 )((tRgbLed.u8Red)), (((void*)0)), (UNITY_UINT)(147), UNITY_DISPLAY_STYLE_UINT8);
 
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((20)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[1].u8Red)), (((void*)0)), (UNITY_UINT)(188), UNITY_DISPLAY_STYLE_UINT8);
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((3)), (UNITY_INT)(UNITY_UINT8 )((tRgbLed.u8Green)), (((void*)0)), (UNITY_UINT)(148), UNITY_DISPLAY_STYLE_UINT8);
 
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((50)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[1].u8Green)), (((void*)0)), (UNITY_UINT)(189), UNITY_DISPLAY_STYLE_UINT8);
-
-    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((100)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[1].u8Blue)), (((void*)0)), (UNITY_UINT)(190), UNITY_DISPLAY_STYLE_UINT8);
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((4)), (UNITY_INT)(UNITY_UINT8 )((tRgbLed.u8Blue)), (((void*)0)), (UNITY_UINT)(149), UNITY_DISPLAY_STYLE_UINT8);
 
 }
 
-void test_RgbLed_CreatePwmArray_should_CreatePwmArray(void)
+
+
+void test_RgbLed_DecodeColorsToRgbValues_should_DecodeOneLed(void)
 
 {
+
+    uint8_t au8ColorArray[2] = {LIGHTEFFECTS_LED_BLUE_HIGH, LIGHTEFFECTS_LED_GREEN_LOW};
+
+    RgbLed_t saRgbLeds[2] = {0};
+
+
+
+    RgbLed_DecodeColorsToRgbValues(au8ColorArray, saRgbLeds, 2);
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[0].u8Index)), (((void*)0)), (UNITY_UINT)(159), UNITY_DISPLAY_STYLE_UINT8);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[0].u8Red)), (((void*)0)), (UNITY_UINT)(160), UNITY_DISPLAY_STYLE_UINT8);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[0].u8Green)), (((void*)0)), (UNITY_UINT)(161), UNITY_DISPLAY_STYLE_UINT8);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((255)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[0].u8Blue)), (((void*)0)), (UNITY_UINT)(162), UNITY_DISPLAY_STYLE_UINT8);
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((1)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[1].u8Index)), (((void*)0)), (UNITY_UINT)(164), UNITY_DISPLAY_STYLE_UINT8);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[1].u8Red)), (((void*)0)), (UNITY_UINT)(165), UNITY_DISPLAY_STYLE_UINT8);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((10)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[1].u8Green)), (((void*)0)), (UNITY_UINT)(166), UNITY_DISPLAY_STYLE_UINT8);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT8 )((0)), (UNITY_INT)(UNITY_UINT8 )((saRgbLeds[1].u8Blue)), (((void*)0)), (UNITY_UINT)(167), UNITY_DISPLAY_STYLE_UINT8);
+
+}
+
+
+
+void test_RgbLed_EncodeRgbValuesToColors_should_EncodeOneLed(void)
+
+{
+
+    RgbLed_t saRgbLeds[2] = {0};
+
+    saRgbLeds[0].u8Index = 0;
+
+    saRgbLeds[0].u8Red = 0;
+
+    saRgbLeds[0].u8Green = 0;
+
+    saRgbLeds[0].u8Blue = 255;
+
+
+
+    saRgbLeds[1].u8Index = 1;
+
+    saRgbLeds[1].u8Red = 255;
+
+    saRgbLeds[1].u8Green = 0;
+
+    saRgbLeds[1].u8Blue = 0;
+
+
+
+    uint32_t au32BitArray[2] = {0};
+
+
+
+    RgbLed_EncodeRgbValuesTo24Bit(saRgbLeds, au32BitArray, 2);
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)((0x000000FF)), (UNITY_INT)(UNITY_INT32)((au32BitArray[0])), (((void*)0)), (UNITY_UINT)(187), UNITY_DISPLAY_STYLE_HEX32);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)((0x00FF0000)), (UNITY_INT)(UNITY_INT32)((au32BitArray[1])), (((void*)0)), (UNITY_UINT)(188), UNITY_DISPLAY_STYLE_HEX32);
+
+}
+
+
+
+void test_RgbLed_PlaceRgbLed24BitDataInPwmDataArray_should_Transform2Leds(void)
+
+{
+
+    uint32_t au32BitArray[1] = {0x000000FF};
+
+
+
+    uint16_t au16PwmData[24] = {0};
+
+
+
+    RgbLed_PlaceRgbLed24BitDataInPwmDataArray(au32BitArray, au16PwmData, 1, 24);
+
+
+
+
+
+    for (uint8_t u8Index = 0; u8Index < 24; u8Index++)
+
+    {
+
+        if (u8Index < 8)
+
+        {
+
+            UnityAssertEqualNumber((UNITY_INT)((60)), (UNITY_INT)((au16PwmData[u8Index])), (((void*)0)), (UNITY_UINT)(204), UNITY_DISPLAY_STYLE_INT);
+
+        }
+
+        else
+
+        {
+
+            UnityAssertEqualNumber((UNITY_INT)((30)), (UNITY_INT)((au16PwmData[u8Index])), (((void*)0)), (UNITY_UINT)(208), UNITY_DISPLAY_STYLE_INT);
+
+        }
+
+    }
+
+}
+
+
+
+void test_RgbLed_PlaceEndOfFrameInPwmDataArray_should_PlaceEndOfFrame(void)
+
+{
+
+
+
+    uint32_t au32BitArray[1] = {0x00FFFFFF};
+
+    uint16_t au16PwmData[74] = {0};
+
+    au16PwmData[60] = 11;
+
+    RgbLed_PlaceRgbLed24BitDataInPwmDataArray(au32BitArray, au16PwmData, 1, 74);
+
+
+
+
+
+    RgbLed_PlaceEndOfSequenceInPwmDataArray(au16PwmData, 74);
+
+
+
+
+
+    for (uint8_t u8Index = 24; u8Index < 74; u8Index++)
+
+    {
+
+        UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((0)), (UNITY_INT)(UNITY_UINT16)((au16PwmData[u8Index])), (((void*)0)), (UNITY_UINT)(227), UNITY_DISPLAY_STYLE_UINT16);
+
+    }
+
+}
+
+
+
+void test_RgbLed_BuildRgbLedSequence_should_BuildASequence(void)
+
+{
+
+    uint8_t au8ColorArray[1] = {LIGHTEFFECTS_LED_BLUE_HIGH};
+
+    uint16_t au16PwmData[74] = {0};
+
+
+
+    RgbLed_BuildRgbLedSequence(au8ColorArray, 1, au16PwmData, 74);
+
+
+
+
+
+    for (uint8_t i = 0; i < 74; i++)
+
+    {
+
+        if (i < 8)
+
+        {
+
+            UnityAssertEqualNumber((UNITY_INT)((60)), (UNITY_INT)((au16PwmData[i])), (((void*)0)), (UNITY_UINT)(243), UNITY_DISPLAY_STYLE_INT);
+
+        }
+
+        else if (i < 24)
+
+        {
+
+            UnityAssertEqualNumber((UNITY_INT)((30)), (UNITY_INT)((au16PwmData[i])), (((void*)0)), (UNITY_UINT)(247), UNITY_DISPLAY_STYLE_INT);
+
+        }
+
+        else if (i < 60)
+
+        {
+
+            UnityAssertEqualNumber((UNITY_INT)((0)), (UNITY_INT)((au16PwmData[i])), (((void*)0)), (UNITY_UINT)(251), UNITY_DISPLAY_STYLE_INT);
+
+        }
+
+    }
 
 }

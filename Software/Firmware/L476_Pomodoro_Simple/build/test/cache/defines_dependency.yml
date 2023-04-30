@@ -31,3 +31,5 @@ User/RgbLed/RgbLed.c:
 - TEST
 User/Config/Config.c:
 - TEST
+build/test/mocks/mock_RgbLed_Hardware.c:
+- TEST

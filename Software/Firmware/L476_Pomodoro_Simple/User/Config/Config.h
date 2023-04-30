@@ -17,6 +17,11 @@
 #define LED_BRIGHTNESS_LOW 10
 #define LED_BRIGHTNESS_OFF 0
 
+#define WS2812_HIGH_BIT 60
+#define WS2812_LOW_BIT 30
+#define WS2812_OFF 0
+#define PWM_DATA_SIZE (24 * TOTAL_LEDS) + 50
+
 status_t Config_setBreaktime(uint8_t in_u8BreaktimeIntervalMin);
 status_t Config_getBreaktime(uint8_t *inout_u8BreaktimeIntervalMin);
 
