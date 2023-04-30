@@ -5,9 +5,17 @@
 #include "cmock.h"
 #include "mock_RgbLed_Hardware.h"
 
+static const char* CMockString_RgbLed_Hardware_init = "RgbLed_Hardware_init";
 static const char* CMockString_RgbLed_SetLeds = "RgbLed_SetLeds";
 static const char* CMockString_au16PwmData = "au16PwmData";
 static const char* CMockString_u16PwmDataSize = "u16PwmDataSize";
+
+typedef struct _CMOCK_RgbLed_Hardware_init_CALL_INSTANCE
+{
+  UNITY_LINE_TYPE LineNumber;
+  int CallOrder;
+
+} CMOCK_RgbLed_Hardware_init_CALL_INSTANCE;
 
 typedef struct _CMOCK_RgbLed_SetLeds_CALL_INSTANCE
 {
@@ -25,6 +33,11 @@ typedef struct _CMOCK_RgbLed_SetLeds_CALL_INSTANCE
 
 static struct mock_RgbLed_HardwareInstance
 {
+  char RgbLed_Hardware_init_IgnoreBool;
+  char RgbLed_Hardware_init_CallbackBool;
+  CMOCK_RgbLed_Hardware_init_CALLBACK RgbLed_Hardware_init_CallbackFunctionPointer;
+  int RgbLed_Hardware_init_CallbackCalls;
+  CMOCK_MEM_INDEX_TYPE RgbLed_Hardware_init_CallInstance;
   char RgbLed_SetLeds_IgnoreBool;
   char RgbLed_SetLeds_CallbackBool;
   CMOCK_RgbLed_SetLeds_CALLBACK RgbLed_SetLeds_CallbackFunctionPointer;
@@ -40,6 +53,19 @@ void mock_RgbLed_Hardware_Verify(void)
 {
   UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
   CMOCK_MEM_INDEX_TYPE call_instance;
+  call_instance = Mock.RgbLed_Hardware_init_CallInstance;
+  if (Mock.RgbLed_Hardware_init_IgnoreBool)
+    call_instance = CMOCK_GUTS_NONE;
+  if (CMOCK_GUTS_NONE != call_instance)
+  {
+    UNITY_SET_DETAIL(CMockString_RgbLed_Hardware_init);
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLess);
+  }
+  if (Mock.RgbLed_Hardware_init_CallbackFunctionPointer != NULL)
+  {
+    call_instance = CMOCK_GUTS_NONE;
+    (void)call_instance;
+  }
   call_instance = Mock.RgbLed_SetLeds_CallInstance;
   if (Mock.RgbLed_SetLeds_IgnoreBool)
     call_instance = CMOCK_GUTS_NONE;
@@ -66,6 +92,74 @@ void mock_RgbLed_Hardware_Destroy(void)
   memset(&Mock, 0, sizeof(Mock));
   GlobalExpectCount = 0;
   GlobalVerifyOrder = 0;
+}
+
+void RgbLed_Hardware_init(void)
+{
+  UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
+  CMOCK_RgbLed_Hardware_init_CALL_INSTANCE* cmock_call_instance;
+  UNITY_SET_DETAIL(CMockString_RgbLed_Hardware_init);
+  cmock_call_instance = (CMOCK_RgbLed_Hardware_init_CALL_INSTANCE*)CMock_Guts_GetAddressFor(Mock.RgbLed_Hardware_init_CallInstance);
+  Mock.RgbLed_Hardware_init_CallInstance = CMock_Guts_MemNext(Mock.RgbLed_Hardware_init_CallInstance);
+  if (Mock.RgbLed_Hardware_init_IgnoreBool)
+  {
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  if (!Mock.RgbLed_Hardware_init_CallbackBool &&
+      Mock.RgbLed_Hardware_init_CallbackFunctionPointer != NULL)
+  {
+    Mock.RgbLed_Hardware_init_CallbackFunctionPointer(Mock.RgbLed_Hardware_init_CallbackCalls++);
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
+  cmock_line = cmock_call_instance->LineNumber;
+  if (cmock_call_instance->CallOrder > ++GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
+  if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (Mock.RgbLed_Hardware_init_CallbackFunctionPointer != NULL)
+  {
+    Mock.RgbLed_Hardware_init_CallbackFunctionPointer(Mock.RgbLed_Hardware_init_CallbackCalls++);
+  }
+  UNITY_CLR_DETAILS();
+}
+
+void RgbLed_Hardware_init_CMockIgnore(void)
+{
+  Mock.RgbLed_Hardware_init_IgnoreBool = (char)1;
+}
+
+void RgbLed_Hardware_init_CMockStopIgnore(void)
+{
+  Mock.RgbLed_Hardware_init_IgnoreBool = (char)0;
+}
+
+void RgbLed_Hardware_init_CMockExpect(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_RgbLed_Hardware_init_CALL_INSTANCE));
+  CMOCK_RgbLed_Hardware_init_CALL_INSTANCE* cmock_call_instance = (CMOCK_RgbLed_Hardware_init_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringOutOfMemory);
+  memset(cmock_call_instance, 0, sizeof(*cmock_call_instance));
+  Mock.RgbLed_Hardware_init_CallInstance = CMock_Guts_MemChain(Mock.RgbLed_Hardware_init_CallInstance, cmock_guts_index);
+  Mock.RgbLed_Hardware_init_IgnoreBool = (char)0;
+  cmock_call_instance->LineNumber = cmock_line;
+  cmock_call_instance->CallOrder = ++GlobalExpectCount;
+}
+
+void RgbLed_Hardware_init_AddCallback(CMOCK_RgbLed_Hardware_init_CALLBACK Callback)
+{
+  Mock.RgbLed_Hardware_init_IgnoreBool = (char)0;
+  Mock.RgbLed_Hardware_init_CallbackBool = (char)1;
+  Mock.RgbLed_Hardware_init_CallbackFunctionPointer = Callback;
+}
+
+void RgbLed_Hardware_init_Stub(CMOCK_RgbLed_Hardware_init_CALLBACK Callback)
+{
+  Mock.RgbLed_Hardware_init_IgnoreBool = (char)0;
+  Mock.RgbLed_Hardware_init_CallbackBool = (char)0;
+  Mock.RgbLed_Hardware_init_CallbackFunctionPointer = Callback;
 }
 
 void RgbLed_SetLeds(uint16_t* au16PwmData, uint16_t u16PwmDataSize)

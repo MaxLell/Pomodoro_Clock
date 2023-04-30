@@ -33,3 +33,23 @@ User/Config/Config.c:
 - TEST
 build/test/mocks/mock_RgbLed_Hardware.c:
 - TEST
+build/test/mocks/mock_BlinkyLed.c:
+- TEST
+build/test/mocks/mock_StopWatch.c:
+- TEST
+build/test/mocks/mock_Button.c:
+- TEST
+build/test/mocks/mock_RealTimeClock.c:
+- TEST
+build/test/mocks/mock_Buzzer.c:
+- TEST
+build/test/mocks/mock_LightEffects.c:
+- TEST
+build/test/mocks/mock_PomodoroFsm.c:
+- TEST
+build/test/mocks/mock_RgbLed.c:
+- TEST
+build/test/mocks/mock_Score.c:
+- TEST
+User/Executer/Executer.c:
+- TEST

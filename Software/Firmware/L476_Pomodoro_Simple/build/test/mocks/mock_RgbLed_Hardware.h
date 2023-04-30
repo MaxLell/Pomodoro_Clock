@@ -24,6 +24,16 @@ void mock_RgbLed_Hardware_Verify(void);
 
 
 
+#define RgbLed_Hardware_init_Ignore() RgbLed_Hardware_init_CMockIgnore()
+void RgbLed_Hardware_init_CMockIgnore(void);
+#define RgbLed_Hardware_init_StopIgnore() RgbLed_Hardware_init_CMockStopIgnore()
+void RgbLed_Hardware_init_CMockStopIgnore(void);
+#define RgbLed_Hardware_init_Expect() RgbLed_Hardware_init_CMockExpect(__LINE__)
+void RgbLed_Hardware_init_CMockExpect(UNITY_LINE_TYPE cmock_line);
+typedef void (* CMOCK_RgbLed_Hardware_init_CALLBACK)(int cmock_num_calls);
+void RgbLed_Hardware_init_AddCallback(CMOCK_RgbLed_Hardware_init_CALLBACK Callback);
+void RgbLed_Hardware_init_Stub(CMOCK_RgbLed_Hardware_init_CALLBACK Callback);
+#define RgbLed_Hardware_init_StubWithCallback RgbLed_Hardware_init_Stub
 #define RgbLed_SetLeds_Ignore() RgbLed_SetLeds_CMockIgnore()
 void RgbLed_SetLeds_CMockIgnore(void);
 #define RgbLed_SetLeds_StopIgnore() RgbLed_SetLeds_CMockStopIgnore()
