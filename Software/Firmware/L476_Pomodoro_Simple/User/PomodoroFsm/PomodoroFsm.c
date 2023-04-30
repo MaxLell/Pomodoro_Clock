@@ -71,7 +71,7 @@ STATIC status_t PomodoroFsm_callback(MessageBroker_message_t in_sMessage)
     }
     default:
     {
-        log_error("Invalid topic: %d", in_sMessage.eTopic);
+        log_error("Invalid topic: %d", in_sMessage.eMsgTopic);
         return STATUS_INVALID_ARG;
         break;
     }
