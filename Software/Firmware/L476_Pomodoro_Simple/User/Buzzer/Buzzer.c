@@ -56,6 +56,7 @@ void Buzzer_execute(void)
     {
         if (u8SecondsCounter < BUZZER_RING_DURATION_SEC)
         {
+            u8SecondsCounter++;
             // Enable the Buzzer // TODO
         }
         if (u8SecondsCounter == BUZZER_RING_DURATION_SEC)

@@ -56,3 +56,6 @@ Software/Embedded_SW/Pomodoro_Clock_HW/.project
 *.xml
 *.prefs
 *.s
+
+# Ceedling
+*.pass

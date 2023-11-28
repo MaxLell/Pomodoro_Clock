@@ -63,7 +63,8 @@ static void MX_TIM1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-#define TOTAL_LEDS (8 + 16 + 24)
+//#define TOTAL_LEDS (8 + 16 + 24)
+#define TOTAL_LEDS 12
 // #define TOTAL_LEDS (16)
 #define BRIGHTNESS_CTRL_FLAG 1
 
