@@ -104,36 +104,13 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  uint8_t led_index = 0;
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 
-//    if (led_index % RGB_LED_TOTAL_LEDS == 0)
-//    {
-//      led_index = 0;
-//    }
-//
-//    uint8_t effect[5] = {2, 5, 5, 5, 2};
-//    uint8_t effect_size = sizeof(effect);
-//    for (uint8_t i = 0; i <= RGB_LED_TOTAL_LEDS; i++)
-//    {
-//      RgbLed_setPixelColor(i, 0, 0, 0);
-//    }
-//    for (uint8_t i = 0; i < effect_size; i++)
-//    {
-//      uint8_t tmp = (led_index + i) % RGB_LED_TOTAL_LEDS;
-//      RgbLed_setPixelColor(tmp, effect[i], effect[i], effect[i]);
-//    }
-//
-//    RgbLed_show();
-//    led_index++;
-//
-//    HAL_Delay(10);
 	  RgbLed_testDrawSpinningCircle();
-
   }
   /* USER CODE END 3 */
 }
