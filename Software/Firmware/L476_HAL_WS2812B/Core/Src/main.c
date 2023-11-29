@@ -63,7 +63,7 @@ static void MX_TIM1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-//#define TOTAL_LEDS (8 + 16 + 24)
+// #define TOTAL_LEDS (8 + 16 + 24)
 #define TOTAL_LEDS 12
 // #define TOTAL_LEDS (16)
 #define BRIGHTNESS_CTRL_FLAG 1
@@ -71,8 +71,7 @@ static void MX_TIM1_Init(void);
 uint8_t LED_Data[TOTAL_LEDS][4]; // This stores the color data values of the LEDs
 uint8_t LED_Mod[TOTAL_LEDS][4];  // This stores the brightness adjusted values of the LEDs
 
-uint8_t dataIsSent = 0;
-
+uint8_t bDataIsSent = 0;
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
   /**
@@ -84,7 +83,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
    */
   HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
 
-  dataIsSent = 1;
+  bDataIsSent = 1;
 }
 
 void Set_LED(int ledIndex, int red, int green, int blue)
@@ -135,7 +134,7 @@ void Set_Brightness(int brightness) // 0-45
 
 #ifdef SIMPLE_SEND
 #define PWMDATASIZE 24
-uint16_t pwmData[PWMDATASIZE];
+static uint16_t pwmData[PWMDATASIZE];
 void send(uint8_t red, uint8_t green, uint8_t blue)
 {
   /**
@@ -179,7 +178,7 @@ uint16_t pwmData[PWMDATASIZE];
 #define WS2812_HIGH_BIT 60
 #define WS2812_LOW_BIT 30
 #define WS2812_OFF 0
-void WS2812_Send(void)
+void WS2812_show(void)
 {
   uint32_t j = 0;
   uint32_t color;
@@ -225,11 +224,11 @@ void WS2812_Send(void)
 
   HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)pwmData, j);
 
-  while (!dataIsSent)
+  while (!bDataIsSent)
   {
     /* Do nothing an wait forever */
   }
-  dataIsSent = 0;
+  bDataIsSent = 0;
 }
 
 #endif
@@ -275,7 +274,7 @@ int main(void)
   // Set_LED(1, 255, 0, 0);
   // Set_LED(2, 50, 0, 0);
   // Set_Brightness(30);
-  // WS2812_Send();
+  // WS2812_show();
 #endif
 
   /* USER CODE END 2 */
@@ -316,10 +315,9 @@ int main(void)
     if (BRIGHTNESS_CTRL_FLAG == 1)
     {
       Set_Brightness(2);
-
     }
     HAL_Delay(40);
-    WS2812_Send();
+    WS2812_show();
     led_index++;
     // HAL_Delay(20);
   }
