@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdint.h"
+#include "RgbLed.h"
 
 /* USER CODE END Includes */
 
@@ -37,14 +38,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define TOTAL_LEDS 24
-#define BIT_WIDTH_RGB_LED 24
-#define NUMBER_OF_OFF_PULSES_BETWEEN_LED_PULSES 50
-#define PWM_DATA_SIZE (BIT_WIDTH_RGB_LED * TOTAL_LEDS) + NUMBER_OF_OFF_PULSES_BETWEEN_LED_PULSES
-
-#define WS2812B_HIGH_BIT 40
-#define WS2812B_LOW_BIT 20
-#define WS2812B_OFF 0
 
 /* USER CODE END PD */
 
@@ -56,9 +49,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t bDataIsSent = 0;
-uint16_t au16PwmData[PWM_DATA_SIZE];
-uint8_t u8LedData[TOTAL_LEDS][4]; // This stores the color data values of the LEDs
 
 /* USER CODE END PV */
 
@@ -66,71 +56,10 @@ uint8_t u8LedData[TOTAL_LEDS][4]; // This stores the color data values of the LE
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
-void WS2812_show(void);
-void WS2812B_setPixelColor(int ledIndex, int red, int green, int blue);
-
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-void WS2812B_setPixelColor(int ledIndex, int red, int green, int blue)
-{
-  u8LedData[ledIndex][0] = ledIndex;
-  u8LedData[ledIndex][1] = green;
-  u8LedData[ledIndex][2] = red;
-  u8LedData[ledIndex][3] = blue;
-}
-
-void WS2812_show(void)
-{
-  uint32_t u32LedPulses = 0;
-  uint32_t color;
-  /**
-   * PWM for LED Illumination
-   */
-  for (int k = 0; k < TOTAL_LEDS; k++)
-  {
-    color = ((u8LedData[k][1] << 16) | // green
-             (u8LedData[k][2] << 8) |  // red
-             (u8LedData[k][3]));       // blue
-
-    /**
-     * Parsing of the color Array and inserting the respective PWM Value
-     * For PWM generation
-     */
-    for (int8_t i = BIT_WIDTH_RGB_LED - 1; i >= 0; i--)
-    {
-      if (color & (1 << i))
-      {
-        au16PwmData[u32LedPulses] = WS2812B_HIGH_BIT;
-      }
-      else
-      {
-        au16PwmData[u32LedPulses] = WS2812B_LOW_BIT;
-      }
-      u32LedPulses++;
-    }
-  }
-
-  /**
-   * Insert some 0 values as a reset value to be placed in
-   * between sequences
-   */
-  for (uint8_t i = 0; i < NUMBER_OF_OFF_PULSES_BETWEEN_LED_PULSES; i++)
-  {
-    au16PwmData[u32LedPulses] = WS2812B_OFF;
-    u32LedPulses++;
-  }
-
-  HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)au16PwmData, u32LedPulses);
-
-  // while (!bDataIsSent)
-  // {
-  //   /* Do nothing an wait forever */
-  // }
-  // bDataIsSent = 0;
-}
 
 /* USER CODE END 0 */
 
@@ -174,35 +103,37 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint8_t led_index = 0;
 
+  uint8_t led_index = 0;
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 
-    if (led_index % TOTAL_LEDS == 0)
-    {
-      led_index = 0;
-    }
+//    if (led_index % RGB_LED_TOTAL_LEDS == 0)
+//    {
+//      led_index = 0;
+//    }
+//
+//    uint8_t effect[5] = {2, 5, 5, 5, 2};
+//    uint8_t effect_size = sizeof(effect);
+//    for (uint8_t i = 0; i <= RGB_LED_TOTAL_LEDS; i++)
+//    {
+//      RgbLed_setPixelColor(i, 0, 0, 0);
+//    }
+//    for (uint8_t i = 0; i < effect_size; i++)
+//    {
+//      uint8_t tmp = (led_index + i) % RGB_LED_TOTAL_LEDS;
+//      RgbLed_setPixelColor(tmp, effect[i], effect[i], effect[i]);
+//    }
+//
+//    RgbLed_show();
+//    led_index++;
+//
+//    HAL_Delay(10);
+	  RgbLed_testDrawSpinningCircle();
 
-    uint8_t effect[TOTAL_LEDS] = {2, 5, 5, 5, 2};
-    uint8_t effect_size = sizeof(effect);
-    for (uint8_t i = 0; i <= TOTAL_LEDS; i++)
-    {
-      WS2812B_setPixelColor(i, 0, 0, 0);
-    }
-    for (uint8_t i = 0; i < effect_size; i++)
-    {
-      uint8_t tmp = (led_index + i) % TOTAL_LEDS;
-      WS2812B_setPixelColor(tmp, effect[i], effect[i], effect[i]);
-    }
-
-    WS2812_show();
-    led_index++;
-
-    HAL_Delay(30);
   }
   /* USER CODE END 3 */
 }
@@ -259,20 +190,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
-{
-  /**
-   * The DMA needs to be stopped, otherwise the signal
-   * is repeated over and over again.
-   * The problem remains, nonetheless: It takes the
-   * ISR a couple of cycles to stop the TIM PWM
-   * Therefore the TIM PWM continues to send out numbers
-   */
-  HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
-
-  bDataIsSent = 1;
-}
 
 /* USER CODE END 4 */
 

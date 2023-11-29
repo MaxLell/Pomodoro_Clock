@@ -178,7 +178,7 @@ uint16_t pwmData[PWMDATASIZE];
 #define WS2812_HIGH_BIT 60
 #define WS2812_LOW_BIT 30
 #define WS2812_OFF 0
-void WS2812_show(void)
+void RgbLed_show(void)
 {
   uint32_t j = 0;
   uint32_t color;
@@ -274,7 +274,7 @@ int main(void)
   // Set_LED(1, 255, 0, 0);
   // Set_LED(2, 50, 0, 0);
   // Set_Brightness(30);
-  // WS2812_show();
+  // RgbLed_show();
 #endif
 
   /* USER CODE END 2 */
@@ -317,7 +317,7 @@ int main(void)
       Set_Brightness(2);
     }
     HAL_Delay(40);
-    WS2812_show();
+    RgbLed_show();
     led_index++;
     // HAL_Delay(20);
   }
