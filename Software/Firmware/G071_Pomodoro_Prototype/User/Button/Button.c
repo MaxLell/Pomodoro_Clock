@@ -26,16 +26,16 @@ void Button_execute(void)
         log_error("Button_wasPressed() failed with error code: %d", tStatus);
     }
 
-    if (bButtonWasPressed == TRUE)
-    {
-        MessageBroker_message_t tMessage = {0};
-        tMessage.eMsgTopic = E_TOPIC_TRIGGER_BUTTON_PRESSED;
-        tMessage.u16DataSize = 0;
-        tMessage.au8DataBytes = NULL;
-        status_t tStatus = MessageBroker_publish(tMessage);
-        if (tStatus != STATUS_OK)
-        {
-            log_error("MessageBroker_publish() failed with error code: %d", tStatus);
-        }
-    }
+//    if (bButtonWasPressed == TRUE)
+//    {
+//        MessageBroker_message_t tMessage = {0};
+//        tMessage.eMsgTopic = E_TOPIC_TRIGGER_BUTTON_PRESSED;
+//        tMessage.u16DataSize = 0;
+//        tMessage.au8DataBytes = NULL;
+//        status_t tStatus = MessageBroker_publish(tMessage);
+//        if (tStatus != STATUS_OK)
+//        {
+//            log_error("MessageBroker_publish() failed with error code: %d", tStatus);
+//        }
+//    }
 }

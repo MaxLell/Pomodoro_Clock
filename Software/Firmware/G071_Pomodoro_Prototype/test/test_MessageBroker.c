@@ -1,5 +1,4 @@
 #include "unity.h"
-
 #include "MessageBroker.h"
 
 void setUp(void)
@@ -15,33 +14,33 @@ void tearDown(void)
 {
 }
 
-extern MessageBroker_msgDictinary_t sTestTopic_1;
-extern MessageBroker_msgDictinary_t sTestTopic_2;
-extern MessageBroker_msgDictinary_t *sMessageTopicIndex;
+extern msgTopics_t sMsg_0001;
+extern msgTopics_t sMsg_0002;
+extern msgTopics_t *sMessageTopicIndex;
 
 void test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero()
 {
     for (uint8_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; i++)
     {
-        sTestTopic_1.aCallbackArray[i] = (Module_msgCallback_t)0x1a1a1a1a;
-        sTestTopic_2.aCallbackArray[i] = (Module_msgCallback_t)0x1a1a1a1a;
+        sMsg_0001.aCallbackArray[i] = (msgCallback_t)0x1a1a1a1a;
+        sMsg_0002.aCallbackArray[i] = (msgCallback_t)0x1a1a1a1a;
     }
 
     MessageBroker_init();
 
     for (uint8_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; i++)
     {
-        TEST_ASSERT_EQUAL(NULL, sTestTopic_1.aCallbackArray[i]);
-        TEST_ASSERT_EQUAL(NULL, sTestTopic_2.aCallbackArray[i]);
+        TEST_ASSERT_EQUAL(NULL, sMsg_0001.aCallbackArray[i]);
+        TEST_ASSERT_EQUAL(NULL, sMsg_0002.aCallbackArray[i]);
     }
 }
 
-status_t dummyMsg2010Callback(MessageBroker_message_t in_sMessage)
+status_t dummyMsg2010Callback(msg_t in_sMessage)
 {
     return STATUS_OK;
 }
 
-status_t dummyMsg0204Callback(MessageBroker_message_t in_sMessage)
+status_t dummyMsg0204Callback(msg_t in_sMessage)
 {
     return STATUS_OK;
 }
@@ -52,24 +51,24 @@ void test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot()
     MessageBroker_init();
 
     /* Write one Callback function into the first spot */
-    MessageBroker_subscribe(E_TEST_2, dummyMsg0204Callback);
-    MessageBroker_subscribe(E_TEST_1, dummyMsg2010Callback);
+    MessageBroker_subscribe(MSG_ID_0002, dummyMsg0204Callback);
+    MessageBroker_subscribe(MSG_ID_0001, dummyMsg2010Callback);
 
-    TEST_ASSERT_NOT_EQUAL(NULL, sTestTopic_2.aCallbackArray[0]);
-    TEST_ASSERT_NOT_EQUAL(NULL, sTestTopic_1.aCallbackArray[0]);
+    TEST_ASSERT_NOT_EQUAL(NULL, sMsg_0002.aCallbackArray[0]);
+    TEST_ASSERT_NOT_EQUAL(NULL, sMsg_0001.aCallbackArray[0]);
 
     /* Clears all the Callback Arrays */
     MessageBroker_init();
-    TEST_ASSERT_EQUAL(NULL, sTestTopic_2.aCallbackArray[0]);
-    TEST_ASSERT_EQUAL(NULL, sTestTopic_1.aCallbackArray[0]);
+    TEST_ASSERT_EQUAL(NULL, sMsg_0002.aCallbackArray[0]);
+    TEST_ASSERT_EQUAL(NULL, sMsg_0001.aCallbackArray[0]);
 
     /* Only transform a portion of the array */
     for (uint8_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; i++)
     {
         if (i < (MESSAGE_BROKER_CALLBACK_ARRAY_SIZE - 2))
         {
-            MessageBroker_subscribe(E_TEST_2, dummyMsg0204Callback);
-            MessageBroker_subscribe(E_TEST_1, dummyMsg2010Callback);
+            MessageBroker_subscribe(MSG_ID_0002, dummyMsg0204Callback);
+            MessageBroker_subscribe(MSG_ID_0001, dummyMsg2010Callback);
         }
     }
 
@@ -77,50 +76,50 @@ void test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot()
     {
         if (i < (MESSAGE_BROKER_CALLBACK_ARRAY_SIZE - 2))
         {
-            TEST_ASSERT_NOT_EQUAL(NULL, sTestTopic_2.aCallbackArray[i]);
-            TEST_ASSERT_NOT_EQUAL(NULL, sTestTopic_1.aCallbackArray[i]);
+            TEST_ASSERT_NOT_EQUAL(NULL, sMsg_0002.aCallbackArray[i]);
+            TEST_ASSERT_NOT_EQUAL(NULL, sMsg_0001.aCallbackArray[i]);
         }
         else
         {
-            TEST_ASSERT_EQUAL(NULL, sTestTopic_2.aCallbackArray[i]);
-            TEST_ASSERT_EQUAL(NULL, sTestTopic_1.aCallbackArray[i]);
+            TEST_ASSERT_EQUAL(NULL, sMsg_0002.aCallbackArray[i]);
+            TEST_ASSERT_EQUAL(NULL, sMsg_0001.aCallbackArray[i]);
         }
     }
 }
 
 void test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument()
 {
-    status_t status = MessageBroker_subscribe(E_TEST_1, NULL);
-    TEST_ASSERT_EQUAL(STATUS_NULL_POINTER, status);
+    status_t status = MessageBroker_subscribe(MSG_ID_0001, NULL);
+    TEST_ASSERT_EQUAL(STATUS_ERROR, status);
 }
 
 uint32_t u32CallbackTestMessage1Counter_1;
-status_t testyMsg1Callback_1(MessageBroker_message_t in_sMessage)
+status_t testyMsg1Callback_1(msg_t in_sMessage)
 {
     u32CallbackTestMessage1Counter_1++;
     return STATUS_OK;
 }
 
 uint32_t u32CallbackTestMessage2Counter_2;
-status_t testyMsg2Callback_2(MessageBroker_message_t in_sMessage)
+status_t testyMsg2Callback_2(msg_t in_sMessage)
 {
     u32CallbackTestMessage2Counter_2++;
     return STATUS_OK;
 }
 
 uint32_t u32CallbackMsg0204Counter;
-status_t testyMsg0204Callback(MessageBroker_message_t in_sMessage)
+status_t testyMsg0204Callback(msg_t in_sMessage)
 {
     u32CallbackMsg0204Counter++;
     return STATUS_OK;
 }
 void test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers()
 {
-    MessageBroker_message_t tTestMessage1;
-    MessageBroker_message_t tTestMessage2;
+    msg_t tTestMessage1;
+    msg_t tTestMessage2;
 
-    tTestMessage1.eMsgTopic = E_TEST_1;
-    tTestMessage2.eMsgTopic = E_TEST_2;
+    tTestMessage1.eMsgId = MSG_ID_0001;
+    tTestMessage2.eMsgId = MSG_ID_0002;
 
     u32CallbackTestMessage1Counter_1 = 0;
     u32CallbackTestMessage2Counter_2 = 0;
@@ -128,23 +127,23 @@ void test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers()
 
     MessageBroker_init();
 
-    /* One Module subscribes to the Topic E_TEST_2 */
-    MessageBroker_subscribe(E_TEST_2, testyMsg0204Callback);
+    /* One Module subscribes to the Topic MSG_ID_0002 */
+    MessageBroker_subscribe(MSG_ID_0002, testyMsg0204Callback);
 
     /**
-     * Two Modules subscribe to the Topic E_TEST_1
+     * Two Modules subscribe to the Topic MSG_ID_0001
      * This means that the Callback Array now contains
      * two function pointers (in this case they are pointing to the
      * same function)
      */
-    MessageBroker_subscribe(E_TEST_1, testyMsg1Callback_1);
-    MessageBroker_subscribe(E_TEST_1, testyMsg1Callback_1);
+    MessageBroker_subscribe(MSG_ID_0001, testyMsg1Callback_1);
+    MessageBroker_subscribe(MSG_ID_0001, testyMsg1Callback_1);
 
     /**
      * Add a different callback function that is triggered by
      * the same message.
      */
-    MessageBroker_subscribe(E_TEST_1, testyMsg2Callback_2);
+    MessageBroker_subscribe(MSG_ID_0001, testyMsg2Callback_2);
 
     /**
      * Publish the messages

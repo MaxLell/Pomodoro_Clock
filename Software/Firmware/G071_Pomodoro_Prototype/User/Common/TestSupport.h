@@ -1,15 +1,6 @@
-#ifndef TEST_SUPPORT_H
-#define TEST_SUPPORT_H
+#ifndef TESTSUPPORT_H
+#define TESTSUPPORT_H
 
-//--------------------------------------------
-// application version
-//--------------------------------------------
-#define VERSION_MAJOR (0)
-#define VERSION_MINOR (1)
-
-//--------------------------------------------
-// useful test overrides
-//--------------------------------------------
 #ifdef TEST
 #define FOREVER (0)
 #define STATIC
@@ -20,4 +11,4 @@
 #define INLINE inline
 #endif
 
-#endif /* TEST_SUPPORT_H */
+#endif // TESTSUPPORT_H

@@ -2,38 +2,56 @@
 #define MESSAGEBROKER_H
 
 #include "Common.h"
-#include "MessageTopics.h"
-#include "MessageFormats.h"
+#include "MessageIDs.h"
 
-/*
- * The number of Message Topics needs to match the number of enumsthere are
- * in the messageTopics enum
- */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+    /*
+     * The number of Message Topics needs to match the number of enumsthere are
+     * in the messageTopics enum
+     */
 
 #define MESSAGE_BROKER_CALLBACK_ARRAY_SIZE 5
 
-/**
- * Message Structure
- */
+    /**
+     * Message Structure
+     */
 
-/**
- * Standard Message Dictinary
- */
-typedef struct
-{
-    MessageTopics_e eMsgTopic;
-    Module_msgCallback_t aCallbackArray[MESSAGE_BROKER_CALLBACK_ARRAY_SIZE];
-} MessageBroker_msgDictinary_t;
+    typedef struct
+    {
+        msgId_e eMsgId;
+        uint16_t u16DataSize;
+        uint8_t *au8DataBytes;
+    } msg_t;
 
-/**
- * Function Declerations
- */
-status_t MessageBroker_init(void);
+    /* Function Callback Type */
+    typedef status_t (*msgCallback_t)(msg_t in_sMessage);
 
-status_t MessageBroker_subscribe(
-    MessageTopics_e in_eMsgTopic,
-    Module_msgCallback_t in_p32FunctionCallback);
+    /**
+     * Standard Message Dictinary
+     */
+    typedef struct
+    {
+        msgId_e eMsgId;
+        msgCallback_t aCallbackArray[MESSAGE_BROKER_CALLBACK_ARRAY_SIZE];
+    } msgTopics_t;
 
-status_t MessageBroker_publish(MessageBroker_message_t in_tMessage);
+    /**
+     * Function Declerations
+     */
+    status_t MessageBroker_init(void);
+
+    status_t MessageBroker_subscribe(
+        msgId_e in_eMsgTopic,
+        msgCallback_t in_p32FunctionCallback);
+
+    status_t MessageBroker_publish(msg_t in_tMessage);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // MESSAGEBROKER_H

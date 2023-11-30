@@ -5,52 +5,30 @@
  * This is only a dummy message for experimentation.
  * You manually need to set these topics here up.
  */
-#ifdef TEST
-STATIC MessageBroker_msgDictinary_t sTestTopic_1;
-STATIC MessageBroker_msgDictinary_t sTestTopic_2;
-#endif
+STATIC msgTopics_t sMsg_0001;
+STATIC msgTopics_t sMsg_0002;
+STATIC msgTopics_t sMsg_0003;
+STATIC msgTopics_t sMsg_0004;
 /**
  * The Message Topics are defined here
  */
-STATIC MessageBroker_msgDictinary_t sTopicTriggerButton;
-STATIC MessageBroker_msgDictinary_t sTopicCurrentMinute;
-STATIC MessageBroker_msgDictinary_t sTopicOnSecondPassed;
-STATIC MessageBroker_msgDictinary_t sTopicPomodoroFsmStateChanged;
-STATIC MessageBroker_msgDictinary_t sTopicTimeAndDate;
-STATIC MessageBroker_msgDictinary_t sTopicRingLedsOutput;
-STATIC MessageBroker_msgDictinary_t sTopicDailyPomodoroScore;
 
 /* Contains all dictinaries, so that they can be searched through iterativly */
-STATIC MessageBroker_msgDictinary_t *sMessageTopicIndex[E_TOPIC_LAST_TOPIC] = {NULL};
+STATIC msgTopics_t *sMessageTopicIndex[E_TOPIC_LAST_TOPIC] = {NULL};
 
 status_t MessageBroker_init()
 {
-
-#ifdef TEST
     /* Set the Topics of the respective messages */
-    sTestTopic_1.eMsgTopic = E_TEST_1;
-    sTestTopic_2.eMsgTopic = E_TEST_2;
-    /* Place the different topics / message types in the Library */
-    sMessageTopicIndex[E_TEST_1] = &sTestTopic_1;
-    sMessageTopicIndex[E_TEST_2] = &sTestTopic_2;
-#endif
-    /* Set the Topics of the respective messages */
-    sTopicTriggerButton.eMsgTopic = E_TOPIC_TRIGGER_BUTTON_PRESSED;
-    sTopicCurrentMinute.eMsgTopic = E_TOPIC_CURRENT_MINUTE;
-    sTopicOnSecondPassed.eMsgTopic = E_TOPIC_ONE_SECOND_PASSED;
-    sTopicPomodoroFsmStateChanged.eMsgTopic = E_TOPIC_PFSM_STATE_CHANGED;
-    sTopicTimeAndDate.eMsgTopic = E_TOPIC_TIME_AND_DATE;
-    sTopicRingLedsOutput.eMsgTopic = E_TOPIC_RING_LEDS_OUTPUT;
-    sTopicDailyPomodoroScore.eMsgTopic = E_TOPIC_DAILY_POMODORO_SCORE;
+    sMsg_0001.eMsgId = MSG_ID_0001;
+    sMsg_0002.eMsgId = MSG_ID_0002;
+    sMsg_0003.eMsgId = MSG_ID_0003;
+    sMsg_0004.eMsgId = MSG_ID_0004;
 
-    /* Place the different topics / message types in the Library */
-    sMessageTopicIndex[E_TOPIC_TRIGGER_BUTTON_PRESSED] = &sTopicTriggerButton;
-    sMessageTopicIndex[E_TOPIC_CURRENT_MINUTE] = &sTopicCurrentMinute;
-    sMessageTopicIndex[E_TOPIC_ONE_SECOND_PASSED] = &sTopicOnSecondPassed;
-    sMessageTopicIndex[E_TOPIC_PFSM_STATE_CHANGED] = &sTopicPomodoroFsmStateChanged;
-    sMessageTopicIndex[E_TOPIC_TIME_AND_DATE] = &sTopicTimeAndDate;
-    sMessageTopicIndex[E_TOPIC_RING_LEDS_OUTPUT] = &sTopicRingLedsOutput;
-    sMessageTopicIndex[E_TOPIC_DAILY_POMODORO_SCORE] = &sTopicDailyPomodoroScore;
+    /* Set the Topics of the respective messages */
+    sMessageTopicIndex[MSG_ID_0001] = &sMsg_0001;
+    sMessageTopicIndex[MSG_ID_0002] = &sMsg_0002;
+    sMessageTopicIndex[MSG_ID_0003] = &sMsg_0003;
+    sMessageTopicIndex[MSG_ID_0004] = &sMsg_0004;
 
     /* set all the elements of the Callback arrays to zero */
     for (uint16_t topic = 0; topic < E_TOPIC_LAST_TOPIC; topic++)
@@ -65,12 +43,21 @@ status_t MessageBroker_init()
 }
 
 status_t MessageBroker_subscribe(
-    MessageTopics_e in_eMsgTopic,
-    Module_msgCallback_t in_p32FunctionCallback)
+    msgId_e in_eMsgTopic,
+    msgCallback_t in_p32FunctionCallback)
 {
-
-    /* Run the Null Pointer checks */
-    check(NULL != in_p32FunctionCallback, "input function pointer is NULL");
+    { // Input Verfication
+        ASSERT_MSG(in_eMsgTopic < E_TOPIC_LAST_TOPIC, "Topic is out of bounds!");
+        if (in_eMsgTopic >= E_TOPIC_LAST_TOPIC)
+        {
+            return STATUS_ERROR;
+        }
+        ASSERT_MSG(in_p32FunctionCallback != NULL, "Function pointer is NULL!");
+        if (in_p32FunctionCallback == NULL)
+        {
+            return STATUS_ERROR;
+        }
+    }
 
     uint16_t u16EmptyPointerPositionIndex = 0;
     for (uint16_t u16ArrayIndex = 0; u16ArrayIndex < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; u16ArrayIndex++)
@@ -84,19 +71,23 @@ status_t MessageBroker_subscribe(
     }
     if (u16EmptyPointerPositionIndex == (MESSAGE_BROKER_CALLBACK_ARRAY_SIZE - 1))
     {
-        log_warning("Callback Array for Topic %d is full. This is the last possible subscription!", in_eMsgTopic);
+        log_info("Callback Array for Topic %d is full. This is the last possible subscription!", in_eMsgTopic);
     }
     sMessageTopicIndex[in_eMsgTopic]->aCallbackArray[u16EmptyPointerPositionIndex] = in_p32FunctionCallback;
     return STATUS_OK;
-
-error:
-    return STATUS_NULL_POINTER;
 }
 
-status_t MessageBroker_publish(MessageBroker_message_t in_tMessage)
+status_t MessageBroker_publish(msg_t in_tMessage)
 {
+    { // Input Verification
+        ASSERT_MSG(in_tMessage.eMsgId < E_TOPIC_LAST_TOPIC, "Topic is out of bounds!");
+        if (in_tMessage.eMsgId >= E_TOPIC_LAST_TOPIC)
+        {
+            return STATUS_ERROR;
+        }
+    }
     /* find the dictinary that corresponds to the message's Topic */
-    MessageTopics_e eTopic = in_tMessage.eMsgTopic;
+    msgId_e eTopic = in_tMessage.eMsgId;
 
     /* Run all the Callback functions there are in the Callback Array and pass the Message over */
     for (uint8_t u8CallbackIndex = 0; u8CallbackIndex < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; u8CallbackIndex++)

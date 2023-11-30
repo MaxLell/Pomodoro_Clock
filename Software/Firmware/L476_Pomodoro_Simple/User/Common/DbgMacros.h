@@ -63,7 +63,7 @@
     goto error;                \
   }
 
-#define assert_true(expression)                                         \
+#define ASSERT_MSG(expression)                                          \
   if (expression)                                                       \
   {                                                                     \
     (void)0U;                                                           \

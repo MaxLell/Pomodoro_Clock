@@ -3,6 +3,9 @@
  *
  *  Created on: Nov 29, 2023
  *      Author: maxlell
+ *
+ * Source: https://controllerstech.com/interface-ws2812-with-stm32/
+ * The solution created here is based on this information
  */
 
 #ifndef RGBLED_H_

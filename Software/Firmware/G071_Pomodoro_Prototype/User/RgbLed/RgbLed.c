@@ -139,6 +139,6 @@ void RgbLed_testDrawSpinningCircle()
         RgbLed_show();
         led_index++;
 
-        HAL_Delay(30);
+        HAL_Delay(50);
     }
 }
