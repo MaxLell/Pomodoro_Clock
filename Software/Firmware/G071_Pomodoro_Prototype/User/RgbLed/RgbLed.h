@@ -23,6 +23,6 @@ void RgbLed_setPixelColor(
 
 void RgbLed_isr();
 
-void RgbLed_testDrawSpinningCircle();
+void RgbLed_HardwareTest_DrawSpinningCircle();
 
 #endif /* RGBLED_H_ */

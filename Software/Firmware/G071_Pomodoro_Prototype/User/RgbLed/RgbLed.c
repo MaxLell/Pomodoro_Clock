@@ -114,10 +114,10 @@ void RgbLed_isr()
 
 uint8_t bRunOnce = 1;
 
-void RgbLed_testDrawSpinningCircle()
+void RgbLed_HardwareTest_DrawSpinningCircle()
 {
     uint8_t led_index = 0;
-    while (1)
+    for (uint8_t i = 0; i < 30; i++)
     {
         if (led_index == RGB_LED_TOTAL_LEDS)
         {
@@ -139,6 +139,6 @@ void RgbLed_testDrawSpinningCircle()
         RgbLed_show();
         led_index++;
 
-        HAL_Delay(50);
+        HAL_Delay(30);
     }
 }
