@@ -1,5 +1,0 @@
-#ifndef BUZZER_HARDWARE_H
-#define BUZZER_HARDWARE_H
-
-
-#endif // BUZZER_HARDWARE_H

@@ -7,5 +7,6 @@
 #include "Status.h"
 #include "TestSupport.h"
 #include "Types.h"
+#include "Printf.h"
 
 #endif /* COMMON_H */

@@ -1,6 +1,0 @@
----
-- "/Library/Ruby/Gems/2.6.0/gems/ceedling-0.31.1/vendor/unity/src/unity.h"
-- User/LightEffects/LightEffects.h
-- build/test/mocks/mock_MessageBroker.h
-- User/LightEffects/LightEffects_Interface.h
-- User/Config/Config.h

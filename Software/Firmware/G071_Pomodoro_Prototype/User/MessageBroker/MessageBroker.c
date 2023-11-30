@@ -19,7 +19,7 @@ STATIC msgTopics_t *sMessageTopicIndex[E_TOPIC_LAST_TOPIC] = {NULL};
 status_t MessageBroker_init()
 {
     /* Set the Topics of the respective messages */
-    sMsg_0001.eMsgId = MSG_ID_0001;
+    sMsg_0001.eMsgId = MSG_ID_0001; // Demo
     sMsg_0002.eMsgId = MSG_ID_0002;
     sMsg_0003.eMsgId = MSG_ID_0003;
     sMsg_0004.eMsgId = MSG_ID_0004;
@@ -35,6 +35,7 @@ status_t MessageBroker_init()
     {
         for (uint16_t index = 0; index < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; index++)
         {
+            // TODO: Add a safeguard in here - so that the application shuts down gracefully
             sMessageTopicIndex[topic]->aCallbackArray[index] = 0;
         }
     }

@@ -1,7 +1,0 @@
----
-- "/Library/Ruby/Gems/2.6.0/gems/ceedling-0.31.1/vendor/unity/src/unity.h"
-- Drivers/Rcc/Rcc.h
-- Drivers/L476_Mappings/stm32l476xx.h
-- App/Support/Common.h
-- App/Support/DbgMacros.h
-- App/Support/RegisterAccess.h
