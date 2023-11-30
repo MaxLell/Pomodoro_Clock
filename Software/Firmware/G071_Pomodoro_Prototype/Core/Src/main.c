@@ -26,9 +26,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "stdint.h"
-#include "RgbLed.h"
 #include "Common.h"
+#include "Executer.h"
 
 /* USER CODE END Includes */
 
@@ -101,6 +100,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   Printf_SetUartPort(&huart2);
+  Executer_run();
 
   /* USER CODE END 2 */
 
@@ -112,14 +112,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    log_info("Ping");
-
-    RgbLed_HardwareTest_DrawSpinningCircle();
-
-    HAL_Delay(500);
-    log_info("Pong");
-    HAL_Delay(500);
-    log_info("BAMMMM!");
   }
   /* USER CODE END 3 */
 }
