@@ -21,4 +21,4 @@ void StandbyControl_init() {
       MessageBroker_subscribe(MSG_ID_0100, StandbyControl_TriggerBtnPressedCB);
 }
 
-void StandbyControl_execute() {}
+void StandbyControl_execute() { bTriggerButtonPressed = FALSE; }

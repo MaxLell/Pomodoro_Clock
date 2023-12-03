@@ -8,17 +8,10 @@
 extern "C" {
 #endif
 
-/*
- * The number of Message Topics needs to match the number of enumsthere are
- * in the messageTopics enum
- */
-
-#define MESSAGE_BROKER_CALLBACK_ARRAY_SIZE 5
+#define MESSAGE_BROKER_CALLBACK_ARRAY_SIZE 10U
 
 /**
  * Message Structure
- * - for parsing incoming Messages
- * - and sending out messages
  */
 typedef struct {
   msgId_e eMsgId;
