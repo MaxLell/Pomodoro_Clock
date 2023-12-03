@@ -1,6 +1,14 @@
 #ifndef MESSAGETOPICS_H_
 #define MESSAGETOPICS_H_
 
+/**
+ * Message Topic Definitions
+ * - 0XXX: System Messages / Test Messsages
+ * - 01XX: Button Messages
+ * - 02XX: State Machine Messages
+ * - 03XX: SequenceControl Messages
+ */
+
 #include "Common.h"
 
 #ifdef __cplusplus

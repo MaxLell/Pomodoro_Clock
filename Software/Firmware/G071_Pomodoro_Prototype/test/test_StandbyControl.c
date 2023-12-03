@@ -63,3 +63,12 @@ void test_StandbyControl_execute_should_ClearItsInternalTheTriggerButtonFlag() {
   // Assert
   TEST_ASSERT_EQUAL(FALSE, bTriggerButtonPressed);
 }
+
+/**
+ * StandbyControl shall start a timer with a random timespan between 15-20 sec.
+ * (But only when the timer was not set before)
+ */
+
+/**
+ * Standby Control shall publish a MSG_0200 when the timer is expired
+ */
