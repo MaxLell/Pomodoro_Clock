@@ -1,18 +1,19 @@
 #include "Executer.h"
-#include "RgbLed.h"
-#include "BlinkyLed.h"
 
-void Executer_init(void)
-{
+#include "BlinkyLed.h"
+#include "MessageBroker.h"
+#include "RgbLed.h"
+#include "StandbyControl.h"
+
+void Executer_init(void) {
+  MessageBroker_init();
+  StandbyControl_init();
 }
 
 /**
  * @brief  The main execution steps are run in this function.
  */
-status_t Executer_execute(void)
-{
-    return STATUS_OK;
-}
+status_t Executer_execute(void) { return STATUS_OK; }
 
 /**
  * This function is called from the main() function in main.c.
@@ -21,14 +22,12 @@ status_t Executer_execute(void)
  * with this way a unit test framework run the main execution task
  * one step at a time. This is useful for debugging and testing.
  */
-void Executer_run(void)
-{
-    Executer_init();
-    while (Executer_execute() == STATUS_OK)
-    {
-        /**
-         * The main execution steps are run in the Executer_execute() function.
-         */
-    }
-    ASSERT_MSG(NULL, "shall never reached");
+void Executer_run(void) {
+  Executer_init();
+  while (Executer_execute() == STATUS_OK) {
+    /**
+     * The main execution steps are run in the Executer_execute() function.
+     */
+  }
+  ASSERT_MSG(NULL, "shall never reached");
 }

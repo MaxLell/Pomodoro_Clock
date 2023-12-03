@@ -4,20 +4,17 @@
 #include "Common.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
-    /**
-     * Message Topics
-     */
-    typedef enum
-    {
-        MSG_ID_0001 = 0U, // Test Message 1
-        MSG_ID_0002,      // Test Message 2
-        MSG_ID_0003,      // Chaos Elephant
-        MSG_ID_0004,      // Chaos Giraffe
-        E_TOPIC_LAST_TOPIC
-    } msgId_e;
+/**
+ * Message Topics
+ */
+typedef enum {
+  MSG_ID_0001 = 0U,   // Chaos Elephant
+  MSG_ID_0002,        // Tickly Giraffe
+  MSG_ID_0100,        // Trigger Button Single Click
+  E_TOPIC_LAST_TOPIC  // Last Topic - DO NOT USE (Only for boundary checks)
+} msgId_e;
 
 #ifdef __cplusplus
 }

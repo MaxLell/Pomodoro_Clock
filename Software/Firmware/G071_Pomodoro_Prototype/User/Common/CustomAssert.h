@@ -3,7 +3,7 @@
 
 #include "assert.h"
 
-#ifdef NDEBUG
+#ifdef TEST
 #define ASSERT(x) ((void)0)
 #define ASSERT_MSG(x, msg, ...)                          \
     if (!(x))                                            \
@@ -41,5 +41,5 @@
         assert(0);                                       \
     }
 
-#endif // NDEBUG
+#endif //  TEST
 #endif // CUSTOM_ASSERT_H
