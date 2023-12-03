@@ -1,6 +1,5 @@
 #include "Executer.h"
 #include "RgbLed.h"
-#include "main.h"
 #include "BlinkyLed.h"
 
 void Executer_init(void)
@@ -30,14 +29,6 @@ void Executer_run(void)
         /**
          * The main execution steps are run in the Executer_execute() function.
          */
-
-        log_info("Ping");
-        RgbLed_HardwareTest_DrawSpinningCircle();
-        HAL_Delay(500);
-        log_info("Pong");
-        HAL_Delay(500);
-        log_info("BAMMMM!");
-        BlinkyLed_toggle();
     }
     ASSERT_MSG(NULL, "shall never reached");
 }
