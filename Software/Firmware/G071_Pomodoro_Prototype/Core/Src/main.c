@@ -27,10 +27,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "BlinkyLed.h"
 #include "Common.h"
-#include "CountdownTimer.h"
-#include "Delay.h"
 #include "Executer.h"
 #include "Printf.h"
 
@@ -105,7 +102,7 @@ int main(void) {
   /* USER CODE BEGIN 2 */
 
   Printf_SetUartPort(&huart2);
-  //  Executer_run();
+  Executer_run();
 
   /* USER CODE END 2 */
 
@@ -116,10 +113,6 @@ int main(void) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-    BlinkyLed_toggle();
-    log_info("Hello World!");
-    Delay_sec(1);
   }
   /* USER CODE END 3 */
 }

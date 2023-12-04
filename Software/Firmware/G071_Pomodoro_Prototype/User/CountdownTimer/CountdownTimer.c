@@ -38,7 +38,7 @@ void Countdown_stopTimer(timer_t *psTimer) {
   psTimer->bTimerEnabled = FALSE;
 }
 
-timer_status_t Countdown_isTimerExpired(timer_t *psTimer) {
+timer_status_t Countdown_getTimerStatus(timer_t *psTimer) {
   {  // Input Checks
     ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
   }

@@ -55,7 +55,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/User/Executer}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/User/StandbyControl}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/User/Printf}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/User/ClockTower}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/User/CountdownTimer}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/User/Delay}&quot;"/>
 								</option>
