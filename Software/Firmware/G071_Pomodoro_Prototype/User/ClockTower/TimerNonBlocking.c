@@ -8,28 +8,43 @@ uint32_t getSysTick() {
   return u32SysTickCount;
 }
 
-void initTimer(timer_t *timer, uint32_t u32_time_period_ms,
-               uint8_t u8_user_mode) {
-  timer->u32StartTimeMs = 0U;
-  timer->u32TimerPeriod = u32_time_period_ms;
-  timer->bTimerEnabled = FALSE;
-  timer->u8Mode = u8_user_mode;
+void initTimer(timer_t *psTimer, uint32_t u32PeriodMs, uint8_t u8UserMode) {
+  {  // Input Checks
+    ASSERT_MSG(!(u32PeriodMs == 0U), "Timer period cannot be 0");
+    ASSERT_MSG(!(u8UserMode > CONTINOUS_MODE), "Invalid Timer Mode");
+    ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
+  }
+  psTimer->u32StartTimeMs = 0U;
+  psTimer->u32TimerPeriod = u32PeriodMs;
+  psTimer->bTimerEnabled = FALSE;
+  psTimer->u8Mode = u8UserMode;
 }
 
-void startTimer(timer_t *timer) {
-  timer->u32StartTimeMs = getSysTick();
-  timer->bTimerEnabled = TRUE;
+void startTimer(timer_t *psTimer) {
+  {  // Input Checks
+    ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
+  }
+  psTimer->u32StartTimeMs = getSysTick();
+  psTimer->bTimerEnabled = TRUE;
 }
 
-void stopTimer(timer_t *timer) { timer->bTimerEnabled = FALSE; }
+void stopTimer(timer_t *psTimer) {
+  {  // Input Checks
+    ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
+  }
+  psTimer->bTimerEnabled = FALSE;
+}
 
-uint8_t isTimerExpired(timer_t *timer) {
-  if (timer->bTimerEnabled == TRUE) {
-    if ((getSysTick() - timer->u32StartTimeMs) >=
-        timer->u32TimerPeriod)  // accounts for buffer overflow
+uint8_t isTimerExpired(timer_t *psTimer) {
+  {  // Input Checks
+    ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
+  }
+  if (psTimer->bTimerEnabled == TRUE) {
+    if ((getSysTick() - psTimer->u32StartTimeMs) >=
+        psTimer->u32TimerPeriod)  // accounts for buffer overflow
     {
-      if (timer->u8Mode == CONTINOUS_MODE) {
-        startTimer(timer);  // Restart Timer for user in Continuous mode
+      if (psTimer->u8Mode == CONTINOUS_MODE) {
+        startTimer(psTimer);  // Restart Timer for user in Continuous mode
       }
       return TIMER_EXPIRED;
     } else {
