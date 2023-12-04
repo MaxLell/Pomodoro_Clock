@@ -23,11 +23,10 @@ typedef struct {
   BOOL bTimerEnabled;
 } timer_t;
 
-uint32_t getSysTick();
-void Countdown_initTimer(timer_t *timer, uint32_t time_period,
-                         uint8_t u8_user_mode);
-void Countdown_startTimer(timer_t *timer);
-void Countdown_stopTimer(timer_t *timer);
-timer_status_t Countdown_isTimerExpired(timer_t *timer);
+void Countdown_initTimer(timer_t *psTimer, uint32_t u32TimerPeriodMs,
+                         uint8_t u8UserMode);
+void Countdown_startTimer(timer_t *psTimer);
+void Countdown_stopTimer(timer_t *psTimer);
+timer_status_t Countdown_isTimerExpired(timer_t *psTimer);
 
 #endif  // COUNTDOWN_TIMER_H
