@@ -29,9 +29,9 @@
 /* USER CODE BEGIN Includes */
 #include "BlinkyLed.h"
 #include "Common.h"
+#include "CountdownTimer.h"
 #include "Executer.h"
 #include "Printf.h"
-#include "TimerNonBlocking.h"
 
 /* USER CODE END Includes */
 
@@ -107,8 +107,8 @@ int main(void) {
   //  Executer_run();
 
   timer_t sTimer;
-  initTimer(&sTimer, 100, ONE_SHOT_MODE);
-  startTimer(&sTimer);
+  Countdown_initTimer(&sTimer, 100, ONE_SHOT_MODE);
+  Countdown_startTimer(&sTimer);
 
   /* USER CODE END 2 */
 
@@ -119,10 +119,10 @@ int main(void) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    if (isTimerExpired(&sTimer) == TIMER_EXPIRED) {
+    if (Countdown_isTimerExpired(&sTimer) == E_COUNTDOWN_TIMER_EXPIRED) {
       BlinkyLed_toggle();
       log_info("Hello World!");
-      startTimer(&sTimer);
+      Countdown_startTimer(&sTimer);
     }
   }
   /* USER CODE END 3 */

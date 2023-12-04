@@ -1,14 +1,17 @@
-#include "TimerNonBlocking.h"
+#include "CountdownTimer.h"
 
-#include "ClockTower_Hardware.h"
+#include "CountdownTimer_Hardware.h"
 
-uint32_t getSysTick() {
+uint32_t Countdonw_getSysTick();
+
+uint32_t Countdonw_getSysTick() {
   uint32_t u32SysTickCount;
-  ClockTower_Hardware_getSysTickCount(&u32SysTickCount);
+  CountdownTimer_Hardware_getSysTickCount(&u32SysTickCount);
   return u32SysTickCount;
 }
 
-void initTimer(timer_t *psTimer, uint32_t u32PeriodMs, uint8_t u8UserMode) {
+void Countdown_initTimer(timer_t *psTimer, uint32_t u32PeriodMs,
+                         uint8_t u8UserMode) {
   {  // Input Checks
     ASSERT_MSG(!(u32PeriodMs == 0U), "Timer period cannot be 0");
     ASSERT_MSG(!(u8UserMode > CONTINOUS_MODE), "Invalid Timer Mode");
@@ -20,36 +23,37 @@ void initTimer(timer_t *psTimer, uint32_t u32PeriodMs, uint8_t u8UserMode) {
   psTimer->u8Mode = u8UserMode;
 }
 
-void startTimer(timer_t *psTimer) {
+void Countdown_startTimer(timer_t *psTimer) {
   {  // Input Checks
     ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
   }
-  psTimer->u32StartTimeMs = getSysTick();
+  psTimer->u32StartTimeMs = Countdonw_getSysTick();
   psTimer->bTimerEnabled = TRUE;
 }
 
-void stopTimer(timer_t *psTimer) {
+void Countdown_stopTimer(timer_t *psTimer) {
   {  // Input Checks
     ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
   }
   psTimer->bTimerEnabled = FALSE;
 }
 
-uint8_t isTimerExpired(timer_t *psTimer) {
+timer_status_t Countdown_isTimerExpired(timer_t *psTimer) {
   {  // Input Checks
     ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
   }
   if (psTimer->bTimerEnabled == TRUE) {
-    if ((getSysTick() - psTimer->u32StartTimeMs) >=
+    if ((Countdonw_getSysTick() - psTimer->u32StartTimeMs) >=
         psTimer->u32TimerPeriod)  // accounts for buffer overflow
     {
       if (psTimer->u8Mode == CONTINOUS_MODE) {
-        startTimer(psTimer);  // Restart Timer for user in Continuous mode
+        Countdown_startTimer(
+            psTimer);  // Restart Timer for user in Continuous mode
       }
-      return TIMER_EXPIRED;
+      return E_COUNTDOWN_TIMER_EXPIRED;
     } else {
-      return TIMER_NOT_EXPIRED;
+      return E_COUNTDOWN_TIMER_NOT_EXPIRED;
     }
   }
-  return TIMER_NOT_ENABLED;
+  return E_COUNTDOWN_TIMER_NOT_ENABLED;
 }
