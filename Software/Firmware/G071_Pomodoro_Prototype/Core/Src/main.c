@@ -30,6 +30,7 @@
 #include "BlinkyLed.h"
 #include "Common.h"
 #include "CountdownTimer.h"
+#include "Delay.h"
 #include "Executer.h"
 #include "Printf.h"
 
@@ -106,10 +107,6 @@ int main(void) {
   Printf_SetUartPort(&huart2);
   //  Executer_run();
 
-  timer_t sTimer;
-  Countdown_initTimer(&sTimer, 100, ONE_SHOT_MODE);
-  Countdown_startTimer(&sTimer);
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -119,11 +116,10 @@ int main(void) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    if (Countdown_isTimerExpired(&sTimer) == E_COUNTDOWN_TIMER_EXPIRED) {
-      BlinkyLed_toggle();
-      log_info("Hello World!");
-      Countdown_startTimer(&sTimer);
-    }
+
+    BlinkyLed_toggle();
+    log_info("Hello World!");
+    Delay_sec(1);
   }
   /* USER CODE END 3 */
 }
