@@ -34,7 +34,7 @@ status_t testyMsgCallback(msg_t in_sMessage) {
 void test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero() {
   // Set some dummy function into the callback array before hand
   saMsg[MSG_ID_0001].aCallbackArray[0] = testyMsgCallback;
-  saMsg[MSG_ID_0002].aCallbackArray[0] = testyMsg1Callback_1;
+  saMsg[MSG_ID_0002].aCallbackArray[0] = testyMsgCallback;
 
   // run the init function
   MessageBroker_init();

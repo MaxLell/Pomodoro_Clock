@@ -2,9 +2,9 @@
 
 #include "CountdownTimer_Hardware.h"
 
-uint32_t Countdonw_getSysTick();
+STATIC uint32_t Countdown_getSysTick();
 
-uint32_t Countdonw_getSysTick() {
+uint32_t Countdown_getSysTick() {
   uint32_t u32SysTickCount;
   CountdownTimer_Hardware_getSysTickCount(&u32SysTickCount);
   return u32SysTickCount;
@@ -27,7 +27,7 @@ void Countdown_startTimer(timer_t *psTimer) {
   {  // Input Checks
     ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
   }
-  psTimer->u32StartTimeMs = Countdonw_getSysTick();
+  psTimer->u32StartTimeMs = Countdown_getSysTick();
   psTimer->bTimerEnabled = TRUE;
 }
 
@@ -43,7 +43,7 @@ timer_status_t Countdown_getTimerStatus(timer_t *psTimer) {
     ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
   }
   if (psTimer->bTimerEnabled == TRUE) {
-    if ((Countdonw_getSysTick() - psTimer->u32StartTimeMs) >=
+    if ((Countdown_getSysTick() - psTimer->u32StartTimeMs) >=
         psTimer->u32TimerPeriod)  // accounts for buffer overflow
     {
       if (psTimer->u8Mode == CONTINOUS_MODE) {

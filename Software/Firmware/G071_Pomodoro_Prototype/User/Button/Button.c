@@ -1,41 +1,32 @@
 #include "Button.h"
+
+#include "BlinkyLed.h"
 #include "MessageBroker.h"
 
 static BOOL bButtonState = FALSE;
 
-status_t Button_wasPressed(BOOL *pBButtonWasPressed)
-{
-    *pBButtonWasPressed = bButtonState;
+void Button_wasPressed(BOOL *pBButtonWasPressed) {
+  *pBButtonWasPressed = bButtonState;
 
-    // Reset the button state after reading it
-    bButtonState = FALSE;
-    return STATUS_OK;
+  // Reset the button state after reading it
+  bButtonState = FALSE;
 }
 
-void Button_ISR(void)
-{
-    bButtonState = TRUE;
+void Button_ISR(void) {
+  BlinkyLed_toggle();
+  bButtonState = TRUE;
 }
 
-void Button_execute(void)
-{
-    BOOL bButtonWasPressed = FALSE;
-    status_t tStatus = Button_wasPressed(&bButtonWasPressed);
-    if (tStatus != STATUS_OK)
-    {
-        log_error("Button_wasPressed() failed with error code: %d", tStatus);
-    }
-
-//    if (bButtonWasPressed == TRUE)
-//    {
-//        MessageBroker_message_t tMessage = {0};
-//        tMessage.eMsgTopic = E_TOPIC_TRIGGER_BUTTON_PRESSED;
-//        tMessage.u16DataSize = 0;
-//        tMessage.au8DataBytes = NULL;
-//        status_t tStatus = MessageBroker_publish(tMessage);
-//        if (tStatus != STATUS_OK)
-//        {
-//            log_error("MessageBroker_publish() failed with error code: %d", tStatus);
-//        }
-//    }
+void Button_execute(void) {
+  BOOL bButtonWasPressed;
+  Button_wasPressed(&bButtonWasPressed);
+  if (bButtonWasPressed) {
+    msg_t sMsg;
+    sMsg.eMsgId = MSG_ID_0100;
+    sMsg.u16DataSize = 0;
+    sMsg.au8DataBytes = NULL;
+    status_t tStatus = MessageBroker_publish(sMsg);
+    ASSERT_MSG(!(tStatus != STATUS_OK),
+               "MessageBroker_publish() failed with error code: %d", tStatus);
+  }
 }

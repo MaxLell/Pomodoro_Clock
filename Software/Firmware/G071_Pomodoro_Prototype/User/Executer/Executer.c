@@ -1,6 +1,7 @@
 #include "Executer.h"
 
 #include "BlinkyLed.h"
+#include "Button.h"
 #include "MessageBroker.h"
 #include "RgbLed.h"
 #include "StandbyControl.h"
@@ -13,7 +14,12 @@ void Executer_init(void) {
 /**
  * @brief  The main execution steps are run in this function.
  */
-status_t Executer_execute(void) { return STATUS_OK; }
+status_t Executer_execute(void) {
+  StandbyControl_execute();
+  Button_execute();
+
+  return STATUS_OK;
+}
 
 /**
  * This function is called from the main() function in main.c.

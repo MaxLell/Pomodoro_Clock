@@ -1,5 +1,6 @@
 #include "MessageBroker.h"
 #include "StandbyControl.h"
+#include "mock_CountdownTimer.h"
 #include "unity.h"
 
 void setUp(void) {}
@@ -21,6 +22,8 @@ void test_StandbyTriggerButtonSinglePress_should_SetItsInternalFlag_when_AButton
   sMsg.au8DataBytes = NULL;
 
   TEST_ASSERT_EQUAL(FALSE, bTriggerButtonPressed);
+
+  Countdown_initTimer_Ignore();
 
   // Act
   MessageBroker_init();
@@ -47,6 +50,9 @@ void test_StandbyControl_execute_should_ClearItsInternalTheTriggerButtonFlag() {
   sMsg.au8DataBytes = NULL;
   bTriggerButtonPressed = FALSE;
 
+  Countdown_initTimer_Ignore();
+  Countdown_getTimerStatus_IgnoreAndReturn(TIMER_NOT_EXPIRED);
+
   // Act
   MessageBroker_init();
   StandbyControl_init();
@@ -65,10 +71,11 @@ void test_StandbyControl_execute_should_ClearItsInternalTheTriggerButtonFlag() {
 }
 
 /**
- * StandbyControl shall start a timer with a random timespan between 15-20 sec.
- * (But only when the timer was not set before)
+ * StandbyControl_Idle_state shall start a timer with a random timespan between
+ * 17 sec. (But only when the timer was not set before)
  */
 
 /**
- * Standby Control shall publish a MSG_0200 when the timer is expired
+ * Standby Control shall change its internal state to
+ * StandbyControl_SeekingAttention state when the timer is expired
  */
