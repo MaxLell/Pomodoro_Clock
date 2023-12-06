@@ -1,0 +1,7 @@
+
+#ifndef RGBLED_CONFIG_H
+#define RGBLED_CONFIG_H
+
+#define RGB_LED_TOTAL_LEDS 24
+
+#endif  // RGBLED_CONFIG_H
