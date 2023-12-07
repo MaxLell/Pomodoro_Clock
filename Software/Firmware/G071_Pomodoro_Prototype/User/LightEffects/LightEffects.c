@@ -42,11 +42,19 @@ void LightEffects_DotAroundTheCircle(
 
       // Set the sequence status to complete
       *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_COMPLETE;
+
+      // Reset the ledIndex
+      u8CurrentLedIndex = 0;
     } else {
       // Set the next LED
       RgbLed_setPixelColor(u8CurrentLedIndex, brightness, brightness,
                            brightness);
+
+      // Set the Sequence Status to in progress
       *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_IN_PROGRESS;
     }
   }
+
+  // Show the sequence on the LEDs
+  RgbLed_show();
 }

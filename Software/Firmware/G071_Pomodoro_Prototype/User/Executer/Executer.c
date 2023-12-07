@@ -6,6 +6,9 @@
 #include "RgbLed.h"
 #include "StandbyControl.h"
 
+/**
+ * @brief  This function initializes the modules used in the program.
+ */
 void Executer_init(void) {
   MessageBroker_init();
   StandbyControl_init();

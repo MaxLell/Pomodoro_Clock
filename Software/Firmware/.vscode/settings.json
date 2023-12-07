@@ -3,7 +3,8 @@
         "*.ejs": "html",
         "tim.h": "c",
         "countdowntimer_hardware.h": "c",
-        "mock_messagebroker.h": "c"
+        "mock_messagebroker.h": "c",
+        "lighteffects.h": "c"
     },
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_fallbackStyle": "Google",
