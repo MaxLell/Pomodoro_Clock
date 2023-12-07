@@ -1,6 +1,7 @@
 #include "LightEffects.h"
 
 #include "CountdownTimer.h"
+#include "Delay.h"
 #include "RgbLed.h"
 #include "RgbLed_Config.h"
 
@@ -14,46 +15,34 @@ void LightEffects_DotAroundTheCircle(
     ASSERT_MSG(!(u16PeriodPerIncrementMs == 0U), "Period cannot be 0");
   }
   // Variable Declarations
-  static timer_t sTimer;
   static uint8_t u8CurrentLedIndex = 0;
-  const uint8_t brightness = 30;
+  const uint8_t u8Brightness = 30;
 
-  timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimer);
-  if (TIMER_NOT_ENABLED == sTimerStatus) {
-    // First execution
-    // Set the timer
-    Countdown_initTimer(&sTimer, u16PeriodPerIncrementMs, CONTINOUS_MODE);
-    Countdown_startTimer(&sTimer);
+  // Disable the current running LED
+  RgbLed_setPixelColor(u8CurrentLedIndex, 0, 0, 0);
 
-    // Set the first LED
-    RgbLed_setPixelColor(u8CurrentLedIndex, brightness, brightness, brightness);
+  // Increment the ledIndex
+  u8CurrentLedIndex++;
+
+  if (u8CurrentLedIndex >= RGB_LED_TOTAL_LEDS) {
+    // Set the sequence status to complete
+    *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_COMPLETE;
+
+    // Reset the ledIndex
+    u8CurrentLedIndex = 0;
+
+    // Disable all LEDs
+    RgbLed_clear();
+  } else {
+    // Set the next LED
+    RgbLed_setPixelColor(u8CurrentLedIndex, u8Brightness, u8Brightness,
+                         u8Brightness);
+
+    // Set the Sequence Status to in progress
+    *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_IN_PROGRESS;
   }
-
-  if (TIMER_EXPIRED == sTimerStatus) {
-    // Disable the current running LED
-    RgbLed_setPixelColor(u8CurrentLedIndex, 0, 0, 0);
-
-    // Increment the ledIndex
-    u8CurrentLedIndex++;
-
-    if (u8CurrentLedIndex >= RGB_LED_TOTAL_LEDS) {
-      // Stop the timer
-      Countdown_stopTimer(&sTimer);
-
-      // Set the sequence status to complete
-      *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_COMPLETE;
-
-      // Reset the ledIndex
-      u8CurrentLedIndex = 0;
-    } else {
-      // Set the next LED
-      RgbLed_setPixelColor(u8CurrentLedIndex, brightness, brightness,
-                           brightness);
-
-      // Set the Sequence Status to in progress
-      *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_IN_PROGRESS;
-    }
-  }
+  // Wait a fixed delay
+  Delay_ms(u16PeriodPerIncrementMs);
 
   // Show the sequence on the LEDs
   RgbLed_show();

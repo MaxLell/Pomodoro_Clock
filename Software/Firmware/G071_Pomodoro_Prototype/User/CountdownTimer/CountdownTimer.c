@@ -47,9 +47,13 @@ timer_status_t Countdown_getTimerStatus(timer_t *psTimer) {
         psTimer->u32TimerPeriod)  // accounts for buffer overflow
     {
       if (psTimer->u8Mode == CONTINOUS_MODE) {
-        Countdown_startTimer(
-            psTimer);  // Restart Timer for user in Continuous mode
+        // Restart Timer for user in Continuous mode
+        Countdown_startTimer(psTimer);
+      } else {
+        // Stop Timer for user in OneShot mode
+        Countdown_stopTimer(psTimer);
       }
+
       return E_COUNTDOWN_TIMER_EXPIRED;
     } else {
       return E_COUNTDOWN_TIMER_NOT_EXPIRED;

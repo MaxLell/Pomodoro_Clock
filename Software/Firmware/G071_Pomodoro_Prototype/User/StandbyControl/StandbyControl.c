@@ -12,7 +12,8 @@
 STATIC BOOL bTriggerButtonPressed = FALSE;
 STATIC BOOL bPomodoroSequenceComplete = FALSE;
 
-#define DELAY_FOR_SEEKING_ATTENTION 17000U
+// #define DELAY_FOR_SEEKING_ATTENTION 17000U
+#define DELAY_FOR_SEEKING_ATTENTION 2000U
 
 STATIC StandbyControl_state_t eState;
 
@@ -60,6 +61,16 @@ StandbyControl_SequenceStatus_e StandbyControl_IdleStateCb(void) {
   // Get Timer status
   static timer_t sTimer;
   timer_status_t tTimerStatus = Countdown_getTimerStatus(&sTimer);
+
+  // log the timer status
+  if (tTimerStatus == TIMER_NOT_ENABLED) {
+    log_info("Timer not enabled");
+  } else if (tTimerStatus == TIMER_EXPIRED) {
+    log_info("Timer expired");
+  } else {
+    log_info("Timer not expired");
+  }
+
   if (TIMER_NOT_ENABLED == tTimerStatus) {
     // Init Timer
     Countdown_initTimer(&sTimer, DELAY_FOR_SEEKING_ATTENTION, ONE_SHOT_MODE);
@@ -96,26 +107,42 @@ void StandbyControl_init(void) {
   eState = E_STANDBY_STATE_IDLE;
 }
 
+BOOL bRunOnce = TRUE;
 void StandbyControl_execute() {
   StandbyControl_SequenceStatus_e eStateExecutionIsComplete =
       STATE_EXECUTION_INCOMPLETE;
-
   switch (eState) {
     case E_STANDBY_STATE_IDLE:
+      // run once - report the current state
+      if (bRunOnce == TRUE) {
+        bRunOnce = FALSE;
+        log_info("Idle");
+      }
+
       if (bTriggerButtonPressed == TRUE) {
         bTriggerButtonPressed = FALSE;
         eState = E_STANDBY_STATE_POMODORO;
+        log_info("Trigger pressed");
+        bRunOnce = TRUE;
         break;
       }
 
       eStateExecutionIsComplete = StandbyControl_IdleStateCb();
       if (E_STANDBY_STATUS_SEQUENCE_COMPLETE == eStateExecutionIsComplete) {
         eState = E_STANDBY_STATE_SEEKING_ATTENTION;
+        log_info("Timer expired");
+        bRunOnce = TRUE;
         break;
       }
       break;
 
     case E_STANDBY_STATE_SEEKING_ATTENTION:
+      // Run once - report the current state
+      if (bRunOnce == TRUE) {
+        bRunOnce = FALSE;
+        log_info("Seeking Attention");
+      }
+
       if (bTriggerButtonPressed == TRUE) {
         bTriggerButtonPressed = FALSE;
         eState = E_STANDBY_STATE_POMODORO;
@@ -129,20 +156,30 @@ void StandbyControl_execute() {
         ASSERT_MSG(!(eStatus != STATUS_OK),
                    "MessageBroker_publish() failed with error code: %d",
                    eStatus);
+
+        bRunOnce = TRUE;
         break;
       }
-      eStateExecutionIsComplete = StandbyControl_SeekingAttentionStateCb();
 
+      eStateExecutionIsComplete = StandbyControl_SeekingAttentionStateCb();
       if (E_STANDBY_STATUS_SEQUENCE_COMPLETE == eStateExecutionIsComplete) {
         eState = E_STANDBY_STATE_IDLE;
+        bRunOnce = TRUE;
         break;
       }
       break;
 
     case E_STANDBY_STATE_POMODORO:
+      // Run once - report the current state
+      if (bRunOnce == TRUE) {
+        bRunOnce = FALSE;
+        log_info("Pomodoro");
+      }
+
       if (bPomodoroSequenceComplete == TRUE) {
         bPomodoroSequenceComplete = FALSE;
         eState = E_STANDBY_STATE_IDLE;
+        bRunOnce = TRUE;
         break;
       }
       break;

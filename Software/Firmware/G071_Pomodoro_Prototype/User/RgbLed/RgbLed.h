@@ -21,6 +21,8 @@ void RgbLed_setPixelColor(uint8_t ledIndex, uint8_t u8Red, uint8_t u8Green,
 
 void RgbLed_isr();
 
+void RgbLed_clear(void);
+
 void RgbLed_HardwareTest_DrawSpinningCircle();
 
 #endif /* RGBLED_H_ */
