@@ -15,28 +15,34 @@ void LightEffects_DotAroundTheCircle(
     ASSERT_MSG(!(u16PeriodPerIncrementMs == 0U), "Period cannot be 0");
   }
   // Variable Declarations
-  static uint8_t u8CurrentLedIndex = 0;
-  const uint8_t u8Brightness = 30;
+  static uint8_t u8LedIndex = 0;
+  uint8_t effect[RGB_LED_TOTAL_LEDS] = {2, 5, 5, 5, 2};
+  uint8_t effect_size = sizeof(effect);
 
   // Disable the current running LED
-  RgbLed_setPixelColor(u8CurrentLedIndex, 0, 0, 0);
+  RgbLed_setPixelColor(u8LedIndex, 0, 0, 0);
 
-  // Increment the ledIndex
-  u8CurrentLedIndex++;
-
-  if (u8CurrentLedIndex >= RGB_LED_TOTAL_LEDS) {
+  if (u8LedIndex == RGB_LED_TOTAL_LEDS) {
     // Set the sequence status to complete
     *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_COMPLETE;
 
     // Reset the ledIndex
-    u8CurrentLedIndex = 0;
+    u8LedIndex = 0;
 
     // Disable all LEDs
     RgbLed_clear();
   } else {
-    // Set the next LED
-    RgbLed_setPixelColor(u8CurrentLedIndex, u8Brightness, u8Brightness,
-                         u8Brightness);
+    for (uint8_t i = 0; i < RGB_LED_TOTAL_LEDS; i++) {
+      RgbLed_setPixelColor(i, 0, 0, 0);
+    }
+
+    for (uint8_t i = 0; i < effect_size; i++) {
+      uint8_t tmp = (u8LedIndex + i) % RGB_LED_TOTAL_LEDS;
+      RgbLed_setPixelColor(tmp, effect[i], effect[i], effect[i]);
+    }
+
+    // Increment the ledIndex
+    u8LedIndex++;
 
     // Set the Sequence Status to in progress
     *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_IN_PROGRESS;
@@ -46,4 +52,10 @@ void LightEffects_DotAroundTheCircle(
 
   // Show the sequence on the LEDs
   RgbLed_show();
+}
+
+void LightEffects_ClearAllRingLeds(void) {
+  RgbLed_clear();
+  Delay_ms(5);
+  RgbLed_clear();
 }

@@ -12,10 +12,7 @@ void Button_wasPressed(BOOL *pBButtonWasPressed) {
   bButtonState = FALSE;
 }
 
-void Button_ISR(void) {
-  BlinkyLed_toggle();
-  bButtonState = TRUE;
-}
+void Button_ISR(void) { bButtonState = TRUE; }
 
 void Button_execute(void) {
   BOOL bButtonWasPressed;

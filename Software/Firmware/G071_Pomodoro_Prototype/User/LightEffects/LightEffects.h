@@ -13,4 +13,6 @@ void LightEffects_DotAroundTheCircle(
     LightEffects_SequenceStatus_e* out_eSequenceStatus,
     uint16_t u16PeriodPerIncrementMs);
 
+void LightEffects_ClearAllRingLeds(void);
+
 #endif  // LIGHTEFFECTS_H

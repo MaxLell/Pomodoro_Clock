@@ -7,6 +7,7 @@
 
 #include "RgbLed.h"
 
+#include "Delay.h"
 #include "main.h"
 #include "tim.h"
 
@@ -107,24 +108,24 @@ void RgbLed_isr() {
 
 // static uint8_t bRunOnce = 1;
 void RgbLed_HardwareTest_DrawSpinningCircle() {
-  uint8_t led_index = 0;
+  uint8_t u8LedIndex = 0;
   for (uint8_t i = 0; i < 30; i++) {
-    if (led_index == RGB_LED_TOTAL_LEDS) {
-      led_index = 0;
+    if (u8LedIndex == RGB_LED_TOTAL_LEDS) {
+      u8LedIndex = 0;
     }
     uint8_t effect[RGB_LED_TOTAL_LEDS] = {2, 5, 5, 5, 2};
 
     uint8_t effect_size = sizeof(effect);
-    for (uint8_t i = 0; i <= RGB_LED_TOTAL_LEDS; i++) {
+    for (uint8_t i = 0; i < RGB_LED_TOTAL_LEDS; i++) {
       RgbLed_setPixelColor(i, 0, 0, 0);
     }
     for (uint8_t i = 0; i < effect_size; i++) {
-      uint8_t tmp = (led_index + i) % RGB_LED_TOTAL_LEDS;
+      uint8_t tmp = (u8LedIndex + i) % RGB_LED_TOTAL_LEDS;
       RgbLed_setPixelColor(tmp, effect[i], effect[i], effect[i]);
     }
 
     RgbLed_show();
-    led_index++;
+    u8LedIndex++;
 
     HAL_Delay(30);
   }
