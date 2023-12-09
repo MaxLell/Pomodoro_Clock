@@ -19,8 +19,8 @@ void LightEffects_DotAroundTheCircle(
   uint8_t effect[RGB_LED_TOTAL_LEDS] = {2, 5, 5, 5, 2};
   uint8_t effect_size = sizeof(effect);
 
-  // Disable the current running LED
-  RgbLed_setPixelColor(u8LedIndex, 0, 0, 0);
+  // Increment the ledIndex
+  u8LedIndex++;
 
   if (u8LedIndex == RGB_LED_TOTAL_LEDS) {
     // Set the sequence status to complete
@@ -41,9 +41,6 @@ void LightEffects_DotAroundTheCircle(
       RgbLed_setPixelColor(tmp, effect[i], effect[i], effect[i]);
     }
 
-    // Increment the ledIndex
-    u8LedIndex++;
-
     // Set the Sequence Status to in progress
     *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_IN_PROGRESS;
   }
@@ -56,6 +53,6 @@ void LightEffects_DotAroundTheCircle(
 
 void LightEffects_ClearAllRingLeds(void) {
   RgbLed_clear();
-  Delay_ms(5);
-  RgbLed_clear();
+  Delay_ms(10);
+  RgbLed_show();
 }

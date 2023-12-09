@@ -4,11 +4,6 @@
 #include "MessageBroker.h"
 #include "StandbyControl.h"
 
-// Test Purposes only
-#include "BlinkyLed.h"
-#include "Delay.h"
-#include "RgbLed.h"
-
 /**
  * @brief  This function initializes the modules used in the program.
  */
@@ -23,8 +18,6 @@ void Executer_init(void) {
 status_t Executer_execute(void) {
   StandbyControl_execute();
   Button_execute();
-
-  // Delay_ms(200);
 
   return STATUS_OK;
 }

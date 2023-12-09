@@ -11,6 +11,7 @@ void tearDown(void) {}
 void test_Executer_init_ShouldInitializeAllModules(void) {
   MessageBroker_init_Expect();
   StandbyControl_init_Expect();
+
   Executer_init();
 }
 

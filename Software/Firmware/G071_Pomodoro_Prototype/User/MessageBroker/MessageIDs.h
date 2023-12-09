@@ -15,11 +15,20 @@
  * Message Topics
  */
 typedef enum {
-  MSG_ID_0001 = 0U,   // Chaos Elephant
-  MSG_ID_0002,        // Tickly Giraffe
-  MSG_ID_0100,        // Trigger Button: was pressed once
-  MSG_ID_0200,        // Pomodoro Sequence Start
-  MSG_ID_0201,        // Pomodoro Sequence Complete
+  // Test Messages
+  MSG_ID_0001 = 0U,  // Chaos Elephant
+  MSG_ID_0002,       // Tickly Giraffe
+
+  // Button Messages
+  MSG_ID_0100,  // Trigger Button: was pressed once
+
+  // State Machine Messages
+  MSG_ID_0200,  // Pomodoro Sequence Start
+  MSG_ID_0201,  // Pomodoro Sequence Complete
+
+  // Real Time Clock Messages
+  MSG_ID_0300,  // RTC: 1 Second Tick
+
   E_TOPIC_LAST_TOPIC  // Last Topic - DO NOT USE (Only for boundary checks)
 } msgId_e;
 

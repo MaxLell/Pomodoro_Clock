@@ -30,6 +30,8 @@ extern TIM_HandleTypeDef htim1;
 
 void RgbLed_setPixelColor(uint8_t u8LedIdx, uint8_t u8Red, uint8_t u8Green,
                           uint8_t u8Blue) {
+  { ASSERT_MSG(u8LedIdx < RGB_LED_TOTAL_LEDS, "u8LedIdx out of bounds"); }
+
   u8LedData[u8LedIdx][0] = u8LedIdx;
   u8LedData[u8LedIdx][1] = u8Green;
   u8LedData[u8LedIdx][2] = u8Red;
