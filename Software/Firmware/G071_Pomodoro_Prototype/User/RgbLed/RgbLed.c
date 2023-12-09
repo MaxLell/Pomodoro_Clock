@@ -105,8 +105,6 @@ void RgbLed_isr() {
  * This function draws a light, that spins around the
  * RgbLed Circle
  */
-
-// static uint8_t bRunOnce = 1;
 void RgbLed_HardwareTest_DrawSpinningCircle() {
   uint8_t u8LedIndex = 0;
   for (uint8_t i = 0; i < 30; i++) {
