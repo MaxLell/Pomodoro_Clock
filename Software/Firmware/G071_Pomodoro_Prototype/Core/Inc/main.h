@@ -68,6 +68,8 @@ void Error_Handler(void);
 #define USART2_RX_GPIO_Port GPIOA
 #define BLINKY_LED_Pin GPIO_PIN_5
 #define BLINKY_LED_GPIO_Port GPIOA
+#define RGB_LED_Pin GPIO_PIN_8
+#define RGB_LED_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14

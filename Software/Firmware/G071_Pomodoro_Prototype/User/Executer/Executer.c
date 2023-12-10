@@ -2,7 +2,9 @@
 
 #include "Button.h"
 #include "MessageBroker.h"
+#include "RealTimeClock.h"
 #include "StandbyControl.h"
+#include "TestManagement.h"
 
 /**
  * @brief  This function initializes the modules used in the program.
@@ -10,6 +12,8 @@
 void Executer_init(void) {
   MessageBroker_init();
   StandbyControl_init();
+  RealTimeClock_init();
+  TestManagement_init();
 }
 
 /**
@@ -18,6 +22,8 @@ void Executer_init(void) {
 status_t Executer_execute(void) {
   StandbyControl_execute();
   Button_execute();
+  RealTimeClock_execute();
+  TestManagement_execute();
 
   return STATUS_OK;
 }
