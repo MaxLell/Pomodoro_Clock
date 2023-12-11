@@ -17,4 +17,4 @@ typedef unsigned char BOOL;
 typedef unsigned char BYTE;
 #endif
 
-#endif // TYPES_H
+#endif  // TYPES_H

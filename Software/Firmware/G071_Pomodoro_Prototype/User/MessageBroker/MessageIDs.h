@@ -19,12 +19,14 @@ typedef enum {
   MSG_ID_0001 = 0U,  // Chaos Elephant
   MSG_ID_0002,       // Tickly Giraffe
 
-  // Button Messages
+  // Trigger Button Messages
   MSG_ID_0100,  // Trigger Button: was pressed once
+  MSG_ID_0101,  // Trigger Button: is Pressed Down Continuously
 
   // State Machine Messages
   MSG_ID_0200,  // Pomodoro Sequence Start
-  MSG_ID_0201,  // Pomodoro Sequence Complete
+  MSG_ID_0201,  // Pomodoro Work Time Sequence Complete
+  MSG_ID_0202,  // Pomodoro Break Time Sequence Complete
 
   // Real Time Clock Messages
   MSG_ID_0300,  // RTC: 1 Second Tick
