@@ -3,9 +3,13 @@
 
 #include "PomodoroControl_Datatypes.h"
 
-PomodoroControl_StateFn_status_t PomodoroControl_StateFn_StartingSequence();
+PomodoroControl_StateFn_status_t PomodoroControl_StateFn_StartingSequence(
+    const uint8_t in_u8CurrentMinuteOfTheHour,
+    const uint8_t in_u8WorktimePeriodMin,
+    const uint8_t in_u8BreaktimePeriodMin);
 
-PomodoroControl_StateFn_status_t PomodoroControl_StateFn_WorkTime();
+PomodoroControl_StateFn_status_t PomodoroControl_StateFn_WorkTime(
+    const uint8_t in_u8CurrentMinuteOfTheHour);
 
 PomodoroControl_StateFn_status_t PomodoroControl_StateFn_Warning();
 

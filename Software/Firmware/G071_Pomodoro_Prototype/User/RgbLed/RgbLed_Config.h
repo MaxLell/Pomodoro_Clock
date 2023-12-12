@@ -3,5 +3,6 @@
 #define RGBLED_CONFIG_H
 
 #define RGB_LED_TOTAL_LEDS 24
+// #define RGB_LED_TOTAL_LEDS 124
 
 #endif  // RGBLED_CONFIG_H

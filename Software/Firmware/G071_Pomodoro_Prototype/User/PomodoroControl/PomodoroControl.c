@@ -1,14 +1,17 @@
 #include "PomodoroControl.h"
 
+#include "Common.h"
 #include "MessageBroker.h"
+#include "MessageDefinitions.h"
 #include "PomodoroControl_Datatypes.h"
 #include "PomodoroControl_StateFunctions.h"
+#include "RealTimeClock_Datatypes.h"
 
 /********************************************************
  * Private Variables
  ********************************************************/
 
-STATIC PomodoroControl_internalStatus_t sInternalState;
+STATIC PomodoroControl_internalStatus_t sInternalState = {0};
 STATIC PomodoroControl_State_t eState;
 
 /********************************************************
@@ -34,6 +37,26 @@ STATIC status_t PomodoroControl_MessageCallback(msg_t sMsg) {
     case MSG_ID_0101:  // Trigger Button: is Pressed Down Continuously
       sInternalState.bTriggerButtonIsPressedContinuously =
           (BOOL)*sMsg.au8DataBytes;
+      break;
+
+    case MSG_ID_0102:  // Trigger Button: is Released
+      sInternalState.bTriggerButtonIsReleased = (BOOL)*sMsg.au8DataBytes;
+      sInternalState.bTriggerButtonIsPressedContinuously = FALSE;
+      break;
+
+    case MSG_ID_0300:  // Current time Tick from the RTC
+                       // Parse out the current minute from the message struct
+      sInternalState.u8CurrentMinuteOfTheHour =
+          ((TimeAndDate_t *)sMsg.au8DataBytes)->u8Minute;
+      break;
+
+    case MSG_ID_0400:  // Pomodoro Configuration: Worktime and Breaktime Periods
+      sInternalState.u8WorktimePeriodMin =
+          ((PomodoroPeriodConfiguration_t *)sMsg.au8DataBytes)
+              ->u8WorktimePeriodMin;
+      sInternalState.u8BreaktimePeriodMin =
+          ((PomodoroPeriodConfiguration_t *)sMsg.au8DataBytes)
+              ->u8BreaktimePeriodMin;
       break;
 
     default:
@@ -65,45 +88,87 @@ void PomodoroControl_init(void) {
 
 status_t PomodoroControl_execute(void) {
   switch (eState) {
-    case POMDOORO_CONTROL_STATE__IDLE:
-      if (sInternalState.bStartPomodoroEventReceived) {
+    case POMDOORO_CONTROL_STATE__IDLE: {
+      if (TRUE == sInternalState.bStartPomodoroEventReceived) {
         // Update the state
         eState = POMODORO_CONTROL_STATE__STARTING_SEQUENCE;
-
         // Reset the internal state of this state
         sInternalState.bStartPomodoroEventReceived = FALSE;
       } else {
         // Do nothing and wait
       }
-      break;
+    } break;
 
-    case POMODORO_CONTROL_STATE__WORKTIME:
-      // when the state function return SUCCESS, then update the state to the
-      // Warning State
-      //   PomodoroControl_StateFn_status_t eFnStatus =
-      //       PomodoroControl_StateFn_StartingSequence();
-      //   if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__SUCCESS) {
-      //     eState = POMODORO_CONTROL_STATE__WARNING;
-      //   } else if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__ERROR) {
-      //     ASSERT_MSG(FALSE, "Error in the State Function");
-      //     return STATUS_ERROR;
-      //   } else {  // POMODORO_CONTROL_STATE_FN_STATE__PENDING
-      //     // Do nothing and wait
-      //   }
-      //   // when the sInternalState indicates that the Trigger was pressed
-      //   // continously, then update the state to the Cancel State
-      //   if (sInternalState.bTriggerButtonIsPressedContinuously) {
-      //     eState = POMODORO_CONTROL_STATE__CANCEL;
-      //   }
-      break;
+    case POMODORO_CONTROL_STATE__STARTING_SEQUENCE: {
+      // Call the State function
+      PomodoroControl_StateFn_status_t eFnStatus =
+          PomodoroControl_StateFn_StartingSequence(
+              sInternalState.u8CurrentMinuteOfTheHour,
+              sInternalState.u8WorktimePeriodMin,
+              sInternalState.u8BreaktimePeriodMin);
 
-    case POMODORO_CONTROL_STATE__WARNING:
-      break;
+      // Update the state - if necessary
+      if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__SUCCESS) {
+        eState = POMODORO_CONTROL_STATE__WORKTIME;
+      } else if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__ERROR) {
+        ASSERT_MSG(FALSE, "Error in the State Function");
+        return STATUS_ERROR;
+      } else {  // POMODORO_CONTROL_STATE_FN_STATE__PENDING
+        // Do nothing and wait
+      }
+    } break;
 
-    case POMODORO_CONTROL_STATE__BREAKTIME:
-      break;
+    case POMODORO_CONTROL_STATE__WORKTIME: {
+      // Call the State function
+      PomodoroControl_StateFn_status_t eFnStatus =
+          PomodoroControl_StateFn_WorkTime(
+              sInternalState.u8CurrentMinuteOfTheHour);
 
-    case POMODORO_CONTROL_STATE__CANCEL:
+      // Update the state - if necessary
+      if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__SUCCESS) {
+        eState = POMODORO_CONTROL_STATE__WARNING;
+      } else if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__ERROR) {
+        ASSERT_MSG(FALSE, "Error in the State Function");
+        return STATUS_ERROR;
+      } else {  // POMODORO_CONTROL_STATE_FN_STATE__PENDING
+        // Do nothing and wait
+      }
+    } break;
+
+    case POMODORO_CONTROL_STATE__WARNING: {
+      // Call the State function
+      PomodoroControl_StateFn_status_t eFnStatus =
+          PomodoroControl_StateFn_Warning();
+
+      // Update the state - if necessary
+      if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__SUCCESS) {
+        eState = POMODORO_CONTROL_STATE__BREAKTIME;
+      } else if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__ERROR) {
+        ASSERT_MSG(FALSE, "Error in the State Function");
+        return STATUS_ERROR;
+      } else {  // POMODORO_CONTROL_STATE_FN_STATE__PENDING
+        // Do nothing and wait
+      }
+    } break;
+    case POMODORO_CONTROL_STATE__BREAKTIME: {
+      // Call the State function
+      PomodoroControl_StateFn_status_t eFnStatus =
+          PomodoroControl_StateFn_BreakTime();
+
+      // Update the state - if necessary
+      if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__SUCCESS) {
+        eState = POMDOORO_CONTROL_STATE__IDLE;
+      } else if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__ERROR) {
+        ASSERT_MSG(FALSE, "Error in the State Function");
+        return STATUS_ERROR;
+      } else {  // POMODORO_CONTROL_STATE_FN_STATE__PENDING
+        // Do nothing and wait
+      }
+    }
+
+    break;
+
+    case POMODORO_CONTROL_STATE__CANCEL_SEQUENCE:
       break;
     default:
       break;

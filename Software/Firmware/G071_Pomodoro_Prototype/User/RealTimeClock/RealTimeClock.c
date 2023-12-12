@@ -3,6 +3,7 @@
 #include "Common.h"
 #include "CountdownTimer.h"
 #include "MessageBroker.h"
+#include "RealTimeClock_Datatypes.h"
 #include "RealTimeClock_Hardware.h"
 
 STATIC timer_t tTimer;

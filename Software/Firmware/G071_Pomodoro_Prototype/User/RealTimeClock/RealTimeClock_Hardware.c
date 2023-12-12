@@ -1,5 +1,6 @@
 #include "RealTimeClock_Hardware.h"
 
+#include "RealTimeClock_Datatypes.h"
 #include "main.h"
 
 extern RTC_HandleTypeDef hrtc;

@@ -1,6 +1,8 @@
 #ifndef POMODOROCONTROL_DATATYPES_H
 #define POMODOROCONTROL_DATATYPES_H
 
+#include "Common.h"
+
 typedef enum {
   POMDOORO_CONTROL_STATE__IDLE,
   POMODORO_CONTROL_STATE__STARTING_SEQUENCE,
@@ -18,8 +20,17 @@ typedef enum {
 } PomodoroControl_StateFn_status_t;
 
 typedef struct {
+  // flags
   BOOL bStartPomodoroEventReceived;
   BOOL bTriggerButtonIsPressedContinuously;
+  BOOL bTriggerButtonIsReleased;
+
+  // Current Minute
+  uint8_t u8CurrentMinuteOfTheHour;
+
+  // Pomodoro Settings
+  uint8_t u8WorktimePeriodMin;
+  uint8_t u8BreaktimePeriodMin;
 } PomodoroControl_internalStatus_t;
 
 #endif  // POMODOROCONTROL_DATATYPES_H
