@@ -15,4 +15,6 @@ PomodoroControl_StateFn_status_t PomodoroControl_StateFn_Warning();
 
 PomodoroControl_StateFn_status_t PomodoroControl_StateFn_BreakTime();
 
+PomodoroControl_StateFn_status_t PomodoroControl_StateFn_CancelSequence();
+
 #endif  // POMODOROCONTROL_STATEFUNCTIONS_H

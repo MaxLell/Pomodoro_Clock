@@ -4,7 +4,7 @@
 #include "Common.h"
 
 typedef enum {
-  POMDOORO_CONTROL_STATE__IDLE,
+  POMODOORO_CONTROL_STATE__IDLE,
   POMODORO_CONTROL_STATE__STARTING_SEQUENCE,
   POMODORO_CONTROL_STATE__WORKTIME,
   POMODORO_CONTROL_STATE__WARNING,
@@ -23,7 +23,6 @@ typedef struct {
   // flags
   BOOL bStartPomodoroEventReceived;
   BOOL bTriggerButtonIsPressedContinuously;
-  BOOL bTriggerButtonIsReleased;
 
   // Current Minute
   uint8_t u8CurrentMinuteOfTheHour;
@@ -31,6 +30,9 @@ typedef struct {
   // Pomodoro Settings
   uint8_t u8WorktimePeriodMin;
   uint8_t u8BreaktimePeriodMin;
+
+  // State of the State Machine
+  PomodoroControl_State_t ePreviousState;
 } PomodoroControl_internalStatus_t;
 
 #endif  // POMODOROCONTROL_DATATYPES_H
