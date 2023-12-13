@@ -9,24 +9,12 @@
 /**
  * @brief  This function initializes the modules used in the program.
  */
-void Executer_init(void) {
-  MessageBroker_init();
-  StandbyControl_init();
-  RealTimeClock_init();
-  TestManagement_init();
-}
+void Executer_init(void) {}
 
 /**
  * @brief  The main execution steps are run in this function.
  */
-status_t Executer_execute(void) {
-  StandbyControl_execute();
-  Button_execute();
-  RealTimeClock_execute();
-  TestManagement_execute();
-
-  return STATUS_OK;
-}
+status_t Executer_execute(void) { return STATUS_OK; }
 
 /**
  * This function is called from the main() function in main.c.

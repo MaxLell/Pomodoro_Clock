@@ -1,6 +1,6 @@
 #include "Common.h"
 #include "MessageBroker.h"
-#include "RealTimeClock.h"
+#include "RealTimeClock_Datatypes.h"
 
 typedef struct {
   uint8_t u8WorktimePeriodMin;

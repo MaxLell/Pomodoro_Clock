@@ -8,14 +8,16 @@ status_t TestManagement_MessageCb(msg_t sMsg) {
     case MSG_ID_0100:
       log_info("Button was pressed once");
       break;
-    case MSG_ID_0300:
+    case MSG_ID_0300: {
       TimeAndDate_t *psTimeAndDate = (TimeAndDate_t *)sMsg.au8DataBytes;
       log_info("Time: %02d:%02d:%02d", psTimeAndDate->u8Hour,
                psTimeAndDate->u8Minute, psTimeAndDate->u8Second);
       log_info("------");
       log_info("Date: %02d.%02d.%02d", psTimeAndDate->u8Day,
                psTimeAndDate->u8Month, psTimeAndDate->u8Year);
-      break;
+    }
+
+    break;
     default:
       ASSERT_MSG(FALSE, "Unknown Message ID");
       break;
