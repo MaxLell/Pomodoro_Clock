@@ -6,7 +6,9 @@
         "mock_messagebroker.h": "c",
         "lighteffects.h": "c",
         "messagebroker.h": "c",
-        "pomodorocontrol_datatypes.h": "c"
+        "pomodorocontrol_datatypes.h": "c",
+        "common.h": "c",
+        "status.h": "c"
     },
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_fallbackStyle": "Google",

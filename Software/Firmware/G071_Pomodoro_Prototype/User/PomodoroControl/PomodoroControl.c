@@ -22,13 +22,13 @@ STATIC PomodoroControl_State_t eState;
  * Message Callback
  */
 
-STATIC status_t PomodoroControl_MessageCallback(msg_t sMsg);
+STATIC status_e PomodoroControl_MessageCallback(msg_t sMsg);
 
 /********************************************************
  * Implementation
  ********************************************************/
 
-STATIC status_t PomodoroControl_MessageCallback(msg_t sMsg) {
+STATIC status_e PomodoroControl_MessageCallback(msg_t sMsg) {
   switch (sMsg.eMsgId) {
     case MSG_ID_0200:  // Pomodoro Sequence Start Event
       sInternalState.bStartPomodoroEventReceived = TRUE;
@@ -66,7 +66,7 @@ STATIC status_t PomodoroControl_MessageCallback(msg_t sMsg) {
       return STATUS_ERROR;
       break;
   }
-  return STATUS_OK;
+  return STATUS_SUCCESS;
 }
 
 void PomodoroControl_init(void) {
@@ -77,7 +77,7 @@ void PomodoroControl_init(void) {
   eState = POMODOORO_CONTROL_STATE__IDLE;
 
   // Subscribe to Messages
-  status_t eStatus = STATUS_OK;
+  status_e eStatus = STATUS_SUCCESS;
   eStatus =
       MessageBroker_subscribe(MSG_ID_0200, PomodoroControl_MessageCallback);
   eStatus =
@@ -87,12 +87,12 @@ void PomodoroControl_init(void) {
   // Reset the internal Data Structure
 }
 
-status_t PomodoroControl_execute(void) {
+status_e PomodoroControl_execute(void) {
   switch (eState) {
     case POMODOORO_CONTROL_STATE__IDLE: {
       if (TRUE == sInternalState.bStartPomodoroEventReceived) {
         // Update the state
-        eState = POMODORO_CONTROL_STATE__STARTING_SEQUENCE;
+        eState = POMODORO_CONTROL_STATE__WORKTIME;
         // Reset the internal state of this state
         sInternalState.bStartPomodoroEventReceived = FALSE;
       } else {
@@ -100,43 +100,15 @@ status_t PomodoroControl_execute(void) {
       }
     } break;
 
-    case POMODORO_CONTROL_STATE__STARTING_SEQUENCE: {
-      // Call the State function
-      PomodoroControl_StateFn_status_t eFnStatus =
-          PomodoroControl_StateFn_StartingSequence(
-              sInternalState.u8CurrentMinuteOfTheHour,
-              sInternalState.u8WorktimePeriodMin,
-              sInternalState.u8BreaktimePeriodMin);
-
-      // Update the state - if necessary
-      if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__SUCCESS) {
-        eState = POMODORO_CONTROL_STATE__WORKTIME;
-      } else if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__ERROR) {
-        ASSERT_MSG(FALSE, "Error in the State Function");
-        return STATUS_ERROR;
-      } else {  // POMODORO_CONTROL_STATE_FN_STATE__PENDING
-        // Do nothing and wait
-      }
-
-      if (sInternalState.bTriggerButtonIsPressedContinuously == TRUE) {
-        // If the trigger button is pressed continuously, then cancel the
-        // sequence
-        eState = POMODORO_CONTROL_STATE__CANCEL_SEQUENCE;
-        sInternalState.ePreviousState =
-            POMODORO_CONTROL_STATE__STARTING_SEQUENCE;
-      }
-    } break;
-
     case POMODORO_CONTROL_STATE__WORKTIME: {
       // Call the State function
-      PomodoroControl_StateFn_status_t eFnStatus =
-          PomodoroControl_StateFn_WorkTime(
-              sInternalState.u8CurrentMinuteOfTheHour);
+      status_e eFnStatus = PomodoroControl_StateFn_WorkTime(
+          sInternalState.u8CurrentMinuteOfTheHour);
 
       // Update the state - if necessary
-      if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__SUCCESS) {
+      if (eFnStatus == STATUS_SUCCESS) {
         eState = POMODORO_CONTROL_STATE__WARNING;
-      } else if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__ERROR) {
+      } else if (eFnStatus == STATUS_ERROR) {
         ASSERT_MSG(FALSE, "Error in the State Function");
         return STATUS_ERROR;
       } else {  // POMODORO_CONTROL_STATE_FN_STATE__PENDING
@@ -153,13 +125,12 @@ status_t PomodoroControl_execute(void) {
 
     case POMODORO_CONTROL_STATE__WARNING: {
       // Call the State function
-      PomodoroControl_StateFn_status_t eFnStatus =
-          PomodoroControl_StateFn_Warning();
+      status_e eFnStatus = PomodoroControl_StateFn_Warning();
 
       // Update the state - if necessary
-      if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__SUCCESS) {
+      if (eFnStatus == STATUS_SUCCESS) {
         eState = POMODORO_CONTROL_STATE__BREAKTIME;
-      } else if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__ERROR) {
+      } else if (eFnStatus == STATUS_ERROR) {
         ASSERT_MSG(FALSE, "Error in the State Function");
         return STATUS_ERROR;
       } else {  // POMODORO_CONTROL_STATE_FN_STATE__PENDING
@@ -172,17 +143,16 @@ status_t PomodoroControl_execute(void) {
         eState = POMODORO_CONTROL_STATE__CANCEL_SEQUENCE;
         sInternalState.ePreviousState = POMODORO_CONTROL_STATE__WARNING;
       }
-
     } break;
+
     case POMODORO_CONTROL_STATE__BREAKTIME: {
       // Call the State function
-      PomodoroControl_StateFn_status_t eFnStatus =
-          PomodoroControl_StateFn_BreakTime();
+      status_e eFnStatus = PomodoroControl_StateFn_BreakTime();
 
       // Update the state - if necessary
-      if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__SUCCESS) {
+      if (eFnStatus == STATUS_SUCCESS) {
         eState = POMODOORO_CONTROL_STATE__IDLE;
-      } else if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__ERROR) {
+      } else if (eFnStatus == STATUS_ERROR) {
         ASSERT_MSG(FALSE, "Error in the State Function");
         return STATUS_ERROR;
       } else {  // POMODORO_CONTROL_STATE_FN_STATE__PENDING
@@ -201,13 +171,12 @@ status_t PomodoroControl_execute(void) {
 
     case POMODORO_CONTROL_STATE__CANCEL_SEQUENCE: {
       // Call the State function
-      PomodoroControl_StateFn_status_t eFnStatus =
-          PomodoroControl_StateFn_CancelSequence();
+      status_e eFnStatus = PomodoroControl_StateFn_CancelSequence();
 
       // Update the state - if necessary
-      if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__SUCCESS) {
+      if (eFnStatus == STATUS_SUCCESS) {
         eState = POMODOORO_CONTROL_STATE__IDLE;
-      } else if (eFnStatus == POMODORO_CONTROL_STATE_FN_STATE__ERROR) {
+      } else if (eFnStatus == STATUS_ERROR) {
         ASSERT_MSG(FALSE, "Error in the State Function");
         return STATUS_ERROR;
       } else {  // POMODORO_CONTROL_STATE_FN_STATE__PENDING
@@ -227,5 +196,5 @@ status_t PomodoroControl_execute(void) {
       ASSERT_MSG(FALSE, "Invalid State");
       break;
   }
-  return STATUS_OK;
+  return STATUS_SUCCESS;
 }

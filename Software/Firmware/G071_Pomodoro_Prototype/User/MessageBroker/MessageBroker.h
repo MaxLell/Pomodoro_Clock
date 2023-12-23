@@ -20,7 +20,7 @@ typedef struct {
 } msg_t;
 
 /* Function Callback Type */
-typedef status_t (*msgCallback_t)(msg_t in_sMessage);
+typedef status_e (*msgCallback_t)(msg_t in_sMessage);
 
 /**
  * Standard Message Dictinary
@@ -35,10 +35,10 @@ typedef struct {
  */
 void MessageBroker_init(void);
 
-status_t MessageBroker_subscribe(msgId_e in_eMsgTopic,
+status_e MessageBroker_subscribe(msgId_e in_eMsgTopic,
                                  msgCallback_t in_p32FunctionCallback);
 
-status_t MessageBroker_publish(msg_t in_tMessage);
+status_e MessageBroker_publish(msg_t in_tMessage);
 
 #ifdef __cplusplus
 }

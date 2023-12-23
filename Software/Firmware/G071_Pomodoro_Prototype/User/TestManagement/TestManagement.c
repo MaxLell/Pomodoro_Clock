@@ -3,7 +3,7 @@
 #include "MessageBroker.h"
 #include "MessageDefinitions.h"
 
-status_t TestManagement_MessageCb(msg_t sMsg) {
+status_e TestManagement_MessageCb(msg_t sMsg) {
   switch (sMsg.eMsgId) {
     case MSG_ID_0100:
       log_info("Button was pressed once");
@@ -22,7 +22,7 @@ status_t TestManagement_MessageCb(msg_t sMsg) {
       ASSERT_MSG(FALSE, "Unknown Message ID");
       break;
   }
-  return STATUS_OK;
+  return STATUS_SUCCESS;
 }
 
 void TestManagement_init(void) {

@@ -26,14 +26,14 @@ StandbyControl_SeekingAttentionStateCb(void);
 /**********************************************************************
  * Message Callbacks
  **********************************************************************/
-status_t StandbyControl_TriggerBtnPressedCB(msg_t in_sMessage) {
+status_e StandbyControl_TriggerBtnPressedCB(msg_t in_sMessage) {
   bTriggerButtonPressed = TRUE;
-  return STATUS_OK;
+  return STATUS_SUCCESS;
 }
 
-status_t StandbyControl_PomodoroSequenceCompleteCB(msg_t in_sMessage) {
+status_e StandbyControl_PomodoroSequenceCompleteCB(msg_t in_sMessage) {
   bPomodoroSequenceComplete = TRUE;
-  return STATUS_OK;
+  return STATUS_SUCCESS;
 }
 
 /**********************************************************************
@@ -49,7 +49,7 @@ StandbyControl_SeekingAttentionStateCb(void) {
    */
   LightEffects_SequenceStatus_e eSequenceStatus;
   LightEffects_DotAroundTheCircle(&eSequenceStatus, 20U);
-  if (E_LIGHT_EFFECTS_STATUS_SEQUENCE_COMPLETE == eSequenceStatus) {
+  if (E_LIGHT_EFFECTS_STATUS_PENDING == eSequenceStatus) {
     return E_STANDBY_STATUS_SEQUENCE_COMPLETE;
   } else {
     return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE;
@@ -78,16 +78,16 @@ StandbyControl_SequenceStatus_e StandbyControl_IdleStateCb(void) {
 
 void StandbyControl_init(void) {
   // Subscribe to the Trigger Button Pressed Event
-  status_t tStatus =
+  status_e tStatus =
       MessageBroker_subscribe(MSG_ID_0100, StandbyControl_TriggerBtnPressedCB);
-  ASSERT_MSG(!(tStatus != STATUS_OK),
+  ASSERT_MSG(!(tStatus != STATUS_SUCCESS),
              "MessageBroker_subscribe() failed with error code: %d", tStatus);
 
   // Subscribe to the Pomodoro Sequence Complete Event
   tStatus = MessageBroker_subscribe(MSG_ID_0201,
                                     StandbyControl_PomodoroSequenceCompleteCB);
 
-  ASSERT_MSG(!(tStatus != STATUS_OK),
+  ASSERT_MSG(!(tStatus != STATUS_SUCCESS),
              "MessageBroker_subscribe() failed with "
              "error code: %d",
              tStatus);
@@ -125,8 +125,8 @@ void StandbyControl_execute() {
         sMessage.eMsgId = MSG_ID_0200;
         sMessage.au8DataBytes = NULL;
         sMessage.u16DataSize = 0U;
-        status_t eStatus = MessageBroker_publish(sMessage);
-        ASSERT_MSG(!(eStatus != STATUS_OK),
+        status_e eStatus = MessageBroker_publish(sMessage);
+        ASSERT_MSG(!(eStatus != STATUS_SUCCESS),
                    "MessageBroker_publish() failed with error code: %d",
                    eStatus);
 

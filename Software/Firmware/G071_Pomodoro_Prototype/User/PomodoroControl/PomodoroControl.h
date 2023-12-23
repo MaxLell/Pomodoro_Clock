@@ -4,6 +4,6 @@
 
 void PomodoroControl_init(void);
 
-status_t PomodoroControl_execute(void);
+status_e PomodoroControl_execute(void);
 
 #endif  // POMODOROCONTROL_H

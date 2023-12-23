@@ -4,11 +4,15 @@
 #include "mock_RgbLed.h"
 #include "unity.h"
 
-extern void LightEffects_initMinuteToLedConfigArray(
+/*********************************************
+ * external static functions
+ *********************************************/
+
+extern void LightEffects_initMinuteToPhaseArray(
     uint8_t in_u8CurrentMinute, uint8_t in_u8WorktimeIntervalMin,
     uint8_t in_u8BreaktimeIntervalMin, uint8_t *inout_au8ColorArray);
 
-extern void LightEffects_removeColorsFromMinuteArray(
+extern void LightEffects_removeEntriesFromMinuteArray(
     uint8_t *inout_au8MinuteToColorArray, uint8_t in_u8CurrentMinute);
 
 extern void LightEffects_scaleArray(uint8_t *in_au8SourceArray,
@@ -19,9 +23,17 @@ extern void LightEffects_scaleArray(uint8_t *in_au8SourceArray,
 extern void LightEffects_updateMinuteToLedArray(
     uint8_t in_u8CurrentMinute, uint8_t *inout_au8MinuteToLedConfigArray);
 
+/*********************************************
+ * external static variables
+ *********************************************/
+
 extern uint8_t au8TestPublishedLedArray[TOTAL_LEDS];
 extern uint8_t au8MinuteToLedConfigArray[TOTAL_MINUTES];
 extern uint8_t u8CurrentMinute;
+
+/*********************************************
+ * implementation
+ *********************************************/
 
 void setUp(void) {}
 
@@ -29,6 +41,7 @@ void tearDown(void) {}
 
 /**
  * Helper functions
+ * lubendu-function = <3
  */
 
 void helper_printArray(uint8_t *in_au8Array, uint8_t in_u8ArraySize) {
@@ -53,6 +66,19 @@ void helper_printArray(uint8_t *in_au8Array, uint8_t in_u8ArraySize) {
   printf("\n");
 }
 
+///////////////////////////////////////////////
+// initMinuteToPhaseArray Function
+///////////////////////////////////////////////
+
+/**
+ * Additional Tests:
+ *    WT  -  BT
+ * 1. 51m : 17m
+ * 2. 25m : 5m
+ * 3. 2h  : 2h
+ *
+ */
+
 void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne(
     void) {
   /**
@@ -70,7 +96,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
   uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
-  LightEffects_initMinuteToLedConfigArray(
+  LightEffects_initMinuteToPhaseArray(
       u8TestCurrentMinute, u8TestWorktimeIntervalMin,
       u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
 
@@ -141,7 +167,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
   uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
-  LightEffects_initMinuteToLedConfigArray(
+  LightEffects_initMinuteToPhaseArray(
       u8TestCurrentMinute, u8TestWorktimeIntervalMin,
       u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
 
@@ -208,7 +234,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
   uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
-  LightEffects_initMinuteToLedConfigArray(
+  LightEffects_initMinuteToPhaseArray(
       u8TestCurrentMinute, u8TestWorktimeIntervalMin,
       u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
 
@@ -267,7 +293,7 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
 
   uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
-  LightEffects_initMinuteToLedConfigArray(
+  LightEffects_initMinuteToPhaseArray(
       u8TestCurrentMinute, u8TestWorktimeIntervalMin,
       u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
 
@@ -313,6 +339,10 @@ void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVar
   }
 }
 
+///////////////////////////////////////////////
+// scale Array Function
+///////////////////////////////////////////////
+
 void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void) {
   uint8_t u8TestCurrentMinute = 50;
   uint8_t u8TestWorktimeIntervalMin = 50;
@@ -320,7 +350,7 @@ void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void) {
 
   uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
-  LightEffects_initMinuteToLedConfigArray(
+  LightEffects_initMinuteToPhaseArray(
       u8TestCurrentMinute, u8TestWorktimeIntervalMin,
       u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
 
@@ -373,6 +403,10 @@ void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void) {
   }
 }
 
+///////////////////////////////////////////////
+// Update Minute To Led Array Function
+///////////////////////////////////////////////
+
 void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffOne(
     void) {
   // Create a MinuteToLedArray which uses both rings
@@ -384,7 +418,7 @@ void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedT
   uint8_t au8BeforeMinuteToLedArray[TOTAL_MINUTES] = {0};
   uint8_t au8AfterMinuteToLedArray[TOTAL_MINUTES] = {0};
 
-  LightEffects_initMinuteToLedConfigArray(
+  LightEffects_initMinuteToPhaseArray(
       u8TestCurrentMinute, u8TestWorktimeIntervalMin,
       u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
 
@@ -421,7 +455,7 @@ void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedT
   uint8_t u8TestDailyPomodoroScore = 5;
   uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
-  LightEffects_initMinuteToLedConfigArray(
+  LightEffects_initMinuteToPhaseArray(
       u8TestCurrentMinute, u8TestWorktimeIntervalMin,
       u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
 
@@ -450,7 +484,7 @@ void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedT
   uint8_t u8TestDailyPomodoroScore = 5;
   uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
-  LightEffects_initMinuteToLedConfigArray(
+  LightEffects_initMinuteToPhaseArray(
       u8TestCurrentMinute, u8TestWorktimeIntervalMin,
       u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
 
@@ -510,7 +544,7 @@ void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedT
   uint8_t u8TestDailyPomodoroScore = 5;
   uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
 
-  LightEffects_initMinuteToLedConfigArray(
+  LightEffects_initMinuteToPhaseArray(
       u8TestCurrentMinute, u8TestWorktimeIntervalMin,
       u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
 

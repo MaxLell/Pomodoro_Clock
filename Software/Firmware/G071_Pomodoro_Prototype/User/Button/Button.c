@@ -22,8 +22,8 @@ void Button_execute(void) {
     sMsg.eMsgId = MSG_ID_0100;
     sMsg.u16DataSize = 0;
     sMsg.au8DataBytes = NULL;
-    status_t tStatus = MessageBroker_publish(sMsg);
-    ASSERT_MSG(!(tStatus != STATUS_OK),
+    status_e tStatus = MessageBroker_publish(sMsg);
+    ASSERT_MSG(!(tStatus != STATUS_SUCCESS),
                "MessageBroker_publish() failed with error code: %d", tStatus);
   }
 }

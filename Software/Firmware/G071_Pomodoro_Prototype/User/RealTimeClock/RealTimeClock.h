@@ -3,7 +3,7 @@
 
 #include "Common.h"
 
-status_t RealTimeClock_execute(void);
+status_e RealTimeClock_execute(void);
 
 void RealTimeClock_init(void);
 

@@ -9,16 +9,16 @@
  * Function Prototypes
  ************************************************************/
 
-STATIC void LightEffects_initMinuteToLedConfigArray(
-    uint8_t in_u8CurrentMinute, uint8_t in_u8WorktimeIntervalMin,
-    uint8_t in_u8BreaktimeIntervalMin, uint8_t *inout_au8MinuteToLedConfig);
+STATIC void LightEffects_initMinuteToPhaseArray(
+    uint8_t in_u8OffsetMin, uint8_t in_u8WorktimeIntervalMin,
+    uint8_t in_u8BreaktimeIntervalMin, uint8_t *inout_au8MinuteToPhaseArray);
 
-STATIC void LightEffects_initMinuteToLedConfigArray(
-    uint8_t in_u8CurrentMinute, uint8_t in_u8WorktimeIntervalMin,
-    uint8_t in_u8BreaktimeIntervalMin, uint8_t *inout_au8MinuteToLedConfig);
+STATIC void LightEffects_initMinuteToPhaseArray(
+    uint8_t in_u8OffsetMin, uint8_t in_u8WorktimeIntervalMin,
+    uint8_t in_u8BreaktimeIntervalMin, uint8_t *inout_au8MinuteToPhaseArray);
 
-STATIC void LightEffects_removeColorsFromMinuteArray(
-    uint8_t *inout_au8MinuteToColorArray, uint8_t in_u8CurrentMinute);
+STATIC void LightEffects_removeEntriesFromMinuteArray(
+    uint8_t *inout_au8MinuteToPhaseArray, uint8_t in_u8OffsetMin);
 
 STATIC void LightEffects_scaleArray(uint8_t *in_au8SourceArray,
                                     uint8_t in_u8SourceArraySize,
@@ -26,41 +26,40 @@ STATIC void LightEffects_scaleArray(uint8_t *in_au8SourceArray,
                                     uint8_t in_u8TargetArraySize);
 
 STATIC void LightEffects_updateMinuteToLedArray(
-    uint8_t in_u8CurrentMinute, uint8_t *inout_au8MinuteToLedConfigArray);
+    uint8_t in_u8OffsetMin, uint8_t *inout_au8MinuteToLedConfigArray);
 
 /************************************************************
  * Implementation
  ************************************************************/
 
-STATIC void LightEffects_initMinuteToLedConfigArray(
-    uint8_t in_u8CurrentMinute, uint8_t in_u8WorktimeIntervalMin,
-    uint8_t in_u8BreaktimeIntervalMin, uint8_t *inout_au8MinuteToLedConfig) {
+STATIC void LightEffects_initMinuteToPhaseArray(
+    uint8_t in_u8OffsetMin, uint8_t in_u8WorktimeIntervalMin,
+    uint8_t in_u8BreaktimeIntervalMin, uint8_t *inout_au8MinuteToPhaseArray) {
   // Input Checks
-  ASSERT_MSG(!(inout_au8MinuteToLedConfig == NULL),
-             "inout_au8MinuteToLedConfig is NULL Ptr");
+  ASSERT_MSG(!(inout_au8MinuteToPhaseArray == NULL),
+             "inout_au8MinuteToPhaseArray is NULL Ptr");
   ASSERT_MSG(
       (in_u8BreaktimeIntervalMin + in_u8WorktimeIntervalMin) <= TOTAL_MINUTES,
       "Break Time Interval and Work Time interval exceed 2h");
-  ASSERT_MSG(in_u8CurrentMinute < MINUTES_IN_HOUR,
-             "Current Minute larger then 60");
+  ASSERT_MSG(in_u8OffsetMin < MINUTES_IN_HOUR, "Current Minute larger then 60");
 
-  uint8_t currentIndex = in_u8CurrentMinute;
+  uint8_t currentIndex = in_u8OffsetMin;
   uint8_t remainingWorktimeMin = in_u8WorktimeIntervalMin;
   uint8_t remainingBreaktimeMin = in_u8BreaktimeIntervalMin;
   BOOL bOneRingCompleted = FALSE;
 
   // Fill the array with the LED OFF
   for (uint8_t i = 0; i < TOTAL_MINUTES; i++) {
-    inout_au8MinuteToLedConfig[i] = LIGHTEFFECTS_LED_OFF;
+    inout_au8MinuteToPhaseArray[i] = LIGHTEFFECTS_LED_OFF;
   }
 
   // Fill in the worktime
   while (remainingWorktimeMin > 0) {
     remainingWorktimeMin--;
-    inout_au8MinuteToLedConfig[currentIndex] = LIGHTEFFECTS_WORK_TIME;
+    inout_au8MinuteToPhaseArray[currentIndex] = LIGHTEFFECTS_WORK_TIME;
 
     currentIndex++;
-    if (currentIndex == in_u8CurrentMinute) {
+    if (currentIndex == in_u8OffsetMin) {
       bOneRingCompleted = TRUE;
       currentIndex += MINUTES_IN_HOUR;
     }
@@ -76,10 +75,10 @@ STATIC void LightEffects_initMinuteToLedConfigArray(
   while (remainingBreaktimeMin > 0) {
     remainingBreaktimeMin--;
 
-    inout_au8MinuteToLedConfig[currentIndex] = LIGHTEFFECTS_BREAK_TIME;
+    inout_au8MinuteToPhaseArray[currentIndex] = LIGHTEFFECTS_BREAK_TIME;
 
     currentIndex++;
-    if (currentIndex == in_u8CurrentMinute) {
+    if (currentIndex == in_u8OffsetMin) {
       bOneRingCompleted = TRUE;
       currentIndex += MINUTES_IN_HOUR + 1;
     }
@@ -92,16 +91,16 @@ STATIC void LightEffects_initMinuteToLedConfigArray(
   }
 }
 
-STATIC void LightEffects_removeColorsFromMinuteArray(
-    uint8_t *inout_au8MinuteToColorArray, uint8_t in_u8CurrentMinute) {
+STATIC void LightEffects_removeEntriesFromMinuteArray(
+    uint8_t *inout_au8MinuteToPhaseArray, uint8_t in_u8OffsetMin) {
   // Input Checks
-  ASSERT_MSG(!(inout_au8MinuteToColorArray == NULL),
-             "inout_au8MinuteToColorArray is NULL");
-  ASSERT_MSG(!(in_u8CurrentMinute > MINUTES_IN_HOUR),
-             "in_u8CurrentMinute is larger then 60 Minutes");
+  ASSERT_MSG(!(inout_au8MinuteToPhaseArray == NULL),
+             "inout_au8MinuteToPhaseArray is NULL");
+  ASSERT_MSG(!(in_u8OffsetMin > MINUTES_IN_HOUR),
+             "in_u8OffsetMin is larger then 60 Minutes");
 
-  // Remove the Colors from the Minute Array
-  inout_au8MinuteToColorArray[in_u8CurrentMinute] = LIGHTEFFECTS_LED_OFF;
+  // Remove the Colors from the Minute Arrayf
+  inout_au8MinuteToPhaseArray[in_u8OffsetMin] = LIGHTEFFECTS_LED_OFF;
 }
 
 STATIC void LightEffects_scaleArray(uint8_t *in_au8SourceArray,
@@ -127,12 +126,12 @@ STATIC void LightEffects_scaleArray(uint8_t *in_au8SourceArray,
 }
 
 STATIC void LightEffects_updateMinuteToLedArray(
-    uint8_t in_u8CurrentMinute, uint8_t *inout_au8MinuteToLedConfigArray) {
+    uint8_t in_u8OffsetMin, uint8_t *inout_au8MinuteToLedConfigArray) {
   // Check inputs
   ASSERT_MSG(inout_au8MinuteToLedConfigArray != NULL,
              "inout_au8MinuteToLedConfigArray is NULL");
-  ASSERT_MSG(in_u8CurrentMinute < MINUTES_IN_HOUR,
-             "in_u8CurrentMinute is larger then 60");
+  ASSERT_MSG(in_u8OffsetMin < MINUTES_IN_HOUR,
+             "in_u8OffsetMin is larger then 60");
 
   /**
    * If the first Ring is already cleared, then the currentMinute
@@ -147,16 +146,15 @@ STATIC void LightEffects_updateMinuteToLedArray(
   }
   if (bFirstRingCleared) {
     // Process the entries on the second ring (index 60-120)
-    in_u8CurrentMinute += MINUTES_IN_HOUR;
+    in_u8OffsetMin += MINUTES_IN_HOUR;
   }
 
   // Clear the LED
-  inout_au8MinuteToLedConfigArray[in_u8CurrentMinute] = LIGHTEFFECTS_LED_OFF;
+  inout_au8MinuteToLedConfigArray[in_u8OffsetMin] = LIGHTEFFECTS_LED_OFF;
 }
 
-void LightEffects_DotAroundTheCircle(
-    LightEffects_SequenceStatus_e *out_eSequenceStatus,
-    uint16_t u16PeriodPerIncrementMs) {
+void LightEffects_DotAroundTheCircle(status_e *out_eSequenceStatus,
+                                     uint16_t u16PeriodPerIncrementMs) {
   {
     // Input Checks
     ASSERT_MSG(!(NULL == out_eSequenceStatus),
@@ -173,7 +171,7 @@ void LightEffects_DotAroundTheCircle(
 
   if (u8LedIndex == RGB_LED_TOTAL_LEDS) {
     // Set the sequence status to complete
-    *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_COMPLETE;
+    *out_eSequenceStatus = STATUS_PENDING;
 
     // Reset the ledIndex
     u8LedIndex = 0;
@@ -191,13 +189,35 @@ void LightEffects_DotAroundTheCircle(
     }
 
     // Set the Sequence Status to in progress
-    *out_eSequenceStatus = E_LIGHT_EFFECTS_STATUS_SEQUENCE_IN_PROGRESS;
+    *out_eSequenceStatus = STATUS_PENDING;
   }
   // Wait a fixed delay
   Delay_ms(u16PeriodPerIncrementMs);
 
   // Show the sequence on the LEDs
   RgbLed_show();
+}
+
+void LightEffects_PomodoroWorktime(status_e *out_eSequenceStatus,
+                                   uint8_t in_u8WorktimeIntervalMin,
+                                   uint8_t in_u8BreaktimeIntervalMin) {
+  static LightEffects_RenderStatus_e eRenderStatus =
+      E_LIGHT_EFFECTS_RENDER_START;
+
+  switch (eRenderStatus) {
+    case E_LIGHT_EFFECTS_RENDER_START: {
+    } break;
+
+    case E_LIGHT_EFFECTS_RENDER_IN_PROGRESS: {
+    } break;
+
+    case E_LIGHT_EFFECTS_RENDER_COMPLETE: {
+    } break;
+
+    default:
+      ASSERT_MSG(FALSE, "Should never happen");
+      break;
+  }
 }
 
 void LightEffects_ClearAllRingLeds(void) {

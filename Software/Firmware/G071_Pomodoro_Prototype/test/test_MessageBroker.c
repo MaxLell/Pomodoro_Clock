@@ -14,21 +14,21 @@ void setUp(void) {
 void tearDown(void) {}
 
 uint32_t u32CallbackTestMessage1Counter_1;
-status_t testyMsg1Callback_1(msg_t in_sMessage) {
+status_e testyMsg1Callback_1(msg_t in_sMessage) {
   u32CallbackTestMessage1Counter_1++;
-  return STATUS_OK;
+  return STATUS_SUCCESS;
 }
 
 uint32_t u32CallbackTestMessage2Counter_2;
-status_t testyMsg2Callback_2(msg_t in_sMessage) {
+status_e testyMsg2Callback_2(msg_t in_sMessage) {
   u32CallbackTestMessage2Counter_2++;
-  return STATUS_OK;
+  return STATUS_SUCCESS;
 }
 
 uint32_t u32CallbackMsg0204Counter;
-status_t testyMsgCallback(msg_t in_sMessage) {
+status_e testyMsgCallback(msg_t in_sMessage) {
   u32CallbackMsg0204Counter++;
-  return STATUS_OK;
+  return STATUS_SUCCESS;
 }
 
 void test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero() {
@@ -47,7 +47,7 @@ void test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero() {
 void test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot() {
   /* Clears all the Callback Arrays and sets all of its entries to NULL*/
   MessageBroker_init();
-  status_t tStatus;
+  status_e tStatus;
 
   /* Write one Callback function into the first spot */
   MessageBroker_subscribe(MSG_ID_0001, testyMsgCallback);
@@ -82,7 +82,7 @@ void test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot() {
 }
 
 void test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument() {
-  status_t status = MessageBroker_subscribe(MSG_ID_0001, NULL);
+  status_e status = MessageBroker_subscribe(MSG_ID_0001, NULL);
   TEST_ASSERT_EQUAL(STATUS_ERROR, status);
 }
 
@@ -145,7 +145,7 @@ void test_MessageBroker_publish_should_ReturnError_when_invalidMessageIdIsProvid
   msg_t tTestMessage1;
   tTestMessage1.eMsgId = E_TOPIC_LAST_TOPIC;
 
-  status_t tStatus = MessageBroker_publish(tTestMessage1);
+  status_e tStatus = MessageBroker_publish(tTestMessage1);
   TEST_ASSERT_EQUAL(STATUS_ERROR, tStatus);
 }
 
@@ -154,10 +154,10 @@ void test_MessageBroker_publish_should_ReturnError_when_invalidMessageIdIsProvid
 
 void test_MessageBroker_subscribe_should_ReturnError_when_TooManySubscribersAreAdded() {
   MessageBroker_init();
-  status_t tStatus = STATUS_OK;
+  status_e tStatus = STATUS_SUCCESS;
   for (uint8_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE - 1; i++) {
     tStatus = MessageBroker_subscribe(MSG_ID_0001, testyMsgCallback);
-    TEST_ASSERT_EQUAL(STATUS_OK, tStatus);
+    TEST_ASSERT_EQUAL(STATUS_SUCCESS, tStatus);
   }
 
   // Add a sixth subscriber

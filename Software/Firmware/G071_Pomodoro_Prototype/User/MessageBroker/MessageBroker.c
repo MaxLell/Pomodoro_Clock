@@ -19,7 +19,7 @@ void MessageBroker_init() {
   }
 }
 
-status_t MessageBroker_subscribe(msgId_e in_eMsgTopic,
+status_e MessageBroker_subscribe(msgId_e in_eMsgTopic,
                                  msgCallback_t in_p32FunctionCallback) {
   {  // Input Verfication
     ASSERT_MSG(!(in_eMsgTopic >= E_TOPIC_LAST_TOPIC),
@@ -55,10 +55,10 @@ status_t MessageBroker_subscribe(msgId_e in_eMsgTopic,
    * callback */
   pasMsgTopicLib[in_eMsgTopic]->aCallbackArray[u16EmptyPointerPositionIndex] =
       in_p32FunctionCallback;
-  return STATUS_OK;
+  return STATUS_SUCCESS;
 }
 
-status_t MessageBroker_publish(msg_t in_tMessage) {
+status_e MessageBroker_publish(msg_t in_tMessage) {
   {  // Input Verification
     ASSERT_MSG(!(in_tMessage.eMsgId >= E_TOPIC_LAST_TOPIC),
                "Topic is out of bounds!");
@@ -79,5 +79,5 @@ status_t MessageBroker_publish(msg_t in_tMessage) {
       pasMsgTopicLib[eTopic]->aCallbackArray[u8CallbackIndex](in_tMessage);
     }
   }
-  return STATUS_OK;
+  return STATUS_SUCCESS;
 }

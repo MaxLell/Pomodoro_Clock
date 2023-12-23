@@ -14,7 +14,7 @@ void Executer_init(void) {}
 /**
  * @brief  The main execution steps are run in this function.
  */
-status_t Executer_execute(void) { return STATUS_OK; }
+status_e Executer_execute(void) { return STATUS_SUCCESS; }
 
 /**
  * This function is called from the main() function in main.c.
@@ -25,7 +25,7 @@ status_t Executer_execute(void) { return STATUS_OK; }
  */
 void Executer_run(void) {
   Executer_init();
-  while (Executer_execute() == STATUS_OK) {
+  while (Executer_execute() == STATUS_SUCCESS) {
     /**
      * The main execution steps are run in the Executer_execute() function.
      */

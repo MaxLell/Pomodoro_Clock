@@ -20,18 +20,18 @@
 #define TOTAL_LEDS (24 + 26 + 8)
 
 typedef enum {
-  E_LIGHT_EFFECTS_STATUS_SEQUENCE_COMPLETE = 0U,
-  E_LIGHT_EFFECTS_STATUS_SEQUENCE_IN_PROGRESS = 1U,
-  E_LIGHT_EFFECTS_STATUS_ERROR = 2U
-} LightEffects_SequenceStatus_e;
+  E_LIGHT_EFFECTS_RENDER_START = 0U,
+  E_LIGHT_EFFECTS_RENDER_IN_PROGRESS,
+  E_LIGHT_EFFECTS_RENDER_COMPLETE,
+  E_LIGHT_EFFECTS_STATUS_ERROR
+} LightEffects_RenderStatus_e;
 
 /************************************************************
  * Public functions
  ************************************************************/
 
-void LightEffects_DotAroundTheCircle(
-    LightEffects_SequenceStatus_e* out_eSequenceStatus,
-    uint16_t u16PeriodPerIncrementMs);
+void LightEffects_DotAroundTheCircle(status_e* out_eSequenceStatus,
+                                     uint16_t u16PeriodPerIncrementMs);
 
 void LightEffects_ClearAllRingLeds(void);
 
