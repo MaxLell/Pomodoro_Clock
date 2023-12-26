@@ -16,7 +16,6 @@ extern status_e PomodoroControl_MessageCallback(msg_t sMsg);
  ********************************************************/
 
 extern PomodoroControl_internalStatus_t sInternalState;
-extern PomodoroControl_State_t eState;
 
 /********************************************************
  * Implementation
@@ -25,7 +24,6 @@ extern PomodoroControl_State_t eState;
 void setUp(void) {
   // Reset the internal state
   memset(&sInternalState, 0, sizeof(sInternalState));
-  eState = POMODOORO_CONTROL_STATE__IDLE;
 }
 
 void tearDown(void) {}

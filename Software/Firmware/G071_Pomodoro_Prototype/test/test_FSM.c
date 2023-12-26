@@ -22,23 +22,6 @@ typedef enum {
 } FSM_state_e;
 
 /*********************************************
- * State Actions
- *********************************************/
-uint8_t u8TestCounter = 0;
-void ActionStateA() {
-  u8TestCounter = 1;
-}
-
-void ActionStateB() {}
-
-void ActionStateC() {}
-
-static const FSM_StateActionCb saStateActions[] = {
-    [FSM_STATE_A] = ActionStateA,
-    [FSM_STATE_B] = ActionStateB,
-    [FSM_STATE_C] = ActionStateC};
-
-/*********************************************
  * State Transition Events
  *********************************************/
 
@@ -47,7 +30,7 @@ typedef enum {
   FSM_EVENT_2,
   FSM_EVENT_3,
   FSM_EVENT_LAST
-} FSM_event_e;
+} FSM_Event_e;
 
 static const uint16_t FSM_transitionMatrix[FSM_STATE_LAST][FSM_EVENT_LAST] = {
     /*
@@ -88,6 +71,23 @@ static const uint16_t FSM_transitionMatrix[FSM_STATE_LAST][FSM_EVENT_LAST] = {
             [FSM_EVENT_3] = FSM_STATE_C,
         },
 };
+
+/*********************************************
+ * State Actions
+ *********************************************/
+uint8_t u8TestCounter = 0;
+void ActionStateA() {
+  u8TestCounter = 1;
+}
+
+void ActionStateB() {}
+
+void ActionStateC() {}
+
+static const FSM_StateActionCb saStateActions[] = {
+    [FSM_STATE_A] = ActionStateA,
+    [FSM_STATE_B] = ActionStateB,
+    [FSM_STATE_C] = ActionStateC};
 
 /*
 #########################

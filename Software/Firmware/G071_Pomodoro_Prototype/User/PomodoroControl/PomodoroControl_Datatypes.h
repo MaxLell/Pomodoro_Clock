@@ -4,28 +4,40 @@
 #include "Common.h"
 
 typedef enum {
-  POMODOORO_CONTROL_STATE__IDLE,
-  POMODORO_CONTROL_STATE__WORKTIME,
-  POMODORO_CONTROL_STATE__WARNING,
-  POMODORO_CONTROL_STATE__BREAKTIME,
-  POMODORO_CONTROL_STATE__CANCEL_SEQUENCE,
-  POMODORO_CONTROL_STATE__INVALID
-} PomodoroControl_State_t;
+  PCTRL_STATE_STATE_IDLE = 0,
+
+  PCTRL_STATE_WORKTIME_INIT,
+  PCTRL_STATE_WORKTIME,
+
+  PCTRL_STATE_WARNING,
+
+  PCTRL_STATE_BREAKTIME_INIT,
+  PCTRL_STATE_BREAKTIME,
+
+  PCTRL_STATE_CANCEL_SEQUENCE,
+
+  PCTRL_STATE_LAST
+} PCTRL_State_t;
+
+typedef enum {
+  EVENT_TRIGGER_BTN_PRESSED = 0,
+
+  EVENT_TRIGGER_BTN_LONG_PRESS,
+  EVENT_TRIGGER_BTN_RELEASED,
+
+  EVENT_TRIGGER_SEQUENCE_COMPLETE,
+  EVENT_TRIGGER_SEQUENCE_PENDING,
+
+  PCTRL_EVENT_LAST
+} PCTRL_Event_e;
 
 typedef struct {
-  // flags
-  BOOL bStartPomodoroEventReceived;
-  BOOL bTriggerButtonIsPressedContinuously;
-
-  // Current Minute
-  uint8_t u8CurrentMinuteOfTheHour;
-
   // Pomodoro Settings
   uint8_t u8WorktimePeriodMin;
   uint8_t u8BreaktimePeriodMin;
 
   // State of the State Machine
-  PomodoroControl_State_t ePreviousState;
+  PCTRL_State_t ePreviousState;
 } PomodoroControl_internalStatus_t;
 
 #endif  // POMODOROCONTROL_DATATYPES_H
