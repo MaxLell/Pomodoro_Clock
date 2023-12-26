@@ -1,137 +1,69 @@
 #include "FSM.h"
 
-typedef enum {
-  E_FSM_ENTRY = 0U,
-  E_FSM_RUN,
-  E_FSM_EXIT,
-} FSM_stateCondition_e;
+void FSM_checkConfig(const FSM_Config_t* const in_psFsmConfig) {
+  // Check the config inputs
+  // Null Pointer Checks for all entries
+  ASSERT_MSG(!(in_psFsmConfig == NULL), "Config is NULL");
+  ASSERT_MSG(!(in_psFsmConfig->au16TransitionMatrix == NULL),
+             "Transition Matrix is NULL");
+  ASSERT_MSG(!(in_psFsmConfig->asStateActions == NULL),
+             "State Actions Array is NULL");
 
-STATIC uint8_t u8LocalInternalState = E_FSM_ENTRY;
-STATIC uint16_t u16BufferedState;
-
-status_e FSM_runStateAction(const FSM_StateCbs_t* const psFsmCallbacks,
-                         uint16_t* const inout_u16State,
-                         uint8_t* const inout_pData) {
-  {  // Input checks
-     // Null Pointer Checks on the input Arguments
-
-    // No checks on the FN Pointers required, as they may be NULL and this
-    // behaviour is expected
-  }
-
-  status_e eReturnStatus = STATUS_ERROR;
-  static BOOL bRanOnce = FALSE;
-  u16BufferedState = *inout_u16State;
-
-  switch (u8LocalInternalState) {
-    case E_FSM_ENTRY: {
-      // Run the provided function (if not null)
-      if (*psFsmCallbacks[u16BufferedState].pfnEntry == NULL) {
-        // increment the local state
-        u8LocalInternalState++;
-      } else {
-        // execute the Function
-        status_e eStatus = (*psFsmCallbacks[u16BufferedState].pfnEntry)(
-            inout_u16State, inout_pData);
-
-        // Error Checks
-        ASSERT_MSG(!(eStatus != STATUS_SUCCESS),
-                   "Entry Function must return STATUS_SUCCESS but returned "
-                   "instead: %d",
-                   eStatus);
-
-        // if the Cb's return statement is Success -> then incremnet the
-        // localInternalState
-        if (eStatus == STATUS_SUCCESS) {
-          u8LocalInternalState++;
-        } else {  // A return Statement other then Success is not allowed
-          eReturnStatus = STATUS_ERROR;
-          break;
-        }
-      }
-    }
-
-    case E_FSM_RUN: {
-      // Set the eReturnStatus to Pending
-      eReturnStatus = STATUS_PENDING;
-
-      // Execute the function when not NULL
-      if (*psFsmCallbacks[*inout_u16State].pfnRun == NULL) {
-        u8LocalInternalState++;
-      } else {
-        // Run the callback
-
-        status_e eStatus = (*psFsmCallbacks[*inout_u16State].pfnRun)(
-            inout_u16State, inout_pData);
-
-        // Check return statements
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "Run Function returned error");
-
-        // if the status is success move on
-        if (eStatus == STATUS_SUCCESS) {
-          u8LocalInternalState++;
-        }  // if the status is pending -> stay in the Run State
-        else {
-          break;
-        }
-      }
-    }
-
-    case E_FSM_EXIT: {
-      // Execute the function when not NULL
-      // if return statement is success -> move internal State to Entry State
-
-      if (*psFsmCallbacks[u16BufferedState].pfnExit == NULL) {
-        u8LocalInternalState = E_FSM_ENTRY;
-        eReturnStatus = STATUS_SUCCESS;
-      } else {
-        // Run the callback
-        status_e eStatus = (*psFsmCallbacks[u16BufferedState].pfnExit)(
-            inout_u16State, inout_pData);
-
-        // Check return statements
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "Exit Function returned error");
-
-        // if the status is success move on
-        if (eStatus == STATUS_SUCCESS) {
-          u8LocalInternalState = E_FSM_ENTRY;
-          eReturnStatus = STATUS_SUCCESS;
-
-          // Reset the RanOnce Flag
-
-        } else {
-          // if the status is pending -> stay in the Exit State
-          eReturnStatus = STATUS_PENDING;
-        }
-      }
-    } break;
-
-    default:
-      ASSERT_MSG(FALSE, "Invalid State");
-      eReturnStatus = STATUS_ERROR;
-      break;
-  }
-  return eReturnStatus;
+  // out of bounds checks for the Elements
+  ASSERT_MSG(!(in_psFsmConfig->NUMBER_OF_STATES == 0), "Number of States is 0");
+  ASSERT_MSG(!(in_psFsmConfig->NUMBER_OF_EVENTS == 0), "Number of Events is 0");
+  ASSERT_MSG(
+      !(in_psFsmConfig->u16CurrentState >= in_psFsmConfig->NUMBER_OF_STATES),
+      "Current State is out of bounds");
+  ASSERT_MSG(
+      !(in_psFsmConfig->u16CurrentEvent >= in_psFsmConfig->NUMBER_OF_EVENTS),
+      "Current Event is out of bounds");
 }
 
-void FSM_getNextState(const FSM_Config_t* const in_psFsmConfig,
-                      int16_t* const inout_i16State,
-                      const uint16_t in_u16Event) {
+void FSM_setTriggerEvent(FSM_Config_t* const inout_psFsmConfig,
+                         uint16_t in_u16Event) {
   {  // Input Checks
-    ASSERT_MSG(!(in_psFsmConfig == NULL), "in_psFsmConfig is NULL");
-    ASSERT_MSG(!(inout_i16State == NULL), "inout_i16State is NULL");
-    ASSERT_MSG(!(in_psFsmConfig->psaTransitionMatrix == NULL),
-               "in_psFsmConfig->psaTransitionMatrix is NULL");
-    ASSERT_MSG(!(in_psFsmConfig->psStateCbs == NULL),
-               "in_psFsmConfig->psStateCbs is NULL");
-    ASSERT_MSG(!(*inout_i16State >= in_psFsmConfig->NUMBER_OF_STATES),
-               "in_u16CurrentState is out of bounds");
-    ASSERT_MSG(!(in_u16Event >= in_psFsmConfig->NUMBER_OF_EVENTS),
-               "in_u16Event is out of bounds");
+    FSM_checkConfig(inout_psFsmConfig);
+    ASSERT_MSG(!(in_u16Event >= inout_psFsmConfig->NUMBER_OF_EVENTS),
+               "Event is not valid");
+  }
+  inout_psFsmConfig->u16CurrentEvent = in_u16Event;
+}
+
+void FSM_getNextState(FSM_Config_t* const inout_psFsmConfig) {
+  {  // Input Checks
+    FSM_checkConfig(inout_psFsmConfig);
   }
 
   // Approach taken from https://stackoverflow.com/a/54103595
-  *inout_i16State =
-      *(in_psFsmConfig->psaTransitionMatrix +
-        *inout_i16State * in_psFsmConfig->NUMBER_OF_EVENTS + in_u16Event);
+  const uint16_t* au16Matrix = inout_psFsmConfig->au16TransitionMatrix;
+  uint16_t u16NofEvents = inout_psFsmConfig->NUMBER_OF_EVENTS;
+  uint16_t u16Event = inout_psFsmConfig->u16CurrentEvent;
+  uint16_t u16State = inout_psFsmConfig->u16CurrentState;
+
+  inout_psFsmConfig->u16CurrentState =
+      *(au16Matrix + (u16State * u16NofEvents) + u16Event);
+
+  ASSERT_MSG(!(inout_psFsmConfig->u16CurrentState >=
+               inout_psFsmConfig->NUMBER_OF_STATES),
+             "Next State is out of bounds");
+}
+
+void FSM_runStateAction(const FSM_Config_t* const in_psFsmConfig) {
+  {  // Input Checks
+    FSM_checkConfig(in_psFsmConfig);
+  }
+  uint16_t u16State = in_psFsmConfig->u16CurrentState;
+  FSM_StateActionCb runStateAction = in_psFsmConfig->asStateActions[u16State];
+  ASSERT_MSG(!(runStateAction == NULL), "State Callback is NULL");
+
+  runStateAction();
+}
+
+void FSM_execute(FSM_Config_t* const inout_psFsmConfig) {
+  {  // Input Checks
+    FSM_checkConfig(inout_psFsmConfig);
+  }
+  FSM_getNextState(inout_psFsmConfig);
+  FSM_runStateAction(inout_psFsmConfig);
 }
