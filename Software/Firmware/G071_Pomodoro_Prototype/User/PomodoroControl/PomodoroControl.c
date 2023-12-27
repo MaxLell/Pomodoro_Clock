@@ -5,7 +5,6 @@
 #include "MessageBroker.h"
 #include "MessageDefinitions.h"
 #include "PomodoroControl_Datatypes.h"
-#include "PomodoroControl_StateFunctions.h"
 
 /********************************************************
  * Private Variables
@@ -22,7 +21,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
     [STATE_IDLE] =
         {
             // Event -----------> Next State
-            [EVENT_TRIGGER_BTN_PRESSED] = STATE_WORKTIME_INIT,
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME_INIT,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_IDLE,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_IDLE,
             [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
@@ -32,7 +31,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
     [STATE_WORKTIME_INIT] =
         {
             // Event -----------> Next State
-            [EVENT_TRIGGER_BTN_PRESSED] = STATE_WORKTIME_INIT,
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME_INIT,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_WORKTIME_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WORKTIME_INIT,
             [EVENT_SEQUENCE_COMPLETE] = STATE_WORKTIME,
@@ -42,7 +41,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
     [STATE_WORKTIME] =
         {
             // Event -----------> Next State
-            [EVENT_TRIGGER_BTN_PRESSED] = STATE_WORKTIME,
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WORKTIME,
             [EVENT_SEQUENCE_COMPLETE] = STATE_WARNING,
@@ -52,7 +51,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
     [STATE_WARNING] =
         {
             // Event -----------> Next State
-            [EVENT_TRIGGER_BTN_PRESSED] = STATE_WARNING,
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_WARNING,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_WARNING,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WARNING,
             [EVENT_SEQUENCE_COMPLETE] = STATE_BREAKTIME_INIT,
@@ -62,7 +61,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
     [STATE_BREAKTIME_INIT] =
         {
             // Event -----------> Next State
-            [EVENT_TRIGGER_BTN_PRESSED] = STATE_BREAKTIME_INIT,
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_BREAKTIME_INIT,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_BREAKTIME_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_BREAKTIME_INIT,
             [EVENT_SEQUENCE_COMPLETE] = STATE_BREAKTIME,
@@ -72,7 +71,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
     [STATE_BREAKTIME] =
         {
             // Event -----------> Next State
-            [EVENT_TRIGGER_BTN_PRESSED] = STATE_BREAKTIME,
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_BREAKTIME,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_BREAKTIME,
             [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
@@ -82,7 +81,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
     [STATE_CANCEL_SEQUENCE_RUNNING] =
         {
             // Event ----------------------> Next State
-            [EVENT_TRIGGER_BTN_PRESSED] = STATE_CANCEL_SEQUENCE_RUNNING,
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_IDLE,
             [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
@@ -92,7 +91,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
     [STATE_CANCEL_SEQUENCE_HALTED] =
         {
             // Event ----------------------> Next State
-            [EVENT_TRIGGER_BTN_PRESSED] = STATE_CANCEL_SEQUENCE_HALTED,
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_CANCEL_SEQUENCE_HALTED,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_HALTED,
             [EVENT_SEQUENCE_COMPLETE] = STATE_CANCEL_SEQUENCE_HALTED,
@@ -120,6 +119,9 @@ STATIC const FSM_StateActionCb aStateActions[] = {
     [STATE_CANCEL_SEQUENCE_HALTED] = StateActionCancelSequenceHalted,
 };
 
+/**
+ * FSM Initial Configuration
+ */
 STATIC FSM_Config_t sFsmConfig = {
     .NUMBER_OF_STATES = STATE_LAST,
     .NUMBER_OF_EVENTS = EVENT_LAST,
@@ -148,14 +150,14 @@ STATIC status_e PomodoroControl_MessageCallback(msg_t sMsg) {
   switch (sMsg.eMsgId) {
     case MSG_ID_0200:  // Pomodoro Sequence Start Event
     {
-      FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_PRESSED);
+      FSM_setTriggerEvent(&sFsmConfig, EVENT_POMODORO_SEQUENCE_START);
     } break;
 
     case MSG_ID_0101:  // Trigger Button: is Pressed Down Continuously
     {
     } break;
 
-    case MSG_ID_0102:  // Trigger Button: is Released
+    case MSG_ID_0102:  // Trigger Button: is Released after a Long Press
     {
     } break;
 
@@ -186,4 +188,8 @@ void PomodoroControl_init(void) {
   // Reset the internal Data Structure
 }
 
-status_e PomodoroControl_execute(void) {}
+status_e PomodoroControl_execute(void) {
+  status_e eStatus = STATUS_SUCCESS;
+  FSM_execute(&sFsmConfig);
+  return eStatus;
+}

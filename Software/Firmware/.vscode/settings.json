@@ -9,7 +9,8 @@
         "pomodorocontrol_datatypes.h": "c",
         "common.h": "c",
         "status.h": "c",
-        "fsm.h": "c"
+        "fsm.h": "c",
+        "pomodorocontrol.h": "c"
     },
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_fallbackStyle": "Chromium",

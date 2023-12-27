@@ -1,7 +1,0 @@
-#ifndef POMODOROCONTROL_STATEFUNCTIONS_H
-#define POMODOROCONTROL_STATEFUNCTIONS_H
-
-#include "Common.h"
-#include "PomodoroControl_Datatypes.h"
-
-#endif  // POMODOROCONTROL_STATEFUNCTIONS_H
