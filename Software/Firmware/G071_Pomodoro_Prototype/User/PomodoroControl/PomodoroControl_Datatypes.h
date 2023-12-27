@@ -4,40 +4,30 @@
 #include "Common.h"
 
 typedef enum {
-  PCTRL_STATE_STATE_IDLE = 0,
-
-  PCTRL_STATE_WORKTIME_INIT,
-  PCTRL_STATE_WORKTIME,
-
-  PCTRL_STATE_WARNING,
-
-  PCTRL_STATE_BREAKTIME_INIT,
-  PCTRL_STATE_BREAKTIME,
-
-  PCTRL_STATE_CANCEL_SEQUENCE,
-
-  PCTRL_STATE_LAST
+  STATE_IDLE = 0,
+  STATE_WORKTIME_INIT,
+  STATE_WORKTIME,
+  STATE_WARNING,
+  STATE_BREAKTIME_INIT,
+  STATE_BREAKTIME,
+  STATE_CANCEL_SEQUENCE_RUNNING,
+  STATE_CANCEL_SEQUENCE_HALTED,
+  STATE_LAST,
 } PCTRL_State_t;
 
 typedef enum {
   EVENT_TRIGGER_BTN_PRESSED = 0,
-
   EVENT_TRIGGER_BTN_LONG_PRESS,
   EVENT_TRIGGER_BTN_RELEASED,
-
-  EVENT_TRIGGER_SEQUENCE_COMPLETE,
-  EVENT_TRIGGER_SEQUENCE_PENDING,
-
-  PCTRL_EVENT_LAST
+  EVENT_SEQUENCE_COMPLETE,
+  EVENT_SEQUENCE_PENDING,
+  EVENT_LAST
 } PCTRL_Event_e;
 
 typedef struct {
   // Pomodoro Settings
-  uint8_t u8WorktimePeriodMin;
-  uint8_t u8BreaktimePeriodMin;
-
-  // State of the State Machine
-  PCTRL_State_t ePreviousState;
+  uint8_t u8MinutesWorktimePeriod;
+  uint8_t u8MinutesBreaktimePeriod;
 } PomodoroControl_internalStatus_t;
 
 #endif  // POMODOROCONTROL_DATATYPES_H

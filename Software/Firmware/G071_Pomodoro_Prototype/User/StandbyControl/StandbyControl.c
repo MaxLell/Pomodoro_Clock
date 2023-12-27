@@ -47,9 +47,9 @@ StandbyControl_SeekingAttentionStateCb(void) {
    * return E_STANDBY_STATUS_SEQUENCE_COMPLETE otherwise
    * return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE
    */
-  LightEffects_SequenceStatus_e eSequenceStatus;
+  status_e eSequenceStatus;
   LightEffects_DotAroundTheCircle(&eSequenceStatus, 20U);
-  if (E_LIGHT_EFFECTS_STATUS_PENDING == eSequenceStatus) {
+  if (STATUS_PENDING == eSequenceStatus) {
     return E_STANDBY_STATUS_SEQUENCE_COMPLETE;
   } else {
     return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE;
@@ -102,9 +102,11 @@ void StandbyControl_init(void) {
 void StandbyControl_execute() {
   StandbyControl_SequenceStatus_e eStateExecutionIsComplete =
       STATE_EXECUTION_INCOMPLETE;
+
   switch (eState) {
     case E_STANDBY_STATE_IDLE:
       eStateExecutionIsComplete = StandbyControl_IdleStateCb();
+
       if (bTriggerButtonPressed == TRUE) {
         bTriggerButtonPressed = FALSE;
         eState = E_STANDBY_STATE_POMODORO;
