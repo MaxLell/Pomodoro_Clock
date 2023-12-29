@@ -10,10 +10,6 @@
  * Function Prototypes
  ************************************************************/
 
-STATIC void LightEffects_removeEntriesFromMinuteArray(
-    uint8_t* inout_au8MinuteToPhaseArray,
-    uint8_t in_u8OffsetMin);
-
 STATIC void LightEffects_updateMinuteToLedArray(
     uint8_t in_u8OffsetMin,
     uint8_t* inout_au8MinuteToLedConfigArray);
@@ -21,19 +17,6 @@ STATIC void LightEffects_updateMinuteToLedArray(
 /************************************************************
  * Implementation
  ************************************************************/
-
-STATIC void LightEffects_removeEntriesFromMinuteArray(
-    uint8_t* inout_au8MinuteToPhaseArray,
-    uint8_t in_u8OffsetMin) {
-  // Input Checks
-  ASSERT_MSG(!(inout_au8MinuteToPhaseArray == NULL),
-             "inout_au8MinuteToPhaseArray is NULL");
-  ASSERT_MSG(!(in_u8OffsetMin > MINUTES_IN_HOUR),
-             "in_u8OffsetMin is larger then 60 Minutes");
-
-  // Remove the Colors from the Minute Arrayf
-  inout_au8MinuteToPhaseArray[in_u8OffsetMin] = E_ANIMATION_OFF;
-}
 
 void LightEffects_scaleArray(const uint8_t* const in_au8SourceArray,
                              uint8_t in_u8SourceArraySize,
@@ -55,35 +38,6 @@ void LightEffects_scaleArray(const uint8_t* const in_au8SourceArray,
   for (uint8_t i = 0; i < in_u8TargetArraySize; i++) {
     out_au8TargetArray[i] = in_au8SourceArray[(uint8_t)(i * fScaleFactor)];
   }
-}
-
-STATIC void LightEffects_updateMinuteToLedArray(
-    uint8_t in_u8OffsetMin,
-    uint8_t* inout_au8MinuteToLedConfigArray) {
-  // Check inputs
-  ASSERT_MSG(inout_au8MinuteToLedConfigArray != NULL,
-             "inout_au8MinuteToLedConfigArray is NULL");
-  ASSERT_MSG(in_u8OffsetMin < MINUTES_IN_HOUR,
-             "in_u8OffsetMin is larger then 60");
-
-  /**
-   * If the first Ring is already cleared, then the currentMinute
-   * needs to add 60 Minutes, so that the second Ring is processed.
-   */
-  BOOL bFirstRingCleared = TRUE;
-  for (uint8_t i = 0; i < MINUTES_IN_HOUR; i++) {
-    if (inout_au8MinuteToLedConfigArray[i] != E_ANIMATION_OFF) {
-      bFirstRingCleared = FALSE;
-      break;
-    }
-  }
-  if (bFirstRingCleared) {
-    // Process the entries on the second ring (index 60-120)
-    in_u8OffsetMin += MINUTES_IN_HOUR;
-  }
-
-  // Clear the LED
-  inout_au8MinuteToLedConfigArray[in_u8OffsetMin] = E_ANIMATION_OFF;
 }
 
 /*
