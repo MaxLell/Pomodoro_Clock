@@ -8,7 +8,7 @@
  ************************************************************/
 #define MINUTES_IN_HOUR 60
 #define TOTAL_MINUTES (MINUTES_IN_HOUR * 2)
-#define MAX_SETTINGS 3U
+#define MAX_SETTINGS 6U
 
 /************************************************************
  * Public Data Structures
@@ -28,8 +28,8 @@ typedef enum {
 } LightEffects_PomodoroPhase_e;
 
 typedef enum {
-  E_INNER_RING = 1U,
-  E_OUTER_RING = 2U,
+  E_INNER_RING = 0U,
+  E_OUTER_RING,
   E_UNDEFINED_RING
 } LightEffects_Ring_e;
 
@@ -53,6 +53,10 @@ typedef struct {
 /************************************************************
  * Public functions
  ************************************************************/
+void LightEffects_scaleArray(const uint8_t* const in_au8SourceArray,
+                             uint8_t in_u8SourceArraySize,
+                             uint8_t* out_au8TargetArray,
+                             uint8_t in_u8TargetArraySize);
 
 void LightEffects_DotAroundTheCircle(status_e* out_eSequenceStatus,
                                      uint16_t u16PeriodPerIncrementMs);

@@ -4,31 +4,15 @@
 #include "Delay.h"
 #include "RgbLed.h"
 #include "RgbLed_Config.h"
+#include "math.h"
 
 /************************************************************
  * Function Prototypes
  ************************************************************/
 
-STATIC void LightEffects_initMinuteToPhaseArray(
-    uint8_t in_u8OffsetMin,
-    uint8_t in_u8WorktimeIntervalMin,
-    uint8_t in_u8BreaktimeIntervalMin,
-    uint8_t* inout_au8MinuteToPhaseArray);
-
-STATIC void LightEffects_initMinuteToPhaseArray(
-    uint8_t in_u8OffsetMin,
-    uint8_t in_u8WorktimeIntervalMin,
-    uint8_t in_u8BreaktimeIntervalMin,
-    uint8_t* inout_au8MinuteToPhaseArray);
-
 STATIC void LightEffects_removeEntriesFromMinuteArray(
     uint8_t* inout_au8MinuteToPhaseArray,
     uint8_t in_u8OffsetMin);
-
-STATIC void LightEffects_scaleArray(uint8_t* in_au8SourceArray,
-                                    uint8_t in_u8SourceArraySize,
-                                    uint8_t* inout_au8TargetArray,
-                                    uint8_t in_u8TargetArraySize);
 
 STATIC void LightEffects_updateMinuteToLedArray(
     uint8_t in_u8OffsetMin,
@@ -37,71 +21,6 @@ STATIC void LightEffects_updateMinuteToLedArray(
 /************************************************************
  * Implementation
  ************************************************************/
-
-/*
- ######### Legacy Code #########
-*/
-
-STATIC void LightEffects_initMinuteToPhaseArray(
-    uint8_t in_u8OffsetMin,
-    uint8_t in_u8WorktimeIntervalMin,
-    uint8_t in_u8BreaktimeIntervalMin,
-    uint8_t* inout_au8MinuteToPhaseArray) {
-  // Input Checks
-  ASSERT_MSG(!(inout_au8MinuteToPhaseArray == NULL),
-             "inout_au8MinuteToPhaseArray is NULL Ptr");
-  ASSERT_MSG(
-      (in_u8BreaktimeIntervalMin + in_u8WorktimeIntervalMin) <= TOTAL_MINUTES,
-      "Break Time Interval and Work Time interval exceed 2h");
-  ASSERT_MSG(in_u8OffsetMin < MINUTES_IN_HOUR, "Current Minute larger then 60");
-
-  uint8_t currentIndex = in_u8OffsetMin;
-  uint8_t remainingWorktimeMin = in_u8WorktimeIntervalMin;
-  uint8_t remainingBreaktimeMin = in_u8BreaktimeIntervalMin;
-  BOOL bOneRingCompleted = FALSE;
-
-  // Fill the array with the LED OFF
-  for (uint8_t i = 0; i < TOTAL_MINUTES; i++) {
-    inout_au8MinuteToPhaseArray[i] = E_ANIMATION_OFF;
-  }
-
-  // Fill in the worktime
-  while (remainingWorktimeMin > 0) {
-    remainingWorktimeMin--;
-    inout_au8MinuteToPhaseArray[currentIndex] = E_ANIMATION_WORK_TIME;
-
-    currentIndex++;
-    if (currentIndex == in_u8OffsetMin) {
-      bOneRingCompleted = TRUE;
-      currentIndex += MINUTES_IN_HOUR;
-    }
-    if ((currentIndex > MINUTES_IN_HOUR - 1) && (!bOneRingCompleted)) {
-      currentIndex = 0;
-    }
-    if ((currentIndex >= TOTAL_MINUTES) && (bOneRingCompleted)) {
-      currentIndex = MINUTES_IN_HOUR;
-    }
-  }
-
-  // Fill in the breaktime
-  while (remainingBreaktimeMin > 0) {
-    remainingBreaktimeMin--;
-
-    inout_au8MinuteToPhaseArray[currentIndex] = E_ANIMATION_BREAK_TIME;
-
-    currentIndex++;
-    if (currentIndex == in_u8OffsetMin) {
-      bOneRingCompleted = TRUE;
-      currentIndex += MINUTES_IN_HOUR + 1;
-    }
-    if ((currentIndex > MINUTES_IN_HOUR - 1) && (!bOneRingCompleted)) {
-      currentIndex = 0;
-    }
-    if ((currentIndex >= TOTAL_MINUTES) && (bOneRingCompleted)) {
-      currentIndex = MINUTES_IN_HOUR;
-    }
-  }
-}
 
 STATIC void LightEffects_removeEntriesFromMinuteArray(
     uint8_t* inout_au8MinuteToPhaseArray,
@@ -116,25 +35,25 @@ STATIC void LightEffects_removeEntriesFromMinuteArray(
   inout_au8MinuteToPhaseArray[in_u8OffsetMin] = E_ANIMATION_OFF;
 }
 
-STATIC void LightEffects_scaleArray(uint8_t* in_au8SourceArray,
-                                    uint8_t in_u8SourceArraySize,
-                                    uint8_t* inout_au8TargetArray,
-                                    uint8_t in_u8TargetArraySize) {
-  // Input Checks
-  ASSERT_MSG(!(in_au8SourceArray == NULL), "in_au8SourceArray is NULL Ptr");
-  ASSERT_MSG(!(inout_au8TargetArray == NULL), "in_au8SourceArray is NULL Ptr");
-  ASSERT_MSG(!(in_u8SourceArraySize == 0),
-             "Provided in_u8SourceArraySize needs to be larger then 0");
-  ASSERT_MSG(!(in_u8TargetArraySize == 0),
-             "Provided in_u8TargetArraySize needs to be larger then 0");
+void LightEffects_scaleArray(const uint8_t* const in_au8SourceArray,
+                             uint8_t in_u8SourceArraySize,
+                             uint8_t* out_au8TargetArray,
+                             uint8_t in_u8TargetArraySize) {
+  {  // Input Checks
+    ASSERT_MSG(!(in_au8SourceArray == NULL), "in_au8SourceArray is NULL Ptr");
+    ASSERT_MSG(!(out_au8TargetArray == NULL), "in_au8SourceArray is NULL Ptr");
+    ASSERT_MSG(!(in_u8SourceArraySize == 0),
+               "Provided in_u8SourceArraySize needs to be larger then 0");
+    ASSERT_MSG(!(in_u8TargetArraySize == 0),
+               "Provided in_u8TargetArraySize needs to be larger then 0");
+  }
 
   // Calculate the Scale Factor
   float fScaleFactor =
       (float)in_u8SourceArraySize / (float)in_u8TargetArraySize;
-
   // Scale the Array
   for (uint8_t i = 0; i < in_u8TargetArraySize; i++) {
-    inout_au8TargetArray[i] = in_au8SourceArray[(uint8_t)(i * fScaleFactor)];
+    out_au8TargetArray[i] = in_au8SourceArray[(uint8_t)(i * fScaleFactor)];
   }
 }
 

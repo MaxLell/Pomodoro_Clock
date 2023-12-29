@@ -10,7 +10,8 @@
         "common.h": "c",
         "status.h": "c",
         "fsm.h": "c",
-        "pomodorocontrol.h": "c"
+        "pomodorocontrol.h": "c",
+        "mock_rgbled.h": "c"
     },
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_fallbackStyle": "Chromium",

@@ -16,7 +16,9 @@
 
 void RgbLed_show(void);
 
-void RgbLed_setPixelColor(uint8_t ledIndex, uint8_t u8Red, uint8_t u8Green,
+void RgbLed_setPixelColor(uint8_t ledIndex,
+                          uint8_t u8Red,
+                          uint8_t u8Green,
                           uint8_t u8Blue);
 
 void RgbLed_isr();
