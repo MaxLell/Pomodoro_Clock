@@ -5,6 +5,7 @@
 #include "MessageBroker.h"
 #include "MessageDefinitions.h"
 #include "PomodoroControl_Datatypes.h"
+#include "PomodoroStateActions.h"
 
 /********************************************************
  * Private Variables
@@ -16,6 +17,9 @@ STATIC PomodoroControl_internalStatus_t sInternalState = {0};
  * FSM Setup
  ********************************************************/
 
+/**
+ * Old State ----(Event)-----> New State Matrix
+ */
 STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
     // Current State
     [STATE_IDLE] =
@@ -99,15 +103,18 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
         },
 };
 
-STATIC void StateActionIdle(void) {}
-STATIC void StateActionWorktimeInit(void) {}
-STATIC void StateActionWorktime(void) {}
-STATIC void StateActionWarning(void) {}
-STATIC void StateActionBreaktimeInit(void) {}
-STATIC void StateActionBreaktime(void) {}
-STATIC void StateActionCancelSequenceRunning(void) {}
-STATIC void StateActionCancelSequenceHalted(void) {}
+void StateActionIdle(void) {}
+void StateActionWorktimeInit(void) {}
+void StateActionWorktime(void) {}
+void StateActionWarning(void) {}
+void StateActionBreaktimeInit(void) {}
+void StateActionBreaktime(void) {}
+void StateActionCancelSequenceRunning(void) {}
+void StateActionCancelSequenceHalted(void) {}
 
+/**
+ * Assignment of the StateAction Callbacks
+ */
 STATIC const FSM_StateActionCb aStateActions[] = {
     [STATE_IDLE] = StateActionIdle,
     [STATE_WORKTIME_INIT] = StateActionWorktimeInit,

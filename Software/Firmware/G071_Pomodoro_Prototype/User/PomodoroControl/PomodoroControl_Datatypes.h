@@ -28,6 +28,9 @@ typedef struct {
   // Pomodoro Settings
   uint8_t u8MinutesWorktimePeriod;
   uint8_t u8MinutesBreaktimePeriod;
+
+  uint8_t u8CurrentPhase;
+
 } PomodoroControl_internalStatus_t;
 
 #endif  // POMODOROCONTROL_DATATYPES_H
