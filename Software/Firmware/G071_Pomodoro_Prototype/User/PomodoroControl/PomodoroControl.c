@@ -2,6 +2,7 @@
 
 #include "Common.h"
 #include "FSM.h"
+#include "LightEffects.h"
 #include "MessageBroker.h"
 #include "MessageDefinitions.h"
 #include "PomodoroControl_Datatypes.h"
@@ -80,6 +81,15 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_BREAKTIME,
             [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
             [EVENT_SEQUENCE_PENDING] = STATE_BREAKTIME,
+        },
+    [STATE_CANCEL_SEQUENCE_INIT] =
+        {
+            // Event -----------> Next State
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_CANCEL_SEQUENCE_INIT,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
+            [EVENT_TRIGGER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_INIT,
+            [EVENT_SEQUENCE_COMPLETE] = STATE_CANCEL_SEQUENCE_RUNNING,
+            [EVENT_SEQUENCE_PENDING] = STATE_CANCEL_SEQUENCE_INIT,
         },
     // Current State
     [STATE_CANCEL_SEQUENCE_RUNNING] =

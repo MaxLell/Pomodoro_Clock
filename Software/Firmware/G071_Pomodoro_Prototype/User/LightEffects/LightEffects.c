@@ -1,4 +1,5 @@
 #include "LightEffects.h"
+#include "LightEffects_Pomodoro.h"
 
 #include "CountdownTimer.h"
 #include "Delay.h"
@@ -93,4 +94,177 @@ void LightEffects_ClearAllRingLeds(void) {
   RgbLed_clear();
   Delay_ms(10);
   RgbLed_show();
+}
+
+void LightEffects_isPhaseOver(
+    const LightEffects_PomodoroRingPhaseCfg_t* const in_saEffect,
+    uint8_t in_u8EffectArraySize,
+    BOOL* out_bWorktimeOver,
+    LightEffects_PomodoroPhase_e in_ePhase,
+    LightEffects_Animation_e in_eAnimationType) {
+  {  // Input Checks
+    ASSERT_MSG(!(in_saEffect == NULL), "in_saEffect is NULL");
+    ASSERT_MSG(!(in_u8EffectArraySize == 0), "in_u8EffectArraySize is 0");
+    ASSERT_MSG(!(in_u8EffectArraySize > MAX_SETTINGS),
+               "in_u8EffectArraySize is larger then MAX_SETTINGS");
+    ASSERT_MSG(!(out_bWorktimeOver == NULL), "out_bWorktimeOver is NULL");
+    ASSERT_MSG(!(in_ePhase > E_ANIMATION_BREAK_TIME_BRIGHT),
+               "in_ePhase is larger then E_ANIMATION_BREAK_TIME_BRIGHT");
+    ASSERT_MSG(!(in_eAnimationType >= E_ANIMATION_NOT_DEFINED),
+               "in_eAnimationType is larger then E_ANIMATION_NOT_DEFINED");
+  }
+  BOOL tmp = TRUE;
+  for (uint8_t i = 0; i < in_u8EffectArraySize; i++) {
+    if (in_saEffect[i].ePhase == in_ePhase) {
+      if (in_saEffect[i].eAnimationType == in_eAnimationType) {
+        if (in_saEffect[i].u8DuratationInMinutes != 0) {
+          tmp = FALSE;
+          break;
+        }
+      }
+    }
+  }
+  *out_bWorktimeOver = tmp;
+}
+
+void LightEffects_getCompressedArraysForCurrentPhase(
+    const LightEffects_PomodoroRingPhaseCfg_t* const in_asEffects,
+    uint8_t in_u8EffectArraySize,
+    LightEffects_PomodoroPhase_e in_ePhase,
+    uint8_t* out_InnerRingCompressedArray,
+    uint8_t* out_OuterRingCompressedArray) {
+  {  // Input Checks
+    ASSERT_MSG(!(in_asEffects == NULL), "in_asEffects is NULL");
+    ASSERT_MSG(!(in_u8EffectArraySize == 0), "in_u8EffectArraySize is 0");
+    ASSERT_MSG(!(in_u8EffectArraySize > MAX_SETTINGS),
+               "in_u8EffectArraySize is larger then MAX_SETTINGS");
+    ASSERT_MSG(!(in_ePhase >= E_PHASE_BREAK_TIME),
+               "in_ePhase is larger then E_PHASE_BREAK_TIME");
+    ASSERT_MSG(!(out_InnerRingCompressedArray == NULL),
+               "out_InnerRingCompressedArray is NULL");
+    ASSERT_MSG(!(out_OuterRingCompressedArray == NULL),
+               "out_OuterRingCompressedArray is NULL");
+  }
+  // Parse only the Effect Array Entries, which correspond to the current phase
+  // Create the Minute Array
+  uint8_t au8MinuteArray[NUMBER_OF_PROGRESS_RINGS][MINUTES_IN_HOUR] = {0};
+  for (uint8_t i = 0; i < in_u8EffectArraySize; i++) {
+    if (in_asEffects[i].ePhase == in_ePhase) {
+      LightEffects_setAnimationInRingMinuteArray(
+          au8MinuteArray[in_asEffects[i].eRingType], MINUTES_IN_HOUR,
+          in_asEffects[i].u8DuratationInMinutes, in_asEffects[i].u8MinuteOffset,
+          in_asEffects[i].eAnimationType);
+    }
+  }
+  // Compression
+  uint8_t* au8CompressedArray[NUMBER_OF_PROGRESS_RINGS] = {0};
+  uint8_t au8InnerRingCompressedArray[TOTAL_LEDS_INNER_RING] = {0};
+  uint8_t au8OuterRingCompressedArray[TOTAL_LEDS_OUTER_RING] = {0};
+  au8CompressedArray[E_INNER_RING] = au8InnerRingCompressedArray;
+  au8CompressedArray[E_OUTER_RING] = au8OuterRingCompressedArray;
+
+  LightEffects_scaleArray(au8MinuteArray[E_INNER_RING], MINUTES_IN_HOUR,
+                          au8CompressedArray[E_INNER_RING],
+                          TOTAL_LEDS_INNER_RING);
+  LightEffects_scaleArray(au8MinuteArray[E_OUTER_RING], MINUTES_IN_HOUR,
+                          au8CompressedArray[E_OUTER_RING],
+                          TOTAL_LEDS_OUTER_RING);
+
+  // Copy the Compressed Array to the Output
+  for (uint8_t i = 0; i < TOTAL_LEDS_INNER_RING; i++) {
+    out_InnerRingCompressedArray[i] = au8CompressedArray[E_INNER_RING][i];
+  }
+  for (uint8_t i = 0; i < TOTAL_LEDS_OUTER_RING; i++) {
+    out_OuterRingCompressedArray[i] = au8CompressedArray[E_OUTER_RING][i];
+  }
+}
+
+void LightEffects_setAnimationInRingMinuteArray(
+    uint8_t* out_au8RingArray,
+    uint8_t u8ArraySize,
+    uint8_t in_u8DurationInMinutes,
+    uint8_t in_u8MinuteOffset,
+    LightEffects_Animation_e eAnimation) {
+  {  // input Checks
+    // Make sure that the array size is exactly Max Minutes in an hour
+    ASSERT_MSG(!(u8ArraySize != MINUTES_IN_HOUR),
+               "u8ArraySize is not equal to MINUTES_IN_HOUR");
+
+    // Make sure that none of the existing entries within the provided array
+    // exceed the range of animation enums
+    for (uint8_t i = 0; i < u8ArraySize; i++) {
+      ASSERT_MSG(!(out_au8RingArray[i] > E_ANIMATION_NOT_DEFINED),
+                 "out_au8RingArray[i] is larger then E_ANIMATION_NOT_DEFINED");
+    }
+
+    // Make sure that the provided Minutes do not exceed the Max Minutes in an
+    // hour
+    ASSERT_MSG(!(in_u8DurationInMinutes > MINUTES_IN_HOUR),
+               "in_u8DurationInMinutes is larger then MINUTES_IN_HOUR");
+
+    // Make sure that the offset is does not exceed the Max Minutes in an hour
+    ASSERT_MSG(!(in_u8MinuteOffset > MINUTES_IN_HOUR),
+               "in_u8MinuteOffset is larger then MINUTES_IN_HOUR");
+
+    // Run Null Pointer Checks
+    ASSERT_MSG(!(out_au8RingArray == NULL), "out_au8RingArray is NULL");
+
+    // Make sure that the animation is within bounds
+    ASSERT_MSG(!(eAnimation >= E_ANIMATION_NOT_DEFINED),
+               "eAnimation is larger then E_ANIMATION_NOT_DEFINED");
+  }
+  uint8_t idx = in_u8MinuteOffset;
+  // Inset the current Animation
+  for (uint8_t i = 0; i < in_u8DurationInMinutes; i++) {
+    if (idx > (MINUTES_IN_HOUR - 1)) {
+      idx = 0;
+    }
+    // Make sure that previous Entries are not overwritten
+    ASSERT_MSG(!(E_ANIMATION_OFF != out_au8RingArray[idx]),
+               "Animation overwritten at idx %d", idx);
+    out_au8RingArray[idx] = eAnimation;
+    idx++;
+  }
+}
+
+void LightEffects_updateWorktimeCfgForCurrentMinute(
+    LightEffects_PomodoroRingPhaseCfg_t* const inout_asEffects,
+    uint8_t in_u8EffectArraySize,
+    LightEffects_PomodoroPhase_e in_ePhase) {
+  {  // Input Checks
+    ASSERT_MSG(!(inout_asEffects == NULL), "inout_asEffects is NULL");
+    ASSERT_MSG(!(in_u8EffectArraySize == 0), "in_u8EffectArraySize is 0");
+    ASSERT_MSG(!(in_u8EffectArraySize > MAX_SETTINGS),
+               "in_u8EffectArraySize is larger then MAX_SETTINGS");
+  }
+
+  for (uint8_t i = 0; i < in_u8EffectArraySize; i++) {
+    // Only process the entries for the current phase
+    if (inout_asEffects[i].ePhase == in_ePhase) {
+      // Only process cfgs which still have active Minutes left otherwise skip
+      BOOL bActiveMinutesLeft;
+      LightEffects_AreThereActiveMinutesLeft(&inout_asEffects[i],
+                                             &bActiveMinutesLeft);
+      if (bActiveMinutesLeft == FALSE) {
+        continue;
+      }
+      inout_asEffects[i].u8DuratationInMinutes -= 1;
+      inout_asEffects[i].u8MinuteOffset += 1;
+
+      // Only process the first element (The inner Ring)
+      break;
+    }
+  }
+}
+
+void LightEffects_AreThereActiveMinutesLeft(
+    const LightEffects_PomodoroRingPhaseCfg_t* const in_sEffect,
+    BOOL* out_bActiveMinutesLeft) {
+  {  // Input Checks
+    ASSERT_MSG(!(in_sEffect == NULL), "in_sEffect is NULL");
+    ASSERT_MSG(!(out_bActiveMinutesLeft == NULL),
+               "out_bActiveMinutesLeft is NULL");
+  }
+  *out_bActiveMinutesLeft =
+      (in_sEffect->u8DuratationInMinutes != 0) ? TRUE : FALSE;
 }

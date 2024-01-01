@@ -1,4 +1,5 @@
 #include "LightEffects.h"
+#include "LightEffects_Pomodoro.h"
 #include "RgbLed_Config.h"
 #include "mock_Delay.h"
 #include "mock_RgbLed.h"
@@ -8,28 +9,9 @@
  * external static functions
  *********************************************/
 
-extern void LightEffects_initMinuteToPhaseArray(
-    uint8_t in_u8CurrentMinute, uint8_t in_u8WorktimeIntervalMin,
-    uint8_t in_u8BreaktimeIntervalMin, uint8_t *inout_au8ColorArray);
-
-extern void LightEffects_removeEntriesFromMinuteArray(
-    uint8_t *inout_au8MinuteToColorArray, uint8_t in_u8CurrentMinute);
-
-extern void LightEffects_scaleArray(uint8_t *in_au8SourceArray,
-                                    uint8_t in_u8SourceArraySize,
-                                    uint8_t *inout_au8TargetArray,
-                                    uint8_t in_u8TargetArraySize);
-
-extern void LightEffects_updateMinuteToLedArray(
-    uint8_t in_u8CurrentMinute, uint8_t *inout_au8MinuteToLedConfigArray);
-
 /*********************************************
  * external static variables
  *********************************************/
-
-extern uint8_t au8TestPublishedLedArray[TOTAL_LEDS];
-extern uint8_t au8MinuteToLedConfigArray[TOTAL_MINUTES];
-extern uint8_t u8CurrentMinute;
 
 /*********************************************
  * implementation
@@ -44,7 +26,7 @@ void tearDown(void) {}
  * lubendu-function = <3
  */
 
-void helper_printArray(uint8_t *in_au8Array, uint8_t in_u8ArraySize) {
+void helper_printArray(uint8_t* in_au8Array, uint8_t in_u8ArraySize) {
   /**
    * This function prints the index of the array next to the value line by line
    * Example:
@@ -67,529 +49,333 @@ void helper_printArray(uint8_t *in_au8Array, uint8_t in_u8ArraySize) {
 }
 
 ///////////////////////////////////////////////
-// initMinuteToPhaseArray Function
+// Data Structure Experiments
 ///////////////////////////////////////////////
-
-/**
- * Additional Tests:
- *    WT  -  BT
- * 1. 51m : 17m
- * 2. 25m : 5m
- * 3. 2h  : 2h
- *
- */
-
-void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationOne(
-    void) {
-  /**
-   * t_start = 20min
-   * T_worktime = 1h15min
-   * T_Breaktime = 30min
-   *
-   * -> t_worktime = [20...59][0...19][80...94]
-   * -> t_breaktime = [95...119][60...64]
-   */
-
-  uint8_t u8TestCurrentMinute = 20;
-  uint8_t u8TestWorktimeIntervalMin = 75;
-  uint8_t u8TestBreaktimeIntervalMin = 30;
-
-  uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
-
-  LightEffects_initMinuteToPhaseArray(
-      u8TestCurrentMinute, u8TestWorktimeIntervalMin,
-      u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
-
-  // Count the number of occurences of each color in the array
-  // These need to match the intial values
-  uint8_t u8RedLowCount = 0;
-  uint8_t u8GreenLowCount = 0;
-  uint8_t u8LedOffCount = 0;
-
-  for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++) {
-    if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_WORK_TIME) {
-      u8RedLowCount++;
-    }
-    if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_BREAK_TIME) {
-      u8GreenLowCount++;
-    }
+void LightEffects_getInitialPomodoroSetting(
+    LightEffects_PomodoroRingPhaseCfg_t* out_sEffect,
+    uint8_t* const inout_u8ArraySize,
+    LightEffect_Effect_e in_eEffectType) {
+  {
+    // Input Checks
+    ASSERT_MSG(!(out_sEffect == NULL), "out_sEffect is NULL");
+    ASSERT_MSG(!(inout_u8ArraySize == NULL), "inout_u8ArraySize is NULL");
+    ASSERT_MSG(!(in_eEffectType >= E_EFFECT_LAST), "in_eEffectType is invalid");
   }
 
-  TEST_ASSERT_EQUAL(u8TestWorktimeIntervalMin, u8RedLowCount);
-  TEST_ASSERT_EQUAL(u8TestBreaktimeIntervalMin, u8GreenLowCount);
+  switch (in_eEffectType) {
+    case E_EFFECT_25_5: {
+      uint8_t u8idx = 0;
+      // Worktime
+      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
+      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 25;
+      out_sEffect[u8idx].u8MinuteOffset = 0;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
+      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 5;
+      out_sEffect[u8idx].u8MinuteOffset = 25;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      // Breaktime
+      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
+      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 5;
+      out_sEffect[u8idx].u8MinuteOffset = 0;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
+      out_sEffect[u8idx].eRingType = E_OUTER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 59;
+      out_sEffect[u8idx].u8MinuteOffset = 0;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      *inout_u8ArraySize = u8idx;
+    } break;
 
-  // Check the first Ring - All entries need to be set to RED_LOW
-  for (uint8_t u8Index = 0; u8Index < MINUTES_IN_HOUR; u8Index++) {
-    TEST_ASSERT_EQUAL(LIGHTEFFECTS_WORK_TIME,
-                      au8TestMinuteToColorArray[u8Index]);
-  }
+    case E_EFFECT_51_17: {
+      uint8_t u8idx = 0;
+      // Worktime
+      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
+      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 51;
+      out_sEffect[u8idx].u8MinuteOffset = 0;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
+      out_sEffect[u8idx].eRingType = E_OUTER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 17;
+      out_sEffect[u8idx].u8MinuteOffset = 51;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      // Breaktime
+      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
+      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 17;
+      out_sEffect[u8idx].u8MinuteOffset = 0;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
+      out_sEffect[u8idx].eRingType = E_OUTER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 59;
+      out_sEffect[u8idx].u8MinuteOffset = 0;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      *inout_u8ArraySize = u8idx;
+    } break;
 
-  for (uint8_t u8Index = MINUTES_IN_HOUR; u8Index < TOTAL_MINUTES; u8Index++) {
-    // Green Low
-    if (u8Index < 65) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    // LED Off
-    if ((u8Index >= 65) && (u8Index < 80)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
+    case E_EFFECT_90_15: {
+      uint8_t u8idx = 0;
+      // Worktime
+      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
+      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 59;
+      out_sEffect[u8idx].u8MinuteOffset = 0;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
+      out_sEffect[u8idx].eRingType = E_OUTER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 30;
+      out_sEffect[u8idx].u8MinuteOffset = 0;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
+      out_sEffect[u8idx].eRingType = E_OUTER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 15;
+      out_sEffect[u8idx].u8MinuteOffset = 30;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      // Breaktime
+      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
+      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 15;
+      out_sEffect[u8idx].u8MinuteOffset = 0;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+      out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
+      out_sEffect[u8idx].eRingType = E_OUTER_RING;
+      out_sEffect[u8idx].u8DuratationInMinutes = 59;
+      out_sEffect[u8idx].u8MinuteOffset = 0;
+      u8idx++;
+      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+      *inout_u8ArraySize = u8idx;
+    } break;
 
-    // Red Low
-    if ((u8Index >= 80) && (u8Index < 95)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_WORK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-
-    // Green Low
-    if ((u8Index >= 95) && (u8Index < 120)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-  }
-}
-
-void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationTwo(
-    void) {
-  /**
-   * t_start = 50min
-   * T_worktime = 50min
-   * T_Breaktime = 50min
-   *
-   * -> t_worktime = [50...40] (Array 1)
-   * -> t_breaktime = [40...50](Array 1) [60...40] (Array 2)
-   */
-
-  uint8_t u8TestCurrentMinute = 50;
-  uint8_t u8TestWorktimeIntervalMin = 50;
-  uint8_t u8TestBreaktimeIntervalMin = 50;
-
-  uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
-
-  LightEffects_initMinuteToPhaseArray(
-      u8TestCurrentMinute, u8TestWorktimeIntervalMin,
-      u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
-
-  // Count the number of occurences of each color in the array
-  // These need to match the intial values
-  uint8_t u8RedLowCount = 0;
-  uint8_t u8GreenLowCount = 0;
-
-  for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++) {
-    if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_WORK_TIME) {
-      u8RedLowCount++;
-    }
-    if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_BREAK_TIME) {
-      u8GreenLowCount++;
-    }
-  }
-
-  TEST_ASSERT_EQUAL(u8TestWorktimeIntervalMin, u8RedLowCount);
-  TEST_ASSERT_EQUAL(u8TestBreaktimeIntervalMin, u8GreenLowCount);
-
-  // Check the positions of the entries
-  for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++) {
-    if (u8Index < 40) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_WORK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index >= 40) && (u8Index < 50)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index >= 50) && (u8Index < 60)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_WORK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index >= 60) && (u8Index <= 90)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index > 90) && (u8Index <= 110)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index > 110) && (u8Index < 120)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
+    default:
+      ASSERT_MSG(FALSE, "Unknown Effect");
+      break;
   }
 }
 
-void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationThree(
-    void) {
-  /**
-   * t_start = 20min
-   * T_worktime = 50min
-   * T_Breaktime = 10min
-   *
-   * -> t_worktime = [20...60] [0...10] (Array 1)
-   * -> t_breaktime = [10...20] (Array 1)
-   */
-
-  uint8_t u8TestCurrentMinute = 20;
-  uint8_t u8TestWorktimeIntervalMin = 50;
-  uint8_t u8TestBreaktimeIntervalMin = 10;
-
-  uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
-
-  LightEffects_initMinuteToPhaseArray(
-      u8TestCurrentMinute, u8TestWorktimeIntervalMin,
-      u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
-
-  // Count the number of occurences of each color in the array
-  // These need to match the intial values
-  uint8_t u8RedLowCount = 0;
-  uint8_t u8GreenLowCount = 0;
-
-  for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++) {
-    if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_WORK_TIME) {
-      u8RedLowCount++;
-    }
-    if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_BREAK_TIME) {
-      u8GreenLowCount++;
-    }
-  }
-
-  TEST_ASSERT_EQUAL(u8TestWorktimeIntervalMin, u8RedLowCount);
-  TEST_ASSERT_EQUAL(u8TestBreaktimeIntervalMin, u8GreenLowCount);
-
-  // Check the positions of the entries
-  for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++) {
-    if ((u8Index >= 0) && (u8Index < 10)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_WORK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index >= 10) && (u8Index < 20)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index >= 20) && (u8Index < 60)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_WORK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index >= 60) && (u8Index < 120)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-  }
+void test_getInitialPomodoroSetting_receivesSettings(void) {
+  LightEffects_PomodoroRingPhaseCfg_t sEffect[MAX_SETTINGS];
+  uint8_t u8ArraySize = 0;
+  LightEffect_Effect_e eEffectType = E_EFFECT_25_5;
+  LightEffects_getInitialPomodoroSetting(sEffect, &u8ArraySize, eEffectType);
+  TEST_ASSERT_EQUAL_UINT8(4, u8ArraySize);
+  TEST_ASSERT_EQUAL_UINT8(E_PHASE_WORK_TIME, sEffect[0].ePhase);
+  TEST_ASSERT_EQUAL_UINT8(E_ANIMATION_WORK_TIME, sEffect[0].eAnimationType);
+  TEST_ASSERT_EQUAL_UINT8(E_INNER_RING, sEffect[0].eRingType);
+  TEST_ASSERT_EQUAL_UINT8(25, sEffect[0].u8DuratationInMinutes);
+  TEST_ASSERT_EQUAL_UINT8(0, sEffect[0].u8MinuteOffset);
+  TEST_ASSERT_EQUAL_UINT8(E_PHASE_WORK_TIME, sEffect[1].ePhase);
+  TEST_ASSERT_EQUAL_UINT8(E_ANIMATION_BREAK_TIME, sEffect[1].eAnimationType);
+  TEST_ASSERT_EQUAL_UINT8(E_INNER_RING, sEffect[1].eRingType);
+  TEST_ASSERT_EQUAL_UINT8(5, sEffect[1].u8DuratationInMinutes);
+  TEST_ASSERT_EQUAL_UINT8(25, sEffect[1].u8MinuteOffset);
+  TEST_ASSERT_EQUAL_UINT8(E_PHASE_BREAK_TIME, sEffect[2].ePhase);
+  TEST_ASSERT_EQUAL_UINT8(E_ANIMATION_BREAK_TIME_BRIGHT,
+                          sEffect[2].eAnimationType);
+  TEST_ASSERT_EQUAL_UINT8(E_INNER_RING, sEffect[2].eRingType);
+  TEST_ASSERT_EQUAL_UINT8(5, sEffect[2].u8DuratationInMinutes);
+  TEST_ASSERT_EQUAL_UINT8(0, sEffect[2].u8MinuteOffset);
+  TEST_ASSERT_EQUAL_UINT8(E_PHASE_BREAK_TIME, sEffect[3].ePhase);
+  TEST_ASSERT_EQUAL_UINT8(E_ANIMATION_FLASHLIGHT, sEffect[3].eAnimationType);
+  TEST_ASSERT_EQUAL_UINT8(E_OUTER_RING, sEffect[3].eRingType);
+  TEST_ASSERT_EQUAL_UINT8(59, sEffect[3].u8DuratationInMinutes);
+  TEST_ASSERT_EQUAL_UINT8(0, sEffect[3].u8MinuteOffset);
 }
 
-void test_LightEffects_initMinuteToLedConfigArray_should_InitTwoRingsProperlyVariationFour(
-    void) {
-  /**
-   * t_start = 10min
-   * T_worktime = 52min
-   * T_Breaktime = 18min
-   *
-   * -> t_worktime = [10...60][60...2] (Array 1)
-   * -> t_breaktime = [2...10] (Array 1) [10...18] (Array 2)
-   */
+// Get the original pattern (getInitialPomodoroSetting) -> this happens in the
+// Init State
 
-  uint8_t u8TestCurrentMinute = 10;
-  uint8_t u8TestWorktimeIntervalMin = 52;
-  uint8_t u8TestBreaktimeIntervalMin = 18;
+// Copy the entries into the minute array -> This is the structure on which is
+// worked on
 
-  uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
+// Transform the Minute array into the LED Phase array (Compressed)
 
-  LightEffects_initMinuteToPhaseArray(
-      u8TestCurrentMinute, u8TestWorktimeIntervalMin,
-      u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
+// Iterate over this array and set the RgbLeds to their respective colors
+// (According to the phases)
 
-  // Count the number of occurences of each color in the array
-  // These need to match the intial values
-  uint8_t u8RedLowCount = 0;
-  uint8_t u8GreenLowCount = 0;
+void test_setAnimationInRingMinuteArray(void) {
+  uint8_t au8RingArray[MINUTES_IN_HOUR] = {E_ANIMATION_OFF};
 
-  for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++) {
-    if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_WORK_TIME) {
-      u8RedLowCount++;
-    }
-    if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_BREAK_TIME) {
-      u8GreenLowCount++;
-    }
-  }
+  uint8_t u8Duration = 20;
+  uint8_t u8Offset = 0;
+  LightEffects_Animation_e eAnimation = E_ANIMATION_WORK_TIME;
+  LightEffects_setAnimationInRingMinuteArray(au8RingArray, MINUTES_IN_HOUR,
+                                             u8Duration, u8Offset, eAnimation);
 
-  TEST_ASSERT_EQUAL(u8TestWorktimeIntervalMin, u8RedLowCount);
-  TEST_ASSERT_EQUAL(u8TestBreaktimeIntervalMin, u8GreenLowCount);
-
-  // Check the positions of the entries
-  for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++) {
-    if ((u8Index >= 0) && (u8Index < 2)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_WORK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index >= 2) && (u8Index < 10)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index >= 10) && (u8Index < 60)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_WORK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index >= 71) && (u8Index < 81)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-    if ((u8Index >= 81) && (u8Index < 120)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-  }
+  u8Duration = 10;
+  u8Offset = 20;
+  eAnimation = E_ANIMATION_BREAK_TIME;
+  LightEffects_setAnimationInRingMinuteArray(au8RingArray, MINUTES_IN_HOUR,
+                                             u8Duration, u8Offset, eAnimation);
 }
 
-///////////////////////////////////////////////
-// scale Array Function
-///////////////////////////////////////////////
+void test_initSequence(void) {
+  // Get 51_17 Effect Array
+  LightEffects_PomodoroRingPhaseCfg_t asEffects[MAX_SETTINGS];
+  uint8_t u8EffectArraySize = MAX_SETTINGS;
+  LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize,
+                                         E_EFFECT_51_17);
 
-void test_LightEffects_scaleArray_should_scaleMinuteToColorArray(void) {
-  uint8_t u8TestCurrentMinute = 50;
-  uint8_t u8TestWorktimeIntervalMin = 50;
-  uint8_t u8TestBreaktimeIntervalMin = 50;
+  // Parse only the Effect Array Entries, which correspond to the current phase
+  uint8_t au8InnerRingCompressedArray[TOTAL_LEDS_INNER_RING] = {0};
+  uint8_t au8OuterRingCompressedArray[TOTAL_LEDS_OUTER_RING] = {0};
+  LightEffects_PomodoroPhase_e ePhase = E_PHASE_WORK_TIME;
 
-  uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
+  LightEffects_getCompressedArraysForCurrentPhase(
+      asEffects, u8EffectArraySize, ePhase, au8InnerRingCompressedArray,
+      au8OuterRingCompressedArray);
 
-  LightEffects_initMinuteToPhaseArray(
-      u8TestCurrentMinute, u8TestWorktimeIntervalMin,
-      u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
-
-  uint8_t au8TestOuterRing[MINUTES_IN_HOUR] = {0};
-  // Copy the first 60 entries of the minute to color array
-  memcpy(au8TestOuterRing, au8TestMinuteToColorArray, MINUTES_IN_HOUR);
-
-  uint8_t au8TestScaledOuterRing[TOTAL_LEDS_OUTER_RING] = {0};
-  LightEffects_scaleArray(au8TestOuterRing, MINUTES_IN_HOUR,
-                          au8TestScaledOuterRing, TOTAL_LEDS_OUTER_RING);
-
-  // Check the positions of the entries
-  for (uint8_t u8Index = 0; u8Index < TOTAL_LEDS_OUTER_RING; u8Index++) {
-    if ((u8Index >= 0) && (u8Index <= 15)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_WORK_TIME,
-                        au8TestScaledOuterRing[u8Index]);
-    }
-    if ((u8Index > 15) && (u8Index < 20)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestScaledOuterRing[u8Index]);
-    }
-    if ((u8Index >= 20) && (u8Index < 24)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_WORK_TIME,
-                        au8TestScaledOuterRing[u8Index]);
-    }
-  }
-
-  uint8_t au8TestMiddleRing[MINUTES_IN_HOUR] = {0};
-  // Copy the second 60 entries of the minute to color array
-  memcpy(au8TestMiddleRing, &au8TestMinuteToColorArray[MINUTES_IN_HOUR],
-         MINUTES_IN_HOUR);
-
-  uint8_t au8TestScaledMiddleRing[TOTAL_LEDS_MIDDLE_RING] = {0};
-  LightEffects_scaleArray(au8TestMiddleRing, MINUTES_IN_HOUR,
-                          au8TestScaledMiddleRing, TOTAL_LEDS_MIDDLE_RING);
-
-  // Check the positions of the entries
-  for (uint8_t u8Index = 0; u8Index < TOTAL_LEDS_MIDDLE_RING; u8Index++) {
-    if ((u8Index >= 0) && (u8Index <= 8)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestScaledMiddleRing[u8Index]);
-    }
-    if ((u8Index > 8) && (u8Index < 14)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestScaledMiddleRing[u8Index]);
-    }
-    if ((u8Index >= 14) && (u8Index < 16)) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_BREAK_TIME,
-                        au8TestScaledMiddleRing[u8Index]);
-    }
-  }
+  // Print the Compressed Array
+  helper_printArray(au8InnerRingCompressedArray, TOTAL_LEDS_INNER_RING);
+  helper_printArray(au8OuterRingCompressedArray, TOTAL_LEDS_OUTER_RING);
 }
 
-///////////////////////////////////////////////
-// Update Minute To Led Array Function
-///////////////////////////////////////////////
+void test_updateSequence(void) {
+  // Get the initial sequence -> 51_17
+  LightEffects_PomodoroRingPhaseCfg_t asEffects[MAX_SETTINGS];
+  uint8_t u8EffectArraySize = MAX_SETTINGS;
+  LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize,
+                                         E_EFFECT_51_17);
 
-void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffOne(
-    void) {
-  // Create a MinuteToLedArray which uses both rings
-  uint8_t u8TestCurrentMinute = 50;
-  uint8_t u8TestWorktimeIntervalMin = 50;
-  uint8_t u8TestBreaktimeIntervalMin = 50;
-  uint8_t u8TestDailyPomodoroScore = 5;
-  uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
-  uint8_t au8BeforeMinuteToLedArray[TOTAL_MINUTES] = {0};
-  uint8_t au8AfterMinuteToLedArray[TOTAL_MINUTES] = {0};
-
-  LightEffects_initMinuteToPhaseArray(
-      u8TestCurrentMinute, u8TestWorktimeIntervalMin,
-      u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
-
-  memcpy(au8BeforeMinuteToLedArray, au8TestMinuteToColorArray, TOTAL_MINUTES);
-
-  uint8_t u8TestCurrentMinuteUpdate = 0;
-  LightEffects_updateMinuteToLedArray(u8TestCurrentMinuteUpdate,
-                                      au8TestMinuteToColorArray);
-
-  memcpy(au8AfterMinuteToLedArray, au8TestMinuteToColorArray, TOTAL_MINUTES);
-
-  // Compare the 2 Arrays and see whether they are equal (because the must not
-  // be)
-  BOOL bArraysAreEqual = TRUE;
-  for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++) {
-    if (au8BeforeMinuteToLedArray[u8Index] !=
-        au8AfterMinuteToLedArray[u8Index]) {
-      bArraysAreEqual = FALSE;
-    }
+  // update the current Minute 5 times
+  for (uint8_t i = 0; i < 5; i++) {
+    LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize,
+                                                   E_PHASE_WORK_TIME);
   }
-  TEST_ASSERT_FALSE(bArraysAreEqual);
+
+  // Print the updated sequence
+  for (uint8_t i = 0; i < u8EffectArraySize; i++) {
+    printf("Phase: %d, Animation: %d, Ring: %d, Duration: %d, Offset: %d\n",
+           asEffects[i].ePhase, asEffects[i].eAnimationType,
+           asEffects[i].eRingType, asEffects[i].u8DuratationInMinutes,
+           asEffects[i].u8MinuteOffset);
+  }
+
+  // Print the compressed array
+  // Parse only the Effect Array Entries, which correspond to the current phase
+  uint8_t au8InnerRingCompressedArray[TOTAL_LEDS_INNER_RING] = {0};
+  uint8_t au8OuterRingCompressedArray[TOTAL_LEDS_OUTER_RING] = {0};
+  LightEffects_PomodoroPhase_e ePhase = E_PHASE_WORK_TIME;
+
+  LightEffects_getCompressedArraysForCurrentPhase(
+      asEffects, u8EffectArraySize, ePhase, au8InnerRingCompressedArray,
+      au8OuterRingCompressedArray);
+
+  // Print the Compressed Array
+  helper_printArray(au8InnerRingCompressedArray, TOTAL_LEDS_INNER_RING);
+  helper_printArray(au8OuterRingCompressedArray, TOTAL_LEDS_OUTER_RING);
 }
 
-void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffTwo(
-    void) {
+void test_transitionFromWorktimeToBreaktime(void) {
   /**
-   * This test switches off 60 LEDs
+   * Worktime Init
+   */
+  LightEffects_PomodoroPhase_e ePhase = E_PHASE_WORK_TIME;
+  // Get initial config for the 51_17
+  LightEffects_PomodoroRingPhaseCfg_t asEffects[MAX_SETTINGS];
+  uint8_t u8EffectArraySize = MAX_SETTINGS;
+  LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize,
+                                         E_EFFECT_51_17);
+
+  // Print the updated sequence
+  printf("Initial Sequence:\n");
+  for (uint8_t i = 0; i < u8EffectArraySize; i++) {
+    printf("Phase: %d, Animation: %d, Ring: %d, Duration: %d, Offset: %d\n",
+           asEffects[i].ePhase, asEffects[i].eAnimationType,
+           asEffects[i].eRingType, asEffects[i].u8DuratationInMinutes,
+           asEffects[i].u8MinuteOffset);
+  }
+  printf("\n");
+
+  /**
+   * Worktime
    */
 
-  // Create a MinuteToLedArray which uses both rings
-  uint8_t u8TestCurrentMinute = 50;
-  uint8_t u8TestWorktimeIntervalMin = 50;
-  uint8_t u8TestBreaktimeIntervalMin = 50;
-  uint8_t u8TestDailyPomodoroScore = 5;
-  uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
+  // Process 51 Minutes (update 51 times) - In Worktime Phase
+  for (uint8_t i = 0; i < 51; i++) {
+    LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize,
+                                                   ePhase);
 
-  LightEffects_initMinuteToPhaseArray(
-      u8TestCurrentMinute, u8TestWorktimeIntervalMin,
-      u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
+    /*
+    (Usually the Cfg would be compressed to the LED Array here) and rendered
+    accordingly:
 
-  for (uint8_t u8Index = 0; u8Index < MINUTES_IN_HOUR; u8Index++) {
-    LightEffects_updateMinuteToLedArray(u8Index, au8TestMinuteToColorArray);
-  }
+    uint8_t au8InnerRingCompressedArray[TOTAL_LEDS_INNER_RING] = {0};
+    uint8_t au8OuterRingCompressedArray[TOTAL_LEDS_OUTER_RING] = {0};
 
-  // Check that the first 60 LEDs are off
-  for (uint8_t u8Index = 0; u8Index < MINUTES_IN_HOUR; u8Index++) {
-    TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
-  }
-}
+    LightEffects_getCompressedArraysForCurrentPhase(
+        asEffects, u8EffectArraySize, ePhase, au8InnerRingCompressedArray,
+        au8OuterRingCompressedArray);
 
-void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffThree(
-    void) {
-  /**
-   * This test switches off 70 LEDs
-   * (The sum of the red leds needs to 0)
-   * (The sum of the breaktime leds needs to 30)
-   */
+    // Send of to rendering with the LEDs
+    */
 
-  // Create a MinuteToLedArray which uses both rings
-  uint8_t u8TestCurrentMinute = 50;
-  uint8_t u8TestWorktimeIntervalMin = 50;
-  uint8_t u8TestBreaktimeIntervalMin = 50;
-  uint8_t u8TestDailyPomodoroScore = 5;
-  uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
-
-  LightEffects_initMinuteToPhaseArray(
-      u8TestCurrentMinute, u8TestWorktimeIntervalMin,
-      u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
-
-  // Run 70 times over the array
-  for (uint8_t u8Index = 0; u8Index < MINUTES_IN_HOUR; u8Index++) {
-    LightEffects_updateMinuteToLedArray(u8Index, au8TestMinuteToColorArray);
-  }
-  for (uint8_t u8Index = 0; u8Index < 10; u8Index++) {
-    LightEffects_updateMinuteToLedArray(u8Index, au8TestMinuteToColorArray);
-  }
-
-  // Count the number of colors
-  uint8_t u8RedLedCount = 0;
-  uint8_t u8GreenLedCount = 0;
-
-  for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++) {
-    if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_WORK_TIME) {
-      u8RedLedCount++;
-    }
-    if (au8TestMinuteToColorArray[u8Index] == LIGHTEFFECTS_BREAK_TIME) {
-      u8GreenLedCount++;
+    BOOL bWorktimeOver;
+    LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bWorktimeOver,
+                             ePhase, E_ANIMATION_WORK_TIME);
+    if (bWorktimeOver == TRUE) {
+      ePhase = E_PHASE_BREAK_TIME;
     }
   }
 
-  TEST_ASSERT_EQUAL(0, u8RedLedCount);
-  TEST_ASSERT_EQUAL(30, u8GreenLedCount);
-}
-
-void test_LightEffects_updateMinuteToLedArray_should_SwitchTheCurrentMinutesLedToOffFour(
-    void) {
-  /**
-   * Test:
-   * Are the right elements taken from the Array?
-   * -> Remove 10 Elements from the first Ring (Minute 35 -> 45)
-   *    -> Are these gone?
-   * -> Remove 60 Elements (make sure that the first ring is cleared)
-   *    -> Are these gone, any other writes? (this should not happen)
-   * -> Remove 10 Elements from the second ring (Minute 45-55)
-   */
-
-  /**
-   * Initial Conditions:
-   * Ring 1 Minutes
-   *  0-40 -> Red
-   * 40-50 -> Green
-   * 50-60 -> Red
-   *
-   * Ring 2 Minutes
-   *  0-30 -> Green
-   * 30-50 -> Off
-   * 50-60 -> Green
-   */
-
-  uint8_t u8TestCurrentMinute = 50;
-  uint8_t u8TestWorktimeIntervalMin = 50;
-  uint8_t u8TestBreaktimeIntervalMin = 50;
-  uint8_t u8TestDailyPomodoroScore = 5;
-  uint8_t au8TestMinuteToColorArray[TOTAL_MINUTES] = {0};
-
-  LightEffects_initMinuteToPhaseArray(
-      u8TestCurrentMinute, u8TestWorktimeIntervalMin,
-      u8TestBreaktimeIntervalMin, au8TestMinuteToColorArray);
-
-  /**
-   * Take away 10 Elements from the first ring (Minute 35 -> 45)
-   */
-  for (uint8_t u8CurrentMinuteIndex = 35; u8CurrentMinuteIndex < 45;
-       u8CurrentMinuteIndex++) {
-    LightEffects_updateMinuteToLedArray(u8CurrentMinuteIndex,
-                                        au8TestMinuteToColorArray);
+  printf("Updated Sequence - Worktime:\n");
+  for (uint8_t i = 0; i < u8EffectArraySize; i++) {
+    printf("Phase: %d, Animation: %d, Ring: %d, Duration: %d, Offset: %d\n",
+           asEffects[i].ePhase, asEffects[i].eAnimationType,
+           asEffects[i].eRingType, asEffects[i].u8DuratationInMinutes,
+           asEffects[i].u8MinuteOffset);
   }
-  // Check that the 10 LEDs are off
-  for (uint8_t u8Index = 35; u8Index < 45; u8Index++) {
-    TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
+  printf("\n");
+
+  TEST_ASSERT_EQUAL_UINT8(E_PHASE_BREAK_TIME, ePhase);
+
+  // Process 17 Minutes (update 17 times) - In Breaktime Phase
+  for (uint8_t i = 0; i < 17; i++) {
+    LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize,
+                                                   ePhase);
   }
 
-  /**
-   * Take away 60 Elements (make sure that the first ring is cleared)
-   */
-  for (uint8_t u8CurrentMinuteIndex = 0; u8CurrentMinuteIndex < 60;
-       u8CurrentMinuteIndex++) {
-    LightEffects_updateMinuteToLedArray(u8CurrentMinuteIndex,
-                                        au8TestMinuteToColorArray);
+  // Print the updated sequence
+  printf("Updated Sequence - Breaktime:\n");
+  for (uint8_t i = 0; i < u8EffectArraySize; i++) {
+    printf("Phase: %d, Animation: %d, Ring: %d, Duration: %d, Offset: %d\n",
+           asEffects[i].ePhase, asEffects[i].eAnimationType,
+           asEffects[i].eRingType, asEffects[i].u8DuratationInMinutes,
+           asEffects[i].u8MinuteOffset);
   }
-  // Check that the first 60 LEDs are off
-  for (uint8_t u8Index = 0; u8Index < TOTAL_MINUTES; u8Index++) {
-    if (u8Index < MINUTES_IN_HOUR) {
-      TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF,
-                        au8TestMinuteToColorArray[u8Index]);
-    }
-  }
+  printf("\n");
 
-  /**
-   * Take away 10 Elements from the second ring (Minute 45-55)
-   * 45 to 55
-   * (Check index 105 - 115)
-   */
-  for (uint8_t u8CurrentMinuteIndex = 45; u8CurrentMinuteIndex < 55;
-       u8CurrentMinuteIndex++) {
-    LightEffects_updateMinuteToLedArray(u8CurrentMinuteIndex,
-                                        au8TestMinuteToColorArray);
-  }
-
-  // Check that the 10 LEDs are off
-  for (uint8_t u8Index = 105; u8Index < 115; u8Index++) {
-    TEST_ASSERT_EQUAL(LIGHTEFFECTS_LED_OFF, au8TestMinuteToColorArray[u8Index]);
-  }
+  // Check if the Breaktime is over
+  BOOL bBreaktimeOver;
+  LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bBreaktimeOver,
+                           ePhase, E_ANIMATION_BREAK_TIME_BRIGHT);
+  TEST_ASSERT_EQUAL_UINT8(TRUE, bBreaktimeOver);
 }
