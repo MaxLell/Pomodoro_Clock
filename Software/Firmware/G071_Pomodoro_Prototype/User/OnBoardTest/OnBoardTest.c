@@ -70,8 +70,8 @@ void OnBoardTest_testPomodoroSequenceRgbLedRings(void) {
   // Load the initial LED Config
   uint8_t u8EffectArraySize = 0;
   LightEffects_PomodoroRingPhaseCfg_t asEffects[MAX_SETTINGS];
-  uint8_t au8CompressedArrayRing1[NOF_LEDS_OUTER_RING] = {0};
-  uint8_t au8CompressedArrayRing2[NOF_LEDS_MIDDLE_RING] = {0};
+  uint8_t au8CompressedArrayOuterRing[NOF_LEDS_OUTER_RING] = {0};
+  uint8_t au8CompressedArrayMiddleRing[NOF_LEDS_MIDDLE_RING] = {0};
 
   LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize,
                                          E_EFFECT_51_17);
@@ -81,12 +81,26 @@ void OnBoardTest_testPomodoroSequenceRgbLedRings(void) {
 
   // Convert the initial rendering to the rgb led array representation
   LightEffects_getCompressedArraysForCurrentPhase(
-      asEffects, u8EffectArraySize, eCurrentPhase, au8CompressedArrayRing1,
-      au8CompressedArrayRing2);
+      asEffects, u8EffectArraySize, eCurrentPhase, au8CompressedArrayOuterRing,
+      au8CompressedArrayMiddleRing);
+
+  // Print out the array for the Middle Ring
+  printf("Middle Ring: ");
+  for (uint8_t u8Index = 0; u8Index < NOF_LEDS_MIDDLE_RING; u8Index++) {
+    printf("%d ", au8CompressedArrayMiddleRing[u8Index]);
+  }
+  printf("\n");
+
+  // Print out the array for the Outer Ring
+  printf("Outer Ring: ");
+  for (uint8_t u8Index = 0; u8Index < NOF_LEDS_OUTER_RING; u8Index++) {
+    printf("%d ", au8CompressedArrayOuterRing[u8Index]);
+  }
+  printf("\n");
 
   // render it on the actual Leds
-  LightEffects_RenderRings(au8CompressedArrayRing1, NOF_LEDS_MIDDLE_RING,
-                           au8CompressedArrayRing2, NOF_LEDS_OUTER_RING);
+  LightEffects_RenderRings(au8CompressedArrayMiddleRing, NOF_LEDS_MIDDLE_RING,
+                           au8CompressedArrayOuterRing, NOF_LEDS_OUTER_RING);
 
   RgbLed_show();
 

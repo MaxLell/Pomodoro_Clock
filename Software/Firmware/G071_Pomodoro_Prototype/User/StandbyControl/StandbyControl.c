@@ -92,17 +92,20 @@ void StandbyControl_init(void) {
   // Subscribe to the Trigger Button Pressed Event
   status_e tStatus =
       MessageBroker_subscribe(MSG_ID_0100, StandbyControl_TriggerBtnPressedCB);
-  ASSERT_MSG(!(tStatus != STATUS_SUCCESS),
-             "MessageBroker_subscribe() failed with error code: %d", tStatus);
+  {  // Verification
+    ASSERT_MSG(!(tStatus != STATUS_SUCCESS),
+               "MessageBroker_subscribe() failed with error code: %d", tStatus);
+  }
 
   // Subscribe to the Pomodoro Sequence Complete Event
   tStatus = MessageBroker_subscribe(MSG_ID_0201,
                                     StandbyControl_PomodoroSequenceCompleteCB);
-
-  ASSERT_MSG(!(tStatus != STATUS_SUCCESS),
-             "MessageBroker_subscribe() failed with "
-             "error code: %d",
-             tStatus);
+  {  // Verification
+    ASSERT_MSG(!(tStatus != STATUS_SUCCESS),
+               "MessageBroker_subscribe() failed with "
+               "error code: %d",
+               tStatus);
+  }
 
   // Set the initial state
   eState = E_STANDBY_STATE_IDLE;
