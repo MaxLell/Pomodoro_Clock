@@ -24,7 +24,7 @@
 
 uint8_t bDataIsSent = 1;
 uint16_t au16PwmData[PWM_DATA_SIZE];
-uint8_t u8LedData[RGB_LED_TOTAL_LEDS]
+uint8_t u8LedData[TOTAL_LEDS]
                  [4];  // This stores the u32Color data values of the LEDs
 
 extern TIM_HandleTypeDef htim1;
@@ -33,7 +33,7 @@ void RgbLed_setPixelColor(uint8_t u8LedIdx,
                           uint8_t u8Red,
                           uint8_t u8Green,
                           uint8_t u8Blue) {
-  { ASSERT_MSG(u8LedIdx < RGB_LED_TOTAL_LEDS, "u8LedIdx out of bounds"); }
+  { ASSERT_MSG(u8LedIdx < TOTAL_LEDS, "u8LedIdx out of bounds"); }
 
   u8LedData[u8LedIdx][0] = u8LedIdx;
   u8LedData[u8LedIdx][1] = u8Green;
@@ -49,7 +49,7 @@ void RgbLed_show(void) {
     /**
      * PWM for LED Illumination
      */
-    for (int k = 0; k < RGB_LED_TOTAL_LEDS; k++) {
+    for (int k = 0; k < TOTAL_LEDS; k++) {
       u32Color = ((u8LedData[k][1] << 16) |  // green
                   (u8LedData[k][2] << 8) |   // red
                   (u8LedData[k][3]));        // blue
@@ -114,17 +114,17 @@ void RgbLed_isr() {
 void RgbLed_HardwareTest_DrawSpinningCircle() {
   uint8_t u8LedIndex = 0;
   for (uint8_t i = 0; i < 30; i++) {
-    if (u8LedIndex == RGB_LED_TOTAL_LEDS) {
+    if (u8LedIndex == TOTAL_LEDS) {
       u8LedIndex = 0;
     }
-    uint8_t effect[RGB_LED_TOTAL_LEDS] = {2, 5, 5, 5, 2};
+    uint8_t effect[TOTAL_LEDS] = {2, 5, 5, 5, 2};
 
     uint8_t effect_size = sizeof(effect);
-    for (uint8_t i = 0; i < RGB_LED_TOTAL_LEDS; i++) {
+    for (uint8_t i = 0; i < TOTAL_LEDS; i++) {
       RgbLed_setPixelColor(i, 0, 0, 0);
     }
     for (uint8_t i = 0; i < effect_size; i++) {
-      uint8_t tmp = (u8LedIndex + i) % RGB_LED_TOTAL_LEDS;
+      uint8_t tmp = (u8LedIndex + i) % TOTAL_LEDS;
       RgbLed_setPixelColor(tmp, effect[i], effect[i], effect[i]);
     }
 
@@ -136,7 +136,7 @@ void RgbLed_HardwareTest_DrawSpinningCircle() {
 }
 
 void RgbLed_clear(void) {
-  for (uint8_t i = 0; i < RGB_LED_TOTAL_LEDS; i++) {
+  for (uint8_t i = 0; i < TOTAL_LEDS; i++) {
     RgbLed_setPixelColor(i, 0, 0, 0);
   }
   RgbLed_show();
