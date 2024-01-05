@@ -216,7 +216,7 @@ void StateActionWorktime(void) {
     // Publish Message: Worktime Complete via the MsgBroker
     msg_t sMsg = {0};
     sMsg.eMsgId = MSG_ID_0201;  // Pomodoro Work Time Sequence Complete
-    MessageBroker_publish(sMsg);
+    MessageBroker_publish(&sMsg);
   }
 }
 void StateActionWarning(void) {}
@@ -234,15 +234,22 @@ void StateActionCancelSequenceHalted(void) {}
  * Message Callback
  */
 
-STATIC status_e PomodoroControl_MessageCallback(msg_t sMsg);
+STATIC status_e PomodoroControl_MessageCallback(msg_t* sMsg);
 
 /********************************************************
  * Implementation
  ********************************************************/
 
-STATIC status_e PomodoroControl_MessageCallback(msg_t sMsg) {
+STATIC status_e PomodoroControl_MessageCallback(msg_t* sMsg) {
+  {  // Input Verification
+    ASSERT_MSG(!(sMsg == NULL), "Message is NULL!");
+    if (sMsg == NULL) {
+      return STATUS_ERROR;
+    }
+  }
+
   status_e eStatus = STATUS_SUCCESS;
-  switch (sMsg.eMsgId) {
+  switch (sMsg->eMsgId) {
     case MSG_ID_0200:  // Pomodoro Sequence Start Event
     {
       FSM_setTriggerEvent(&sFsmConfig, EVENT_POMODORO_SEQUENCE_START);
@@ -260,10 +267,10 @@ STATIC status_e PomodoroControl_MessageCallback(msg_t sMsg) {
                        // Periods
     {
       sInternalState.u8MinutesWorktimePeriod =
-          ((PomodoroPeriodConfiguration_t*)sMsg.au8DataBytes)
+          ((PomodoroPeriodConfiguration_t*)sMsg->au8DataBytes)
               ->u8MinutesWorktimePeriod;
       sInternalState.u8MinutesBreaktimePeriod =
-          ((PomodoroPeriodConfiguration_t*)sMsg.au8DataBytes)
+          ((PomodoroPeriodConfiguration_t*)sMsg->au8DataBytes)
               ->u8MinutesBreaktimePeriod;
     } break;
 
@@ -271,7 +278,7 @@ STATIC status_e PomodoroControl_MessageCallback(msg_t sMsg) {
       ASSERT_MSG(FALSE,
                  "This Callback should not be called for this message, but it "
                  "was with the following message ID: %d",
-                 sMsg.eMsgId);
+                 sMsg->eMsgId);
       eStatus = STATUS_ERROR;
       break;
   }

@@ -124,7 +124,7 @@ void LightEffects_getCompressedArraysForCurrentPhase(
     const LightEffects_PomodoroRingPhaseCfg_t* const in_asEffects,
     uint8_t in_u8EffectArraySize,
     LightEffects_PomodoroPhase_e in_ePhase,
-    uint8_t* out_InnerRingCompressedArray,
+    uint8_t* out_MiddleRingCompressedArray,
     uint8_t* out_OuterRingCompressedArray) {
   {  // Input Checks
     ASSERT_MSG(!(in_asEffects == NULL), "in_asEffects is NULL");
@@ -133,39 +133,72 @@ void LightEffects_getCompressedArraysForCurrentPhase(
                "in_u8EffectArraySize is larger then MAX_SETTINGS");
     ASSERT_MSG(!(in_ePhase >= E_PHASE_BREAK_TIME),
                "in_ePhase is larger then E_PHASE_BREAK_TIME");
-    ASSERT_MSG(!(out_InnerRingCompressedArray == NULL),
-               "out_InnerRingCompressedArray is NULL");
+    ASSERT_MSG(!(out_MiddleRingCompressedArray == NULL),
+               "out_MiddleRingCompressedArray is NULL");
     ASSERT_MSG(!(out_OuterRingCompressedArray == NULL),
                "out_OuterRingCompressedArray is NULL");
   }
   // Parse only the Effect Array Entries, which correspond to the current phase
   // Create the Minute Array
-  uint8_t au8MinuteArray[NUMBER_OF_PROGRESS_RINGS][MINUTES_IN_HOUR] = {0};
+  // uint8_t au8MinuteArray[NUMBER_OF_PROGRESS_RINGS][MINUTES_IN_HOUR] = {0};
+  // for (uint8_t i = 0; i < in_u8EffectArraySize; i++) {
+  //   if (in_asEffects[i].ePhase == in_ePhase) {
+  //     // reset the current array
+  //     memset(au8MinuteArray[in_asEffects[i].eRingType], 0, MINUTES_IN_HOUR);
+
+  //     LightEffects_setAnimationInRingMinuteArray(
+  //         au8MinuteArray[in_asEffects[i].eRingType], MINUTES_IN_HOUR,
+  //         in_asEffects[i].u8DuratationInMinutes,
+  //         in_asEffects[i].u8MinuteOffset, in_asEffects[i].eAnimationType);
+  //   }
+  // }
+
+  uint8_t* au8MinuteArray[NUMBER_OF_PROGRESS_RINGS] = {0};
+  uint8_t au8MiddleRingMinuteArray[MINUTES_IN_HOUR] = {0};
+  uint8_t au8OuterRingMinuteArray[MINUTES_IN_HOUR] = {0};
+  au8MinuteArray[E_MIDDLE_RING] = au8MiddleRingMinuteArray;
+  au8MinuteArray[E_OUTER_RING] = au8OuterRingMinuteArray;
+
   for (uint8_t i = 0; i < in_u8EffectArraySize; i++) {
     if (in_asEffects[i].ePhase == in_ePhase) {
-      LightEffects_setAnimationInRingMinuteArray(
-          au8MinuteArray[in_asEffects[i].eRingType], MINUTES_IN_HOUR,
-          in_asEffects[i].u8DuratationInMinutes, in_asEffects[i].u8MinuteOffset,
-          in_asEffects[i].eAnimationType);
+      if (in_asEffects[i].eRingType == E_MIDDLE_RING) {
+        LightEffects_setAnimationInRingMinuteArray(
+            au8MinuteArray[E_MIDDLE_RING], MINUTES_IN_HOUR,
+            in_asEffects[i].u8DuratationInMinutes,
+            in_asEffects[i].u8MinuteOffset, in_asEffects[i].eAnimationType);
+      } else if (in_asEffects[i].eRingType == E_OUTER_RING) {
+        LightEffects_setAnimationInRingMinuteArray(
+            au8MinuteArray[E_OUTER_RING], MINUTES_IN_HOUR,
+            in_asEffects[i].u8DuratationInMinutes,
+            in_asEffects[i].u8MinuteOffset, in_asEffects[i].eAnimationType);
+      } else {
+        ASSERT_MSG(FALSE, "Unknown Ring Type: %d", in_asEffects[i].eRingType);
+      }
+
+      // LightEffects_setAnimationInRingMinuteArray(
+      //     au8MinuteArray[in_asEffects[i].eRingType], MINUTES_IN_HOUR,
+      //     in_asEffects[i].u8DuratationInMinutes,
+      //     in_asEffects[i].u8MinuteOffset, in_asEffects[i].eAnimationType);
     }
   }
+
   // Compression
   uint8_t* au8CompressedArray[NUMBER_OF_PROGRESS_RINGS] = {0};
-  uint8_t au8InnerRingCompressedArray[NOF_LEDS_INNER_RING] = {0};
+  uint8_t au8MiddleRingCompressedArray[NOF_LEDS_MIDDLE_RING] = {0};
   uint8_t au8OuterRingCompressedArray[NOF_LEDS_OUTER_RING] = {0};
-  au8CompressedArray[E_INNER_RING] = au8InnerRingCompressedArray;
+  au8CompressedArray[E_MIDDLE_RING] = au8MiddleRingCompressedArray;
   au8CompressedArray[E_OUTER_RING] = au8OuterRingCompressedArray;
 
-  LightEffects_scaleArray(au8MinuteArray[E_INNER_RING], MINUTES_IN_HOUR,
-                          au8CompressedArray[E_INNER_RING],
-                          NOF_LEDS_INNER_RING);
+  LightEffects_scaleArray(au8MinuteArray[E_MIDDLE_RING], MINUTES_IN_HOUR,
+                          au8CompressedArray[E_MIDDLE_RING],
+                          NOF_LEDS_MIDDLE_RING);
   LightEffects_scaleArray(au8MinuteArray[E_OUTER_RING], MINUTES_IN_HOUR,
                           au8CompressedArray[E_OUTER_RING],
                           NOF_LEDS_OUTER_RING);
 
   // Copy the Compressed Array to the Output
-  for (uint8_t i = 0; i < NOF_LEDS_INNER_RING; i++) {
-    out_InnerRingCompressedArray[i] = au8CompressedArray[E_INNER_RING][i];
+  for (uint8_t i = 0; i < NOF_LEDS_MIDDLE_RING; i++) {
+    out_MiddleRingCompressedArray[i] = au8CompressedArray[E_MIDDLE_RING][i];
   }
   for (uint8_t i = 0; i < NOF_LEDS_OUTER_RING; i++) {
     out_OuterRingCompressedArray[i] = au8CompressedArray[E_OUTER_RING][i];
@@ -186,8 +219,10 @@ void LightEffects_setAnimationInRingMinuteArray(
     // Make sure that none of the existing entries within the provided array
     // exceed the range of animation enums
     for (uint8_t i = 0; i < u8ArraySize; i++) {
-      ASSERT_MSG(!(out_au8RingArray[i] > E_ANIMATION_NOT_DEFINED),
-                 "out_au8RingArray[i] is larger then E_ANIMATION_NOT_DEFINED");
+      ASSERT_MSG(
+          !(out_au8RingArray[i] > E_ANIMATION_NOT_DEFINED),
+          "out_au8RingArray[i] is larger then E_ANIMATION_NOT_DEFINED %d",
+          out_au8RingArray[i]);
     }
 
     // Make sure that the provided Minutes do not exceed the Max Minutes in an
@@ -263,15 +298,17 @@ void LightEffects_AreThereActiveMinutesLeft(
       (in_sEffect->u8DuratationInMinutes != 0) ? TRUE : FALSE;
 }
 
-void LightEffects_RenderRings(const uint8_t* const in_au8InnerRingArray,
-                              uint8_t in_u8InnerRingArraySize,
+void LightEffects_RenderRings(const uint8_t* const in_au8MiddleRingArray,
+                              uint8_t in_u8MiddleRingArraySize,
                               const uint8_t* const in_au8OuterRingArray,
                               uint8_t in_u8OuterRingArraySize) {
   {  // Input Checks
-    ASSERT_MSG(!(in_au8InnerRingArray == NULL), "in_au8InnerRingArray is NULL");
-    ASSERT_MSG(!(in_u8InnerRingArraySize == 0), "in_u8InnerRingArraySize is 0");
-    ASSERT_MSG(!(in_u8InnerRingArraySize != NOF_LEDS_INNER_RING),
-               "in_u8InnerRingArraySize is not equal to NOF_LEDS_INNER_RING");
+    ASSERT_MSG(!(in_au8MiddleRingArray == NULL),
+               "in_au8MiddleRingArray is NULL");
+    ASSERT_MSG(!(in_u8MiddleRingArraySize == 0),
+               "in_u8MiddleRingArraySize is 0");
+    ASSERT_MSG(!(in_u8MiddleRingArraySize != NOF_LEDS_MIDDLE_RING),
+               "in_u8MiddleRingArraySize is not equal to NOF_LEDS_INNER_RING");
     ASSERT_MSG(!(in_au8OuterRingArray == NULL), "in_au8OuterRingArray is NULL");
     ASSERT_MSG(!(in_u8OuterRingArraySize == 0), "in_u8OuterRingArraySize is 0");
     ASSERT_MSG(!(in_u8OuterRingArraySize != NOF_LEDS_OUTER_RING),
@@ -280,8 +317,8 @@ void LightEffects_RenderRings(const uint8_t* const in_au8InnerRingArray,
   }
   // Render the Inner Ring
   for (uint8_t i = START_INDEX_INNER_RING;
-       i < in_u8InnerRingArraySize + START_INDEX_INNER_RING; i++) {
-    switch (in_au8InnerRingArray[i]) {
+       i < in_u8MiddleRingArraySize + START_INDEX_INNER_RING; i++) {
+    switch (in_au8MiddleRingArray[i]) {
       case E_ANIMATION_OFF:
         RgbLed_setPixelColor(i, 0, 0, 0);
         break;
@@ -347,14 +384,14 @@ void LightEffects_getInitialPomodoroSetting(
       // Worktime
       out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
       out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
       out_sEffect[u8idx].u8DuratationInMinutes = 25;
       out_sEffect[u8idx].u8MinuteOffset = 0;
       u8idx++;
       ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
       out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
       out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
       out_sEffect[u8idx].u8DuratationInMinutes = 5;
       out_sEffect[u8idx].u8MinuteOffset = 25;
       u8idx++;
@@ -362,7 +399,7 @@ void LightEffects_getInitialPomodoroSetting(
       // Breaktime
       out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
       out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
       out_sEffect[u8idx].u8DuratationInMinutes = 5;
       out_sEffect[u8idx].u8MinuteOffset = 0;
       u8idx++;
@@ -382,7 +419,7 @@ void LightEffects_getInitialPomodoroSetting(
       // Worktime
       out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
       out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
       out_sEffect[u8idx].u8DuratationInMinutes = 51;
       out_sEffect[u8idx].u8MinuteOffset = 0;
       u8idx++;
@@ -397,7 +434,7 @@ void LightEffects_getInitialPomodoroSetting(
       // Breaktime
       out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
       out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
       out_sEffect[u8idx].u8DuratationInMinutes = 17;
       out_sEffect[u8idx].u8MinuteOffset = 0;
       u8idx++;
@@ -417,7 +454,7 @@ void LightEffects_getInitialPomodoroSetting(
       // Worktime
       out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
       out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
       out_sEffect[u8idx].u8DuratationInMinutes = 59;
       out_sEffect[u8idx].u8MinuteOffset = 0;
       u8idx++;
@@ -439,7 +476,7 @@ void LightEffects_getInitialPomodoroSetting(
       // Breaktime
       out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
       out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
+      out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
       out_sEffect[u8idx].u8DuratationInMinutes = 15;
       out_sEffect[u8idx].u8MinuteOffset = 0;
       u8idx++;

@@ -26,12 +26,24 @@ StandbyControl_SeekingAttentionStateCb(void);
 /**********************************************************************
  * Message Callbacks
  **********************************************************************/
-status_e StandbyControl_TriggerBtnPressedCB(msg_t in_sMessage) {
+status_e StandbyControl_TriggerBtnPressedCB(msg_t* in_sMessage) {
+  {  // Input Checks
+    ASSERT_MSG(!(in_sMessage == NULL), "Message is NULL!");
+    if (in_sMessage == NULL) {
+      return STATUS_ERROR;
+    }
+  }
   bTriggerButtonPressed = TRUE;
   return STATUS_SUCCESS;
 }
 
-status_e StandbyControl_PomodoroSequenceCompleteCB(msg_t in_sMessage) {
+status_e StandbyControl_PomodoroSequenceCompleteCB(msg_t* in_sMessage) {
+  {  // Input Checks
+    ASSERT_MSG(!(in_sMessage == NULL), "Message is NULL!");
+    if (in_sMessage == NULL) {
+      return STATUS_ERROR;
+    }
+  }
   bPomodoroSequenceComplete = TRUE;
   return STATUS_SUCCESS;
 }
@@ -127,7 +139,7 @@ void StandbyControl_execute() {
         sMessage.eMsgId = MSG_ID_0200;
         sMessage.au8DataBytes = NULL;
         sMessage.u16DataSize = 0U;
-        status_e eStatus = MessageBroker_publish(sMessage);
+        status_e eStatus = MessageBroker_publish(&sMessage);
         ASSERT_MSG(!(eStatus != STATUS_SUCCESS),
                    "MessageBroker_publish() failed with error code: %d",
                    eStatus);

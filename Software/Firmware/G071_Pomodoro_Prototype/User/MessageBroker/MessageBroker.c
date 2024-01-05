@@ -1,7 +1,7 @@
 #include "MessageBroker.h"
 
 /* Contains all dictinaries, so that they can be searched through iterativly */
-STATIC msgTopic_t *pasMsgTopicLib[E_TOPIC_LAST_TOPIC] = {NULL};
+STATIC msgTopic_t* pasMsgTopicLib[E_TOPIC_LAST_TOPIC] = {NULL};
 STATIC msgTopic_t saMsg[E_TOPIC_LAST_TOPIC] = {0};
 
 void MessageBroker_init() {
@@ -58,16 +58,21 @@ status_e MessageBroker_subscribe(msgId_e in_eMsgTopic,
   return STATUS_SUCCESS;
 }
 
-status_e MessageBroker_publish(msg_t in_tMessage) {
+status_e MessageBroker_publish(msg_t* in_psMessage) {
   {  // Input Verification
-    ASSERT_MSG(!(in_tMessage.eMsgId >= E_TOPIC_LAST_TOPIC),
+    ASSERT_MSG(!(in_psMessage->eMsgId >= E_TOPIC_LAST_TOPIC),
                "Topic is out of bounds!");
-    if (in_tMessage.eMsgId >= E_TOPIC_LAST_TOPIC) {
+    if (in_psMessage->eMsgId >= E_TOPIC_LAST_TOPIC) {
+      return STATUS_ERROR;
+    }
+    // Make sure no NULL Pointer was Provided
+    ASSERT_MSG(!(in_psMessage == NULL), "Message Pointer is NULL!");
+    if (in_psMessage == NULL) {
       return STATUS_ERROR;
     }
   }
   /* find the dictinary that corresponds to the message's Topic */
-  msgId_e eTopic = in_tMessage.eMsgId;
+  msgId_e eTopic = in_psMessage->eMsgId;
 
   /* Run all the Callback functions there are in the Callback Array and pass the
    * Message over */
@@ -76,7 +81,13 @@ status_e MessageBroker_publish(msg_t in_tMessage) {
        u8CallbackIndex++) {
     if (pasMsgTopicLib[eTopic]->aCallbackArray[u8CallbackIndex] != NULL) {
       /* Run the function pointers and provide the specified argument */
-      pasMsgTopicLib[eTopic]->aCallbackArray[u8CallbackIndex](in_tMessage);
+      msgCallback_t msgCallback =
+          pasMsgTopicLib[eTopic]->aCallbackArray[u8CallbackIndex];
+
+      // Run the function pointer
+      status_e eStatus = msgCallback(in_psMessage);
+      ASSERT_MSG(!(eStatus != STATUS_SUCCESS),
+                 "Message Callback Function returned an error!");
     }
   }
   return STATUS_SUCCESS;

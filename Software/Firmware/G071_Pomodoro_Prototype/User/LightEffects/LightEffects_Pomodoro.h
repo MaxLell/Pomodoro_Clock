@@ -24,8 +24,9 @@ typedef enum {
 } LightEffects_PomodoroPhase_e;
 
 typedef enum {
-  E_INNER_RING = 0U,
+  E_MIDDLE_RING,
   E_OUTER_RING,
+  E_INNER_RING,
   E_UNDEFINED_RING
 } LightEffects_Ring_e;
 

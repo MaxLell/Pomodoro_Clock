@@ -1,7 +1,7 @@
 #include "../User/MessageBroker/MessageBroker.h"
 #include "unity.h"
 
-extern msgTopic_t *pasMsgTopicLib[E_TOPIC_LAST_TOPIC];
+extern msgTopic_t* pasMsgTopicLib[E_TOPIC_LAST_TOPIC];
 extern msgTopic_t saMsg[E_TOPIC_LAST_TOPIC];
 
 void setUp(void) {
@@ -14,19 +14,19 @@ void setUp(void) {
 void tearDown(void) {}
 
 uint32_t u32CallbackTestMessage1Counter_1;
-status_e testyMsg1Callback_1(msg_t in_sMessage) {
+status_e testyMsg1Callback_1(msg_t* in_sMessage) {
   u32CallbackTestMessage1Counter_1++;
   return STATUS_SUCCESS;
 }
 
 uint32_t u32CallbackTestMessage2Counter_2;
-status_e testyMsg2Callback_2(msg_t in_sMessage) {
+status_e testyMsg2Callback_2(msg_t* in_sMessage) {
   u32CallbackTestMessage2Counter_2++;
   return STATUS_SUCCESS;
 }
 
 uint32_t u32CallbackMsg0204Counter;
-status_e testyMsgCallback(msg_t in_sMessage) {
+status_e testyMsgCallback(msg_t* in_sMessage) {
   u32CallbackMsg0204Counter++;
   return STATUS_SUCCESS;
 }
@@ -120,8 +120,8 @@ void test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers() {
   /**
    * Publish the messages
    */
-  MessageBroker_publish(tTestMessage1);
-  MessageBroker_publish(tTestMessage2);
+  MessageBroker_publish(&tTestMessage1);
+  MessageBroker_publish(&tTestMessage2);
 
   /**
    * The behaviour described above is encapsulated in the
@@ -145,7 +145,7 @@ void test_MessageBroker_publish_should_ReturnError_when_invalidMessageIdIsProvid
   msg_t tTestMessage1;
   tTestMessage1.eMsgId = E_TOPIC_LAST_TOPIC;
 
-  status_e tStatus = MessageBroker_publish(tTestMessage1);
+  status_e tStatus = MessageBroker_publish(&tTestMessage1);
   TEST_ASSERT_EQUAL(STATUS_ERROR, tStatus);
 }
 

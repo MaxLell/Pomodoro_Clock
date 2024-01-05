@@ -4,8 +4,12 @@
 #include "OnBoardTest.h"
 
 #include "LightEffects.h"
+#include "LightEffects_Pomodoro.h"
+
 #include "RgbLed.h"
 #include "RgbLed_Config.h"
+
+#include "Delay.h"
 
 /************************************************************
  * Private Function Prototypes
@@ -32,20 +36,22 @@ typedef void (*test_function_ptr)(void);
  * Private Defines
  ************************************************************/
 
-#define TEST_TO_RUN E_TEST_RGB_LED_RING_AROUND_THE_ROSY
+#define TEST_TO_RUN E_TEST_RGB_LED_RINGS_POMODORO
 
 /************************************************************
  * Private Variables
  ************************************************************/
 
 STATIC test_function_ptr test_functions[E_LAST_TEST] = {
-    [E_TEST_RGB_LED_RINGS_POMODORO] =
-        OnBoardTest_testPomodoroSequenceRgbLedRings,
+    [E_TEST_LIGHT_UP_ALL_LEDS] = OnBoardTest_testLightUpAllLeds,
+
     [E_TEST_RGB_LED_RING_AROUND_THE_ROSY] = OnBoardTest_testRenderRing,
-    [E_TEST_LIGHT_UP_ALL_LEDS] = OnBoardTest_testLightUpAllLeds};
+
+    [E_TEST_RGB_LED_RINGS_POMODORO] =
+        OnBoardTest_testPomodoroSequenceRgbLedRings};
 
 /************************************************************
- * Implementation
+ * Test function implementations
  ************************************************************/
 
 void OnBoardTest_testRenderRing(void) {
@@ -62,11 +68,34 @@ void OnBoardTest_testLightUpAllLeds(void) {
 
 void OnBoardTest_testPomodoroSequenceRgbLedRings(void) {
   // Load the initial LED Config
+  uint8_t u8EffectArraySize = 0;
+  LightEffects_PomodoroRingPhaseCfg_t asEffects[MAX_SETTINGS];
+  uint8_t au8CompressedArrayRing1[NOF_LEDS_OUTER_RING] = {0};
+  uint8_t au8CompressedArrayRing2[NOF_LEDS_MIDDLE_RING] = {0};
+
+  LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize,
+                                         E_EFFECT_51_17);
+
+  // current phase
+  LightEffects_PomodoroPhase_e eCurrentPhase = E_PHASE_WORK_TIME;
 
   // Convert the initial rendering to the rgb led array representation
+  LightEffects_getCompressedArraysForCurrentPhase(
+      asEffects, u8EffectArraySize, eCurrentPhase, au8CompressedArrayRing1,
+      au8CompressedArrayRing2);
 
   // render it on the actual Leds
+  LightEffects_RenderRings(au8CompressedArrayRing1, NOF_LEDS_MIDDLE_RING,
+                           au8CompressedArrayRing2, NOF_LEDS_OUTER_RING);
+
+  RgbLed_show();
+
+  Delay_ms(1000);
 }
+
+/************************************************************
+ * Implementation
+ ************************************************************/
 
 void OnBoardTest_init(void) {}
 

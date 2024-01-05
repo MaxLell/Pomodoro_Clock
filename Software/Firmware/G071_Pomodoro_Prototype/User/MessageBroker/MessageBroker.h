@@ -16,11 +16,11 @@ extern "C" {
 typedef struct {
   msgId_e eMsgId;
   uint16_t u16DataSize;
-  uint8_t *au8DataBytes;
+  uint8_t* au8DataBytes;
 } msg_t;
 
 /* Function Callback Type */
-typedef status_e (*msgCallback_t)(msg_t in_sMessage);
+typedef status_e (*msgCallback_t)(msg_t* in_psMessage);
 
 /**
  * Standard Message Dictinary
@@ -38,7 +38,7 @@ void MessageBroker_init(void);
 status_e MessageBroker_subscribe(msgId_e in_eMsgTopic,
                                  msgCallback_t in_p32FunctionCallback);
 
-status_e MessageBroker_publish(msg_t in_tMessage);
+status_e MessageBroker_publish(msg_t* in_tMessage);
 
 #ifdef __cplusplus
 }
