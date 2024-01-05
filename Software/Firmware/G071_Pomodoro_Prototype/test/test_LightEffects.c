@@ -51,135 +51,6 @@ void helper_printArray(uint8_t* in_au8Array, uint8_t in_u8ArraySize) {
 ///////////////////////////////////////////////
 // Data Structure Experiments
 ///////////////////////////////////////////////
-void LightEffects_getInitialPomodoroSetting(
-    LightEffects_PomodoroRingPhaseCfg_t* out_sEffect,
-    uint8_t* const inout_u8ArraySize,
-    LightEffect_Effect_e in_eEffectType) {
-  {
-    // Input Checks
-    ASSERT_MSG(!(out_sEffect == NULL), "out_sEffect is NULL");
-    ASSERT_MSG(!(inout_u8ArraySize == NULL), "inout_u8ArraySize is NULL");
-    ASSERT_MSG(!(in_eEffectType >= E_EFFECT_LAST), "in_eEffectType is invalid");
-  }
-
-  switch (in_eEffectType) {
-    case E_EFFECT_25_5: {
-      uint8_t u8idx = 0;
-      // Worktime
-      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 25;
-      out_sEffect[u8idx].u8MinuteOffset = 0;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 5;
-      out_sEffect[u8idx].u8MinuteOffset = 25;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      // Breaktime
-      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 5;
-      out_sEffect[u8idx].u8MinuteOffset = 0;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
-      out_sEffect[u8idx].eRingType = E_OUTER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 59;
-      out_sEffect[u8idx].u8MinuteOffset = 0;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      *inout_u8ArraySize = u8idx;
-    } break;
-
-    case E_EFFECT_51_17: {
-      uint8_t u8idx = 0;
-      // Worktime
-      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 51;
-      out_sEffect[u8idx].u8MinuteOffset = 0;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
-      out_sEffect[u8idx].eRingType = E_OUTER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 17;
-      out_sEffect[u8idx].u8MinuteOffset = 51;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      // Breaktime
-      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 17;
-      out_sEffect[u8idx].u8MinuteOffset = 0;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
-      out_sEffect[u8idx].eRingType = E_OUTER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 59;
-      out_sEffect[u8idx].u8MinuteOffset = 0;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      *inout_u8ArraySize = u8idx;
-    } break;
-
-    case E_EFFECT_90_15: {
-      uint8_t u8idx = 0;
-      // Worktime
-      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 59;
-      out_sEffect[u8idx].u8MinuteOffset = 0;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-      out_sEffect[u8idx].eRingType = E_OUTER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 30;
-      out_sEffect[u8idx].u8MinuteOffset = 0;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
-      out_sEffect[u8idx].eRingType = E_OUTER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 15;
-      out_sEffect[u8idx].u8MinuteOffset = 30;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      // Breaktime
-      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
-      out_sEffect[u8idx].eRingType = E_INNER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 15;
-      out_sEffect[u8idx].u8MinuteOffset = 0;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-      out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
-      out_sEffect[u8idx].eRingType = E_OUTER_RING;
-      out_sEffect[u8idx].u8DuratationInMinutes = 59;
-      out_sEffect[u8idx].u8MinuteOffset = 0;
-      u8idx++;
-      ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-      *inout_u8ArraySize = u8idx;
-    } break;
-
-    default:
-      ASSERT_MSG(FALSE, "Unknown Effect");
-      break;
-  }
-}
 
 void test_getInitialPomodoroSetting_receivesSettings(void) {
   LightEffects_PomodoroRingPhaseCfg_t sEffect[MAX_SETTINGS];
@@ -245,8 +116,8 @@ void test_initSequence(void) {
                                          E_EFFECT_51_17);
 
   // Parse only the Effect Array Entries, which correspond to the current phase
-  uint8_t au8InnerRingCompressedArray[TOTAL_LEDS_INNER_RING] = {0};
-  uint8_t au8OuterRingCompressedArray[TOTAL_LEDS_OUTER_RING] = {0};
+  uint8_t au8InnerRingCompressedArray[NOF_LEDS_INNER_RING] = {0};
+  uint8_t au8OuterRingCompressedArray[NOF_LEDS_OUTER_RING] = {0};
   LightEffects_PomodoroPhase_e ePhase = E_PHASE_WORK_TIME;
 
   LightEffects_getCompressedArraysForCurrentPhase(
@@ -254,8 +125,8 @@ void test_initSequence(void) {
       au8OuterRingCompressedArray);
 
   // Print the Compressed Array
-  helper_printArray(au8InnerRingCompressedArray, TOTAL_LEDS_INNER_RING);
-  helper_printArray(au8OuterRingCompressedArray, TOTAL_LEDS_OUTER_RING);
+  helper_printArray(au8InnerRingCompressedArray, NOF_LEDS_INNER_RING);
+  helper_printArray(au8OuterRingCompressedArray, NOF_LEDS_OUTER_RING);
 }
 
 void test_updateSequence(void) {
@@ -281,8 +152,8 @@ void test_updateSequence(void) {
 
   // Print the compressed array
   // Parse only the Effect Array Entries, which correspond to the current phase
-  uint8_t au8InnerRingCompressedArray[TOTAL_LEDS_INNER_RING] = {0};
-  uint8_t au8OuterRingCompressedArray[TOTAL_LEDS_OUTER_RING] = {0};
+  uint8_t au8InnerRingCompressedArray[NOF_LEDS_INNER_RING] = {0};
+  uint8_t au8OuterRingCompressedArray[NOF_LEDS_OUTER_RING] = {0};
   LightEffects_PomodoroPhase_e ePhase = E_PHASE_WORK_TIME;
 
   LightEffects_getCompressedArraysForCurrentPhase(
@@ -290,8 +161,8 @@ void test_updateSequence(void) {
       au8OuterRingCompressedArray);
 
   // Print the Compressed Array
-  helper_printArray(au8InnerRingCompressedArray, TOTAL_LEDS_INNER_RING);
-  helper_printArray(au8OuterRingCompressedArray, TOTAL_LEDS_OUTER_RING);
+  helper_printArray(au8InnerRingCompressedArray, NOF_LEDS_INNER_RING);
+  helper_printArray(au8OuterRingCompressedArray, NOF_LEDS_OUTER_RING);
 }
 
 void test_transitionFromWorktimeToBreaktime(void) {
@@ -328,8 +199,8 @@ void test_transitionFromWorktimeToBreaktime(void) {
     (Usually the Cfg would be compressed to the LED Array here) and rendered
     accordingly:
 
-    uint8_t au8InnerRingCompressedArray[TOTAL_LEDS_INNER_RING] = {0};
-    uint8_t au8OuterRingCompressedArray[TOTAL_LEDS_OUTER_RING] = {0};
+    uint8_t au8InnerRingCompressedArray[NOF_LEDS_INNER_RING] = {0};
+    uint8_t au8OuterRingCompressedArray[NOF_LEDS_OUTER_RING] = {0};
 
     LightEffects_getCompressedArraysForCurrentPhase(
         asEffects, u8EffectArraySize, ePhase, au8InnerRingCompressedArray,

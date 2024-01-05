@@ -2,19 +2,24 @@
 
 #include "Button.h"
 #include "MessageBroker.h"
+#include "OnBoardTest.h"
 #include "RealTimeClock.h"
 #include "StandbyControl.h"
-#include "TestManagement.h"
 
 /**
  * @brief  This function initializes the modules used in the program.
  */
-void Executer_init(void) {}
+void Executer_init(void) {
+  OnBoardTest_init();
+}
 
 /**
  * @brief  The main execution steps are run in this function.
  */
-status_e Executer_execute(void) { return STATUS_SUCCESS; }
+status_e Executer_execute(void) {
+  OnBoardTest_execute();
+  return STATUS_SUCCESS;
+}
 
 /**
  * This function is called from the main() function in main.c.

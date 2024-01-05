@@ -4,7 +4,7 @@
 #include "LightEffects.h"
 
 /************************************************************
- * Public Data Structures
+ * Public Data Structures for the Pomodoro
  ************************************************************/
 
 #define MAX_SETTINGS 6U
@@ -19,7 +19,8 @@ typedef enum {
 
 typedef enum {
   E_PHASE_WORK_TIME = 0U,
-  E_PHASE_BREAK_TIME
+  E_PHASE_BREAK_TIME,
+  E_PHASE_NONE
 } LightEffects_PomodoroPhase_e;
 
 typedef enum {
@@ -49,19 +50,17 @@ typedef struct {
  * Public functions for the Pomodoro Sequence
  ************************************************************/
 
+void LightEffects_getInitialPomodoroSetting(
+    LightEffects_PomodoroRingPhaseCfg_t* out_sEffect,
+    uint8_t* const inout_u8ArraySize,
+    LightEffect_Effect_e in_eEffectType);
+
 void LightEffects_isPhaseOver(
     const LightEffects_PomodoroRingPhaseCfg_t* const in_saEffect,
     uint8_t in_u8EffectArraySize,
     BOOL* out_bWorktimeOver,
     LightEffects_PomodoroPhase_e in_ePhase,
     LightEffects_Animation_e in_eAnimationType);
-
-void LightEffects_getCompressedArraysForCurrentPhase(
-    const LightEffects_PomodoroRingPhaseCfg_t* const in_asEffects,
-    uint8_t in_u8EffectArraySize,
-    LightEffects_PomodoroPhase_e in_ePhase,
-    uint8_t* out_InnerRingCompressedArray,
-    uint8_t* out_OuterRingCompressedArray);
 
 void LightEffects_updateWorktimeCfgForCurrentMinute(
     LightEffects_PomodoroRingPhaseCfg_t* const inout_asEffects,
@@ -78,6 +77,13 @@ void LightEffects_setAnimationInRingMinuteArray(
 void LightEffects_AreThereActiveMinutesLeft(
     const LightEffects_PomodoroRingPhaseCfg_t* const in_sEffect,
     BOOL* out_bActiveMinutesLeft);
+
+void LightEffects_getCompressedArraysForCurrentPhase(
+    const LightEffects_PomodoroRingPhaseCfg_t* const in_asEffects,
+    uint8_t in_u8EffectArraySize,
+    LightEffects_PomodoroPhase_e in_ePhase,
+    uint8_t* out_InnerRingCompressedArray,
+    uint8_t* out_OuterRingCompressedArray);
 
 void LightEffects_RenderRingConfig(
     LightEffects_PomodoroRingPhaseCfg_t* const inout_psRingPhaseConfig,

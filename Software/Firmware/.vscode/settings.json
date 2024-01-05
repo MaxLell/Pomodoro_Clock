@@ -11,7 +11,11 @@
         "status.h": "c",
         "fsm.h": "c",
         "pomodorocontrol.h": "c",
-        "mock_rgbled.h": "c"
+        "mock_rgbled.h": "c",
+        "messagedefinitions.h": "c",
+        "lighteffects_pomodoro.h": "c",
+        "rgbled_config.h": "c",
+        "countdowntimer.h": "c"
     },
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_fallbackStyle": "Chromium",

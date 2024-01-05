@@ -7,6 +7,7 @@
 
 #include "RgbLed.h"
 
+#include "Common.h"
 #include "Delay.h"
 #include "main.h"
 #include "tim.h"
@@ -28,7 +29,9 @@ uint8_t u8LedData[RGB_LED_TOTAL_LEDS]
 
 extern TIM_HandleTypeDef htim1;
 
-void RgbLed_setPixelColor(uint8_t u8LedIdx, uint8_t u8Red, uint8_t u8Green,
+void RgbLed_setPixelColor(uint8_t u8LedIdx,
+                          uint8_t u8Red,
+                          uint8_t u8Green,
                           uint8_t u8Blue) {
   { ASSERT_MSG(u8LedIdx < RGB_LED_TOTAL_LEDS, "u8LedIdx out of bounds"); }
 
@@ -39,7 +42,8 @@ void RgbLed_setPixelColor(uint8_t u8LedIdx, uint8_t u8Red, uint8_t u8Green,
 }
 
 void RgbLed_show(void) {
-  if (bDataIsSent) {
+  if (bDataIsSent == TRUE) {
+    // What do you want from me compiler
     uint32_t u32LedPulses = 0;
     uint32_t u32Color;
     /**
@@ -73,7 +77,7 @@ void RgbLed_show(void) {
       u32LedPulses++;
     }
 
-    HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)au16PwmData,
+    HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t*)au16PwmData,
                           u32LedPulses);
 
     bDataIsSent = 0;

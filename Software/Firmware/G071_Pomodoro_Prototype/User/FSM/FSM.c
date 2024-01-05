@@ -56,7 +56,6 @@ void FSM_runStateAction(const FSM_Config_t* const in_psFsmConfig) {
   uint16_t u16State = in_psFsmConfig->u16CurrentState;
   FSM_StateActionCb runStateAction = in_psFsmConfig->asStateActions[u16State];
   ASSERT_MSG(!(runStateAction == NULL), "State Callback is NULL");
-
   runStateAction();
 }
 

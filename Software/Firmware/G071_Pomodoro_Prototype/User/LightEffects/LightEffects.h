@@ -22,4 +22,9 @@ void LightEffects_DotAroundTheCircle(status_e* out_eSequenceStatus,
 
 void LightEffects_ClearAllRingLeds(void);
 
+void LightEffects_RenderRings(const uint8_t* const in_au8InnerRingArray,
+                              uint8_t in_u8InnerRingArraySize,
+                              const uint8_t* const in_au8OuterRingArray,
+                              uint8_t in_u8OuterRingArraySize);
+
 #endif  // LIGHTEFFECTS_H

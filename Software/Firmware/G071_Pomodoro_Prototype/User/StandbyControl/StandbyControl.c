@@ -60,13 +60,13 @@ StandbyControl_SequenceStatus_e StandbyControl_IdleStateCb(void) {
   // Get Timer status
   static timer_t sTimer;
   timer_status_t tTimerStatus = Countdown_getTimerStatus(&sTimer);
-  if (TIMER_NOT_ENABLED == tTimerStatus) {
+  if (E_COUNTDOWN_TIMER_NOT_ENABLED == tTimerStatus) {
     // Init Timer
     Countdown_initTimer(&sTimer, DELAY_FOR_SEEKING_ATTENTION, ONE_SHOT_MODE);
 
     // Start Timer
     Countdown_startTimer(&sTimer);
-  } else if (TIMER_EXPIRED == tTimerStatus) {
+  } else if (E_COUNTDOWN_TIMER_EXPIRED == tTimerStatus) {
     return E_STANDBY_STATUS_SEQUENCE_COMPLETE;
   }
   return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE;
