@@ -83,7 +83,7 @@ void LightEffects_getCompressedArraysForCurrentPhase(
     const LightEffects_PomodoroRingPhaseCfg_t* const in_asEffects,
     uint8_t in_u8EffectArraySize,
     LightEffects_PomodoroPhase_e in_ePhase,
-    uint8_t* out_InnerRingCompressedArray,
+    uint8_t* out_MiddleRingCompressedArray,
     uint8_t* out_OuterRingCompressedArray);
 
 void LightEffects_RenderRingConfig(

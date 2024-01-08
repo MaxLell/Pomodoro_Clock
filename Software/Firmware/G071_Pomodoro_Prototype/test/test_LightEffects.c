@@ -116,16 +116,18 @@ void test_initSequence(void) {
                                          E_EFFECT_51_17);
 
   // Parse only the Effect Array Entries, which correspond to the current phase
-  uint8_t au8InnerRingCompressedArray[NOF_LEDS_INNER_RING] = {0};
+  uint8_t au8MiddleRingCompressedArray[NOF_LEDS_MIDDLE_RING] = {0};
   uint8_t au8OuterRingCompressedArray[NOF_LEDS_OUTER_RING] = {0};
   LightEffects_PomodoroPhase_e ePhase = E_PHASE_WORK_TIME;
 
   LightEffects_getCompressedArraysForCurrentPhase(
-      asEffects, u8EffectArraySize, ePhase, au8InnerRingCompressedArray,
+      asEffects, u8EffectArraySize, ePhase, au8MiddleRingCompressedArray,
       au8OuterRingCompressedArray);
 
   // Print the Compressed Array
-  helper_printArray(au8InnerRingCompressedArray, NOF_LEDS_INNER_RING);
+  log_info("Middle Ring Array:");
+  helper_printArray(au8MiddleRingCompressedArray, NOF_LEDS_MIDDLE_RING);
+  log_info("Outer Ring Array:");
   helper_printArray(au8OuterRingCompressedArray, NOF_LEDS_OUTER_RING);
 }
 
@@ -152,16 +154,16 @@ void test_updateSequence(void) {
 
   // Print the compressed array
   // Parse only the Effect Array Entries, which correspond to the current phase
-  uint8_t au8InnerRingCompressedArray[NOF_LEDS_INNER_RING] = {0};
+  uint8_t au8MiddleRingCompressedArray[NOF_LEDS_INNER_RING] = {0};
   uint8_t au8OuterRingCompressedArray[NOF_LEDS_OUTER_RING] = {0};
   LightEffects_PomodoroPhase_e ePhase = E_PHASE_WORK_TIME;
 
   LightEffects_getCompressedArraysForCurrentPhase(
-      asEffects, u8EffectArraySize, ePhase, au8InnerRingCompressedArray,
+      asEffects, u8EffectArraySize, ePhase, au8MiddleRingCompressedArray,
       au8OuterRingCompressedArray);
 
   // Print the Compressed Array
-  helper_printArray(au8InnerRingCompressedArray, NOF_LEDS_INNER_RING);
+  helper_printArray(au8MiddleRingCompressedArray, NOF_LEDS_INNER_RING);
   helper_printArray(au8OuterRingCompressedArray, NOF_LEDS_OUTER_RING);
 }
 
@@ -199,11 +201,11 @@ void test_transitionFromWorktimeToBreaktime(void) {
     (Usually the Cfg would be compressed to the LED Array here) and rendered
     accordingly:
 
-    uint8_t au8InnerRingCompressedArray[NOF_LEDS_INNER_RING] = {0};
+    uint8_t au8MiddleRingCompressedArray[NOF_LEDS_INNER_RING] = {0};
     uint8_t au8OuterRingCompressedArray[NOF_LEDS_OUTER_RING] = {0};
 
     LightEffects_getCompressedArraysForCurrentPhase(
-        asEffects, u8EffectArraySize, ePhase, au8InnerRingCompressedArray,
+        asEffects, u8EffectArraySize, ePhase, au8MiddleRingCompressedArray,
         au8OuterRingCompressedArray);
 
     // Send of to rendering with the LEDs

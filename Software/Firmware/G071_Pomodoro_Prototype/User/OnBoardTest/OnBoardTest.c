@@ -15,7 +15,7 @@
  * Private Function Prototypes
  ************************************************************/
 
-void OnBoardTest_testPomodoroSequenceRgbLedRings(void);
+void OnBoardTest_testPomodoroSequenceRgbLedRingsInitialConfig(void);
 void OnBoardTest_testLightUpAllLeds(void);
 void OnBoardTest_testRenderRing(void);
 
@@ -26,7 +26,7 @@ void OnBoardTest_testRenderRing(void);
 typedef enum {
   E_TEST_RGB_LED_RING_AROUND_THE_ROSY,
   E_TEST_LIGHT_UP_ALL_LEDS,
-  E_TEST_RGB_LED_RINGS_POMODORO,
+  E_TEST_RGB_LED_RINGS_POMODORO_INITIAL,
   E_LAST_TEST
 } OnBoardTest_Test_e;
 
@@ -36,7 +36,7 @@ typedef void (*test_function_ptr)(void);
  * Private Defines
  ************************************************************/
 
-#define TEST_TO_RUN E_TEST_RGB_LED_RINGS_POMODORO
+#define TEST_TO_RUN E_TEST_RGB_LED_RINGS_POMODORO_INITIAL
 
 /************************************************************
  * Private Variables
@@ -47,8 +47,8 @@ STATIC test_function_ptr test_functions[E_LAST_TEST] = {
 
     [E_TEST_RGB_LED_RING_AROUND_THE_ROSY] = OnBoardTest_testRenderRing,
 
-    [E_TEST_RGB_LED_RINGS_POMODORO] =
-        OnBoardTest_testPomodoroSequenceRgbLedRings};
+    [E_TEST_RGB_LED_RINGS_POMODORO_INITIAL] =
+        OnBoardTest_testPomodoroSequenceRgbLedRingsInitialConfig};
 
 /************************************************************
  * Test function implementations
@@ -66,12 +66,12 @@ void OnBoardTest_testLightUpAllLeds(void) {
   RgbLed_show();
 }
 
-void OnBoardTest_testPomodoroSequenceRgbLedRings(void) {
+void OnBoardTest_testPomodoroSequenceRgbLedRingsInitialConfig(void) {
   // Load the initial LED Config
   uint8_t u8EffectArraySize = 0;
   LightEffects_PomodoroRingPhaseCfg_t asEffects[MAX_SETTINGS];
-  uint8_t au8CompressedArrayOuterRing[NOF_LEDS_OUTER_RING] = {0};
   uint8_t au8CompressedArrayMiddleRing[NOF_LEDS_MIDDLE_RING] = {0};
+  uint8_t au8CompressedArrayOuterRing[NOF_LEDS_OUTER_RING] = {0};
 
   LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize,
                                          E_EFFECT_51_17);
@@ -81,22 +81,8 @@ void OnBoardTest_testPomodoroSequenceRgbLedRings(void) {
 
   // Convert the initial rendering to the rgb led array representation
   LightEffects_getCompressedArraysForCurrentPhase(
-      asEffects, u8EffectArraySize, eCurrentPhase, au8CompressedArrayOuterRing,
-      au8CompressedArrayMiddleRing);
-
-  // Print out the array for the Middle Ring
-  printf("Middle Ring: ");
-  for (uint8_t u8Index = 0; u8Index < NOF_LEDS_MIDDLE_RING; u8Index++) {
-    printf("%d ", au8CompressedArrayMiddleRing[u8Index]);
-  }
-  printf("\n");
-
-  // Print out the array for the Outer Ring
-  printf("Outer Ring: ");
-  for (uint8_t u8Index = 0; u8Index < NOF_LEDS_OUTER_RING; u8Index++) {
-    printf("%d ", au8CompressedArrayOuterRing[u8Index]);
-  }
-  printf("\n");
+      asEffects, u8EffectArraySize, eCurrentPhase, au8CompressedArrayMiddleRing,
+      au8CompressedArrayOuterRing);
 
   // render it on the actual Leds
   LightEffects_RenderRings(au8CompressedArrayMiddleRing, NOF_LEDS_MIDDLE_RING,
