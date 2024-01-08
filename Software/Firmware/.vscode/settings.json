@@ -19,5 +19,6 @@
     },
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_fallbackStyle": "Chromium",
-    "C_Cpp.clang_format_style": "Chromium"
+    "C_Cpp.clang_format_style": "Chromium",
+    "ceedlingExplorer.projectPath": "./G071_Pomodoro_Prototype"
 }

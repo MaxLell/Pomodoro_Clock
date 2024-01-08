@@ -95,7 +95,7 @@ static const FSM_StateActionCb saStateActions[] = {
 #########################
  */
 
-void test_getNextState_shouldReturnNextState(void) {
+void test_FSM_getNextState_shouldReturnNextState(void) {
   FSM_Config_t sFsmConfig = {
       .NUMBER_OF_EVENTS = FSM_EVENT_LAST,
       .NUMBER_OF_STATES = FSM_STATE_LAST,

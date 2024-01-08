@@ -60,18 +60,18 @@ void test_getInitialPomodoroSetting_receivesSettings(void) {
   TEST_ASSERT_EQUAL_UINT8(4, u8ArraySize);
   TEST_ASSERT_EQUAL_UINT8(E_PHASE_WORK_TIME, sEffect[0].ePhase);
   TEST_ASSERT_EQUAL_UINT8(E_ANIMATION_WORK_TIME, sEffect[0].eAnimationType);
-  TEST_ASSERT_EQUAL_UINT8(E_INNER_RING, sEffect[0].eRingType);
+  TEST_ASSERT_EQUAL_UINT8(E_MIDDLE_RING, sEffect[0].eRingType);
   TEST_ASSERT_EQUAL_UINT8(25, sEffect[0].u8DuratationInMinutes);
   TEST_ASSERT_EQUAL_UINT8(0, sEffect[0].u8MinuteOffset);
   TEST_ASSERT_EQUAL_UINT8(E_PHASE_WORK_TIME, sEffect[1].ePhase);
   TEST_ASSERT_EQUAL_UINT8(E_ANIMATION_BREAK_TIME, sEffect[1].eAnimationType);
-  TEST_ASSERT_EQUAL_UINT8(E_INNER_RING, sEffect[1].eRingType);
+  TEST_ASSERT_EQUAL_UINT8(E_MIDDLE_RING, sEffect[1].eRingType);
   TEST_ASSERT_EQUAL_UINT8(5, sEffect[1].u8DuratationInMinutes);
   TEST_ASSERT_EQUAL_UINT8(25, sEffect[1].u8MinuteOffset);
   TEST_ASSERT_EQUAL_UINT8(E_PHASE_BREAK_TIME, sEffect[2].ePhase);
   TEST_ASSERT_EQUAL_UINT8(E_ANIMATION_BREAK_TIME_BRIGHT,
                           sEffect[2].eAnimationType);
-  TEST_ASSERT_EQUAL_UINT8(E_INNER_RING, sEffect[2].eRingType);
+  TEST_ASSERT_EQUAL_UINT8(E_MIDDLE_RING, sEffect[2].eRingType);
   TEST_ASSERT_EQUAL_UINT8(5, sEffect[2].u8DuratationInMinutes);
   TEST_ASSERT_EQUAL_UINT8(0, sEffect[2].u8MinuteOffset);
   TEST_ASSERT_EQUAL_UINT8(E_PHASE_BREAK_TIME, sEffect[3].ePhase);
