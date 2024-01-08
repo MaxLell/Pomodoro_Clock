@@ -18,7 +18,7 @@
         "countdowntimer.h": "c"
     },
     "editor.formatOnSave": true,
-    "C_Cpp.clang_format_fallbackStyle": "Chromium",
-    "C_Cpp.clang_format_style": "Chromium",
+    "C_Cpp.clang_format_fallbackStyle": "Microsoft",
+    "C_Cpp.clang_format_style": "Microsoft",
     "ceedlingExplorer.projectPath": "./G071_Pomodoro_Prototype"
 }
