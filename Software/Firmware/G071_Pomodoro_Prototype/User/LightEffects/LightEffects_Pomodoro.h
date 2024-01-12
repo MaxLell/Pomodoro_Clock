@@ -14,6 +14,7 @@ typedef enum
     E_EFFECT_FIRST = 0U,
     //       WT_BT
     E_EFFECT_25_5,
+    E_EFFECT_50_10,
     E_EFFECT_51_17,
     E_EFFECT_90_15,
     E_EFFECT_LAST

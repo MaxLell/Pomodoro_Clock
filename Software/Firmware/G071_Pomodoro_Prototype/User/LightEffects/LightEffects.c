@@ -349,6 +349,57 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
     RgbLed_show();
 }
 
+void LightEffects_checkPomodoroSetting(const LightEffects_PomodoroRingPhaseCfg_t *const in_sEffect,
+                                       const uint8_t in_u8EffectArraySize)
+{
+    // Make sure that the provided effect is not a Null pointer
+    ASSERT_MSG(!(in_sEffect == NULL), "in_sEffect is NULL");
+
+    // Make sure that the Effect Array Size is not 0
+    ASSERT_MSG(!(in_u8EffectArraySize == 0), "in_u8EffectArraySize is 0");
+
+    // The Setting needs to have: Worktime, Warning, Breaktime, Breaktime_bright, and the Flashlight animation
+
+    // Set 5 Flags (one corresponding to each Animation) to false - these need to be cleared to pass this test
+    BOOL bWorktimeCheckSuccess = FALSE;
+    BOOL bWarningCheckSuccess = FALSE;
+    BOOL bBreaktimeCheckSuccess = FALSE;
+    BOOL bBreaktimeBrightCheckSuccess = FALSE;
+    BOOL bFlashlightCheckSuccess = FALSE;
+
+    // Loop through the provided array and check if all the required animations are present
+    for (uint8_t i = 0; i < in_u8EffectArraySize; i++)
+    {
+        switch (in_sEffect[i].eAnimationType)
+        {
+        case E_ANIMATION_WORK_TIME:
+            bWorktimeCheckSuccess = TRUE;
+            break;
+        case E_ANIMATION_WARNING:
+            bWarningCheckSuccess = TRUE;
+            break;
+        case E_ANIMATION_BREAK_TIME:
+            bBreaktimeCheckSuccess = TRUE;
+            break;
+        case E_ANIMATION_BREAK_TIME_BRIGHT:
+            bBreaktimeBrightCheckSuccess = TRUE;
+            break;
+        case E_ANIMATION_FLASHLIGHT:
+            bFlashlightCheckSuccess = TRUE;
+            break;
+        default:
+            ASSERT_MSG(FALSE, "Unknown Animation Type");
+            break;
+        }
+    }
+    // Make sure that all the required animations are present
+    ASSERT_MSG(!(bWorktimeCheckSuccess == FALSE), "Worktime Animation is missing");
+    ASSERT_MSG(!(bWarningCheckSuccess == FALSE), "Warning Animation is missing");
+    ASSERT_MSG(!(bBreaktimeCheckSuccess == FALSE), "Breaktime Animation is missing");
+    ASSERT_MSG(!(bBreaktimeBrightCheckSuccess == FALSE), "Breaktime Bright Animation is missing");
+    ASSERT_MSG(!(bFlashlightCheckSuccess == FALSE), "Flashlight Animation is missing");
+}
+
 void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t *out_sEffect,
                                             uint8_t *const inout_u8ArraySize,
                                             LightEffect_PomodoroConfig_e in_eEffectType)
@@ -404,6 +455,52 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         out_sEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+        *inout_u8ArraySize = u8idx;
+    }
+    break;
+
+    case E_EFFECT_50_10: {
+        uint8_t u8idx = 0;
+        // Worktime
+        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
+        out_sEffect[u8idx].eRingType = E_OUTER_RING;
+        out_sEffect[u8idx].u8DuratationInMinutes = 50;
+        out_sEffect[u8idx].u8MinuteOffset = 0;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
+        out_sEffect[u8idx].eRingType = E_OUTER_RING;
+        out_sEffect[u8idx].u8DuratationInMinutes = 10;
+        out_sEffect[u8idx].u8MinuteOffset = 50;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+        // Warning
+        out_sEffect[u8idx].ePhase = E_PHASE_WARNING;
+        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WARNING;
+        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_sEffect[u8idx].u8DuratationInMinutes = 59;
+        out_sEffect[u8idx].u8MinuteOffset = 0;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+        // Breaktime
+        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+        out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
+        out_sEffect[u8idx].eRingType = E_OUTER_RING;
+        out_sEffect[u8idx].u8DuratationInMinutes = 10;
+        out_sEffect[u8idx].u8MinuteOffset = 0;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+        out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
+        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_sEffect[u8idx].u8DuratationInMinutes = 59;
+        out_sEffect[u8idx].u8MinuteOffset = 0;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         *inout_u8ArraySize = u8idx;
     }
     break;
@@ -512,6 +609,8 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         ASSERT_MSG(FALSE, "Unknown Effect");
         break;
     }
+
+    LightEffects_checkPomodoroSetting(out_sEffect, *inout_u8ArraySize);
 }
 
 void LightEffects_ClearPomodoroProgressRings(void)

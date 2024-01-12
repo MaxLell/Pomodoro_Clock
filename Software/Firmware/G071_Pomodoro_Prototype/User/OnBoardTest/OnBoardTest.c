@@ -173,9 +173,6 @@ void OnBoardTest_testPomodoroSequence(void)
         // Delay to make a restart visible
         Delay_ms(100);
 
-        // Set the Trigger Event for the transition from IDLE to WORKTIME_INIT
-        FSM_setTriggerEvent(&sFsmConfig, EVENT_POMODORO_SEQUENCE_START);
-
         // Initialize the Message Broker
         MessageBroker_init();
 
@@ -187,10 +184,16 @@ void OnBoardTest_testPomodoroSequence(void)
         sMsg.eMsgId = MSG_ID_0400;
         // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_51_17;
         // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_25_5;
-        LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
+        // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
+        LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_50_10;
         sMsg.au8DataBytes = (uint8_t *)&ePomodoroConfig;
         sMsg.u16DataSize = sizeof(LightEffect_PomodoroConfig_e);
         status_e eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+        // Publish the Pomodoro Sequence Start: Triggers the transition from IDLE to WORKTIME_INIT
+        sMsg.eMsgId = MSG_ID_0200;
+        eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Clear the Flag

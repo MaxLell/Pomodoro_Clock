@@ -433,6 +433,9 @@ void PomodoroControl_init(void)
     // Subscribe to Messages
     status_e eStatus = MessageBroker_subscribe(MSG_ID_0400, PomodoroControl_MessageCallback);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
+
+    eStatus = MessageBroker_subscribe(MSG_ID_0200, PomodoroControl_MessageCallback);
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 }
 
 status_e PomodoroControl_execute(void)
