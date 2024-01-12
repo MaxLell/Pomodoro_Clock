@@ -11,6 +11,17 @@
 #include "RgbLed_Config.h"
 
 /********************************************************
+ * Private Defines
+ ********************************************************/
+#define POMODORO_CONTROL_TEST
+
+#ifndef POMODORO_CONTROL_TEST
+#define TIMER_PERIOD 60000
+#else
+#define TIMER_PERIOD 30
+#endif
+
+/********************************************************
  * Private Variables
  ********************************************************/
 
@@ -153,78 +164,98 @@ STATIC const FSM_StateActionCb aStateActions[] = {
 /**
  * FSM Initial Configuration
  */
-STATIC FSM_Config_t sFsmConfig = {
+
+FSM_Config_t sFsmConfig = {
+
     .NUMBER_OF_STATES = STATE_LAST,
     .NUMBER_OF_EVENTS = EVENT_LAST,
-    .au16TransitionMatrix = (uint16_t*)&au16FsmTransitionMatrix,
+    .au16TransitionMatrix = (uint16_t *)&au16FsmTransitionMatrix,
     .asStateActions = aStateActions,
     .u16CurrentState = STATE_IDLE,
     .u16CurrentEvent = EVENT_SEQUENCE_PENDING,
 };
 
-void StateActionIdle(void) {
-  // Do nothing
+void StateActionIdle(void)
+{
+    // Do nothing
 }
 
-void StateActionWorktimeInit(void) {
-  // Get the initial Pomodoro Setting
-  LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize,
-                                         E_EFFECT_51_17);
+void StateActionWorktimeInit(void)
+{
+    // Get the initial Pomodoro Setting
+    LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, E_EFFECT_51_17);
 
-  // Set the current Phase
-  sInternalState.u8CurrentPhase = E_PHASE_WORK_TIME;
+    // Set the current Phase
+    sInternalState.u8CurrentPhase = E_PHASE_WORK_TIME;
 
-  // Update the trigger event
-  FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
+    // Initialize and start the Countdown Timer
+    Countdown_initTimerMs(&sTimerHandler, TIMER_PERIOD, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_startTimer(&sTimerHandler);
 
-  // Initialize and start the Countdown Timer
-  Countdown_initTimer(&sTimerHandler, 60000, CONTINOUS_MODE);
-  Countdown_startTimer(&sTimerHandler);
-
-  // Render the current configuration
-}
-
-void StateActionWorktime(void) {
-  // Set the default trigger event
-  FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
-
-  // Check if the Worktime is over
-  BOOL bWorktimeIsOver;
-  LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bWorktimeIsOver,
-                           sInternalState.u8CurrentPhase,
-                           E_ANIMATION_WORK_TIME);
-  // If Worktime is not over
-  if (FALSE == bWorktimeIsOver) {
-    // If one Minute is over - only then run the code
-    if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sTimerHandler)) {
-      // Update the CFGs
-      LightEffects_updateWorktimeCfgForCurrentMinute(
-          asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase);
-
-      LightEffects_getCompressedArraysForCurrentPhase(
-          asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
-          au8CompressedArrayRing2, au8CompressedArrayRing1);
-
-      // Render the compressed Arrays on the Rings
-      LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_OUTER_RING,
-                               au8CompressedArrayRing1, NOF_LEDS_MIDDLE_RING);
-    }
-  } else {  // If Worktime is over
-    // Set Event -> Seq Complete
+    // Update the trigger event
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
-
-    // Publish Message: Worktime Complete via the MsgBroker
-    msg_t sMsg = {0};
-    sMsg.eMsgId = MSG_ID_0201;  // Pomodoro Work Time Sequence Complete
-    MessageBroker_publish(&sMsg);
-  }
 }
-void StateActionWarning(void) {}
-void StateActionBreaktimeInit(void) {}
-void StateActionBreaktime(void) {}
-void StateActionCancelSequenceInit(void) {}
-void StateActionCancelSequenceRunning(void) {}
-void StateActionCancelSequenceHalted(void) {}
+
+void StateActionWorktime(void)
+{
+    // Set the default trigger event
+    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
+
+    // Check if the Worktime is over
+    BOOL bWorktimeIsOver;
+    LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bWorktimeIsOver, sInternalState.u8CurrentPhase,
+                             E_ANIMATION_WORK_TIME);
+    // If Worktime is not over
+    if (FALSE == bWorktimeIsOver)
+    {
+
+        // If one Minute is over - only then run the code
+        timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerHandler);
+        if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
+        {
+            // Update the CFGs
+            LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase);
+
+            LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
+                                                            au8CompressedArrayRing2, au8CompressedArrayRing1);
+
+            // Render the compressed Arrays on the Rings
+            LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
+                                     NOF_LEDS_OUTER_RING);
+        }
+    }
+    else
+    { // If Worktime is over
+      // Set Event -> Seq Complete
+        log_info("Blululu");
+
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
+
+        // Publish Message: Worktime Complete via the MsgBroker
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_ID_0201; // Pomodoro Work Time Sequence Complete
+        status_e eStatus = MessageBroker_publish(&sMsg);
+        log_info("MessageBroker_publish: %d", eStatus);
+    }
+}
+void StateActionWarning(void)
+{
+}
+void StateActionBreaktimeInit(void)
+{
+}
+void StateActionBreaktime(void)
+{
+}
+void StateActionCancelSequenceInit(void)
+{
+}
+void StateActionCancelSequenceRunning(void)
+{
+}
+void StateActionCancelSequenceHalted(void)
+{
+}
 
 /********************************************************
  * Function Prototypes
@@ -234,65 +265,72 @@ void StateActionCancelSequenceHalted(void) {}
  * Message Callback
  */
 
-STATIC status_e PomodoroControl_MessageCallback(msg_t* sMsg);
+STATIC status_e PomodoroControl_MessageCallback(msg_t *sMsg);
 
 /********************************************************
  * Implementation
  ********************************************************/
 
-STATIC status_e PomodoroControl_MessageCallback(msg_t* sMsg) {
-  {  // Input Verification
-    ASSERT_MSG(!(sMsg == NULL), "Message is NULL!");
-    if (sMsg == NULL) {
-      return STATUS_ERROR;
+STATIC status_e PomodoroControl_MessageCallback(msg_t *sMsg)
+{
+    { // Input Verification
+        ASSERT_MSG(!(sMsg == NULL), "Message is NULL!");
+        if (sMsg == NULL)
+        {
+            return STATUS_ERROR;
+        }
     }
-  }
 
-  status_e eStatus = STATUS_SUCCESS;
-  switch (sMsg->eMsgId) {
-    case MSG_ID_0200:  // Pomodoro Sequence Start Event
+    status_e eStatus = STATUS_SUCCESS;
+    switch (sMsg->eMsgId)
     {
-      FSM_setTriggerEvent(&sFsmConfig, EVENT_POMODORO_SEQUENCE_START);
-    } break;
+    case MSG_ID_0200: // Pomodoro Sequence Start Event
+    {
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_POMODORO_SEQUENCE_START);
+    }
+    break;
 
-    case MSG_ID_0101:  // Trigger Button: is Pressed Down Continuously
+    case MSG_ID_0101: // Trigger Button: is Pressed Down Continuously
     {
-    } break;
+    }
+    break;
 
-    case MSG_ID_0102:  // Trigger Button: is Released after a Long Press
+    case MSG_ID_0102: // Trigger Button: is Released after a Long Press
     {
-    } break;
+    }
+    break;
 
-    case MSG_ID_0400:  // Pomodoro Configuration: Worktime and Breaktime
-                       // Periods
+    case MSG_ID_0400: // Pomodoro Configuration: Worktime and Breaktime
+                      // Periods
     {
-      sInternalState.u8MinutesWorktimePeriod =
-          ((PomodoroPeriodConfiguration_t*)sMsg->au8DataBytes)
-              ->u8MinutesWorktimePeriod;
-      sInternalState.u8MinutesBreaktimePeriod =
-          ((PomodoroPeriodConfiguration_t*)sMsg->au8DataBytes)
-              ->u8MinutesBreaktimePeriod;
-    } break;
+        sInternalState.u8MinutesWorktimePeriod =
+            ((PomodoroPeriodConfiguration_t *)sMsg->au8DataBytes)->u8MinutesWorktimePeriod;
+        sInternalState.u8MinutesBreaktimePeriod =
+            ((PomodoroPeriodConfiguration_t *)sMsg->au8DataBytes)->u8MinutesBreaktimePeriod;
+    }
+    break;
 
     default:
-      ASSERT_MSG(FALSE,
-                 "This Callback should not be called for this message, but it "
-                 "was with the following message ID: %d",
-                 sMsg->eMsgId);
-      eStatus = STATUS_ERROR;
-      break;
-  }
-  return eStatus;
+        ASSERT_MSG(FALSE,
+                   "This Callback should not be called for this message, but it "
+                   "was with the following message ID: %d",
+                   sMsg->eMsgId);
+        eStatus = STATUS_ERROR;
+        break;
+    }
+    return eStatus;
 }
 
-void PomodoroControl_init(void) {
-  // Subscribe to Messages
+void PomodoroControl_init(void)
+{
+    // Subscribe to Messages
 
-  // Reset the internal Data Structure
+    // Reset the internal Data Structure
 }
 
-status_e PomodoroControl_execute(void) {
-  status_e eStatus = STATUS_SUCCESS;
-  FSM_execute(&sFsmConfig);
-  return eStatus;
+status_e PomodoroControl_execute(void)
+{
+    status_e eStatus = STATUS_SUCCESS;
+    FSM_execute(&sFsmConfig);
+    return eStatus;
 }

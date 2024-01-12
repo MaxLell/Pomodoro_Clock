@@ -21,153 +21,171 @@ STATIC StandbyControl_state_t eState;
  **********************************************************************/
 
 STATIC StandbyControl_SequenceStatus_e StandbyControl_IdleStateCb(void);
-STATIC StandbyControl_SequenceStatus_e
-StandbyControl_SeekingAttentionStateCb(void);
+STATIC StandbyControl_SequenceStatus_e StandbyControl_SeekingAttentionStateCb(void);
 /**********************************************************************
  * Message Callbacks
  **********************************************************************/
-status_e StandbyControl_TriggerBtnPressedCB(msg_t* in_sMessage) {
-  {  // Input Checks
-    ASSERT_MSG(!(in_sMessage == NULL), "Message is NULL!");
-    if (in_sMessage == NULL) {
-      return STATUS_ERROR;
+status_e StandbyControl_TriggerBtnPressedCB(msg_t *in_sMessage)
+{
+    { // Input Checks
+        ASSERT_MSG(!(in_sMessage == NULL), "Message is NULL!");
+        if (in_sMessage == NULL)
+        {
+            return STATUS_ERROR;
+        }
     }
-  }
-  bTriggerButtonPressed = TRUE;
-  return STATUS_SUCCESS;
+    bTriggerButtonPressed = TRUE;
+    return STATUS_SUCCESS;
 }
 
-status_e StandbyControl_PomodoroSequenceCompleteCB(msg_t* in_sMessage) {
-  {  // Input Checks
-    ASSERT_MSG(!(in_sMessage == NULL), "Message is NULL!");
-    if (in_sMessage == NULL) {
-      return STATUS_ERROR;
+status_e StandbyControl_PomodoroSequenceCompleteCB(msg_t *in_sMessage)
+{
+    { // Input Checks
+        ASSERT_MSG(!(in_sMessage == NULL), "Message is NULL!");
+        if (in_sMessage == NULL)
+        {
+            return STATUS_ERROR;
+        }
     }
-  }
-  bPomodoroSequenceComplete = TRUE;
-  return STATUS_SUCCESS;
+    bPomodoroSequenceComplete = TRUE;
+    return STATUS_SUCCESS;
 }
 
 /**********************************************************************
  * Private functions
  **********************************************************************/
 
-STATIC StandbyControl_SequenceStatus_e
-StandbyControl_SeekingAttentionStateCb(void) {
-  /**
-   * Wait for the animation to complete. Only then
-   * return E_STANDBY_STATUS_SEQUENCE_COMPLETE otherwise
-   * return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE
-   */
-  status_e eSequenceStatus;
-  LightEffects_DotAroundTheCircle(&eSequenceStatus, 20U);
-  if (STATUS_PENDING == eSequenceStatus) {
-    return E_STANDBY_STATUS_SEQUENCE_COMPLETE;
-  } else {
-    return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE;
-  }
+STATIC StandbyControl_SequenceStatus_e StandbyControl_SeekingAttentionStateCb(void)
+{
+    /**
+     * Wait for the animation to complete. Only then
+     * return E_STANDBY_STATUS_SEQUENCE_COMPLETE otherwise
+     * return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE
+     */
+    status_e eSequenceStatus;
+    LightEffects_DotAroundTheCircle(&eSequenceStatus, 20U);
+    if (STATUS_PENDING == eSequenceStatus)
+    {
+        return E_STANDBY_STATUS_SEQUENCE_COMPLETE;
+    }
+    else
+    {
+        return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE;
+    }
 }
 
-StandbyControl_SequenceStatus_e StandbyControl_IdleStateCb(void) {
-  // Get Timer status
-  static timer_t sTimer;
-  timer_status_t tTimerStatus = Countdown_getTimerStatus(&sTimer);
-  if (E_COUNTDOWN_TIMER_NOT_ENABLED == tTimerStatus) {
-    // Init Timer
-    Countdown_initTimer(&sTimer, DELAY_FOR_SEEKING_ATTENTION, ONE_SHOT_MODE);
+StandbyControl_SequenceStatus_e StandbyControl_IdleStateCb(void)
+{
+    // Get Timer status
+    static timer_t sTimer;
+    timer_status_t tTimerStatus = Countdown_getTimerStatus(&sTimer);
+    if (E_COUNTDOWN_TIMER_NOT_ENABLED == tTimerStatus)
+    {
+        // Init Timer
+        Countdown_initTimerMs(&sTimer, DELAY_FOR_SEEKING_ATTENTION, E_OPERATIONAL_MODE_ONE_SHOT);
 
-    // Start Timer
-    Countdown_startTimer(&sTimer);
-  } else if (E_COUNTDOWN_TIMER_EXPIRED == tTimerStatus) {
-    return E_STANDBY_STATUS_SEQUENCE_COMPLETE;
-  }
-  return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE;
+        // Start Timer
+        Countdown_startTimer(&sTimer);
+    }
+    else if (E_COUNTDOWN_TIMER_EXPIRED == tTimerStatus)
+    {
+        return E_STANDBY_STATUS_SEQUENCE_COMPLETE;
+    }
+    return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE;
 }
 
 /**********************************************************************
  * Public Functions
  **********************************************************************/
 
-void StandbyControl_init(void) {
-  // Subscribe to the Trigger Button Pressed Event
-  status_e tStatus =
-      MessageBroker_subscribe(MSG_ID_0100, StandbyControl_TriggerBtnPressedCB);
-  {  // Verification
-    ASSERT_MSG(!(tStatus != STATUS_SUCCESS),
-               "MessageBroker_subscribe() failed with error code: %d", tStatus);
-  }
+void StandbyControl_init(void)
+{
+    // Subscribe to the Trigger Button Pressed Event
+    status_e tStatus = MessageBroker_subscribe(MSG_ID_0100, StandbyControl_TriggerBtnPressedCB);
+    { // Verification
+        ASSERT_MSG(!(tStatus != STATUS_SUCCESS), "MessageBroker_subscribe() failed with error code: %d", tStatus);
+    }
 
-  // Subscribe to the Pomodoro Sequence Complete Event
-  tStatus = MessageBroker_subscribe(MSG_ID_0201,
-                                    StandbyControl_PomodoroSequenceCompleteCB);
-  {  // Verification
-    ASSERT_MSG(!(tStatus != STATUS_SUCCESS),
-               "MessageBroker_subscribe() failed with "
-               "error code: %d",
-               tStatus);
-  }
+    // Subscribe to the Pomodoro Sequence Complete Event
+    tStatus = MessageBroker_subscribe(MSG_ID_0201, StandbyControl_PomodoroSequenceCompleteCB);
+    { // Verification
+        ASSERT_MSG(!(tStatus != STATUS_SUCCESS),
+                   "MessageBroker_subscribe() failed with "
+                   "error code: %d",
+                   tStatus);
+    }
 
-  // Set the initial state
-  eState = E_STANDBY_STATE_IDLE;
+    // Set the initial state
+    eState = E_STANDBY_STATE_IDLE;
 
-  // Clear all LEDs
-  LightEffects_ClearAllRingLeds();
+    // Clear all LEDs
+    LightEffects_ClearAllRingLeds();
 }
 
-void StandbyControl_execute() {
-  StandbyControl_SequenceStatus_e eStateExecutionIsComplete =
-      STATE_EXECUTION_INCOMPLETE;
+void StandbyControl_execute()
+{
+    StandbyControl_SequenceStatus_e eStateExecutionIsComplete = STATE_EXECUTION_INCOMPLETE;
 
-  switch (eState) {
+    switch (eState)
+    {
     case E_STANDBY_STATE_IDLE:
-      eStateExecutionIsComplete = StandbyControl_IdleStateCb();
+        eStateExecutionIsComplete = StandbyControl_IdleStateCb();
 
-      if (bTriggerButtonPressed == TRUE) {
-        bTriggerButtonPressed = FALSE;
-        eState = E_STANDBY_STATE_POMODORO;
-      } else if (E_STANDBY_STATUS_SEQUENCE_COMPLETE ==
-                 eStateExecutionIsComplete) {
-        eState = E_STANDBY_STATE_SEEKING_ATTENTION;
-      } else {
-      }
-      break;
+        if (bTriggerButtonPressed == TRUE)
+        {
+            bTriggerButtonPressed = FALSE;
+            eState = E_STANDBY_STATE_POMODORO;
+        }
+        else if (E_STANDBY_STATUS_SEQUENCE_COMPLETE == eStateExecutionIsComplete)
+        {
+            eState = E_STANDBY_STATE_SEEKING_ATTENTION;
+        }
+        else
+        {
+        }
+        break;
 
     case E_STANDBY_STATE_SEEKING_ATTENTION:
-      if (bTriggerButtonPressed == TRUE) {
-        bTriggerButtonPressed = FALSE;
-        eState = E_STANDBY_STATE_POMODORO;
+        if (bTriggerButtonPressed == TRUE)
+        {
+            bTriggerButtonPressed = FALSE;
+            eState = E_STANDBY_STATE_POMODORO;
 
-        // Publish the Pomodoro Sequence Start Event
-        msg_t sMessage;
-        sMessage.eMsgId = MSG_ID_0200;
-        sMessage.au8DataBytes = NULL;
-        sMessage.u16DataSize = 0U;
-        status_e eStatus = MessageBroker_publish(&sMessage);
-        ASSERT_MSG(!(eStatus != STATUS_SUCCESS),
-                   "MessageBroker_publish() failed with error code: %d",
-                   eStatus);
+            // Publish the Pomodoro Sequence Start Event
+            msg_t sMessage;
+            sMessage.eMsgId = MSG_ID_0200;
+            sMessage.au8DataBytes = NULL;
+            sMessage.u16DataSize = 0U;
+            status_e eStatus = MessageBroker_publish(&sMessage);
+            ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "MessageBroker_publish() failed with error code: %d", eStatus);
 
-        // Clear all LEDs (if they are still on)
-        LightEffects_ClearAllRingLeds();
-      } else if ((E_STANDBY_STATUS_SEQUENCE_COMPLETE ==
-                  StandbyControl_SeekingAttentionStateCb()) &&
-                 (eState == E_STANDBY_STATE_SEEKING_ATTENTION)) {
-        eState = E_STANDBY_STATE_IDLE;
-      } else {
-        // Do nothing
-      }
-      break;
+            // Clear all LEDs (if they are still on)
+            LightEffects_ClearAllRingLeds();
+        }
+        else if ((E_STANDBY_STATUS_SEQUENCE_COMPLETE == StandbyControl_SeekingAttentionStateCb()) &&
+                 (eState == E_STANDBY_STATE_SEEKING_ATTENTION))
+        {
+            eState = E_STANDBY_STATE_IDLE;
+        }
+        else
+        {
+            // Do nothing
+        }
+        break;
 
     case E_STANDBY_STATE_POMODORO:
-      if (bPomodoroSequenceComplete == TRUE) {
-        bPomodoroSequenceComplete = FALSE;
-        eState = E_STANDBY_STATE_IDLE;
-      } else {
-        // Do nothing
-      }
-      break;
+        if (bPomodoroSequenceComplete == TRUE)
+        {
+            bPomodoroSequenceComplete = FALSE;
+            eState = E_STANDBY_STATE_IDLE;
+        }
+        else
+        {
+            // Do nothing
+        }
+        break;
     default:
-      ASSERT_MSG(FALSE, "Invalid State");
-      break;
-  }
+        ASSERT_MSG(FALSE, "Invalid State");
+        break;
+    }
 }
