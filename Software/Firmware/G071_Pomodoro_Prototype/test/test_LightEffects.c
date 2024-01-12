@@ -67,7 +67,7 @@ void test_getInitialPomodoroSetting_receivesSettings(void)
 {
     LightEffects_PomodoroRingPhaseCfg_t sEffect[MAX_SETTINGS];
     uint8_t u8ArraySize = 0;
-    LightEffect_Effect_e eEffectType = E_EFFECT_25_5;
+    LightEffect_PomodoroConfig_e eEffectType = E_EFFECT_25_5;
     LightEffects_getInitialPomodoroSetting(sEffect, &u8ArraySize, eEffectType);
     TEST_ASSERT_NOT_EQUAL(0, sEffect[0].u8DuratationInMinutes);
 }

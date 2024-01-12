@@ -11,16 +11,18 @@
 
 typedef enum
 {
+    E_EFFECT_FIRST = 0U,
     //       WT_BT
-    E_EFFECT_25_5 = 0U,
+    E_EFFECT_25_5,
     E_EFFECT_51_17,
     E_EFFECT_90_15,
     E_EFFECT_LAST
-} LightEffect_Effect_e;
+} LightEffect_PomodoroConfig_e;
 
 typedef enum
 {
     E_PHASE_WORK_TIME = 0U,
+    E_PHASE_WARNING,
     E_PHASE_BREAK_TIME,
     E_PHASE_NONE
 } LightEffects_PomodoroPhase_e;
@@ -39,6 +41,7 @@ typedef enum
     E_ANIMATION_WORK_TIME,
     E_ANIMATION_BREAK_TIME,
     E_ANIMATION_BREAK_TIME_BRIGHT,
+    E_ANIMATION_WARNING,
     E_ANIMATION_FLASHLIGHT,
     E_ANIMATION_NOT_DEFINED
 } LightEffects_Animation_e;
@@ -57,7 +60,8 @@ typedef struct
  ************************************************************/
 
 void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t *out_sEffect,
-                                            uint8_t *const inout_u8ArraySize, LightEffect_Effect_e in_eEffectType);
+                                            uint8_t *const inout_u8ArraySize,
+                                            LightEffect_PomodoroConfig_e in_eEffectType);
 
 void LightEffects_isPhaseOver(const LightEffects_PomodoroRingPhaseCfg_t *const in_saEffect,
                               uint8_t in_u8EffectArraySize, BOOL *out_bWorktimeOver,

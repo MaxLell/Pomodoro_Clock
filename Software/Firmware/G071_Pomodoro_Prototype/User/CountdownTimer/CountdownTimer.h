@@ -13,9 +13,10 @@ typedef enum
 
 typedef enum
 {
-    E_OPERATIONAL_MODE_INVALID = 0,
-    E_OPERATIONAL_MODE_ONE_SHOT,  // Timer fires once
-    E_OPERATIONAL_MODE_CONTIUNOUS // Timer will restart itself once elapsed
+
+    E_OPERATIONAL_MODE_ONE_SHOT = 0, // Timer fires once
+    E_OPERATIONAL_MODE_CONTIUNOUS,   // Timer will restart itself once elapsed
+    E_OPERATIONAL_MODE_INVALID,
 } timer_operationalMode_e;
 
 typedef struct
@@ -26,9 +27,9 @@ typedef struct
     BOOL bTimerEnabled;
 } timer_t;
 
-void Countdown_initTimerMs(timer_t *psTimer, uint32_t u32TimerPeriodMs, uint8_t u8UserMode);
-void Countdown_startTimer(timer_t *psTimer);
-void Countdown_stopTimer(timer_t *psTimer);
-timer_status_t Countdown_getTimerStatus(timer_t *psTimer);
+void Countdown_initTimerMs(timer_t *const inout_psTimer, const uint32_t in_u32PeriodMs, const uint8_t in_u8UserMode);
+void Countdown_startTimer(timer_t *const inout_psTimer);
+void Countdown_stopTimer(timer_t *const inout_psTimer);
+timer_status_t Countdown_getTimerStatus(timer_t *const inout_psTimer);
 
 #endif // COUNTDOWN_TIMER_H

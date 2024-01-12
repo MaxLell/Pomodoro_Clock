@@ -16,9 +16,11 @@
 #define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
-#define TIMER_PERIOD 60000
+#define TIMER_PERIOD_MIN 60000
+#define TIMER_PERIOD_SEC 1000
 #else
-#define TIMER_PERIOD 30
+#define TIMER_PERIOD_MIN 60
+#define TIMER_PERIOD_SEC 30
 #endif
 
 /********************************************************
@@ -28,9 +30,10 @@
 STATIC PomodoroControl_internalStatus_t sInternalState = {0};
 
 STATIC LightEffects_PomodoroRingPhaseCfg_t asEffects[MAX_SETTINGS] = {0};
-STATIC uint8_t u8EffectArraySize;
+STATIC uint8_t u8EffectArraySize = 0;
 
-STATIC timer_t sTimerHandler;
+STATIC timer_t sTimerWtBtHandler = {0};
+STATIC timer_t sTimerWarningHandler = {0};
 
 // TODO - Remove this functionality to the LightEffects Module - These Arrays do
 // not need to be exposed here
@@ -182,27 +185,28 @@ void StateActionIdle(void)
     // Toggle the log_info output between "Dim" and "Dum"
     if (u8Counter % 2 == 0)
     {
-        log_info("Dim");
+        log_info("Bing");
     }
     else
     {
-        log_info("Dummy");
+        log_info("BAAAAANG");
     }
     u8Counter++;
-    Delay_ms(1000);
+    Delay_ms(10000);
 }
 
 void StateActionWorktimeInit(void)
 {
     // Get the initial Pomodoro Setting
-    LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, E_EFFECT_51_17);
+    LightEffect_PomodoroConfig_e eEffectType = sInternalState.u8PomodoroConfig;
+    LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, eEffectType);
 
     // Set the current Phase
     sInternalState.u8CurrentPhase = E_PHASE_WORK_TIME;
 
     // Initialize and start the Countdown Timer
-    Countdown_initTimerMs(&sTimerHandler, TIMER_PERIOD, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_startTimer(&sTimerHandler);
+    Countdown_initTimerMs(&sTimerWtBtHandler, TIMER_PERIOD_MIN, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_startTimer(&sTimerWtBtHandler);
 
     // Update the trigger event
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
@@ -222,7 +226,7 @@ void StateActionWorktime(void)
     {
 
         // If one Minute is over - only then run the code
-        timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerHandler);
+        timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerWtBtHandler);
         if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
         {
             // Update the CFGs
@@ -245,11 +249,62 @@ void StateActionWorktime(void)
         msg_t sMsg = {0};
         sMsg.eMsgId = MSG_ID_0201; // Pomodoro Work Time Sequence Complete
         status_e eStatus = MessageBroker_publish(&sMsg);
-        log_info("MessageBroker_publish: %d", eStatus);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish: %d", eStatus);
     }
 }
 void StateActionWarning(void)
 {
+    static BOOL bRunOnce = FALSE;
+
+    if (!bRunOnce)
+    {
+        // Set a new Timer Instance
+        Countdown_initTimerMs(&sTimerWarningHandler, TIMER_PERIOD_SEC, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_startTimer(&sTimerWarningHandler);
+
+        // Set the current Phase to warning
+        sInternalState.u8CurrentPhase = E_PHASE_WARNING;
+
+        // Clear the Pomodoro Progress Rings
+        LightEffects_ClearPomodoroProgressRings();
+
+        // Set the Flag
+        bRunOnce = TRUE;
+    }
+
+    // Set Trigger Event to Pending
+    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
+
+    BOOL bWarningPeriodIsOver = FALSE;
+    LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bWarningPeriodIsOver, sInternalState.u8CurrentPhase,
+                             E_ANIMATION_WARNING);
+
+    // If Warning Period is not over
+    if (FALSE == bWarningPeriodIsOver)
+    {
+        // If one Minute is over - only then run the code
+        timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerWarningHandler);
+        if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
+        {
+            // Update the CFGs
+            LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase);
+
+            LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
+                                                            au8CompressedArrayRing2, au8CompressedArrayRing1);
+
+            // Render the compressed Arrays on the Rings
+            LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
+                                     NOF_LEDS_OUTER_RING);
+        }
+    }
+    else
+    { // If Warning Period is over
+      // Set Event -> Seq Complete
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
+
+        // Reset the flag
+        bRunOnce = FALSE;
+    }
 }
 void StateActionBreaktimeInit(void)
 {
@@ -272,7 +327,7 @@ void StateActionBreaktime(void)
     if (FALSE == bBreaktimeIsOver)
     {
         // If one Minute is over - only then run the code
-        timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerHandler);
+        timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerWtBtHandler);
         if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
         {
             // Update the CFGs
@@ -357,10 +412,8 @@ STATIC status_e PomodoroControl_MessageCallback(msg_t *sMsg)
     case MSG_ID_0400: // Pomodoro Configuration: Worktime and Breaktime
                       // Periods
     {
-        sInternalState.u8MinutesWorktimePeriod =
-            ((PomodoroPeriodConfiguration_t *)sMsg->au8DataBytes)->u8MinutesWorktimePeriod;
-        sInternalState.u8MinutesBreaktimePeriod =
-            ((PomodoroPeriodConfiguration_t *)sMsg->au8DataBytes)->u8MinutesBreaktimePeriod;
+        // Get the Pomodoro Configuration
+        sInternalState.u8PomodoroConfig = sMsg->au8DataBytes[0];
     }
     break;
 
@@ -378,8 +431,8 @@ STATIC status_e PomodoroControl_MessageCallback(msg_t *sMsg)
 void PomodoroControl_init(void)
 {
     // Subscribe to Messages
-
-    // Reset the internal Data Structure
+    status_e eStatus = MessageBroker_subscribe(MSG_ID_0400, PomodoroControl_MessageCallback);
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 }
 
 status_e PomodoroControl_execute(void)

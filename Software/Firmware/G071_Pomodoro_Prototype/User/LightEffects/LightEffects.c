@@ -324,6 +324,9 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
         case E_ANIMATION_WORK_TIME:
             RgbLed_setPixelColor(u8LedIndex, 5, 0, 0);
             break;
+        case E_ANIMATION_WARNING:
+            RgbLed_setPixelColor(u8LedIndex, 5, 5, 0);
+            break;
         case E_ANIMATION_BREAK_TIME:
             RgbLed_setPixelColor(u8LedIndex, 0, 5, 0);
             break;
@@ -347,13 +350,15 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
 }
 
 void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t *out_sEffect,
-                                            uint8_t *const inout_u8ArraySize, LightEffect_Effect_e in_eEffectType)
+                                            uint8_t *const inout_u8ArraySize,
+                                            LightEffect_PomodoroConfig_e in_eEffectType)
 {
     {
         // Input Checks
         ASSERT_MSG(!(out_sEffect == NULL), "out_sEffect is NULL");
         ASSERT_MSG(!(inout_u8ArraySize == NULL), "inout_u8ArraySize is NULL");
         ASSERT_MSG(!(in_eEffectType >= E_EFFECT_LAST), "in_eEffectType is invalid");
+        ASSERT_MSG(!(in_eEffectType <= E_EFFECT_FIRST), "in_eEffectType needs to be initialized");
     }
 
     switch (in_eEffectType)
@@ -375,6 +380,14 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         out_sEffect[u8idx].u8MinuteOffset = 25;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+        // Warning
+        out_sEffect[u8idx].ePhase = E_PHASE_WARNING;
+        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WARNING;
+        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_sEffect[u8idx].u8DuratationInMinutes = 59;
+        out_sEffect[u8idx].u8MinuteOffset = 0;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
         // Breaktime
         out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
         out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
@@ -382,13 +395,8 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         out_sEffect[u8idx].u8DuratationInMinutes = 5;
         out_sEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
-        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 55;
-        out_sEffect[u8idx].u8MinuteOffset = 5;
-        u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
         out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
         out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
@@ -415,6 +423,14 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
         out_sEffect[u8idx].u8DuratationInMinutes = 17;
         out_sEffect[u8idx].u8MinuteOffset = 51;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+        // Warning
+        out_sEffect[u8idx].ePhase = E_PHASE_WARNING;
+        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WARNING;
+        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_sEffect[u8idx].u8DuratationInMinutes = 59;
+        out_sEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
         // Breaktime
@@ -446,6 +462,7 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         out_sEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
         out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
         out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
@@ -453,13 +470,24 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         out_sEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
         out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
+        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
         out_sEffect[u8idx].u8DuratationInMinutes = 15;
         out_sEffect[u8idx].u8MinuteOffset = 30;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        // Warning
+        out_sEffect[u8idx].ePhase = E_PHASE_WARNING;
+        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WARNING;
+        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_sEffect[u8idx].u8DuratationInMinutes = 59;
+        out_sEffect[u8idx].u8MinuteOffset = 0;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         // Breaktime
         out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
         out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
@@ -468,6 +496,7 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         out_sEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
         out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
         out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
@@ -507,8 +536,10 @@ void LightEffects_ClearPomodoroProgressRings(void)
         u8LedIndex++;
         RgbLed_show();
     }
-    log_info("u8LedIndex: %d", u8LedIndex);
     ASSERT_MSG(!(u8LedIndex != START_INDEX_INNER_RING), "u8LedIndex is not equal to %d. It is instead %d",
                START_INDEX_INNER_RING, u8LedIndex);
+
+    Delay_ms(10); // TODO: Fix the Bug, which makes it necessary to wait here
+
     RgbLed_show();
 }

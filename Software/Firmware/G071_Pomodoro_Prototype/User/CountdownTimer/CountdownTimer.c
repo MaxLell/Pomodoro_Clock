@@ -11,61 +11,67 @@ uint32_t Countdown_getSysTick()
     return u32SysTickCount;
 }
 
-void Countdown_initTimerMs(timer_t *psTimer, uint32_t u32PeriodMs, uint8_t u8UserMode)
+void Countdown_initTimerMs(timer_t *const inout_psTimer, const uint32_t in_u32PeriodMs, const uint8_t in_u8UserMode)
 {
     { // Input Checks
-        ASSERT_MSG(!(u32PeriodMs == 0U), "Timer period cannot be 0");
-        ASSERT_MSG(!(u8UserMode < E_OPERATIONAL_MODE_ONE_SHOT), "Invalid Timer Mode");
-        ASSERT_MSG(!(u8UserMode > E_OPERATIONAL_MODE_CONTIUNOUS), "Invalid Timer Mode");
-        ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
+        ASSERT_MSG(!(in_u32PeriodMs == 0U), "Timer period cannot be 0");
+        ASSERT_MSG(!(in_u8UserMode < E_OPERATIONAL_MODE_ONE_SHOT), "Invalid Timer Mode");
+        ASSERT_MSG(!(in_u8UserMode > E_OPERATIONAL_MODE_CONTIUNOUS), "Invalid Timer Mode");
+        ASSERT_MSG(!(NULL == inout_psTimer), "Timer cannot be NULL");
     }
-    psTimer->u32StartTimeMs = 0U;
-    psTimer->u32TimerPeriod = u32PeriodMs;
-    psTimer->bTimerEnabled = FALSE;
-    psTimer->u8Mode = u8UserMode;
+    inout_psTimer->u32StartTimeMs = 0U;
+    inout_psTimer->u32TimerPeriod = in_u32PeriodMs;
+    inout_psTimer->bTimerEnabled = FALSE;
+    inout_psTimer->u8Mode = in_u8UserMode;
 }
 
-void Countdown_startTimer(timer_t *psTimer)
+void Countdown_startTimer(timer_t *const inout_psTimer)
 {
     { // Input Checks
-        ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
+        ASSERT_MSG(!(NULL == inout_psTimer), "Timer cannot be NULL");
         // Period must not be 0
-        ASSERT_MSG(!(psTimer->u32TimerPeriod == 0U), "Timer period cannot be 0");
+        ASSERT_MSG(!(inout_psTimer->u32TimerPeriod == 0U), "Timer period cannot be 0");
 
         // Mode must not be invalid
-        ASSERT_MSG(!(psTimer->u8Mode == E_OPERATIONAL_MODE_INVALID), "Invalid Timer Mode");
+        ASSERT_MSG(!(inout_psTimer->u8Mode >= E_OPERATIONAL_MODE_INVALID), "Invalid Timer Mode");
     }
-    psTimer->u32StartTimeMs = Countdown_getSysTick();
-    psTimer->bTimerEnabled = TRUE;
+    inout_psTimer->u32StartTimeMs = Countdown_getSysTick();
+    inout_psTimer->bTimerEnabled = TRUE;
 }
 
-void Countdown_stopTimer(timer_t *psTimer)
+void Countdown_stopTimer(timer_t *const inout_psTimer)
 {
     { // Input Checks
-        ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
+        ASSERT_MSG(!(NULL == inout_psTimer), "Timer cannot be NULL");
     }
-    psTimer->bTimerEnabled = FALSE;
+    inout_psTimer->bTimerEnabled = FALSE;
 }
 
-timer_status_t Countdown_getTimerStatus(timer_t *psTimer)
+timer_status_t Countdown_getTimerStatus(timer_t *const inout_psTimer)
 {
     { // Input Checks
-        ASSERT_MSG(!(NULL == psTimer), "Timer cannot be NULL");
+        ASSERT_MSG(!(NULL == inout_psTimer), "Timer cannot be NULL");
+
+        // Make sure that all properties are within Range
+        ASSERT_MSG(!(inout_psTimer->u8Mode >= E_OPERATIONAL_MODE_INVALID),
+                   "Invalid Timer Mode. The provided mode is %d", inout_psTimer->u8Mode);
+        ASSERT_MSG(!(inout_psTimer->u32TimerPeriod == 0U), "Timer period cannot be 0, Timer needs to be started first");
+        ASSERT_MSG(!(inout_psTimer->bTimerEnabled > TRUE), "Invalid Enabled Flag Setting");
     }
-    if (psTimer->bTimerEnabled == TRUE)
+    if (inout_psTimer->bTimerEnabled == TRUE)
     {
-        if ((Countdown_getSysTick() - psTimer->u32StartTimeMs) >=
-            psTimer->u32TimerPeriod) // accounts for buffer overflow
+        if ((Countdown_getSysTick() - inout_psTimer->u32StartTimeMs) >=
+            inout_psTimer->u32TimerPeriod) // accounts for buffer overflow
         {
-            if (psTimer->u8Mode == E_OPERATIONAL_MODE_CONTIUNOUS)
+            if (inout_psTimer->u8Mode == E_OPERATIONAL_MODE_CONTIUNOUS)
             {
                 // Restart Timer for user in Continuous mode
-                Countdown_startTimer(psTimer);
+                Countdown_startTimer(inout_psTimer);
             }
             else
             {
                 // Stop Timer for user in OneShot mode
-                Countdown_stopTimer(psTimer);
+                Countdown_stopTimer(inout_psTimer);
             }
 
             return E_COUNTDOWN_TIMER_EXPIRED;

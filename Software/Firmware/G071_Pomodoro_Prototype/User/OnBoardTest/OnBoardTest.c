@@ -58,7 +58,7 @@ void OnBoardTest_testDotAroundTheCircle(void);
 void OnBoardTest_TestUpdatePerMinute(void);
 
 // Pomodoro State Function Tests
-void OnBoardTest_testPomodoroWorkTime(void);
+void OnBoardTest_testPomodoroSequence(void);
 
 /************************************************************
  * Private Variables
@@ -70,7 +70,7 @@ STATIC test_function_ptr test_functions[E_LAST_TEST] = {
     [E_TEST_RGB_LED_RINGS_POMODORO_INITIAL] = OnBoardTest_testPomodoroSequenceRgbLedRingsInitialConfig,
     [E_TEST_UPDATE_PER_MINUTE] = OnBoardTest_TestUpdatePerMinute,
 
-    [E_TEST_POMODORO_WORK_TIME] = OnBoardTest_testPomodoroWorkTime};
+    [E_TEST_POMODORO_WORK_TIME] = OnBoardTest_testPomodoroSequence};
 
 /************************************************************
  * External private variables
@@ -131,7 +131,9 @@ void OnBoardTest_TestUpdatePerMinute(void)
     uint8_t au8CompressedArrayMiddleRing[NOF_LEDS_MIDDLE_RING] = {0};
     uint8_t au8CompressedArrayOuterRing[NOF_LEDS_OUTER_RING] = {0};
 
+    // LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, E_EFFECT_25_5);
     LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, E_EFFECT_51_17);
+    // LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, E_EFFECT_90_15);
 
     // current phase
     LightEffects_PomodoroPhase_e eCurrentPhase = E_PHASE_WORK_TIME;
@@ -155,7 +157,7 @@ void OnBoardTest_TestUpdatePerMinute(void)
     }
 }
 
-void OnBoardTest_testPomodoroWorkTime(void)
+void OnBoardTest_testPomodoroSequence(void)
 {
     // Keine Unit Tests hier schreiben!
     // Schreib einen Integration Test und iteriere.
@@ -176,6 +178,20 @@ void OnBoardTest_testPomodoroWorkTime(void)
 
         // Initialize the Message Broker
         MessageBroker_init();
+
+        // Initialize the Pomodoro Control
+        PomodoroControl_init();
+
+        // Publish the Pomodoro Config
+        msg_t sMsg;
+        sMsg.eMsgId = MSG_ID_0400;
+        // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_51_17;
+        // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_25_5;
+        LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
+        sMsg.au8DataBytes = (uint8_t *)&ePomodoroConfig;
+        sMsg.u16DataSize = sizeof(LightEffect_PomodoroConfig_e);
+        status_e eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Clear the Flag
         runOnce = TRUE;

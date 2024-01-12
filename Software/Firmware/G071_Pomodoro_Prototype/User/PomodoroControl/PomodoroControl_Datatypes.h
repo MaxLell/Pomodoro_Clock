@@ -3,35 +3,36 @@
 
 #include "Common.h"
 
-typedef enum {
-  STATE_IDLE = 0,
-  STATE_WORKTIME_INIT,
-  STATE_WORKTIME,
-  STATE_WARNING,
-  STATE_BREAKTIME_INIT,
-  STATE_BREAKTIME,
-  STATE_CANCEL_SEQUENCE_INIT,
-  STATE_CANCEL_SEQUENCE_RUNNING,
-  STATE_CANCEL_SEQUENCE_HALTED,
-  STATE_LAST,
+typedef enum
+{
+    STATE_IDLE = 0,
+    STATE_WORKTIME_INIT,
+    STATE_WORKTIME,
+    STATE_WARNING,
+    STATE_BREAKTIME_INIT,
+    STATE_BREAKTIME,
+    STATE_CANCEL_SEQUENCE_INIT,
+    STATE_CANCEL_SEQUENCE_RUNNING,
+    STATE_CANCEL_SEQUENCE_HALTED,
+    STATE_LAST,
 } PCTRL_State_t;
 
-typedef enum {
-  EVENT_POMODORO_SEQUENCE_START = 0,
-  EVENT_TRIGGER_BTN_LONG_PRESS,
-  EVENT_TRIGGER_BTN_RELEASED,
-  EVENT_SEQUENCE_COMPLETE,
-  EVENT_SEQUENCE_PENDING,
-  EVENT_LAST
+typedef enum
+{
+    EVENT_POMODORO_SEQUENCE_START = 0,
+    EVENT_TRIGGER_BTN_LONG_PRESS,
+    EVENT_TRIGGER_BTN_RELEASED,
+    EVENT_SEQUENCE_COMPLETE,
+    EVENT_SEQUENCE_PENDING,
+    EVENT_LAST
 } PCTRL_Event_e;
 
-typedef struct {
-  // Pomodoro Settings
-  uint8_t u8MinutesWorktimePeriod;
-  uint8_t u8MinutesBreaktimePeriod;
-
-  uint8_t u8CurrentPhase;
+typedef struct
+{
+    // Pomodoro Settings
+    uint8_t u8PomodoroConfig;
+    uint8_t u8CurrentPhase;
 
 } PomodoroControl_internalStatus_t;
 
-#endif  // POMODOROCONTROL_DATATYPES_H
+#endif // POMODOROCONTROL_DATATYPES_H
