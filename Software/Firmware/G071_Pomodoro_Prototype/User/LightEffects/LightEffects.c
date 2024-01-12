@@ -484,3 +484,31 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         break;
     }
 }
+
+void LightEffects_ClearPomodoroProgressRings(void)
+{
+    // Clear the LEDs of the OUTER RING
+    uint8_t u8LedIndex = START_INDEX_OUTER_RING;
+    for (uint8_t i = 0; i < NOF_LEDS_OUTER_RING; i++)
+    {
+        RgbLed_setPixelColor(u8LedIndex, 0, 0, 0);
+        u8LedIndex++;
+        RgbLed_show();
+    }
+
+    ASSERT_MSG(!(u8LedIndex != START_INDEX_MIDDLE_RING), "u8LedIndex is not equal to %d. It is instead %d",
+               START_INDEX_MIDDLE_RING, u8LedIndex);
+
+    // Clear the LEDs of the MIDDLE RING
+    u8LedIndex = START_INDEX_MIDDLE_RING;
+    for (uint8_t i = 0; i < NOF_LEDS_MIDDLE_RING; i++)
+    {
+        RgbLed_setPixelColor(u8LedIndex, 0, 0, 0);
+        u8LedIndex++;
+        RgbLed_show();
+    }
+    log_info("u8LedIndex: %d", u8LedIndex);
+    ASSERT_MSG(!(u8LedIndex != START_INDEX_INNER_RING), "u8LedIndex is not equal to %d. It is instead %d",
+               START_INDEX_INNER_RING, u8LedIndex);
+    RgbLed_show();
+}

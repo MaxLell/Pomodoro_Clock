@@ -207,9 +207,15 @@ void test_transitionFromWorktimeToBreaktime(void)
 
     TEST_ASSERT_EQUAL_UINT8(E_PHASE_BREAK_TIME, ePhase);
 
+    BOOL bBreaktimeOver;
+    LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bBreaktimeOver, ePhase, E_ANIMATION_BREAK_TIME_BRIGHT);
+    TEST_ASSERT_EQUAL_UINT8(FALSE, bBreaktimeOver);
+
     // Process 17 Minutes (update 17 times) - In Breaktime Phase
     for (uint8_t i = 0; i < 17; i++)
     {
+        LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bBreaktimeOver, ePhase, E_ANIMATION_BREAK_TIME_BRIGHT);
+        TEST_ASSERT_EQUAL_UINT8(FALSE, bBreaktimeOver);
         LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize, ePhase);
     }
 
@@ -224,7 +230,7 @@ void test_transitionFromWorktimeToBreaktime(void)
     printf("\n");
 
     // Check if the Breaktime is over
-    BOOL bBreaktimeOver;
+
     LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bBreaktimeOver, ePhase, E_ANIMATION_BREAK_TIME_BRIGHT);
     TEST_ASSERT_EQUAL_UINT8(TRUE, bBreaktimeOver);
 }

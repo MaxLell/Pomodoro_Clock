@@ -29,7 +29,7 @@ typedef enum
     E_TEST_UPDATE_PER_MINUTE,
 
     // Pomodoro Test
-    E_TEST_POMODORO_WORK_TIME_INIT_STATE,
+    E_TEST_POMODORO_WORK_TIME,
     E_TEST_POMODORO_WORK_TIME_STATE,
     E_TEST_POMODORO_SHORT_BREAK_INIT_STATE,
     E_TEST_POMODORO_SHORT_BREAK_STATE,
@@ -45,7 +45,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_WORK_TIME_INIT_STATE
+#define TEST_TO_RUN E_TEST_POMODORO_WORK_TIME
 
 /************************************************************
  * Private Function Prototypes
@@ -70,7 +70,7 @@ STATIC test_function_ptr test_functions[E_LAST_TEST] = {
     [E_TEST_RGB_LED_RINGS_POMODORO_INITIAL] = OnBoardTest_testPomodoroSequenceRgbLedRingsInitialConfig,
     [E_TEST_UPDATE_PER_MINUTE] = OnBoardTest_TestUpdatePerMinute,
 
-    [E_TEST_POMODORO_WORK_TIME_INIT_STATE] = OnBoardTest_testPomodoroWorkTime};
+    [E_TEST_POMODORO_WORK_TIME] = OnBoardTest_testPomodoroWorkTime};
 
 /************************************************************
  * External private variables

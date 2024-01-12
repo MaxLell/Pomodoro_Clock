@@ -178,6 +178,18 @@ FSM_Config_t sFsmConfig = {
 void StateActionIdle(void)
 {
     // Do nothing
+    static uint8_t u8Counter = 0;
+    // Toggle the log_info output between "Dim" and "Dum"
+    if (u8Counter % 2 == 0)
+    {
+        log_info("Dim");
+    }
+    else
+    {
+        log_info("Dummy");
+    }
+    u8Counter++;
+    Delay_ms(1000);
 }
 
 void StateActionWorktimeInit(void)
@@ -227,8 +239,6 @@ void StateActionWorktime(void)
     else
     { // If Worktime is over
       // Set Event -> Seq Complete
-        log_info("Blululu");
-
         FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
 
         // Publish Message: Worktime Complete via the MsgBroker
@@ -243,9 +253,53 @@ void StateActionWarning(void)
 }
 void StateActionBreaktimeInit(void)
 {
+    // Update the Phase to Breaktime
+    sInternalState.u8CurrentPhase = E_PHASE_BREAK_TIME;
+
+    // Set Trigger Event to Sequence Complete
+    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
 }
 void StateActionBreaktime(void)
 {
+    // Set Trigger Event to Pending
+    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
+
+    BOOL bBreaktimeIsOver = FALSE;
+    LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bBreaktimeIsOver, sInternalState.u8CurrentPhase,
+                             E_ANIMATION_BREAK_TIME_BRIGHT);
+
+    // If Breaktime is not over
+    if (FALSE == bBreaktimeIsOver)
+    {
+        // If one Minute is over - only then run the code
+        timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerHandler);
+        if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
+        {
+            // Update the CFGs
+            LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase);
+
+            LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
+                                                            au8CompressedArrayRing2, au8CompressedArrayRing1);
+
+            // Render the compressed Arrays on the Rings
+            LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
+                                     NOF_LEDS_OUTER_RING);
+        }
+    }
+    else
+    { // If Breaktime is over
+      // Set Event -> Seq Complete
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
+
+        // Publish Message: Breaktime Complete via the MsgBroker
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_ID_0202; // Pomodoro Break Time Sequence Complete
+        status_e eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish: %d", eStatus);
+
+        // Clear the Progress Rings
+        LightEffects_ClearPomodoroProgressRings();
+    }
 }
 void StateActionCancelSequenceInit(void)
 {

@@ -83,4 +83,6 @@ void LightEffects_getCompressedArraysForCurrentPhase(const LightEffects_Pomodoro
 void LightEffects_RenderRingConfig(LightEffects_PomodoroRingPhaseCfg_t *const inout_psRingPhaseConfig,
                                    status_e *out_peRenderStatus);
 
+void LightEffects_ClearPomodoroProgressRings(void);
+
 #endif // LIGHTEFFECTS_POMODORO_H
