@@ -555,7 +555,7 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
         out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
         out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 59;
+        out_sEffect[u8idx].u8DuratationInMinutes = 60;
         out_sEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");

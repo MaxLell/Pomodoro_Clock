@@ -13,7 +13,7 @@
 /********************************************************
  * Private Defines
  ********************************************************/
-#define POMODORO_CONTROL_TEST
+// #define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
@@ -73,7 +73,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
         {
             // Event -----------> Next State
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME,
-            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WORKTIME,
             [EVENT_SEQUENCE_COMPLETE] = STATE_WARNING,
             [EVENT_SEQUENCE_PENDING] = STATE_WORKTIME,
@@ -183,16 +183,16 @@ void StateActionIdle(void)
     // Do nothing
     static uint8_t u8Counter = 0;
     // Toggle the log_info output between "Dim" and "Dum"
-    if (u8Counter % 2 == 0)
+    log_info("Idle: Microcontroller chilling with the %s", (u8Counter % 2 == 0) ? "Boys" : "Girls");
+
+    if (u8Counter == 10)
     {
-        log_info("Bing");
-    }
-    else
-    {
-        log_info("BAAAAANG");
+        log_info("Reset the ctr - Baby!!!");
+        u8Counter = 0;
     }
     u8Counter++;
-    Delay_ms(10000);
+
+    Delay_ms(1000);
 }
 
 void StateActionWorktimeInit(void)
@@ -200,6 +200,14 @@ void StateActionWorktimeInit(void)
     // Get the initial Pomodoro Setting
     LightEffect_PomodoroConfig_e eEffectType = sInternalState.u8PomodoroConfig;
     LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, eEffectType);
+
+    // Render the initial configuration
+    LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
+                                                    au8CompressedArrayRing2, au8CompressedArrayRing1);
+
+    // Render the compressed Arrays on the Rings
+    LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
+                             NOF_LEDS_OUTER_RING);
 
     // Set the current Phase
     sInternalState.u8CurrentPhase = E_PHASE_WORK_TIME;
@@ -224,7 +232,6 @@ void StateActionWorktime(void)
     // If Worktime is not over
     if (FALSE == bWorktimeIsOver)
     {
-
         // If one Minute is over - only then run the code
         timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerWtBtHandler);
         if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)

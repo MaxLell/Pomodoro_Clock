@@ -89,10 +89,10 @@ void test_setAnimationInRingMinuteArray(void)
 
 void test_initSequence(void)
 {
-    // Get 51_17 Effect Array
+    printf("Test initSequence\n");
     LightEffects_PomodoroRingPhaseCfg_t asEffects[MAX_SETTINGS];
     uint8_t u8EffectArraySize = MAX_SETTINGS;
-    LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, E_EFFECT_51_17);
+    LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, E_EFFECT_90_15);
 
     // Parse only the Effect Array Entries, which correspond to the current phase
     uint8_t au8MiddleRingCompressedArray[NOF_LEDS_MIDDLE_RING] = {0};
@@ -103,10 +103,12 @@ void test_initSequence(void)
                                                     au8OuterRingCompressedArray);
 
     // Print the Compressed Array
-    log_info("Middle Ring Array:");
-    helper_printArray(au8MiddleRingCompressedArray, NOF_LEDS_MIDDLE_RING);
     log_info("Outer Ring Array:");
     helper_printArray(au8OuterRingCompressedArray, NOF_LEDS_OUTER_RING);
+    log_info("Middle Ring Array:");
+    helper_printArray(au8MiddleRingCompressedArray, NOF_LEDS_MIDDLE_RING);
+
+    printf("\n");
 }
 
 void test_updateSequence(void)
@@ -173,20 +175,6 @@ void test_transitionFromWorktimeToBreaktime(void)
     for (uint8_t i = 0; i < 51; i++)
     {
         LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize, ePhase);
-
-        /*
-        (Usually the Cfg would be compressed to the LED Array here) and rendered
-        accordingly:
-
-        uint8_t au8MiddleRingCompressedArray[NOF_LEDS_INNER_RING] = {0};
-        uint8_t au8OuterRingCompressedArray[NOF_LEDS_OUTER_RING] = {0};
-
-        LightEffects_getCompressedArraysForCurrentPhase(
-            asEffects, u8EffectArraySize, ePhase, au8MiddleRingCompressedArray,
-            au8OuterRingCompressedArray);
-
-        // Send of to rendering with the LEDs
-        */
 
         BOOL bWorktimeOver;
         LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bWorktimeOver, ePhase, E_ANIMATION_WORK_TIME);

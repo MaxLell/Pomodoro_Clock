@@ -29,7 +29,7 @@ typedef enum
     E_TEST_UPDATE_PER_MINUTE,
 
     // Pomodoro Test
-    E_TEST_POMODORO_WORK_TIME,
+    E_TEST_POMODORO_NOMINAL_SEQUENCE,
     E_TEST_POMODORO_WORK_TIME_STATE,
     E_TEST_POMODORO_SHORT_BREAK_INIT_STATE,
     E_TEST_POMODORO_SHORT_BREAK_STATE,
@@ -45,20 +45,21 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_WORK_TIME
+#define TEST_TO_RUN E_TEST_POMODORO_NOMINAL_SEQUENCE
 
 /************************************************************
  * Private Function Prototypes
  ************************************************************/
 
 // LightEffects
-void OnBoardTest_testPomodoroSequenceRgbLedRingsInitialConfig(void);
+void OnBoardTest_testInitialPomodoroConfigs(void);
 void OnBoardTest_testLightUpAllLeds(void);
 void OnBoardTest_testDotAroundTheCircle(void);
-void OnBoardTest_TestUpdatePerMinute(void);
+void OnBoardTest_testUpdatePerMinute(void);
 
 // Pomodoro State Function Tests
-void OnBoardTest_testPomodoroSequence(void);
+void OnBoardTest_testNominalPomodoroSequence(void);
+void OnBoardTest_testCanceledPomodoroSequence(void);
 
 /************************************************************
  * Private Variables
@@ -67,10 +68,10 @@ void OnBoardTest_testPomodoroSequence(void);
 STATIC test_function_ptr test_functions[E_LAST_TEST] = {
     [E_TEST_LIGHT_UP_ALL_LEDS] = OnBoardTest_testLightUpAllLeds,
     [E_TEST_DOT_AROUND_THE_CIRCLE] = OnBoardTest_testDotAroundTheCircle,
-    [E_TEST_RGB_LED_RINGS_POMODORO_INITIAL] = OnBoardTest_testPomodoroSequenceRgbLedRingsInitialConfig,
-    [E_TEST_UPDATE_PER_MINUTE] = OnBoardTest_TestUpdatePerMinute,
+    [E_TEST_RGB_LED_RINGS_POMODORO_INITIAL] = OnBoardTest_testInitialPomodoroConfigs,
+    [E_TEST_UPDATE_PER_MINUTE] = OnBoardTest_testUpdatePerMinute,
 
-    [E_TEST_POMODORO_WORK_TIME] = OnBoardTest_testPomodoroSequence};
+    [E_TEST_POMODORO_NOMINAL_SEQUENCE] = OnBoardTest_testNominalPomodoroSequence};
 
 /************************************************************
  * External private variables
@@ -97,7 +98,7 @@ void OnBoardTest_testLightUpAllLeds(void)
     RgbLed_show();
 }
 
-void OnBoardTest_testPomodoroSequenceRgbLedRingsInitialConfig(void)
+void OnBoardTest_testInitialPomodoroConfigs(void)
 {
     // Load the initial LED Config
     uint8_t u8EffectArraySize = 0;
@@ -105,10 +106,15 @@ void OnBoardTest_testPomodoroSequenceRgbLedRingsInitialConfig(void)
     uint8_t au8CompressedArrayMiddleRing[NOF_LEDS_MIDDLE_RING] = {0};
     uint8_t au8CompressedArrayOuterRing[NOF_LEDS_OUTER_RING] = {0};
 
-    LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, E_EFFECT_51_17);
+    // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_51_17;
+    // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_25_5;
+    LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
+    // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_50_10;
+
+    LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, ePomodoroConfig);
 
     // current phase
-    LightEffects_PomodoroPhase_e eCurrentPhase = E_PHASE_WORK_TIME;
+    LightEffects_PomodoroPhase_e eCurrentPhase = E_PHASE_WARNING;
 
     // Convert the initial rendering to the rgb led array representation
     LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, eCurrentPhase,
@@ -123,7 +129,7 @@ void OnBoardTest_testPomodoroSequenceRgbLedRingsInitialConfig(void)
     Delay_ms(1000);
 }
 
-void OnBoardTest_TestUpdatePerMinute(void)
+void OnBoardTest_testUpdatePerMinute(void)
 {
     // Load the initial LED Config
     uint8_t u8EffectArraySize = 0;
@@ -157,15 +163,15 @@ void OnBoardTest_TestUpdatePerMinute(void)
     }
 }
 
-void OnBoardTest_testPomodoroSequence(void)
+void OnBoardTest_testNominalPomodoroSequence(void)
 {
     // Keine Unit Tests hier schreiben!
     // Schreib einen Integration Test und iteriere.
 
     // Set initial State
     // IDLE -----(EVENT_POMODORO_SEQUENCE_START)------> WORKTIME INIT
-    static BOOL runOnce = FALSE;
-    if (!runOnce)
+    static BOOL bRunOnce = FALSE;
+    if (!bRunOnce)
     {
         // Clear the Rings
         LightEffects_ClearAllRingLeds();
@@ -179,13 +185,15 @@ void OnBoardTest_testPomodoroSequence(void)
         // Initialize the Pomodoro Control
         PomodoroControl_init();
 
-        // Publish the Pomodoro Config
-        msg_t sMsg;
-        sMsg.eMsgId = MSG_ID_0400;
+        // Set the different Pomodoro Configurations
         // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_51_17;
         // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_25_5;
         // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
         LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_50_10;
+
+        // Publish the Pomodoro Config
+        msg_t sMsg;
+        sMsg.eMsgId = MSG_ID_0400;
         sMsg.au8DataBytes = (uint8_t *)&ePomodoroConfig;
         sMsg.u16DataSize = sizeof(LightEffect_PomodoroConfig_e);
         status_e eStatus = MessageBroker_publish(&sMsg);
@@ -197,11 +205,18 @@ void OnBoardTest_testPomodoroSequence(void)
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Clear the Flag
-        runOnce = TRUE;
+        bRunOnce = TRUE;
     }
 
     // Run the CUT
     PomodoroControl_execute();
+}
+
+void OnBoardTest_testCanceledPomodoroSequence(void)
+{
+    // Set the system to the Break time State
+
+    // Run and update through the entire state machine
 }
 
 /************************************************************

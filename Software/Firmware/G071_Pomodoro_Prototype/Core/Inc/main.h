@@ -57,9 +57,9 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define NUCLEO_BTN_Pin GPIO_PIN_13
-#define NUCLEO_BTN_GPIO_Port GPIOC
-#define NUCLEO_BTN_EXTI_IRQn EXTI4_15_IRQn
+#define TRIGGER_BTN_Pin GPIO_PIN_13
+#define TRIGGER_BTN_GPIO_Port GPIOC
+#define TRIGGER_BTN_EXTI_IRQn EXTI4_15_IRQn
 #define MCO_Pin GPIO_PIN_0
 #define MCO_GPIO_Port GPIOF
 #define USART2_TX_Pin GPIO_PIN_2
