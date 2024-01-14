@@ -133,7 +133,7 @@ void LightEffects_getCompressedArraysForCurrentPhase(const LightEffects_Pomodoro
         ASSERT_MSG(!(in_asEffects == NULL), "in_asEffects is NULL");
         ASSERT_MSG(!(in_u8EffectArraySize == 0), "in_u8EffectArraySize is 0");
         ASSERT_MSG(!(in_u8EffectArraySize > MAX_SETTINGS), "in_u8EffectArraySize is larger then MAX_SETTINGS");
-        ASSERT_MSG(!(in_ePhase > E_PHASE_BREAK_TIME), "in_ePhase is larger then E_PHASE_BREAK_TIME");
+        ASSERT_MSG(!(in_ePhase > (E_PHASE_NONE - 1)), "in_ePhase is too large");
         ASSERT_MSG(!(out_MiddleRingCompressedArray == NULL), "out_MiddleRingCompressedArray is NULL");
         ASSERT_MSG(!(out_OuterRingCompressedArray == NULL), "out_OuterRingCompressedArray is NULL");
     }
@@ -303,6 +303,9 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
         case E_ANIMATION_FLASHLIGHT:
             RgbLed_setPixelColor(u8LedIndex, 100, 100, 100);
             break;
+        case E_ANIMATION_CANCEL_SEQUENCE:
+            RgbLed_setPixelColor(u8LedIndex, 100, 0, 200);
+            break;
         default:
             ASSERT_MSG(FALSE, "Unknown Animation Type");
             break;
@@ -336,6 +339,9 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
         case E_ANIMATION_FLASHLIGHT:
             RgbLed_setPixelColor(u8LedIndex, 100, 100, 100);
             break;
+        case E_ANIMATION_CANCEL_SEQUENCE:
+            RgbLed_setPixelColor(u8LedIndex, 100, 0, 200);
+            break;
         default:
             ASSERT_MSG(FALSE, "Unknown Animation Type");
             break;
@@ -366,6 +372,7 @@ void LightEffects_checkPomodoroSetting(const LightEffects_PomodoroRingPhaseCfg_t
     BOOL bBreaktimeCheckSuccess = FALSE;
     BOOL bBreaktimeBrightCheckSuccess = FALSE;
     BOOL bFlashlightCheckSuccess = FALSE;
+    BOOL bCancelSequenceCheckSuccess = FALSE;
 
     // Loop through the provided array and check if all the required animations are present
     for (uint8_t i = 0; i < in_u8EffectArraySize; i++)
@@ -387,6 +394,9 @@ void LightEffects_checkPomodoroSetting(const LightEffects_PomodoroRingPhaseCfg_t
         case E_ANIMATION_FLASHLIGHT:
             bFlashlightCheckSuccess = TRUE;
             break;
+        case E_ANIMATION_CANCEL_SEQUENCE:
+            bCancelSequenceCheckSuccess = TRUE;
+            break;
         default:
             ASSERT_MSG(FALSE, "Unknown Animation Type");
             break;
@@ -398,15 +408,40 @@ void LightEffects_checkPomodoroSetting(const LightEffects_PomodoroRingPhaseCfg_t
     ASSERT_MSG(!(bBreaktimeCheckSuccess == FALSE), "Breaktime Animation is missing");
     ASSERT_MSG(!(bBreaktimeBrightCheckSuccess == FALSE), "Breaktime Bright Animation is missing");
     ASSERT_MSG(!(bFlashlightCheckSuccess == FALSE), "Flashlight Animation is missing");
+    ASSERT_MSG(!(bCancelSequenceCheckSuccess == FALSE), "Cancel Sequence Animation is missing");
 }
 
-void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t *out_sEffect,
+void LightEffects_loadWarningSequence(LightEffects_PomodoroRingPhaseCfg_t *out_psEffect)
+{
+    { // Input Checks
+        ASSERT_MSG(!(out_psEffect == NULL), "out_psEffect is NULL");
+    }
+    out_psEffect->ePhase = E_PHASE_WARNING;
+    out_psEffect->eAnimationType = E_ANIMATION_WARNING;
+    out_psEffect->eRingType = E_MIDDLE_RING;
+    out_psEffect->u8DuratationInMinutes = 59;
+    out_psEffect->u8MinuteOffset = 0;
+}
+
+void LightEffects_loadCancelSequence(LightEffects_PomodoroRingPhaseCfg_t *out_psEffect)
+{
+    { // Input Checks
+        ASSERT_MSG(!(out_psEffect == NULL), "out_psEffect is NULL");
+    }
+    out_psEffect->ePhase = E_PHASE_CANCEL_SEQUENCE;
+    out_psEffect->eAnimationType = E_ANIMATION_CANCEL_SEQUENCE;
+    out_psEffect->eRingType = E_OUTER_RING;
+    out_psEffect->u8DuratationInMinutes = 59;
+    out_psEffect->u8MinuteOffset = 0;
+}
+
+void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t *out_saEffect,
                                             uint8_t *const inout_u8ArraySize,
                                             LightEffect_PomodoroConfig_e in_eEffectType)
 {
     {
         // Input Checks
-        ASSERT_MSG(!(out_sEffect == NULL), "out_sEffect is NULL");
+        ASSERT_MSG(!(out_saEffect == NULL), "out_saEffect is NULL");
         ASSERT_MSG(!(inout_u8ArraySize == NULL), "inout_u8ArraySize is NULL");
         ASSERT_MSG(!(in_eEffectType >= E_EFFECT_LAST), "in_eEffectType is invalid");
         ASSERT_MSG(!(in_eEffectType <= E_EFFECT_FIRST), "in_eEffectType needs to be initialized");
@@ -417,44 +452,49 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
     case E_EFFECT_25_5: {
         uint8_t u8idx = 0;
         // Worktime
-        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 25;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
-        u8idx++;
-        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 5;
-        out_sEffect[u8idx].u8MinuteOffset = 25;
-        u8idx++;
-        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-        // Warning
-        out_sEffect[u8idx].ePhase = E_PHASE_WARNING;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WARNING;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 59;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
-        u8idx++;
-        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-        // Breaktime
-        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 5;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        out_saEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
+        out_saEffect[u8idx].eRingType = E_OUTER_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 25;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
 
-        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 59;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        out_saEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
+        out_saEffect[u8idx].eRingType = E_OUTER_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 5;
+        out_saEffect[u8idx].u8MinuteOffset = 25;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        // Warning
+        LightEffects_loadWarningSequence(&out_saEffect[u8idx]);
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        // Breaktime
+        out_saEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
+        out_saEffect[u8idx].eRingType = E_OUTER_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 5;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        out_saEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
+        out_saEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 59;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        // Cancel Sequence
+        LightEffects_loadCancelSequence(&out_saEffect[u8idx]);
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         *inout_u8ArraySize = u8idx;
     }
     break;
@@ -462,42 +502,46 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
     case E_EFFECT_50_10: {
         uint8_t u8idx = 0;
         // Worktime
-        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 50;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
-        u8idx++;
-        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 10;
-        out_sEffect[u8idx].u8MinuteOffset = 50;
-        u8idx++;
-        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-        // Warning
-        out_sEffect[u8idx].ePhase = E_PHASE_WARNING;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WARNING;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 59;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
-        u8idx++;
-        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-        // Breaktime
-        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 10;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        out_saEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
+        out_saEffect[u8idx].eRingType = E_OUTER_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 50;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
 
-        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 59;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        out_saEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
+        out_saEffect[u8idx].eRingType = E_OUTER_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 10;
+        out_saEffect[u8idx].u8MinuteOffset = 50;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        // Warning
+        LightEffects_loadWarningSequence(&out_saEffect[u8idx]);
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        // Breaktime
+        out_saEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
+        out_saEffect[u8idx].eRingType = E_OUTER_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 10;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        out_saEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
+        out_saEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 59;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        // Cancel Sequence
+        LightEffects_loadCancelSequence(&out_saEffect[u8idx]);
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
 
@@ -508,43 +552,49 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
     case E_EFFECT_51_17: {
         uint8_t u8idx = 0;
         // Worktime
-        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 51;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        out_saEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
+        out_saEffect[u8idx].eRingType = E_OUTER_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 51;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 17;
-        out_sEffect[u8idx].u8MinuteOffset = 51;
+
+        out_saEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
+        out_saEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 17;
+        out_saEffect[u8idx].u8MinuteOffset = 51;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         // Warning
-        out_sEffect[u8idx].ePhase = E_PHASE_WARNING;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WARNING;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 59;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        LightEffects_loadWarningSequence(&out_saEffect[u8idx]);
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         // Breaktime
-        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 17;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        out_saEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
+        out_saEffect[u8idx].eRingType = E_OUTER_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 17;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
-        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 59;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+
+        out_saEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
+        out_saEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 59;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        // Cancel Sequence
+        LightEffects_loadCancelSequence(&out_saEffect[u8idx]);
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         *inout_u8ArraySize = u8idx;
     }
     break;
@@ -552,55 +602,57 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
     case E_EFFECT_90_15: {
         uint8_t u8idx = 0;
         // Worktime
-        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 60;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        out_saEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
+        out_saEffect[u8idx].eRingType = E_OUTER_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 60;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
 
-        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 30;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        out_saEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_WORK_TIME;
+        out_saEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 30;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
 
-        out_sEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 15;
-        out_sEffect[u8idx].u8MinuteOffset = 30;
+        out_saEffect[u8idx].ePhase = E_PHASE_WORK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME;
+        out_saEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 15;
+        out_saEffect[u8idx].u8MinuteOffset = 30;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
 
         // Warning
-        out_sEffect[u8idx].ePhase = E_PHASE_WARNING;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_WARNING;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 59;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        LightEffects_loadWarningSequence(&out_saEffect[u8idx]);
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
 
         // Breaktime
-        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
-        out_sEffect[u8idx].eRingType = E_OUTER_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 15;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        out_saEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_BREAK_TIME_BRIGHT;
+        out_saEffect[u8idx].eRingType = E_OUTER_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 15;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
 
-        out_sEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
-        out_sEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
-        out_sEffect[u8idx].eRingType = E_MIDDLE_RING;
-        out_sEffect[u8idx].u8DuratationInMinutes = 59;
-        out_sEffect[u8idx].u8MinuteOffset = 0;
+        out_saEffect[u8idx].ePhase = E_PHASE_BREAK_TIME;
+        out_saEffect[u8idx].eAnimationType = E_ANIMATION_FLASHLIGHT;
+        out_saEffect[u8idx].eRingType = E_MIDDLE_RING;
+        out_saEffect[u8idx].u8DuratationInMinutes = 59;
+        out_saEffect[u8idx].u8MinuteOffset = 0;
         u8idx++;
         ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
+        // Cancel Sequence
+        LightEffects_loadCancelSequence(&out_saEffect[u8idx]);
+        u8idx++;
+        ASSERT_MSG(!(u8idx > MAX_SETTINGS), "u8idx is larger then MAX_SETTINGS");
+
         *inout_u8ArraySize = u8idx;
     }
     break;
@@ -610,7 +662,7 @@ void LightEffects_getInitialPomodoroSetting(LightEffects_PomodoroRingPhaseCfg_t 
         break;
     }
 
-    LightEffects_checkPomodoroSetting(out_sEffect, *inout_u8ArraySize);
+    LightEffects_checkPomodoroSetting(out_saEffect, *inout_u8ArraySize);
 }
 
 void LightEffects_ClearPomodoroProgressRings(void)

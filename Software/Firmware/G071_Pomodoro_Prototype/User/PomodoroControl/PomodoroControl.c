@@ -18,9 +18,13 @@
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
 #define TIMER_PERIOD_SEC 1000
+#define TIMER_PERIOD_X_MS 30
+#define TIMEOUT_PERIOD_MIN 5
 #else
 #define TIMER_PERIOD_MIN 60
 #define TIMER_PERIOD_SEC 30
+#define TIMER_PERIOD_X_MS 30
+#define TIMEOUT_PERIOD_MIN 100
 #endif
 
 /********************************************************
@@ -34,6 +38,8 @@ STATIC uint8_t u8EffectArraySize = 0;
 
 STATIC timer_t sTimerWtBtHandler = {0};
 STATIC timer_t sTimerWarningHandler = {0};
+STATIC timer_t sTimerCancelSeqHandler = {0};
+STATIC timer_t sTimerCancelSeqTimeoutHandler = {0};
 
 // TODO - Remove this functionality to the LightEffects Module - These Arrays do
 // not need to be exposed here
@@ -63,7 +69,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
         {
             // Event -----------> Next State
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME_INIT,
-            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_WORKTIME_INIT,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WORKTIME_INIT,
             [EVENT_SEQUENCE_COMPLETE] = STATE_WORKTIME,
             [EVENT_SEQUENCE_PENDING] = STATE_WORKTIME_INIT,
@@ -83,7 +89,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
         {
             // Event -----------> Next State
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WARNING,
-            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_WARNING,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WARNING,
             [EVENT_SEQUENCE_COMPLETE] = STATE_BREAKTIME_INIT,
             [EVENT_SEQUENCE_PENDING] = STATE_WARNING,
@@ -93,7 +99,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
         {
             // Event -----------> Next State
             [EVENT_POMODORO_SEQUENCE_START] = STATE_BREAKTIME_INIT,
-            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_BREAKTIME_INIT,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_BREAKTIME_INIT,
             [EVENT_SEQUENCE_COMPLETE] = STATE_BREAKTIME,
             [EVENT_SEQUENCE_PENDING] = STATE_BREAKTIME_INIT,
@@ -103,11 +109,12 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
         {
             // Event -----------> Next State
             [EVENT_POMODORO_SEQUENCE_START] = STATE_BREAKTIME,
-            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_BREAKTIME,
             [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
             [EVENT_SEQUENCE_PENDING] = STATE_BREAKTIME,
         },
+
     [STATE_CANCEL_SEQUENCE_INIT] =
         {
             // Event -----------> Next State
@@ -123,7 +130,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             // Event ----------------------> Next State
             [EVENT_POMODORO_SEQUENCE_START] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
-            [EVENT_TRIGGER_BTN_RELEASED] = STATE_IDLE,
+            [EVENT_TRIGGER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_HALTED,
             [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
             [EVENT_SEQUENCE_PENDING] = STATE_CANCEL_SEQUENCE_RUNNING,
         },
@@ -134,7 +141,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_CANCEL_SEQUENCE_HALTED,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_HALTED,
-            [EVENT_SEQUENCE_COMPLETE] = STATE_CANCEL_SEQUENCE_HALTED,
+            [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
             [EVENT_SEQUENCE_PENDING] = STATE_CANCEL_SEQUENCE_HALTED,
         },
 };
@@ -181,18 +188,6 @@ FSM_Config_t sFsmConfig = {
 void StateActionIdle(void)
 {
     // Do nothing
-    static uint8_t u8Counter = 0;
-    // Toggle the log_info output between "Dim" and "Dum"
-    log_info("Idle: Microcontroller chilling with the %s", (u8Counter % 2 == 0) ? "Boys" : "Girls");
-
-    if (u8Counter == 10)
-    {
-        log_info("Reset the ctr - Baby!!!");
-        u8Counter = 0;
-    }
-    u8Counter++;
-
-    Delay_ms(1000);
 }
 
 void StateActionWorktimeInit(void)
@@ -259,6 +254,7 @@ void StateActionWorktime(void)
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish: %d", eStatus);
     }
 }
+
 void StateActionWarning(void)
 {
     static BOOL bRunOnce = FALSE;
@@ -313,6 +309,7 @@ void StateActionWarning(void)
         bRunOnce = FALSE;
     }
 }
+
 void StateActionBreaktimeInit(void)
 {
     // Update the Phase to Breaktime
@@ -321,6 +318,7 @@ void StateActionBreaktimeInit(void)
     // Set Trigger Event to Sequence Complete
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
 }
+
 void StateActionBreaktime(void)
 {
     // Set Trigger Event to Pending
@@ -363,14 +361,89 @@ void StateActionBreaktime(void)
         LightEffects_ClearPomodoroProgressRings();
     }
 }
+
 void StateActionCancelSequenceInit(void)
 {
+    // Clear all existing Progress LEDs
+    LightEffects_ClearPomodoroProgressRings();
+
+    // set the Phase to Cancel Sequence
+    sInternalState.u8CurrentPhase = E_PHASE_CANCEL_SEQUENCE;
+
+    // Render the Configuration
+    LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
+                                                    au8CompressedArrayRing2, au8CompressedArrayRing1);
+    LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
+                             NOF_LEDS_OUTER_RING);
+
+    // Set the Cancel Sequence Timer
+    Countdown_initTimerMs(&sTimerCancelSeqHandler, TIMER_PERIOD_X_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_startTimer(&sTimerCancelSeqHandler);
+
+    // Start the timeout timer
+    Countdown_initTimerMs(&sTimerCancelSeqTimeoutHandler, TIMER_PERIOD_MIN, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_startTimer(&sTimerCancelSeqTimeoutHandler);
+
+    // Set the Trigger Event to Sequence Complete
+    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
 }
 void StateActionCancelSequenceRunning(void)
 {
+    // Set the Trigger Event to Pending
+    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
+
+    // Check if the Cancel Sequence is over
+    BOOL bCancelSequenceIsOver = FALSE;
+    LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bCancelSequenceIsOver, sInternalState.u8CurrentPhase,
+                             E_ANIMATION_CANCEL_SEQUENCE);
+
+    // If Cancel Sequence is not over
+    if (FALSE == bCancelSequenceIsOver)
+    {
+        // If one Minute is over - only then run the code
+        timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerCancelSeqHandler);
+        if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
+        {
+            // Update the CFGs
+            LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase);
+
+            LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
+                                                            au8CompressedArrayRing2, au8CompressedArrayRing1);
+
+            // Render the compressed Arrays on the Rings
+            LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
+                                     NOF_LEDS_OUTER_RING);
+        }
+    }
+    else
+    { // If Cancel Sequence is over
+      // Set Event -> Seq Complete
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
+    }
 }
 void StateActionCancelSequenceHalted(void)
 {
+    // this event will be overwritten by a Long Press Event of the Trigger Button
+    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
+
+    static uint8_t u8TimoutMinuteCounter = 0;
+    timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerCancelSeqTimeoutHandler);
+    if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
+    {
+        u8TimoutMinuteCounter++;
+    }
+
+    if (u8TimoutMinuteCounter >= TIMEOUT_PERIOD_MIN)
+    {
+        // Reset the Timeout Counter
+        u8TimoutMinuteCounter = 0;
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE); // transitions to Idle
+
+        // Clear the Progress Rings
+        LightEffects_ClearPomodoroProgressRings();
+
+        log_info("Cancel Sequence Timeout");
+    }
 }
 
 /********************************************************
@@ -398,6 +471,7 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
     }
 
     status_e eStatus = STATUS_SUCCESS;
+
     switch (psMsg->eMsgId)
     {
     case MSG_ID_0200: // Pomodoro Sequence Start Event
@@ -408,11 +482,13 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
 
     case MSG_ID_0101: // Trigger Button: is Pressed Down Continuously
     {
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_LONG_PRESS);
     }
     break;
 
     case MSG_ID_0102: // Trigger Button: is Released after a Long Press
     {
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_RELEASED);
     }
     break;
 
@@ -442,6 +518,12 @@ void PomodoroControl_init(void)
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 
     eStatus = MessageBroker_subscribe(MSG_ID_0200, PomodoroControl_MessageCallback);
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
+
+    eStatus = MessageBroker_subscribe(MSG_ID_0101, PomodoroControl_MessageCallback);
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
+
+    eStatus = MessageBroker_subscribe(MSG_ID_0102, PomodoroControl_MessageCallback);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 }
 

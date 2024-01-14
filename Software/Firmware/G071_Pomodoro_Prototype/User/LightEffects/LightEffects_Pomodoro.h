@@ -7,7 +7,7 @@
  * Public Data Structures for the Pomodoro
  ************************************************************/
 
-#define MAX_SETTINGS 6U
+#define MAX_SETTINGS 7U
 
 typedef enum
 {
@@ -25,6 +25,7 @@ typedef enum
     E_PHASE_WORK_TIME = 0U,
     E_PHASE_WARNING,
     E_PHASE_BREAK_TIME,
+    E_PHASE_CANCEL_SEQUENCE,
     E_PHASE_NONE
 } LightEffects_PomodoroPhase_e;
 
@@ -44,6 +45,7 @@ typedef enum
     E_ANIMATION_BREAK_TIME_BRIGHT,
     E_ANIMATION_WARNING,
     E_ANIMATION_FLASHLIGHT,
+    E_ANIMATION_CANCEL_SEQUENCE,
     E_ANIMATION_NOT_DEFINED
 } LightEffects_Animation_e;
 

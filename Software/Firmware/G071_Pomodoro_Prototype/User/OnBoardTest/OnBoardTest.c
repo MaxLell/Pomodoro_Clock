@@ -33,12 +33,6 @@ typedef enum
 
     // Pomodoro Test
     E_TEST_POMODORO_NOMINAL_SEQUENCE,
-    E_TEST_POMODORO_WORK_TIME_STATE,
-    E_TEST_POMODORO_SHORT_BREAK_INIT_STATE,
-    E_TEST_POMODORO_SHORT_BREAK_STATE,
-    E_TEST_POMODORO_WARNING_STATE,
-    E_TEST_POMODORO_CANCEL_SEQUENCE_INIT_STATE,
-    E_TEST_POMODORO_CANCEL_SEQUENCE_STATE,
 
     E_LAST_TEST
 } OnBoardTest_Test_e;
@@ -48,7 +42,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_BUTTON
+#define TEST_TO_RUN E_TEST_POMODORO_NOMINAL_SEQUENCE
 
 /************************************************************
  * Private Function Prototypes
@@ -118,14 +112,14 @@ void OnBoardTest_testInitialPomodoroConfigs(void)
     uint8_t au8CompressedArrayOuterRing[NOF_LEDS_OUTER_RING] = {0};
 
     // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_51_17;
-    // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_25_5;
-    LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
+    LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_25_5;
+    // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
     // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_50_10;
 
     LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, ePomodoroConfig);
 
     // current phase
-    LightEffects_PomodoroPhase_e eCurrentPhase = E_PHASE_WARNING;
+    LightEffects_PomodoroPhase_e eCurrentPhase = E_PHASE_CANCEL_SEQUENCE;
 
     // Convert the initial rendering to the rgb led array representation
     LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, eCurrentPhase,
@@ -196,8 +190,8 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         // Set the different Pomodoro Configurations
         // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_51_17;
         // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_25_5;
-        // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
-        LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_50_10;
+        LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
+        // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_50_10;
 
         // Publish the Pomodoro Config
         msg_t sMsg;
