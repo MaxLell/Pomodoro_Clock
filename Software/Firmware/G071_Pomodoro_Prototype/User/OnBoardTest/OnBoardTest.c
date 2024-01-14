@@ -235,12 +235,12 @@ status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
     {
 
     case MSG_ID_0100: { // Trigger Btn Pressed
-        log_info("Trigger Btn Pressed");
+        log_info("Trigger Btn was short pressed");
     }
     break;
 
     case MSG_ID_0101: { // Trigger Btn Long Pressed
-        log_info("Trigger Btn Long Pressed");
+        log_info("Trigger Btn was looooooooong Pressed");
     }
     break;
 

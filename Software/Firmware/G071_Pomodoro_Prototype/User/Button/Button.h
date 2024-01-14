@@ -3,10 +3,8 @@
 
 #include "Common.h"
 
-void Button_wasPressed(BOOL *pBButtonWasPressed);
-
-void Button_ISR(void);
+void Button_TimIsr(void);
 
 void Button_execute(void);
 
-#endif  // BUTTON_H
+#endif // BUTTON_H
