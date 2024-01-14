@@ -48,7 +48,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_NOMINAL_SEQUENCE
+#define TEST_TO_RUN E_TEST_BUTTON
 
 /************************************************************
  * Private Function Prototypes

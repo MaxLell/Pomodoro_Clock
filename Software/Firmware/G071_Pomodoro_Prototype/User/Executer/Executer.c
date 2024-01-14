@@ -21,6 +21,8 @@ void Executer_init(void)
 status_e Executer_execute(void)
 {
     OnBoardTest_execute();
+
+    Button_execute();
     return STATUS_SUCCESS;
 }
 
