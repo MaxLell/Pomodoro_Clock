@@ -387,18 +387,18 @@ STATIC status_e PomodoroControl_MessageCallback(msg_t *sMsg);
  * Implementation
  ********************************************************/
 
-STATIC status_e PomodoroControl_MessageCallback(msg_t *sMsg)
+STATIC status_e PomodoroControl_MessageCallback(msg_t *psMsg)
 {
     { // Input Verification
-        ASSERT_MSG(!(sMsg == NULL), "Message is NULL!");
-        if (sMsg == NULL)
+        ASSERT_MSG(!(psMsg == NULL), "Message is NULL!");
+        if (psMsg == NULL)
         {
             return STATUS_ERROR;
         }
     }
 
     status_e eStatus = STATUS_SUCCESS;
-    switch (sMsg->eMsgId)
+    switch (psMsg->eMsgId)
     {
     case MSG_ID_0200: // Pomodoro Sequence Start Event
     {
@@ -420,7 +420,7 @@ STATIC status_e PomodoroControl_MessageCallback(msg_t *sMsg)
                       // Periods
     {
         // Get the Pomodoro Configuration
-        sInternalState.u8PomodoroConfig = sMsg->au8DataBytes[0];
+        sInternalState.u8PomodoroConfig = psMsg->au8DataBytes[0];
     }
     break;
 
@@ -428,7 +428,7 @@ STATIC status_e PomodoroControl_MessageCallback(msg_t *sMsg)
         ASSERT_MSG(FALSE,
                    "This Callback should not be called for this message, but it "
                    "was with the following message ID: %d",
-                   sMsg->eMsgId);
+                   psMsg->eMsgId);
         eStatus = STATUS_ERROR;
         break;
     }

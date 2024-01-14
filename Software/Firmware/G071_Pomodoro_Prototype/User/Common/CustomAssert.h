@@ -9,6 +9,7 @@
 #define log_assert(M, ...) printf("[ASSERT] (%s:%d): " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 
 #ifdef TEST
+
 #define ASSERT(x)                                                                                                      \
     if (!(x))                                                                                                          \
     {                                                                                                                  \
@@ -41,5 +42,6 @@
             Delay_ms(100);                                                                                             \
         }                                                                                                              \
     }
+
 #endif //  TEST
 #endif // CUSTOM_ASSERT_H

@@ -9,16 +9,19 @@
 /**
  * @brief  This function initializes the modules used in the program.
  */
-void Executer_init(void) {
-  OnBoardTest_init();
+void Executer_init(void)
+{
+    MessageBroker_init();
+    OnBoardTest_init();
 }
 
 /**
  * @brief  The main execution steps are run in this function.
  */
-status_e Executer_execute(void) {
-  OnBoardTest_execute();
-  return STATUS_SUCCESS;
+status_e Executer_execute(void)
+{
+    OnBoardTest_execute();
+    return STATUS_SUCCESS;
 }
 
 /**
@@ -28,12 +31,14 @@ status_e Executer_execute(void) {
  * with this way a unit test framework run the main execution task
  * one step at a time. This is useful for debugging and testing.
  */
-void Executer_run(void) {
-  Executer_init();
-  while (Executer_execute() == STATUS_SUCCESS) {
-    /**
-     * The main execution steps are run in the Executer_execute() function.
-     */
-  }
-  ASSERT_MSG(NULL, "shall never reached");
+void Executer_run(void)
+{
+    Executer_init();
+    while (Executer_execute() == STATUS_SUCCESS)
+    {
+        /**
+         * The main execution steps are run in the Executer_execute() function.
+         */
+    }
+    ASSERT_MSG(NULL, "shall never reached");
 }

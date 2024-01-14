@@ -28,6 +28,9 @@ typedef enum
     E_TEST_RGB_LED_RINGS_POMODORO_INITIAL,
     E_TEST_UPDATE_PER_MINUTE,
 
+    // Button Tests
+    E_TEST_BUTTON,
+
     // Pomodoro Test
     E_TEST_POMODORO_NOMINAL_SEQUENCE,
     E_TEST_POMODORO_WORK_TIME_STATE,
@@ -57,6 +60,9 @@ void OnBoardTest_testLightUpAllLeds(void);
 void OnBoardTest_testDotAroundTheCircle(void);
 void OnBoardTest_testUpdatePerMinute(void);
 
+// Button Tests
+void OnBoardTest_testButtonBehaviours(void);
+
 // Pomodoro State Function Tests
 void OnBoardTest_testNominalPomodoroSequence(void);
 void OnBoardTest_testCanceledPomodoroSequence(void);
@@ -66,11 +72,16 @@ void OnBoardTest_testCanceledPomodoroSequence(void);
  ************************************************************/
 
 STATIC test_function_ptr test_functions[E_LAST_TEST] = {
+    // RGB LED Tests
     [E_TEST_LIGHT_UP_ALL_LEDS] = OnBoardTest_testLightUpAllLeds,
     [E_TEST_DOT_AROUND_THE_CIRCLE] = OnBoardTest_testDotAroundTheCircle,
+
+    // Button Hardware Test
+    [E_TEST_BUTTON] = OnBoardTest_testButtonBehaviours,
+
+    // Pomodoro Tests
     [E_TEST_RGB_LED_RINGS_POMODORO_INITIAL] = OnBoardTest_testInitialPomodoroConfigs,
     [E_TEST_UPDATE_PER_MINUTE] = OnBoardTest_testUpdatePerMinute,
-
     [E_TEST_POMODORO_NOMINAL_SEQUENCE] = OnBoardTest_testNominalPomodoroSequence};
 
 /************************************************************
@@ -170,17 +181,14 @@ void OnBoardTest_testNominalPomodoroSequence(void)
 
     // Set initial State
     // IDLE -----(EVENT_POMODORO_SEQUENCE_START)------> WORKTIME INIT
-    static BOOL bRunOnce = FALSE;
-    if (!bRunOnce)
+    static BOOL bRanOnce = FALSE;
+    if (!bRanOnce)
     {
         // Clear the Rings
         LightEffects_ClearAllRingLeds();
 
         // Delay to make a restart visible
         Delay_ms(100);
-
-        // Initialize the Message Broker
-        MessageBroker_init();
 
         // Initialize the Pomodoro Control
         PomodoroControl_init();
@@ -205,11 +213,67 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Clear the Flag
-        bRunOnce = TRUE;
+        bRanOnce = TRUE;
     }
 
     // Run the CUT
     PomodoroControl_execute();
+}
+
+status_e OnBoardTest_ButtonTestMsgCb(msg_t *in_psMsg)
+{
+    { // Input Checks
+        ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
+
+        // Message ID check
+        ASSERT_MSG(
+            !(in_psMsg->eMsgId != MSG_ID_0100 && in_psMsg->eMsgId != MSG_ID_0101 && in_psMsg->eMsgId != MSG_ID_0102),
+            "Unknown Message ID: %d", in_psMsg->eMsgId);
+    }
+
+    switch (in_psMsg->eMsgId)
+    {
+
+    case MSG_ID_0100: { // Trigger Btn Pressed
+        log_info("Trigger Btn Pressed");
+    }
+    break;
+
+    case MSG_ID_0101: { // Trigger Btn Long Pressed
+        log_info("Trigger Btn Long Pressed");
+    }
+    break;
+
+    case MSG_ID_0102: { // Trigger Btn Released
+        log_info("Trigger Btn Released");
+    }
+    break;
+
+    default:
+        ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
+        break;
+    }
+
+    return STATUS_SUCCESS;
+}
+
+void OnBoardTest_testButtonBehaviours(void)
+{
+    static BOOL bRanOnce = FALSE;
+    if (bRanOnce == FALSE)
+    {
+        // Clear the flag
+        bRanOnce = TRUE;
+
+        // Subsribe to the Trigger Btn pressed Message
+        MessageBroker_subscribe(MSG_ID_0100, OnBoardTest_ButtonTestMsgCb);
+
+        // Subscribe to the Trigger Btn Long press Message
+        MessageBroker_subscribe(MSG_ID_0101, OnBoardTest_ButtonTestMsgCb);
+
+        // Subscribe to the Trigger Btn Released Message
+        MessageBroker_subscribe(MSG_ID_0102, OnBoardTest_ButtonTestMsgCb);
+    }
 }
 
 void OnBoardTest_testCanceledPomodoroSequence(void)
