@@ -1,6 +1,10 @@
 #ifndef CUSTOM_ASSERT_H
 #define CUSTOM_ASSERT_H
 
+// #define NO_DEBUG
+
+#ifndef NO_DEBUG
+
 #ifndef TEST
 #include "BlinkyLed.h"
 #include "Delay.h"
@@ -43,5 +47,14 @@
         }                                                                                                              \
     }
 
-#endif //  TEST
+#endif // TEST
+
+#else
+
+#define ASSERT(x)
+#define ASSERT_MSG(x, msg, ...)
+#define log_assert(M, ...)
+
+#endif // DEBUG
+
 #endif // CUSTOM_ASSERT_H
