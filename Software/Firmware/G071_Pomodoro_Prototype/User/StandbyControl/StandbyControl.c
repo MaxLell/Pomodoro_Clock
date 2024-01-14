@@ -25,7 +25,7 @@ STATIC StandbyControl_SequenceStatus_e StandbyControl_SeekingAttentionStateCb(vo
 /**********************************************************************
  * Message Callbacks
  **********************************************************************/
-status_e StandbyControl_TriggerBtnPressedCB(msg_t *in_sMessage)
+status_e StandbyControl_TriggerBtnPressedCB(const msg_t *const in_sMessage)
 {
     { // Input Checks
         ASSERT_MSG(!(in_sMessage == NULL), "Message is NULL!");
@@ -38,7 +38,7 @@ status_e StandbyControl_TriggerBtnPressedCB(msg_t *in_sMessage)
     return STATUS_SUCCESS;
 }
 
-status_e StandbyControl_PomodoroSequenceCompleteCB(msg_t *in_sMessage)
+status_e StandbyControl_PomodoroSequenceCompleteCB(const msg_t *const in_sMessage)
 {
     { // Input Checks
         ASSERT_MSG(!(in_sMessage == NULL), "Message is NULL!");

@@ -220,7 +220,7 @@ void OnBoardTest_testNominalPomodoroSequence(void)
     PomodoroControl_execute();
 }
 
-status_e OnBoardTest_ButtonTestMsgCb(msg_t *in_psMsg)
+status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
 {
     { // Input Checks
         ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");

@@ -381,13 +381,13 @@ void StateActionCancelSequenceHalted(void)
  * Message Callback
  */
 
-STATIC status_e PomodoroControl_MessageCallback(msg_t *sMsg);
+STATIC status_e PomodoroControl_MessageCallback(const msg_t *const sMsg);
 
 /********************************************************
  * Implementation
  ********************************************************/
 
-STATIC status_e PomodoroControl_MessageCallback(msg_t *psMsg)
+STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
 {
     { // Input Verification
         ASSERT_MSG(!(psMsg == NULL), "Message is NULL!");
