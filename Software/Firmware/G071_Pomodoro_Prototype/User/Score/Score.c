@@ -17,17 +17,18 @@ void Score_publishScore(void)
     // Publish the current daily score
     msg_t sMsg;
     sMsg.eMsgId = MSG_ID_0500;
-    // Parse a 32 bit unsigned integer into a 4 byte array
-    log_info("Score_publishScore: u32TotalDailyActivePomodoroSeconds = %d", u32TotalDailyActivePomodoroSeconds);
-    uint8_t au8DataBytes[4];
+    uint8_t au8DataBytes[4] = {0U};
+
     au8DataBytes[0] = (uint8_t)(u32TotalDailyActivePomodoroSeconds >> 24);
     au8DataBytes[1] = (uint8_t)(u32TotalDailyActivePomodoroSeconds >> 16);
     au8DataBytes[2] = (uint8_t)(u32TotalDailyActivePomodoroSeconds >> 8);
     au8DataBytes[3] = (uint8_t)(u32TotalDailyActivePomodoroSeconds);
     sMsg.au8DataBytes = au8DataBytes;
     sMsg.u16DataSize = 4U;
+
     status_e eStatus = MessageBroker_publish(&sMsg);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_publishScore: Failed to publish MSG_ID_0500");
+
     unused(eStatus); // To avoid compiler warnings when the code is optimized
 }
 
@@ -45,8 +46,6 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
     {
     case MSG_ID_0200: // Pomodoro Sequence Start
     {
-        log_info("Score_MsgCb: MSG_ID_0200");
-
         // Reset the currentScore
         u32CurrentSecondCount = 0U;
 
@@ -65,8 +64,6 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
 
     case MSG_ID_0201: // Pomodoro Work Time Sequence Complete
     {
-        log_info("Score_MsgCb: MSG_ID_0201");
-
         // Add the currentScore to the daily score
         u32TotalDailyActivePomodoroSeconds += u32CurrentSecondCount;
         u32CurrentSecondCount = 0U;
@@ -83,8 +80,6 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
 
     case MSG_ID_0202: // Pomodoro Break Time Sequence Complete
     {
-        log_info("Score_MsgCb: MSG_ID_0202");
-
         // Add the currentScore to the daily score
         u32TotalDailyActivePomodoroSeconds += u32CurrentSecondCount;
         u32CurrentSecondCount = 0U;
@@ -104,8 +99,6 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
 
     case MSG_ID_0203: // Pomodoro Cancel Sequence Complete
     {
-        log_info("Score_MsgCb: MSG_ID_0203");
-
         // Stop the Seconds-counting Countdown Timer
         Countdown_stopTimer(&sCountdownTimerSec);
 
@@ -161,7 +154,7 @@ status_e Score_execute(void)
         u32TotalDailyActivePomodoroSeconds = 0U;
     }
 
-    // Update the Current Second Count
+    // Update the Current Second Count - Update the counter once per second
     if (Countdown_getTimerStatus(&sCountdownTimerSec) == E_COUNTDOWN_TIMER_EXPIRED)
     {
         u32CurrentSecondCount++;

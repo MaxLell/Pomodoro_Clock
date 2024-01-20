@@ -16,6 +16,7 @@
 
 #include "Score.h"
 
+#include "CountdownTimer.h"
 #include "Delay.h"
 
 /************************************************************
@@ -180,6 +181,10 @@ void OnBoardTest_testUpdatePerMinute(void)
 
 void OnBoardTest_testNominalPomodoroSequence(void)
 {
+    printf("%s", "************************************************************\n");
+    printf("%s", "                 OnBoardTest_testNominalPomodoroSequence\n");
+    printf("%s", "************************************************************\n");
+
     // Keine Unit Tests hier schreiben!
     // Schreib einen Integration Test und iteriere.
 
@@ -266,6 +271,10 @@ void OnBoardTest_testButtonBehaviours(void)
     static BOOL bRanOnce = FALSE;
     if (bRanOnce == FALSE)
     {
+        printf("%s", "************************************************************\n");
+        printf("%s", "                 OnBoardTest_testButtonBehaviours\n");
+        printf("%s", "************************************************************\n");
+
         // Clear the flag
         bRanOnce = TRUE;
 
@@ -290,54 +299,88 @@ status_e OnBoardTest_ScoreTestMsgCb(const msg_t *const in_psMsg)
     }
 
     // Print the score
-    uint32_t u32ScoreSec = in_psMsg->au8DataBytes[3] << 24 | in_psMsg->au8DataBytes[2] << 16 |
-                           in_psMsg->au8DataBytes[1] << 8 | in_psMsg->au8DataBytes[0] << 0;
+    uint32_t u32ScoreSec = in_psMsg->au8DataBytes[0] << 24 | in_psMsg->au8DataBytes[1] << 16 |
+                           in_psMsg->au8DataBytes[2] << 8 | in_psMsg->au8DataBytes[3] << 0;
 
     // Print out the unsigned value of the score
-    log_info("Score: %d", u32ScoreSec);
+    log_info("Score in Seconds: %d", u32ScoreSec);
 
     return STATUS_SUCCESS;
 }
+
+timer_t sScoreTimer;
 
 void OnBoardTest_testScore(void)
 {
     static BOOL bRunOnce = FALSE;
     if (bRunOnce == FALSE)
     {
-        // Subscribe to the Score Updated Message
-        MessageBroker_subscribe(MSG_ID_0500, OnBoardTest_ScoreTestMsgCb);
+        printf("%s", "************************************************************\n");
+        printf("%s", "                 OnBoardTest_testScore\n");
+        printf("%s", "************************************************************\n");
 
         // Clear the flag
         bRunOnce = TRUE;
 
+        // Set the timer
+        Countdown_initTimerMs(&sScoreTimer, 5000, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_startTimer(&sScoreTimer);
+
+        // Subscribe to the Score Updated Message
+        MessageBroker_subscribe(MSG_ID_0500, OnBoardTest_ScoreTestMsgCb);
+
         // Run the score init function
         Score_init();
-
-        // Delay
-        Delay_ms(50);
-
-        // Send out a Pomodoro Started Message
-        msg_t sMsg;
-        sMsg.eMsgId = MSG_ID_0200;
-        status_e eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
-
-        // Let some time pass
-        Delay_ms(1000);
-
-        // Send out a Pomodoro WT Ended Message
-        sMsg.eMsgId = MSG_ID_0201;
-        eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
-
-        // Let some time pass
-        Delay_ms(1000);
-
-        // Send out a Pomodoro BT Ended Message
-        sMsg.eMsgId = MSG_ID_0202;
-        eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
     }
+
+    static uint8_t u8ProgramCounter = 0U;
+    if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sScoreTimer))
+    {
+        switch (u8ProgramCounter)
+        {
+        case 0U: {
+            log_info("%s", "Pomodoro Sequence Start");
+
+            msg_t sMsg = {0};
+            sMsg.eMsgId = MSG_ID_0200;
+            status_e eStatus = MessageBroker_publish(&sMsg);
+            ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+            unused(eStatus);
+
+            u8ProgramCounter++;
+        }
+        break;
+
+        case 1: {
+            log_info("%s", "Work Time Sequence Complete");
+
+            msg_t sMsg = {0};
+            sMsg.eMsgId = MSG_ID_0201;
+            status_e eStatus = MessageBroker_publish(&sMsg);
+            ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+            unused(eStatus);
+
+            u8ProgramCounter++;
+        }
+        break;
+        case 2: {
+            log_info("%s", "Break Time Sequence Complete");
+
+            msg_t sMsg = {0};
+            sMsg.eMsgId = MSG_ID_0202;
+            status_e eStatus = MessageBroker_publish(&sMsg);
+            ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+            unused(eStatus);
+
+            u8ProgramCounter = 0;
+        }
+        break;
+        default: {
+        }
+        }
+    }
+
+    Score_execute();
 
     unused(eStatus);
 }
