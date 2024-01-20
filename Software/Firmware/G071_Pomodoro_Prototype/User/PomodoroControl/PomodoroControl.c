@@ -13,12 +13,12 @@
 /********************************************************
  * Private Defines
  ********************************************************/
-// #define POMODORO_CONTROL_TEST
+#define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
 #define TIMER_PERIOD_SEC 1000
-#define TIMER_PERIOD_X_MS 30
+#define TIMER_PERIOD_X_MS 100
 #define TIMEOUT_PERIOD_MIN 5
 #else
 #define TIMER_PERIOD_MIN 60
@@ -49,6 +49,16 @@ STATIC uint8_t au8CompressedArrayRing2[NOF_LEDS_MIDDLE_RING] = {0};
 /********************************************************
  * FSM Setup
  ********************************************************/
+
+STATIC void StateActionIdle(void);
+STATIC void StateActionWorktimeInit(void);
+STATIC void StateActionWorktime(void);
+STATIC void StateActionWarning(void);
+STATIC void StateActionBreaktimeInit(void);
+STATIC void StateActionBreaktime(void);
+STATIC void StateActionCancelSequenceInit(void);
+STATIC void StateActionCancelSequenceRunning(void);
+STATIC void StateActionCancelSequenceHalted(void);
 
 /**
  * Old State ----(Event)-----> New State Matrix
@@ -146,16 +156,6 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
         },
 };
 
-STATIC void StateActionIdle(void);
-STATIC void StateActionWorktimeInit(void);
-STATIC void StateActionWorktime(void);
-STATIC void StateActionWarning(void);
-STATIC void StateActionBreaktimeInit(void);
-STATIC void StateActionBreaktime(void);
-STATIC void StateActionCancelSequenceInit(void);
-STATIC void StateActionCancelSequenceRunning(void);
-STATIC void StateActionCancelSequenceHalted(void);
-
 /**
  * Assignment of the StateAction Callbacks
  */
@@ -173,6 +173,8 @@ STATIC const FSM_StateActionCb aStateActions[] = {
 
 /**
  * FSM Initial Configuration
+ * This needs to be done outside of the init function, since this struct
+ * contains a couple of const members.
  */
 
 FSM_Config_t sFsmConfig = {
@@ -441,8 +443,6 @@ void StateActionCancelSequenceHalted(void)
 
         // Clear the Progress Rings
         LightEffects_ClearPomodoroProgressRings();
-
-        log_info("Cancel Sequence Timeout");
     }
 }
 

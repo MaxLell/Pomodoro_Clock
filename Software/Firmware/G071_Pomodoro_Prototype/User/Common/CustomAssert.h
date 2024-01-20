@@ -57,4 +57,14 @@
 
 #endif // DEBUG
 
+/**
+ * Taken from
+ * https://stackoverflow.com/questions/4851075/universally-compiler-independent-way-of-implementing-an-unused-macro-in-c-c
+ */
+#ifndef unused
+
+#define unused(X) ((void)(0)) // To avoid compiler warnings
+
+#endif // UNUSED
+
 #endif // CUSTOM_ASSERT_H

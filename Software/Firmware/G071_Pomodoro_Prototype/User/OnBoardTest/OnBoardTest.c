@@ -14,6 +14,8 @@
 #include "RgbLed.h"
 #include "RgbLed_Config.h"
 
+#include "Score.h"
+
 #include "Delay.h"
 
 /************************************************************
@@ -32,7 +34,10 @@ typedef enum
     E_TEST_BUTTON,
 
     // Pomodoro Test
-    E_TEST_POMODORO_NOMINAL_SEQUENCE,
+    E_TEST_POMODORO_SEQUENCE,
+
+    // Score
+    E_TEST_SCORE,
 
     E_LAST_TEST
 } OnBoardTest_Test_e;
@@ -42,7 +47,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_NOMINAL_SEQUENCE
+#define TEST_TO_RUN E_TEST_SCORE
 
 /************************************************************
  * Private Function Prototypes
@@ -59,7 +64,9 @@ void OnBoardTest_testButtonBehaviours(void);
 
 // Pomodoro State Function Tests
 void OnBoardTest_testNominalPomodoroSequence(void);
-void OnBoardTest_testCanceledPomodoroSequence(void);
+
+// Score
+void OnBoardTest_testScore(void);
 
 /************************************************************
  * Private Variables
@@ -76,7 +83,10 @@ STATIC test_function_ptr test_functions[E_LAST_TEST] = {
     // Pomodoro Tests
     [E_TEST_RGB_LED_RINGS_POMODORO_INITIAL] = OnBoardTest_testInitialPomodoroConfigs,
     [E_TEST_UPDATE_PER_MINUTE] = OnBoardTest_testUpdatePerMinute,
-    [E_TEST_POMODORO_NOMINAL_SEQUENCE] = OnBoardTest_testNominalPomodoroSequence};
+    [E_TEST_POMODORO_SEQUENCE] = OnBoardTest_testNominalPomodoroSequence,
+
+    // Score System
+    [E_TEST_SCORE] = OnBoardTest_testScore};
 
 /************************************************************
  * External private variables
@@ -190,8 +200,8 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         // Set the different Pomodoro Configurations
         // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_51_17;
         // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_25_5;
-        LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
-        // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_50_10;
+        // LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_90_15;
+        LightEffect_PomodoroConfig_e ePomodoroConfig = E_EFFECT_50_10;
 
         // Publish the Pomodoro Config
         msg_t sMsg;
@@ -270,11 +280,66 @@ void OnBoardTest_testButtonBehaviours(void)
     }
 }
 
-void OnBoardTest_testCanceledPomodoroSequence(void)
+status_e OnBoardTest_ScoreTestMsgCb(const msg_t *const in_psMsg)
 {
-    // Set the system to the Break time State
+    { // Input Checks
+        ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
 
-    // Run and update through the entire state machine
+        // Message ID check
+        ASSERT_MSG(in_psMsg->eMsgId == MSG_ID_0500, "Unknown Message ID: %d", in_psMsg->eMsgId);
+    }
+
+    // Print the score
+    uint32_t u32ScoreSec = in_psMsg->au8DataBytes[3] << 24 | in_psMsg->au8DataBytes[2] << 16 |
+                           in_psMsg->au8DataBytes[1] << 8 | in_psMsg->au8DataBytes[0] << 0;
+
+    // Print out the unsigned value of the score
+    log_info("Score: %d", u32ScoreSec);
+
+    return STATUS_SUCCESS;
+}
+
+void OnBoardTest_testScore(void)
+{
+    static BOOL bRunOnce = FALSE;
+    if (bRunOnce == FALSE)
+    {
+        // Subscribe to the Score Updated Message
+        MessageBroker_subscribe(MSG_ID_0500, OnBoardTest_ScoreTestMsgCb);
+
+        // Clear the flag
+        bRunOnce = TRUE;
+
+        // Run the score init function
+        Score_init();
+
+        // Delay
+        Delay_ms(50);
+
+        // Send out a Pomodoro Started Message
+        msg_t sMsg;
+        sMsg.eMsgId = MSG_ID_0200;
+        status_e eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+        // Let some time pass
+        Delay_ms(1000);
+
+        // Send out a Pomodoro WT Ended Message
+        sMsg.eMsgId = MSG_ID_0201;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+        // Let some time pass
+        Delay_ms(1000);
+
+        // Send out a Pomodoro BT Ended Message
+        sMsg.eMsgId = MSG_ID_0202;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+    }
+
+    unused(eStatus);
 }
 
 /************************************************************

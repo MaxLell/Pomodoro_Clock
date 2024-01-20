@@ -15,7 +15,9 @@
         "messagedefinitions.h": "c",
         "lighteffects_pomodoro.h": "c",
         "rgbled_config.h": "c",
-        "countdowntimer.h": "c"
+        "countdowntimer.h": "c",
+        "testsupport.h": "c",
+        "customassert.h": "c"
     },
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_fallbackStyle": "Microsoft",

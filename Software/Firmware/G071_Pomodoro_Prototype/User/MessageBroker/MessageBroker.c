@@ -111,7 +111,8 @@ status_e MessageBroker_publish(msg_t *in_psMessage)
 
             // Run the function pointer
             status_e eStatus = msgCallback(in_psMessage);
-            ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "Message Callback Function returned an error!");
+            ASSERT_MSG(!(eStatus == STATUS_ERROR), "Message Callback Function returned an error for MSG_ID: %d",
+                       eTopic);
         }
     }
     return STATUS_SUCCESS;
