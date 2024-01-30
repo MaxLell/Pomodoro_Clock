@@ -13,7 +13,7 @@
 /********************************************************
  * Private Defines
  ********************************************************/
-#define POMODORO_CONTROL_TEST
+// #define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
