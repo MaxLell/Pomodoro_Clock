@@ -1,3 +1,4 @@
+#include "LightEffects_Pomodoro.h"
 #include "PomodoroControl_helper.h"
 #include "unity.h"
 #include <stdio.h>
@@ -48,7 +49,22 @@ void test_getMinuteArrayFromConfig(void)
     sTestData.u8Worktime = WORKTIME;
     sTestData.u8Breaktime = BREAKTIME;
 
-    PomodoroControl_helper_getMinuteArrayFromConfig(&sTestData);
+    PomodoroControl_helper_getMinuteArray(&sTestData);
 
     helper_printArray((uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
+
+    /**
+     * The Minute Array needs to have the following look:
+     * idx 0   -> Worktime
+     * idx 50  -> Worktime
+     * idx 66  -> Breaktime
+     * idx 110 -> Breaktime
+     */
+
+    for (uint8_t i = 0; i < WORKTIME; i++)
+    {
+        TEST_ASSERT_EQUAL(E_PHASE_WORK_TIME, sTestData.au8MinuteArray[i]);
+    }
+    TEST_ASSERT_EQUAL(E_PHASE_BREAK_TIME, sTestData.au8MinuteArray[66]);
+    TEST_ASSERT_EQUAL(E_PHASE_BREAK_TIME, sTestData.au8MinuteArray[110]);
 }

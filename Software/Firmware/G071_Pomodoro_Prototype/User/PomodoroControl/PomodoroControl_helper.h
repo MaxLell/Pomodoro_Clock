@@ -11,6 +11,6 @@ typedef struct
     uint8_t au8MinuteArray[MAX_NOF_POMODORO_MINUTES];
 } PomodoroControl_helper;
 
-void PomodoroControl_helper_getMinuteArrayFromConfig(PomodoroControl_helper *const inout_sSelf);
+void PomodoroControl_helper_getMinuteArray(PomodoroControl_helper *const inout_sSelf);
 
 #endif // POMODOROCONTROL_HELPER_H
