@@ -90,3 +90,52 @@ void PomodoroControl_helper_getMinuteArray(PomodoroControl_helper *const inout_s
     unused(u8LocalCopyWortime);   // Avoid compiler warning
     unused(u8LocalCopyBreaktime); // Avoid compiler warning
 }
+
+void PomodoroControl_helper_updateSequence(PomodoroControl_helper *const inout_sSelf)
+{
+    {
+        // Input Checks
+        ASSERT_MSG(!(NULL == inout_sSelf), "NULL Pointer");
+
+        // Make sure that the Worktime is not 0
+        ASSERT_MSG(!(inout_sSelf->u8Worktime == 0), "Worktime is 0");
+
+        // Make sure that the Breaktime is not 0
+        ASSERT_MSG(!(inout_sSelf->u8Breaktime == 0), "Breaktime is 0");
+    }
+
+    // Set the element at the 0 Position to invalid
+    inout_sSelf->au8MinuteArray[0] = E_CFG_OFF;
+
+    // loop through the array and move every entry individually one index forward
+    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
+    {
+        inout_sSelf->au8MinuteArray[i] = inout_sSelf->au8MinuteArray[i + 1];
+
+        // Fill up the elements at the end, which are currently not defined
+        if ((E_CFG_BREAKTIME != inout_sSelf->au8MinuteArray[i]) && (E_CFG_WORKTIME != inout_sSelf->au8MinuteArray[i]))
+        {
+            inout_sSelf->au8MinuteArray[i] = E_CFG_OFF;
+        }
+
+        // Make sure that every element is either E_CFG_BREAKTIME, E_CFG_WORKTIME or E_CFG_OFF
+        ASSERT_MSG(!((E_CFG_BREAKTIME != inout_sSelf->au8MinuteArray[i]) &&
+                     (E_CFG_WORKTIME != inout_sSelf->au8MinuteArray[i]) &&
+                     (E_CFG_OFF != inout_sSelf->au8MinuteArray[i])),
+                   "Invalid Entry in Minute Array");
+    }
+
+    // Decrement the Worktime or Breaktime
+    if (inout_sSelf->u8Worktime != 0)
+    {
+        inout_sSelf->u8Worktime--;
+    }
+    else if (inout_sSelf->u8Breaktime != 0)
+    {
+        inout_sSelf->u8Breaktime--;
+    }
+    else
+    {
+        ASSERT_MSG(!(TRUE), "Both Worktime and Breaktime are 0");
+    }
+}

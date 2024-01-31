@@ -13,4 +13,6 @@ typedef struct
 
 void PomodoroControl_helper_getMinuteArray(PomodoroControl_helper *const inout_sSelf);
 
+void PomodoroControl_helper_updateSequence(PomodoroControl_helper *const inout_sSelf);
+
 #endif // POMODOROCONTROL_HELPER_H

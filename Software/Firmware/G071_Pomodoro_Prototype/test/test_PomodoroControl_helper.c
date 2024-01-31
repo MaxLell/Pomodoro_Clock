@@ -110,11 +110,6 @@ void test_getMinuteArrayFromConfig(void)
 
     sTestData.u8Worktime = WORKTIME;
     sTestData.u8Breaktime = BREAKTIME;
-    // Clear the Minute Array
-    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
-    {
-        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
-    }
 
     PomodoroControl_helper_getMinuteArray(&sTestData);
     helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
@@ -128,11 +123,6 @@ void test_getMinuteArrayFromConfig(void)
     BREAKTIME = 1;
     sTestData.u8Worktime = WORKTIME;
     sTestData.u8Breaktime = BREAKTIME;
-    // Clear the Minute Array
-    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
-    {
-        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
-    }
     PomodoroControl_helper_getMinuteArray(&sTestData);
 
     helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
@@ -146,11 +136,7 @@ void test_getMinuteArrayFromConfig(void)
     BREAKTIME = 5;
     sTestData.u8Worktime = WORKTIME;
     sTestData.u8Breaktime = BREAKTIME;
-    // Clear the Minute Array
-    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
-    {
-        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
-    }
+
     PomodoroControl_helper_getMinuteArray(&sTestData);
     helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
                                (uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
@@ -161,11 +147,7 @@ void test_getMinuteArrayFromConfig(void)
 
     WORKTIME = 90;
     BREAKTIME = 15;
-    // Clear the Minute Array
-    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
-    {
-        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
-    }
+
     sTestData.u8Worktime = WORKTIME;
     sTestData.u8Breaktime = BREAKTIME;
     PomodoroControl_helper_getMinuteArray(&sTestData);
@@ -178,11 +160,7 @@ void test_getMinuteArrayFromConfig(void)
 
     WORKTIME = 90;
     BREAKTIME = 35;
-    // Clear the Minute Array
-    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
-    {
-        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
-    }
+
     sTestData.u8Worktime = WORKTIME;
     sTestData.u8Breaktime = BREAKTIME;
     PomodoroControl_helper_getMinuteArray(&sTestData);
@@ -197,11 +175,7 @@ void test_getMinuteArrayFromConfig(void)
     BREAKTIME = 15;
     sTestData.u8Worktime = WORKTIME;
     sTestData.u8Breaktime = BREAKTIME;
-    // Clear the Minute Array
-    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
-    {
-        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
-    }
+
     PomodoroControl_helper_getMinuteArray(&sTestData);
     helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
                                (uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
@@ -213,4 +187,45 @@ void test_getMinuteArrayFromConfig(void)
     // Make sure that the Worktime and Breaktime configs have not been changed
     TEST_ASSERT_EQUAL(WORKTIME, sTestData.u8Worktime);
     TEST_ASSERT_EQUAL(BREAKTIME, sTestData.u8Breaktime);
+}
+
+void test_updateArray(void)
+{
+    uint8_t WORKTIME = 3;
+    uint8_t BREAKTIME = 2;
+    uint8_t u8NofWorktimeEntries = 0;
+    uint8_t u8NofBreaktimeEntries = 0;
+    uint8_t u8NofOffEntries = 0;
+
+    PomodoroControl_helper sTestData;
+    sTestData.u8Worktime = WORKTIME;
+    sTestData.u8Breaktime = BREAKTIME;
+
+    PomodoroControl_helper_getMinuteArray(&sTestData);
+    helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
+                               (uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
+
+    TEST_ASSERT_EQUAL(WORKTIME, u8NofWorktimeEntries);
+    TEST_ASSERT_EQUAL(BREAKTIME, u8NofBreaktimeEntries);
+    TEST_ASSERT_EQUAL((MAX_NOF_POMODORO_MINUTES - (WORKTIME + BREAKTIME)), u8NofOffEntries);
+
+    PomodoroControl_helper_updateSequence(&sTestData);
+    helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
+                               (uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
+
+    TEST_ASSERT_EQUAL(WORKTIME - 1, u8NofWorktimeEntries);
+    TEST_ASSERT_EQUAL(BREAKTIME, u8NofBreaktimeEntries);
+
+    WORKTIME = 25;
+    BREAKTIME = 5;
+    sTestData.u8Worktime = WORKTIME;
+    sTestData.u8Breaktime = BREAKTIME;
+
+    PomodoroControl_helper_getMinuteArray(&sTestData);
+    for (uint8_t i = 0; i < 10; i++)
+    {
+        PomodoroControl_helper_updateSequence(&sTestData);
+    }
+
+    helper_printArray((uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
 }
