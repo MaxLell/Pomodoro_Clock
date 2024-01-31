@@ -27,6 +27,15 @@ typedef enum
     EVENT_LAST
 } PCTRL_Event_e;
 
+typedef enum
+{
+    E_CFG_INVALID = 0,
+    E_CFG_WORKTIME,
+    E_CFG_BREAKTIME,
+    E_CFG_OFF,
+    E_CFG_LAST
+} PCTRL_Config_e;
+
 typedef struct
 {
     // Pomodoro Settings

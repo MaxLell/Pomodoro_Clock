@@ -1,4 +1,4 @@
-#include "LightEffects_Pomodoro.h"
+#include "PomodoroControl_Datatypes.h"
 #include "PomodoroControl_helper.h"
 #include "unity.h"
 #include <stdio.h>
@@ -24,47 +24,193 @@ void helper_printArray(uint8_t *in_au8Array, uint8_t in_u8ArraySize)
      */
     for (uint8_t i = 0; i < in_u8ArraySize; i++)
     {
+        char stringToPrint[10] = {0};
+        char caWorktime[] = "Worktime";
+        char caBreaktime[] = "Breaktime";
+        char caOff[] = "Off";
+        switch (in_au8Array[i])
+        {
+        case E_CFG_WORKTIME:
+            strncpy(stringToPrint, caWorktime, sizeof(caWorktime));
+            break;
+
+        case E_CFG_BREAKTIME:
+            strncpy(stringToPrint, caBreaktime, sizeof(caBreaktime));
+            break;
+
+        case E_CFG_OFF:
+            strncpy(stringToPrint, caOff, sizeof(caOff));
+            break;
+
+        default:
+            break;
+        }
+
         if (i < 10)
         {
-            printf("%d ---> %d\n", i, in_au8Array[i]);
+            printf("%d ---> %s\n", i, stringToPrint);
         }
         else if ((i < 100) && (i >= 10))
         {
-            printf("%d --> %d\n", i, in_au8Array[i]);
+            printf("%d --> %s\n", i, stringToPrint);
         }
         else
         {
-            printf("%d -> %d\n", i, in_au8Array[i]);
+            printf("%d -> %s\n", i, stringToPrint);
+        }
+
+        if (i == 59)
+        {
+            printf("------------\n");
         }
     }
     printf("\n");
 }
 
+void helper_countEntriesInArray(uint8_t *const out_u8NofWorktimeEntries, uint8_t *const out_u8NofBreaktimeEntries,
+                                uint8_t *const out_u8NofOffEntries, const uint8_t *const in_au8MinuteArray,
+                                const uint8_t in_u8ArrSize)
+{
+    // reset all counter input variables
+    *out_u8NofWorktimeEntries = 0;
+    *out_u8NofBreaktimeEntries = 0;
+    *out_u8NofOffEntries = 0;
+
+    for (uint8_t i = 0; i < in_u8ArrSize; i++)
+    {
+        switch (in_au8MinuteArray[i])
+        {
+        case E_CFG_WORKTIME:
+            (*out_u8NofWorktimeEntries)++;
+            break;
+
+        case E_CFG_BREAKTIME:
+            (*out_u8NofBreaktimeEntries)++;
+            break;
+
+        case E_CFG_OFF:
+            (*out_u8NofOffEntries)++;
+            break;
+
+        default:
+            break;
+        }
+    }
+}
+
 void test_getMinuteArrayFromConfig(void)
 {
-    const uint8_t WORKTIME = 51;
-    const uint8_t BREAKTIME = 17;
-
     PomodoroControl_helper sTestData;
+
+    uint8_t WORKTIME = 51;
+    uint8_t BREAKTIME = 17;
+    uint8_t u8NofWorktimeEntries = 0;
+    uint8_t u8NofBreaktimeEntries = 0;
+    uint8_t u8NofOffEntries = 0;
+
     sTestData.u8Worktime = WORKTIME;
     sTestData.u8Breaktime = BREAKTIME;
+    // Clear the Minute Array
+    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
+    {
+        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
+    }
 
     PomodoroControl_helper_getMinuteArray(&sTestData);
+    helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
+                               (uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
 
-    helper_printArray((uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
+    TEST_ASSERT_EQUAL(WORKTIME, u8NofWorktimeEntries);
+    TEST_ASSERT_EQUAL(BREAKTIME, u8NofBreaktimeEntries);
+    TEST_ASSERT_EQUAL((MAX_NOF_POMODORO_MINUTES - (WORKTIME + BREAKTIME)), u8NofOffEntries);
 
-    /**
-     * The Minute Array needs to have the following look:
-     * idx 0   -> Worktime
-     * idx 50  -> Worktime
-     * idx 66  -> Breaktime
-     * idx 110 -> Breaktime
-     */
-
-    for (uint8_t i = 0; i < WORKTIME; i++)
+    WORKTIME = 1;
+    BREAKTIME = 1;
+    sTestData.u8Worktime = WORKTIME;
+    sTestData.u8Breaktime = BREAKTIME;
+    // Clear the Minute Array
+    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
     {
-        TEST_ASSERT_EQUAL(E_PHASE_WORK_TIME, sTestData.au8MinuteArray[i]);
+        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
     }
-    TEST_ASSERT_EQUAL(E_PHASE_BREAK_TIME, sTestData.au8MinuteArray[66]);
-    TEST_ASSERT_EQUAL(E_PHASE_BREAK_TIME, sTestData.au8MinuteArray[110]);
+    PomodoroControl_helper_getMinuteArray(&sTestData);
+
+    helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
+                               (uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
+
+    TEST_ASSERT_EQUAL(WORKTIME, u8NofWorktimeEntries);
+    TEST_ASSERT_EQUAL(BREAKTIME, u8NofBreaktimeEntries);
+    TEST_ASSERT_EQUAL((MAX_NOF_POMODORO_MINUTES - (WORKTIME + BREAKTIME)), u8NofOffEntries);
+
+    WORKTIME = 25;
+    BREAKTIME = 5;
+    sTestData.u8Worktime = WORKTIME;
+    sTestData.u8Breaktime = BREAKTIME;
+    // Clear the Minute Array
+    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
+    {
+        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
+    }
+    PomodoroControl_helper_getMinuteArray(&sTestData);
+    helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
+                               (uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
+
+    TEST_ASSERT_EQUAL(WORKTIME, u8NofWorktimeEntries);
+    TEST_ASSERT_EQUAL(BREAKTIME, u8NofBreaktimeEntries);
+    TEST_ASSERT_EQUAL((MAX_NOF_POMODORO_MINUTES - (WORKTIME + BREAKTIME)), u8NofOffEntries);
+
+    WORKTIME = 90;
+    BREAKTIME = 15;
+    // Clear the Minute Array
+    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
+    {
+        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
+    }
+    sTestData.u8Worktime = WORKTIME;
+    sTestData.u8Breaktime = BREAKTIME;
+    PomodoroControl_helper_getMinuteArray(&sTestData);
+    helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
+                               (uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
+
+    TEST_ASSERT_EQUAL(WORKTIME, u8NofWorktimeEntries);
+    TEST_ASSERT_EQUAL(BREAKTIME, u8NofBreaktimeEntries);
+    TEST_ASSERT_EQUAL((MAX_NOF_POMODORO_MINUTES - (WORKTIME + BREAKTIME)), u8NofOffEntries);
+
+    WORKTIME = 90;
+    BREAKTIME = 35;
+    // Clear the Minute Array
+    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
+    {
+        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
+    }
+    sTestData.u8Worktime = WORKTIME;
+    sTestData.u8Breaktime = BREAKTIME;
+    PomodoroControl_helper_getMinuteArray(&sTestData);
+    helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
+                               (uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
+
+    TEST_ASSERT_EQUAL(WORKTIME, u8NofWorktimeEntries);
+    TEST_ASSERT_EQUAL(0, u8NofBreaktimeEntries);
+    TEST_ASSERT_EQUAL((MAX_NOF_POMODORO_MINUTES - (WORKTIME)), u8NofOffEntries);
+
+    WORKTIME = 120;
+    BREAKTIME = 15;
+    sTestData.u8Worktime = WORKTIME;
+    sTestData.u8Breaktime = BREAKTIME;
+    // Clear the Minute Array
+    for (uint8_t i = 0; i < MAX_NOF_POMODORO_MINUTES; i++)
+    {
+        sTestData.au8MinuteArray[i] = E_CFG_INVALID;
+    }
+    PomodoroControl_helper_getMinuteArray(&sTestData);
+    helper_countEntriesInArray(&u8NofWorktimeEntries, &u8NofBreaktimeEntries, &u8NofOffEntries,
+                               (uint8_t *)&sTestData.au8MinuteArray, MAX_NOF_POMODORO_MINUTES);
+
+    TEST_ASSERT_EQUAL(WORKTIME, u8NofWorktimeEntries);
+    TEST_ASSERT_EQUAL(0, u8NofBreaktimeEntries);
+    TEST_ASSERT_EQUAL((MAX_NOF_POMODORO_MINUTES - (WORKTIME)), u8NofOffEntries);
+
+    // Make sure that the Worktime and Breaktime configs have not been changed
+    TEST_ASSERT_EQUAL(WORKTIME, sTestData.u8Worktime);
+    TEST_ASSERT_EQUAL(BREAKTIME, sTestData.u8Breaktime);
 }
