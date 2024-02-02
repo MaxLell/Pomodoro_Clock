@@ -62,8 +62,8 @@ STATIC StandbyControl_SequenceStatus_e StandbyControl_SeekingAttentionStateCb(vo
      * return E_STANDBY_STATUS_SEQUENCE_COMPLETE otherwise
      * return E_STANDBY_STATUS_SEQUENCE_INCOMPLETE
      */
-    status_e eSequenceStatus;
-    LightEffects_DotAroundTheCircle(&eSequenceStatus, 20U);
+    status_e eSequenceStatus = STATUS_PENDING;
+    // Add in the Seeking attention animation TODO
     if (STATUS_PENDING == eSequenceStatus)
     {
         return E_STANDBY_STATUS_SEQUENCE_COMPLETE;

@@ -3,6 +3,12 @@
 
 #include "Common.h"
 
+#define MINUTES_IN_HOUR 60
+#define TOTAL_MINUTES (MINUTES_IN_HOUR * 2)
+
+/**
+ * FSM Config
+ */
 typedef enum
 {
     STATE_IDLE = 0,
@@ -27,6 +33,9 @@ typedef enum
     EVENT_LAST
 } PCTRL_Event_e;
 
+/**
+ * PomodoroConfig
+ */
 typedef enum
 {
     E_CFG_INVALID = 0,
@@ -35,13 +44,5 @@ typedef enum
     E_CFG_OFF,
     E_CFG_LAST
 } PCTRL_Config_e;
-
-typedef struct
-{
-    // Pomodoro Settings
-    uint8_t u8PomodoroConfig;
-    uint8_t u8CurrentPhase;
-
-} PomodoroControl_internalStatus_t;
 
 #endif // POMODOROCONTROL_DATATYPES_H

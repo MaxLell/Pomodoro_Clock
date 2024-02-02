@@ -13,6 +13,9 @@
 /********************************************************
  * Private Defines
  ********************************************************/
+
+#define LEDS_PER_RING 60
+
 // #define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
@@ -31,9 +34,6 @@
  * Private Variables
  ********************************************************/
 
-STATIC PomodoroControl_internalStatus_t sInternalState = {0};
-
-STATIC LightEffects_PomodoroRingPhaseCfg_t asEffects[MAX_SETTINGS] = {0};
 STATIC uint8_t u8EffectArraySize = 0;
 
 STATIC timer_t sTimerWtBtHandler = {0};
@@ -41,10 +41,16 @@ STATIC timer_t sTimerWarningHandler = {0};
 STATIC timer_t sTimerCancelSeqHandler = {0};
 STATIC timer_t sTimerCancelSeqTimeoutHandler = {0};
 
-// TODO - Remove this functionality to the LightEffects Module - These Arrays do
-// not need to be exposed here
-STATIC uint8_t au8CompressedArrayRing1[NOF_LEDS_OUTER_RING] = {0};
-STATIC uint8_t au8CompressedArrayRing2[NOF_LEDS_MIDDLE_RING] = {0};
+STATIC PCTRL_Progress_t sPomodoroProgress = {0};
+
+/********************************************************
+ * Private Function Prototypes
+ ********************************************************/
+
+STATIC void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf);
+STATIC void PomodoroControl_updateSequence(PCTRL_Progress_t *const inout_sSelf);
+STATIC void PomodoroControl_isWorktimeOver(PCTRL_Progress_t *const inout_sSelf, BOOL *const out_bIsWorktimeOver);
+STATIC void PomodoroControl_isBreaktimeOver(PCTRL_Progress_t *const inout_sSelf, BOOL *const out_bIsBreaktimeOver);
 
 /********************************************************
  * FSM Setup
@@ -195,19 +201,12 @@ void StateActionIdle(void)
 void StateActionWorktimeInit(void)
 {
     // Get the initial Pomodoro Setting
-    LightEffect_PomodoroConfig_e eEffectType = sInternalState.u8PomodoroConfig;
-    LightEffects_getInitialPomodoroSetting(asEffects, &u8EffectArraySize, eEffectType);
+    PomodoroControl_getMinuteArray(&sPomodoroProgress);
 
-    // Render the initial configuration
-    LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
-                                                    au8CompressedArrayRing2, au8CompressedArrayRing1);
-
-    // Render the compressed Arrays on the Rings
-    LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
-                             NOF_LEDS_OUTER_RING);
-
-    // Set the current Phase
-    sInternalState.u8CurrentPhase = E_PHASE_WORK_TIME;
+    // Check if the Worktime is over
+    BOOL bWorktimeIsOver = FALSE;
+    PomodoroControl_isWorktimeOver(&sPomodoroProgress, &bWorktimeIsOver);
+    LightEffects_RenderPomodoro(sPomodoroProgress.au8MinuteArray, TOTAL_MINUTES, bWorktimeIsOver);
 
     // Initialize and start the Countdown Timer
     Countdown_initTimerMs(&sTimerWtBtHandler, TIMER_PERIOD_MIN, E_OPERATIONAL_MODE_CONTIUNOUS);
@@ -223,9 +222,9 @@ void StateActionWorktime(void)
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
 
     // Check if the Worktime is over
-    BOOL bWorktimeIsOver;
-    LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bWorktimeIsOver, sInternalState.u8CurrentPhase,
-                             E_ANIMATION_WORK_TIME);
+    BOOL bWorktimeIsOver = FALSE;
+    PomodoroControl_isWorktimeOver(&sPomodoroProgress, &bWorktimeIsOver);
+
     // If Worktime is not over
     if (FALSE == bWorktimeIsOver)
     {
@@ -233,15 +232,14 @@ void StateActionWorktime(void)
         timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerWtBtHandler);
         if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
         {
-            // Update the CFGs
-            LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase);
+            // Update the Worktime, Breaktime
+            PomodoroControl_updateSequence(&sPomodoroProgress);
 
-            LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
-                                                            au8CompressedArrayRing2, au8CompressedArrayRing1);
+            // Generate the updated Minute Array
+            PomodoroControl_getMinuteArray(&sPomodoroProgress);
 
             // Render the compressed Arrays on the Rings
-            LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
-                                     NOF_LEDS_OUTER_RING);
+            LightEffects_RenderPomodoro(sPomodoroProgress.au8MinuteArray, TOTAL_MINUTES, bWorktimeIsOver);
         }
     }
     else
@@ -268,7 +266,6 @@ void StateActionWarning(void)
         Countdown_startTimer(&sTimerWarningHandler);
 
         // Set the current Phase to warning
-        sInternalState.u8CurrentPhase = E_PHASE_WARNING;
 
         // Clear the Pomodoro Progress Rings
         LightEffects_ClearPomodoroProgressRings();
@@ -280,9 +277,7 @@ void StateActionWarning(void)
     // Set Trigger Event to Pending
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
 
-    BOOL bWarningPeriodIsOver = FALSE;
-    LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bWarningPeriodIsOver, sInternalState.u8CurrentPhase,
-                             E_ANIMATION_WARNING);
+    BOOL bWarningPeriodIsOver = TRUE;
 
     // If Warning Period is not over
     if (FALSE == bWarningPeriodIsOver)
@@ -292,14 +287,8 @@ void StateActionWarning(void)
         if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
         {
             // Update the CFGs
-            LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase);
-
-            LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
-                                                            au8CompressedArrayRing2, au8CompressedArrayRing1);
 
             // Render the compressed Arrays on the Rings
-            LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
-                                     NOF_LEDS_OUTER_RING);
         }
     }
     else
@@ -314,9 +303,6 @@ void StateActionWarning(void)
 
 void StateActionBreaktimeInit(void)
 {
-    // Update the Phase to Breaktime
-    sInternalState.u8CurrentPhase = E_PHASE_BREAK_TIME;
-
     // Set Trigger Event to Sequence Complete
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
 }
@@ -327,8 +313,7 @@ void StateActionBreaktime(void)
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
 
     BOOL bBreaktimeIsOver = FALSE;
-    LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bBreaktimeIsOver, sInternalState.u8CurrentPhase,
-                             E_ANIMATION_BREAK_TIME_BRIGHT);
+    PomodoroControl_isBreaktimeOver(&sPomodoroProgress, &bBreaktimeIsOver);
 
     // If Breaktime is not over
     if (FALSE == bBreaktimeIsOver)
@@ -338,14 +323,13 @@ void StateActionBreaktime(void)
         if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
         {
             // Update the CFGs
-            LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase);
+            PomodoroControl_updateSequence(&sPomodoroProgress);
 
-            LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
-                                                            au8CompressedArrayRing2, au8CompressedArrayRing1);
+            // Generate the updated Minute Array
+            PomodoroControl_getMinuteArray(&sPomodoroProgress);
 
             // Render the compressed Arrays on the Rings
-            LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
-                                     NOF_LEDS_OUTER_RING);
+            LightEffects_RenderPomodoro(sPomodoroProgress.au8MinuteArray, TOTAL_MINUTES, TRUE);
         }
     }
     else
@@ -370,13 +354,8 @@ void StateActionCancelSequenceInit(void)
     LightEffects_ClearPomodoroProgressRings();
 
     // set the Phase to Cancel Sequence
-    sInternalState.u8CurrentPhase = E_PHASE_CANCEL_SEQUENCE;
 
     // Render the Configuration
-    LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
-                                                    au8CompressedArrayRing2, au8CompressedArrayRing1);
-    LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
-                             NOF_LEDS_OUTER_RING);
 
     // Set the Cancel Sequence Timer
     Countdown_initTimerMs(&sTimerCancelSeqHandler, TIMER_PERIOD_X_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
@@ -396,8 +375,6 @@ void StateActionCancelSequenceRunning(void)
 
     // Check if the Cancel Sequence is over
     BOOL bCancelSequenceIsOver = FALSE;
-    LightEffects_isPhaseOver(asEffects, u8EffectArraySize, &bCancelSequenceIsOver, sInternalState.u8CurrentPhase,
-                             E_ANIMATION_CANCEL_SEQUENCE);
 
     // If Cancel Sequence is not over
     if (FALSE == bCancelSequenceIsOver)
@@ -407,14 +384,8 @@ void StateActionCancelSequenceRunning(void)
         if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
         {
             // Update the CFGs
-            LightEffects_updateWorktimeCfgForCurrentMinute(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase);
-
-            LightEffects_getCompressedArraysForCurrentPhase(asEffects, u8EffectArraySize, sInternalState.u8CurrentPhase,
-                                                            au8CompressedArrayRing2, au8CompressedArrayRing1);
 
             // Render the compressed Arrays on the Rings
-            LightEffects_RenderRings(au8CompressedArrayRing2, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRing1,
-                                     NOF_LEDS_OUTER_RING);
         }
     }
     else
@@ -496,7 +467,9 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
                       // Periods
     {
         // Get the Pomodoro Configuration
-        sInternalState.u8PomodoroConfig = psMsg->au8DataBytes[0];
+        PomodoroPeriodConfiguration_t *psPomodoroConfig = (PomodoroPeriodConfiguration_t *)psMsg->au8DataBytes;
+        sPomodoroProgress.u8Worktime = psPomodoroConfig->u8MinutesWorktimePeriod;
+        sPomodoroProgress.u8Breaktime = psPomodoroConfig->u8MinutesBreaktimePeriod;
     }
     break;
 
@@ -532,4 +505,171 @@ status_e PomodoroControl_execute(void)
     status_e eStatus = STATUS_SUCCESS;
     FSM_execute(&sFsmConfig);
     return eStatus;
+}
+
+void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf)
+{
+    { // Input checks
+      // Check against NULL Pointers
+        ASSERT_MSG(!(NULL == inout_sSelf), "NULL Pointer");
+
+        // Make sure that the Worktime is smaller then 121
+        ASSERT_MSG(!(inout_sSelf->u8Worktime > TOTAL_MINUTES), "Worktime is bigger then 120");
+
+        // Make sure that the Breaktime is smaller then 61
+        ASSERT_MSG(!(inout_sSelf->u8Breaktime > MINUTES_IN_HOUR), "Breaktime is bigger then 60");
+    }
+
+    uint8_t u8LocalCopyWortime = inout_sSelf->u8Worktime;
+    uint8_t u8LocalCopyBreaktime = inout_sSelf->u8Breaktime;
+
+    int8_t i8CurrentWorktime = (int8_t)inout_sSelf->u8Worktime;
+    int8_t i8CurrentBreaktime = (int8_t)inout_sSelf->u8Breaktime;
+
+    uint8_t u8Sum = i8CurrentWorktime + i8CurrentBreaktime;
+    BOOL bRunOnce = FALSE;
+
+    uint8_t u8CurrentIdx = 0;
+
+    // Fill the entire Minute Array with NONE Phase Entries
+    for (uint8_t i = 0; i < TOTAL_MINUTES; i++)
+    {
+        inout_sSelf->au8MinuteArray[i] = E_CFG_OFF;
+    }
+
+    // Fill in the Worktime
+    while (i8CurrentWorktime > 0)
+    {
+        i8CurrentWorktime--;
+        inout_sSelf->au8MinuteArray[u8CurrentIdx] = E_CFG_WORKTIME;
+        u8CurrentIdx++;
+
+        ASSERT_MSG(!(u8CurrentIdx > TOTAL_MINUTES), "u8CurrentIdx >= TOTAL_MINUTES");
+    }
+
+    if (u8Sum >= LEDS_PER_RING)
+    {
+        // Breaktime and Worktime are not fitting into on Ring
+        if (u8CurrentIdx < LEDS_PER_RING)
+        {
+            // Add an offset of 60 to the current index
+            // So that the Breaktime is rendered on teh second ring
+            u8CurrentIdx += MINUTES_IN_HOUR;
+        }
+    }
+
+    if (u8Sum >= 120)
+    {
+        // Do Nuthin
+        // Do not add in the Breaktime entries - as they would exceed the second ring
+    }
+    else
+    {
+        // Fill in the Breaktime entries
+        while ((i8CurrentBreaktime > 0) && (u8CurrentIdx < TOTAL_MINUTES))
+        {
+            i8CurrentBreaktime--;
+            inout_sSelf->au8MinuteArray[u8CurrentIdx] = E_CFG_BREAKTIME;
+            u8CurrentIdx++;
+
+            if (u8CurrentIdx >= TOTAL_MINUTES)
+            {
+                u8CurrentIdx = MINUTES_IN_HOUR;
+            }
+
+            ASSERT_MSG(!(u8CurrentIdx >= TOTAL_MINUTES), "u8CurrentIdx >= TOTAL_MINUTES");
+        }
+    }
+
+    // Make sure that the original config is not changed
+    ASSERT_MSG(!(u8LocalCopyWortime != inout_sSelf->u8Worktime), "Worktime has changed");
+    ASSERT_MSG(!(u8LocalCopyBreaktime != inout_sSelf->u8Breaktime), "Breaktime has changed");
+    unused(u8LocalCopyWortime);   // Avoid compiler warning
+    unused(u8LocalCopyBreaktime); // Avoid compiler warning
+}
+
+void PomodoroControl_updateSequence(PCTRL_Progress_t *const inout_sSelf)
+{
+    {
+        // Input Checks
+        ASSERT_MSG(!(NULL == inout_sSelf), "NULL Pointer");
+    }
+
+    // Decrement the Worktime or Breaktime
+    if (inout_sSelf->u8Worktime != 0)
+    {
+        inout_sSelf->u8Worktime--;
+    }
+    else if (inout_sSelf->u8Breaktime != 0)
+    {
+        inout_sSelf->u8Breaktime--;
+    }
+    else
+    {
+        // Do nothing
+    }
+}
+
+STATIC void PomodoroControl_isWorktimeOver(PCTRL_Progress_t *const inout_sSelf, BOOL *const out_bIsWorktimeOver)
+{
+    {
+        // Input Checks
+        ASSERT_MSG(!(NULL == inout_sSelf), "NULL Pointer");
+        ASSERT_MSG(!(NULL == out_bIsWorktimeOver), "NULL Pointer");
+    }
+
+    // Number Check
+    BOOL bNumberCheck = FALSE;
+    if (inout_sSelf->u8Worktime == 0)
+    {
+        bNumberCheck = TRUE;
+    }
+
+    // Iterate through the Array and check again - there must be no discrepancy
+    BOOL bArrayCheck = TRUE;
+    for (uint8_t i = 0; i < TOTAL_MINUTES; i++)
+    {
+        if (inout_sSelf->au8MinuteArray[i] == E_CFG_WORKTIME)
+        {
+            bArrayCheck = FALSE;
+            break;
+        }
+    }
+
+    ASSERT_MSG(!(bNumberCheck != bArrayCheck), "Number Check and Array Check are not equal");
+
+    *out_bIsWorktimeOver = bNumberCheck;
+    unused(bArrayCheck); // Avoid compiler warning
+}
+
+STATIC void PomodoroControl_isBreaktimeOver(PCTRL_Progress_t *const inout_sSelf, BOOL *const out_bIsBreaktimeOver)
+{
+    {
+        // Input Checks
+        ASSERT_MSG(!(NULL == inout_sSelf), "NULL Pointer");
+        ASSERT_MSG(!(NULL == out_bIsBreaktimeOver), "NULL Pointer");
+    }
+
+    // Number Check
+    BOOL bNumberCheck = FALSE;
+    if (inout_sSelf->u8Breaktime == 0)
+    {
+        bNumberCheck = TRUE;
+    }
+
+    // Iterate through the Array and check again - there must be no discrepancy
+    BOOL bArrayCheck = TRUE;
+    for (uint8_t i = 0; i < TOTAL_MINUTES; i++)
+    {
+        if (inout_sSelf->au8MinuteArray[i] == E_CFG_BREAKTIME)
+        {
+            bArrayCheck = FALSE;
+            break;
+        }
+    }
+
+    ASSERT_MSG(!(bNumberCheck != bArrayCheck), "Number Check and Array Check are not equal");
+
+    *out_bIsBreaktimeOver = bNumberCheck;
+    unused(bArrayCheck); // Avoid compiler warning
 }
