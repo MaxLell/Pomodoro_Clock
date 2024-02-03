@@ -121,7 +121,7 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
             RgbLed_setPixelColor(u8LedIndex, 5, 0, 0);
             break;
         case E_ANIMATION_BREAK_TIME:
-            RgbLed_setPixelColor(u8LedIndex, 0, 5, 0);
+            RgbLed_setPixelColor(u8LedIndex, 0, 1, 0);
             break;
         case E_ANIMATION_BREAK_TIME_BRIGHT:
             RgbLed_setPixelColor(u8LedIndex, 0, 100, 0);
@@ -129,11 +129,14 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
         case E_ANIMATION_FLASHLIGHT:
             RgbLed_setPixelColor(u8LedIndex, 100, 100, 100);
             break;
+        case E_ANIMATION_WARNING:
+            RgbLed_setPixelColor(u8LedIndex, 5, 5, 0);
+            break;
         case E_ANIMATION_CANCEL_SEQUENCE:
             RgbLed_setPixelColor(u8LedIndex, 100, 0, 200);
             break;
         default:
-            ASSERT_MSG(FALSE, "Unknown Animation Type");
+            ASSERT_MSG(FALSE, "Unknown Animation Type: %d", in_au8OuterRingArray[i]);
             break;
         }
         u8LedIndex++;
@@ -151,13 +154,13 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
             RgbLed_setPixelColor(u8LedIndex, 0, 0, 0);
             break;
         case E_ANIMATION_WORK_TIME:
-            RgbLed_setPixelColor(u8LedIndex, 5, 0, 0);
+            RgbLed_setPixelColor(u8LedIndex, 7, 0, 0);
             break;
         case E_ANIMATION_WARNING:
             RgbLed_setPixelColor(u8LedIndex, 5, 5, 0);
             break;
         case E_ANIMATION_BREAK_TIME:
-            RgbLed_setPixelColor(u8LedIndex, 0, 5, 0);
+            RgbLed_setPixelColor(u8LedIndex, 0, 1, 0);
             break;
         case E_ANIMATION_BREAK_TIME_BRIGHT:
             RgbLed_setPixelColor(u8LedIndex, 0, 100, 0);
@@ -167,6 +170,9 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
             break;
         case E_ANIMATION_CANCEL_SEQUENCE:
             RgbLed_setPixelColor(u8LedIndex, 100, 0, 200);
+            break;
+        case E_ANIMATION_SNOOZE:
+            RgbLed_setPixelColor(u8LedIndex, 0, 0, 100);
             break;
         default:
             ASSERT_MSG(FALSE, "Unknown Animation Type");
@@ -179,6 +185,8 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
     ASSERT_MSG(!(u8LedIndex != tmp), "u8LedIndex is not equal to %d. It is instead %d", tmp, u8LedIndex);
 
     RgbLed_show();
+
+    Delay_ms(10); // TODO: Fix the Bug, which makes it necessary to wait here
 }
 
 void LightEffects_ClearPomodoroProgressRings(void)
@@ -206,7 +214,7 @@ void LightEffects_ClearPomodoroProgressRings(void)
     ASSERT_MSG(!(u8LedIndex != START_INDEX_INNER_RING), "u8LedIndex is not equal to %d. It is instead %d",
                START_INDEX_INNER_RING, u8LedIndex);
 
-    Delay_ms(10); // TODO: Fix the Bug, which makes it necessary to wait here
+    Delay_ms(5); // TODO: Fix the Bug, which makes it necessary to wait here
 
     RgbLed_show();
 }
@@ -271,4 +279,75 @@ void LightEffects_RenderPomodoro(const uint8_t *const in_au8MinuteArray, const u
     // Send the compressed array full of animation to the Render Array Module
     LightEffects_RenderRings(au8CompressedArrayRingMiddle, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRingOuter,
                              NOF_LEDS_OUTER_RING);
+}
+
+void LightEffects_RenderRingCountdown(LightControl_RingCountdown_s *const psSelf)
+{
+    { // Input Checks
+        ASSERT_MSG(!(psSelf == NULL), "psSelf is NULL");
+    }
+
+    // Generate the Minute Array for the Effect on the Inner Ring
+    uint8_t au8MinuteArray[TOTAL_MINUTES] = {0};
+    for (uint8_t i = MINUTES_IN_HOUR; i < (psSelf->u8CurrentFillingMin + MINUTES_IN_HOUR); i++)
+    {
+        au8MinuteArray[i] = psSelf->eEffect;
+        switch (psSelf->eEffect)
+        {
+        case E_RING_COUNTDOWN_EFFECT__WARNING:
+            au8MinuteArray[i] = E_ANIMATION_WARNING;
+            break;
+
+        case E_RING_COUNTDOWN_EFFECT__SNOOZE:
+            au8MinuteArray[i] = E_ANIMATION_SNOOZE;
+            break;
+
+        case E_RING_COUNTDOWN_EFFECT__CANCEL_SEQ:
+            au8MinuteArray[i] = E_ANIMATION_CANCEL_SEQUENCE;
+            break;
+
+        default:
+            ASSERT_MSG(!(TRUE), "Unknown Animation Type");
+            break;
+        }
+    }
+
+    // Set all other entries to OFF
+    // for (uint8_t i = 0; i < TOTAL_MINUTES; i++)
+    // {
+    //     if (!(au8MinuteArray[i] == psSelf->eEffect))
+    //     {
+    //         au8MinuteArray[i] = E_ANIMATION_OFF;
+    //     }
+    // }
+
+    // Compress the array
+    uint8_t au8CompressedArrayRingMiddle[NOF_LEDS_MIDDLE_RING] = {0};
+    uint8_t au8CompressedArrayRingOuter[NOF_LEDS_OUTER_RING] = {0};
+    LightEffects_scaleArray(au8MinuteArray, MINUTES_IN_HOUR, au8CompressedArrayRingMiddle, NOF_LEDS_MIDDLE_RING);
+    LightEffects_scaleArray(&au8MinuteArray[MINUTES_IN_HOUR], MINUTES_IN_HOUR, au8CompressedArrayRingOuter,
+                            NOF_LEDS_OUTER_RING);
+
+    // Send the compressed ful of the animation to the Render Array Module
+    LightEffects_RenderRings(au8CompressedArrayRingMiddle, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRingOuter,
+                             NOF_LEDS_OUTER_RING);
+}
+
+void LightEffects_UpdateRingCountdown(LightControl_RingCountdown_s *const psSelf)
+{
+    { // Input Checks
+        // Null Pointer Checks
+        ASSERT_MSG(!(psSelf == NULL), "psSelf is NULL");
+    }
+
+    // update the filling counter
+    if (psSelf->u8CurrentFillingMin > 0)
+    {
+        psSelf->u8CurrentFillingMin--;
+    }
+    else
+    {
+        // Set the complete flag if the filling counter is 0
+        psSelf->bIsComplete = TRUE;
+    }
 }

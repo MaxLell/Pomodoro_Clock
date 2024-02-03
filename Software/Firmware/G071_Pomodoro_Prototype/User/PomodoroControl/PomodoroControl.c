@@ -21,12 +21,16 @@
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
 #define TIMER_PERIOD_SEC 1000
-#define TIMER_PERIOD_X_MS 100
+#define TIMER_PERIOD_SNOOZE_MS 30
+#define TIMER_PERIOD_CANCEL_SEQ_MS 1000
+#define TIMER_PERIOD_WARNING_MS 1000
 #define TIMEOUT_PERIOD_MIN 5
 #else
 #define TIMER_PERIOD_MIN 60
 #define TIMER_PERIOD_SEC 30
-#define TIMER_PERIOD_X_MS 30
+#define TIMER_PERIOD_SNOOZE_MS 30
+#define TIMER_PERIOD_CANCEL_SEQ_MS 30
+#define TIMER_PERIOD_WARNING_MS 30
 #define TIMEOUT_PERIOD_MIN 100
 #endif
 
@@ -42,6 +46,8 @@ STATIC timer_t sTimerCancelSeqHandler = {0};
 STATIC timer_t sTimerCancelSeqTimeoutHandler = {0};
 
 STATIC PCTRL_Progress_t sPomodoroProgress = {0};
+
+STATIC LightControl_RingCountdown_s sRingCountdown = {0};
 
 /********************************************************
  * Private Function Prototypes
@@ -262,13 +268,18 @@ void StateActionWarning(void)
     if (!bRunOnce)
     {
         // Set a new Timer Instance
-        Countdown_initTimerMs(&sTimerWarningHandler, TIMER_PERIOD_SEC, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_initTimerMs(&sTimerWarningHandler, TIMER_PERIOD_WARNING_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
         Countdown_startTimer(&sTimerWarningHandler);
-
-        // Set the current Phase to warning
 
         // Clear the Pomodoro Progress Rings
         LightEffects_ClearPomodoroProgressRings();
+
+        // Set the initial config
+        sRingCountdown.eEffect = E_RING_COUNTDOWN_EFFECT__WARNING;
+        sRingCountdown.u8CurrentFillingMin = MINUTES_IN_HOUR;
+        sRingCountdown.bIsComplete = FALSE;
+
+        LightEffects_RenderRingCountdown(&sRingCountdown);
 
         // Set the Flag
         bRunOnce = TRUE;
@@ -277,7 +288,7 @@ void StateActionWarning(void)
     // Set Trigger Event to Pending
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
 
-    BOOL bWarningPeriodIsOver = TRUE;
+    BOOL bWarningPeriodIsOver = sRingCountdown.bIsComplete;
 
     // If Warning Period is not over
     if (FALSE == bWarningPeriodIsOver)
@@ -287,8 +298,10 @@ void StateActionWarning(void)
         if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
         {
             // Update the CFGs
+            LightEffects_UpdateRingCountdown(&sRingCountdown);
 
             // Render the compressed Arrays on the Rings
+            LightEffects_RenderRingCountdown(&sRingCountdown);
         }
     }
     else
@@ -353,12 +366,15 @@ void StateActionCancelSequenceInit(void)
     // Clear all existing Progress LEDs
     LightEffects_ClearPomodoroProgressRings();
 
-    // set the Phase to Cancel Sequence
+    // Set the initial config
+    sRingCountdown.eEffect = E_RING_COUNTDOWN_EFFECT__CANCEL_SEQ;
+    sRingCountdown.u8CurrentFillingMin = MINUTES_IN_HOUR;
+    sRingCountdown.bIsComplete = FALSE;
 
-    // Render the Configuration
+    LightEffects_RenderRingCountdown(&sRingCountdown);
 
     // Set the Cancel Sequence Timer
-    Countdown_initTimerMs(&sTimerCancelSeqHandler, TIMER_PERIOD_X_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_initTimerMs(&sTimerCancelSeqHandler, TIMER_PERIOD_CANCEL_SEQ_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
     Countdown_startTimer(&sTimerCancelSeqHandler);
 
     // Start the timeout timer
@@ -374,7 +390,7 @@ void StateActionCancelSequenceRunning(void)
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
 
     // Check if the Cancel Sequence is over
-    BOOL bCancelSequenceIsOver = FALSE;
+    BOOL bCancelSequenceIsOver = sRingCountdown.bIsComplete;
 
     // If Cancel Sequence is not over
     if (FALSE == bCancelSequenceIsOver)
@@ -384,8 +400,10 @@ void StateActionCancelSequenceRunning(void)
         if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
         {
             // Update the CFGs
+            LightEffects_UpdateRingCountdown(&sRingCountdown);
 
             // Render the compressed Arrays on the Rings
+            LightEffects_RenderRingCountdown(&sRingCountdown);
         }
     }
     else

@@ -7,6 +7,23 @@
  * Public Defines
  ************************************************************/
 
+typedef enum
+{
+    E_RING_COUNTDOWN_EFFECT__INVALID = 0U,
+    E_RING_COUNTDOWN_EFFECT__SNOOZE,
+    E_RING_COUNTDOWN_EFFECT__WARNING,
+    E_RING_COUNTDOWN_EFFECT__CANCEL_SEQ,
+    E_RING_COUNTDOWN_EFFECT__LAST
+} LightControl_RingCountdownEffect_e;
+
+typedef struct
+{
+    uint16_t u16PeriodPerIncrementMsec;
+    uint8_t u8CurrentFillingMin;
+    LightControl_RingCountdownEffect_e eEffect; // Snooze / Warning / CancelSeq
+    BOOL bIsComplete;
+} LightControl_RingCountdown_s;
+
 /************************************************************
  * Public functions
  ************************************************************/
@@ -22,5 +39,9 @@ void LightEffects_RenderPomodoro(const uint8_t *const in_au8MinuteArray, const u
                                  BOOL bIsWorktimeOver);
 
 void LightEffects_ClearAllRingLeds(void);
+
+void LightEffects_RenderRingCountdown(LightControl_RingCountdown_s *const psSelf);
+
+void LightEffects_UpdateRingCountdown(LightControl_RingCountdown_s *const psSelf);
 
 #endif // LIGHTEFFECTS_H
