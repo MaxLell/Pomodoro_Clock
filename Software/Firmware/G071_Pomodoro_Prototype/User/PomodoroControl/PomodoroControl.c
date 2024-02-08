@@ -16,13 +16,13 @@
 
 #define LEDS_PER_RING 60
 
-// #define POMODORO_CONTROL_TEST
+#define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
 #define TIMER_PERIOD_SEC 1000
 #define TIMER_PERIOD_SNOOZE_MS 30
-#define TIMER_PERIOD_CANCEL_SEQ_MS 1000
+#define TIMER_PERIOD_CANCEL_SEQ_MS 50
 #define TIMER_PERIOD_WARNING_MS 1000
 #define TIMEOUT_PERIOD_MIN 5
 #else
@@ -258,6 +258,7 @@ void StateActionWorktime(void)
         sMsg.eMsgId = MSG_ID_0201; // Pomodoro Work Time Sequence Complete
         status_e eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish: %d", eStatus);
+        unused(eStatus); // Avoid compiler warning
     }
 }
 
@@ -355,6 +356,7 @@ void StateActionBreaktime(void)
         sMsg.eMsgId = MSG_ID_0202; // Pomodoro Break Time Sequence Complete
         status_e eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish: %d", eStatus);
+        unused(eStatus); // Avoid compiler warning
 
         // Clear the Progress Rings
         LightEffects_ClearPomodoroProgressRings();
@@ -363,6 +365,14 @@ void StateActionBreaktime(void)
 
 void StateActionCancelSequenceInit(void)
 {
+    // Set the Cancel Sequence Timer
+    Countdown_initTimerMs(&sTimerCancelSeqHandler, TIMER_PERIOD_CANCEL_SEQ_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_startTimer(&sTimerCancelSeqHandler);
+
+    // Start the timeout timer
+    Countdown_initTimerMs(&sTimerCancelSeqTimeoutHandler, TIMER_PERIOD_MIN, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_startTimer(&sTimerCancelSeqTimeoutHandler);
+
     // Clear all existing Progress LEDs
     LightEffects_ClearPomodoroProgressRings();
 
@@ -371,15 +381,8 @@ void StateActionCancelSequenceInit(void)
     sRingCountdown.u8CurrentFillingMin = MINUTES_IN_HOUR;
     sRingCountdown.bIsComplete = FALSE;
 
+    // Render the initial config
     LightEffects_RenderRingCountdown(&sRingCountdown);
-
-    // Set the Cancel Sequence Timer
-    Countdown_initTimerMs(&sTimerCancelSeqHandler, TIMER_PERIOD_CANCEL_SEQ_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_startTimer(&sTimerCancelSeqHandler);
-
-    // Start the timeout timer
-    Countdown_initTimerMs(&sTimerCancelSeqTimeoutHandler, TIMER_PERIOD_MIN, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_startTimer(&sTimerCancelSeqTimeoutHandler);
 
     // Set the Trigger Event to Sequence Complete
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
@@ -416,6 +419,8 @@ void StateActionCancelSequenceHalted(void)
 {
     // this event will be overwritten by a Long Press Event of the Trigger Button
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
+
+    LightEffects_RenderRingCountdown(&sRingCountdown);
 
     static uint8_t u8TimoutMinuteCounter = 0;
     timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerCancelSeqTimeoutHandler);
@@ -545,7 +550,6 @@ void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf)
     int8_t i8CurrentBreaktime = (int8_t)inout_sSelf->u8Breaktime;
 
     uint8_t u8Sum = i8CurrentWorktime + i8CurrentBreaktime;
-    BOOL bRunOnce = FALSE;
 
     uint8_t u8CurrentIdx = 0;
 
