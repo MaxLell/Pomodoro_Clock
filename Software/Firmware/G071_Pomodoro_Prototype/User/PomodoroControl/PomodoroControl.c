@@ -91,7 +91,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
         {
             // Event -----------> Next State
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME_INIT,
-            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_IDLE,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WORKTIME_INIT,
             [EVENT_SEQUENCE_COMPLETE] = STATE_WORKTIME,
             [EVENT_SEQUENCE_PENDING] = STATE_WORKTIME_INIT,
@@ -101,7 +101,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
         {
             // Event -----------> Next State
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME,
-            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_IDLE,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WORKTIME,
             [EVENT_SEQUENCE_COMPLETE] = STATE_WARNING,
             [EVENT_SEQUENCE_PENDING] = STATE_WORKTIME,
@@ -201,7 +201,14 @@ FSM_Config_t sFsmConfig = {
 
 void StateActionIdle(void)
 {
-    // Do nothing
+    /**
+     * If the Trigger Button is long pressed, the previous Pomodoro Sequence
+     * was canceled and the Progress Rings need to be cleared
+     */
+    if (EVENT_TRIGGER_BTN_LONG_PRESS == sFsmConfig.u16CurrentEvent)
+    {
+        LightEffects_ClearPomodoroProgressRings();
+    }
 }
 
 void StateActionWorktimeInit(void)
