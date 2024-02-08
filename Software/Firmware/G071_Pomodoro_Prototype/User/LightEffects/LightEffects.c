@@ -95,6 +95,44 @@ void LightEffects_ClearAllRingLeds(void)
  * Implementation for the Pomodoro
  ************************************************************/
 
+void LightEffects_mapColorsToIdx(const LightEffects_Animation_e in_eAnimation, const uint8_t u8Idx)
+{
+    // Input Checks
+    ASSERT_MSG(!(u8Idx >= RGB_LED_TOTAL_LEDS), "u8Idx is larger than RGB_LED_TOTAL_LEDS");
+    ASSERT_MSG(!(in_eAnimation >= E_ANIMATION_NOT_DEFINED), "in_eAnimation is not defined");
+
+    switch (in_eAnimation)
+    {
+    case E_ANIMATION_OFF:
+        RgbLed_setPixelColor(u8Idx, 0, 0, 0);
+        break;
+    case E_ANIMATION_WORK_TIME:
+        RgbLed_setPixelColor(u8Idx, 5, 0, 0);
+        break;
+    case E_ANIMATION_BREAK_TIME:
+        RgbLed_setPixelColor(u8Idx, 0, 1, 0);
+        break;
+    case E_ANIMATION_BREAK_TIME_BRIGHT:
+        RgbLed_setPixelColor(u8Idx, 0, 100, 0);
+        break;
+    case E_ANIMATION_FLASHLIGHT:
+        RgbLed_setPixelColor(u8Idx, 100, 100, 100);
+        break;
+    case E_ANIMATION_WARNING:
+        RgbLed_setPixelColor(u8Idx, 5, 5, 0);
+        break;
+    case E_ANIMATION_CANCEL_SEQUENCE:
+        RgbLed_setPixelColor(u8Idx, 100, 0, 200);
+        break;
+    case E_ANIMATION_SNOOZE:
+        RgbLed_setPixelColor(u8Idx, 0, 0, 100);
+        break;
+    default:
+        ASSERT_MSG(FALSE, "Unknown Animation Type");
+        break;
+    }
+}
+
 void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_t in_u8MiddleRingArraySize,
                               const uint8_t *const in_au8OuterRingArray, uint8_t in_u8OuterRingArraySize)
 {
@@ -112,33 +150,7 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
     uint8_t u8LedIndex = START_INDEX_OUTER_RING;
     for (uint8_t i = 0; i < in_u8OuterRingArraySize; i++)
     {
-        switch (in_au8OuterRingArray[i])
-        {
-        case E_ANIMATION_OFF:
-            RgbLed_setPixelColor(u8LedIndex, 0, 0, 0);
-            break;
-        case E_ANIMATION_WORK_TIME:
-            RgbLed_setPixelColor(u8LedIndex, 5, 0, 0);
-            break;
-        case E_ANIMATION_BREAK_TIME:
-            RgbLed_setPixelColor(u8LedIndex, 0, 1, 0);
-            break;
-        case E_ANIMATION_BREAK_TIME_BRIGHT:
-            RgbLed_setPixelColor(u8LedIndex, 0, 100, 0);
-            break;
-        case E_ANIMATION_FLASHLIGHT:
-            RgbLed_setPixelColor(u8LedIndex, 100, 100, 100);
-            break;
-        case E_ANIMATION_WARNING:
-            RgbLed_setPixelColor(u8LedIndex, 5, 5, 0);
-            break;
-        case E_ANIMATION_CANCEL_SEQUENCE:
-            RgbLed_setPixelColor(u8LedIndex, 100, 0, 200);
-            break;
-        default:
-            ASSERT_MSG(FALSE, "Unknown Animation Type: %d", in_au8OuterRingArray[i]);
-            break;
-        }
+        LightEffects_mapColorsToIdx(in_au8OuterRingArray[i], u8LedIndex);
         u8LedIndex++;
     }
 
@@ -148,36 +160,7 @@ void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_
     // Render the Middle ring
     for (uint8_t i = 0; i < in_u8MiddleRingArraySize; i++)
     {
-        switch (in_au8MiddleRingArray[i])
-        {
-        case E_ANIMATION_OFF:
-            RgbLed_setPixelColor(u8LedIndex, 0, 0, 0);
-            break;
-        case E_ANIMATION_WORK_TIME:
-            RgbLed_setPixelColor(u8LedIndex, 7, 0, 0);
-            break;
-        case E_ANIMATION_WARNING:
-            RgbLed_setPixelColor(u8LedIndex, 5, 5, 0);
-            break;
-        case E_ANIMATION_BREAK_TIME:
-            RgbLed_setPixelColor(u8LedIndex, 0, 1, 0);
-            break;
-        case E_ANIMATION_BREAK_TIME_BRIGHT:
-            RgbLed_setPixelColor(u8LedIndex, 0, 100, 0);
-            break;
-        case E_ANIMATION_FLASHLIGHT:
-            RgbLed_setPixelColor(u8LedIndex, 100, 100, 100);
-            break;
-        case E_ANIMATION_CANCEL_SEQUENCE:
-            RgbLed_setPixelColor(u8LedIndex, 100, 0, 200);
-            break;
-        case E_ANIMATION_SNOOZE:
-            RgbLed_setPixelColor(u8LedIndex, 0, 0, 100);
-            break;
-        default:
-            ASSERT_MSG(FALSE, "Unknown Animation Type");
-            break;
-        }
+        LightEffects_mapColorsToIdx(in_au8MiddleRingArray[i], u8LedIndex);
         u8LedIndex++;
     }
 
