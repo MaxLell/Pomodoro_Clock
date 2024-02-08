@@ -120,8 +120,8 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         // Initialize the Pomodoro Control
         PomodoroControl_init();
 
-        const uint8_t WORKTIME = 50;
-        const uint8_t BREAKTIME = 10;
+        const uint8_t WORKTIME = 51;
+        const uint8_t BREAKTIME = 17;
 
         PomodoroPeriodConfiguration_t sPomodoroPeriodConfig = {0};
         sPomodoroPeriodConfig.u8MinutesWorktimePeriod = WORKTIME;
@@ -222,8 +222,8 @@ status_e OnBoardTest_ScoreTestMsgCb(const msg_t *const in_psMsg)
     uint32_t u32ScoreSec = in_psMsg->au8DataBytes[0] << 24 | in_psMsg->au8DataBytes[1] << 16 |
                            in_psMsg->au8DataBytes[2] << 8 | in_psMsg->au8DataBytes[3] << 0;
 
-    // Print out the unsigned value of the score
-    log_info("Score in Seconds: %d", u32ScoreSec);
+    // Print out the unsigned value of the score // Print an unsigned value
+    log_info("Score in Seconds: %u", u32ScoreSec);
 
     return STATUS_SUCCESS;
 }

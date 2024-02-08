@@ -16,7 +16,7 @@
 
 #define LEDS_PER_RING 60
 
-#define POMODORO_CONTROL_TEST
+// #define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
@@ -208,6 +208,8 @@ void StateActionIdle(void)
     if (EVENT_TRIGGER_BTN_LONG_PRESS == sFsmConfig.u16CurrentEvent)
     {
         LightEffects_ClearPomodoroProgressRings();
+
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
     }
 }
 
