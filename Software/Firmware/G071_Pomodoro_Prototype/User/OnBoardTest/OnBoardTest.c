@@ -17,6 +17,10 @@
 
 #include "Score.h"
 
+#include "Encoder.h"
+
+#include "Button.h"
+
 #include "CountdownTimer.h"
 #include "Delay.h"
 
@@ -39,6 +43,9 @@ typedef enum
     // Score
     E_TEST_SCORE,
 
+    // Encoder
+    E_TEST_BASIC_ENCODER,
+
     E_LAST_TEST
 } OnBoardTest_Test_e;
 
@@ -47,7 +54,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
+#define TEST_TO_RUN E_TEST_BASIC_ENCODER
 
 /************************************************************
  * Private Function Prototypes
@@ -66,6 +73,9 @@ void OnBoardTest_testNominalPomodoroSequence(void);
 // Score
 void OnBoardTest_testScore(void);
 
+// Encoder
+void OnBoardTest_testBasicEncoder(void);
+
 /************************************************************
  * Private Variables
  ************************************************************/
@@ -81,7 +91,12 @@ STATIC test_function_ptr test_functions[E_LAST_TEST] = {
     [E_TEST_POMODORO_SEQUENCE] = OnBoardTest_testNominalPomodoroSequence,
 
     // Score System
-    [E_TEST_SCORE] = OnBoardTest_testScore};
+    [E_TEST_SCORE] = OnBoardTest_testScore,
+
+    // Encoder
+    [E_TEST_BASIC_ENCODER] = OnBoardTest_testBasicEncoder
+
+};
 
 /************************************************************
  * External private variables
@@ -147,6 +162,8 @@ void OnBoardTest_testNominalPomodoroSequence(void)
 
     // Run the CUT
     PomodoroControl_execute();
+
+    Button_execute();
 }
 
 status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
@@ -163,17 +180,20 @@ status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
     switch (in_psMsg->eMsgId)
     {
 
-    case MSG_ID_0100: { // Trigger Btn Pressed
+    case MSG_ID_0100:
+    { // Trigger Btn Pressed
         log_info("Trigger Btn was short pressed");
     }
     break;
 
-    case MSG_ID_0101: { // Trigger Btn Long Pressed
+    case MSG_ID_0101:
+    { // Trigger Btn Long Pressed
         log_info("Trigger Btn was looooooooong Pressed");
     }
     break;
 
-    case MSG_ID_0102: { // Trigger Btn Released
+    case MSG_ID_0102:
+    { // Trigger Btn Released
         log_info("Trigger Btn Released");
     }
     break;
@@ -207,6 +227,8 @@ void OnBoardTest_testButtonBehaviours(void)
         // Subscribe to the Trigger Btn Released Message
         MessageBroker_subscribe(MSG_ID_0102, OnBoardTest_ButtonTestMsgCb);
     }
+
+    Button_execute();
 }
 
 status_e OnBoardTest_ScoreTestMsgCb(const msg_t *const in_psMsg)
@@ -258,7 +280,8 @@ void OnBoardTest_testScore(void)
     {
         switch (u8ProgramCounter)
         {
-        case 0U: {
+        case 0U:
+        {
             log_info("%s", "Pomodoro Sequence Start");
 
             msg_t sMsg = {0};
@@ -271,7 +294,8 @@ void OnBoardTest_testScore(void)
         }
         break;
 
-        case 1: {
+        case 1:
+        {
             log_info("%s", "Work Time Sequence Complete");
 
             msg_t sMsg = {0};
@@ -283,7 +307,8 @@ void OnBoardTest_testScore(void)
             u8ProgramCounter++;
         }
         break;
-        case 2: {
+        case 2:
+        {
             log_info("%s", "Break Time Sequence Complete");
 
             msg_t sMsg = {0};
@@ -295,7 +320,8 @@ void OnBoardTest_testScore(void)
             u8ProgramCounter = 0;
         }
         break;
-        default: {
+        default:
+        {
         }
         }
     }
@@ -305,16 +331,91 @@ void OnBoardTest_testScore(void)
     unused(eStatus);
 }
 
+status_e OnboardTest_EncoderTestMsgCb(const msg_t *const in_psMsg)
+{
+    // Input Checks
+    ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
+
+    switch (in_psMsg->eMsgId)
+    {
+    case MSG_ID_0601:
+    {
+        // Print the score
+        int32_t s32EncoderValue = in_psMsg->au8DataBytes[0] << 0 | in_psMsg->au8DataBytes[1] << 8 |
+                                  in_psMsg->au8DataBytes[2] << 16 | in_psMsg->au8DataBytes[3] << 24;
+
+        // Print out the unsigned value of the score // Print an unsigned value
+        log_info("Encoder Value: %d", s32EncoderValue);
+    }
+    break;
+
+    case MSG_ID_0100:
+    {
+        // Publish the reset message
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_ID_0600;
+        status_e eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        unused(eStatus); // Suppress the unused variable warning
+    }
+    break;
+    default:
+        ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
+        break;
+        return STATUS_SUCCESS;
+    }
+}
+
+void OnBoardTest_testBasicEncoder(void)
+{
+    static BOOL bRanOnce = FALSE;
+    if (bRanOnce == FALSE)
+    {
+        printf("%s", "************************************************************\n");
+        printf("%s", "                 OnBoardTest_testBasicEncoder\n");
+        printf("%s", "************************************************************\n");
+
+        // Clear the flag
+        bRanOnce = TRUE;
+
+        // Subscribe to the Reset Encoder Value message
+        MessageBroker_subscribe(MSG_ID_0601, &OnboardTest_EncoderTestMsgCb);
+
+        // Subscribe to the Trigger Button Message
+        MessageBroker_subscribe(MSG_ID_0100, &OnboardTest_EncoderTestMsgCb);
+
+        // Run the Encoder init function
+        Encoder_init();
+    }
+
+    // Run the Encoder execute function
+    Encoder_execute();
+
+    Button_execute();
+
+    // Wait for 100 msec
+    Delay_ms(100);
+}
+
 /************************************************************
  * Implementation
  ************************************************************/
 
 void OnBoardTest_init(void)
 {
+    MessageBroker_init();
 }
 
 void OnBoardTest_execute(void)
 {
     // run the "Test to run"
     test_functions[TEST_TO_RUN]();
+}
+
+BOOL OnBoardTest_isRunning(void) {
+    #ifdef RUN_ON_BOARD_TEST
+    return TRUE;
+    #else
+    return FALSE;
+    #endif
 }

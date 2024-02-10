@@ -6,13 +6,20 @@
 #include "RealTimeClock.h"
 #include "StandbyControl.h"
 
+STATIC BOOL bAreOnboardTestsRunning = FALSE;
+
 /**
  * @brief  This function initializes the modules used in the program.
  */
 void Executer_init(void)
 {
-    MessageBroker_init();
-    OnBoardTest_init();
+    bAreOnboardTestsRunning = OnBoardTest_isRunning();
+    if (bAreOnboardTestsRunning == TRUE) {
+        OnBoardTest_init();
+    } else {
+        MessageBroker_init();
+        // Add in the modules here
+    }  
 }
 
 /**
@@ -20,9 +27,11 @@ void Executer_init(void)
  */
 status_e Executer_execute(void)
 {
-    OnBoardTest_execute();
-
-    Button_execute();
+    if (bAreOnboardTestsRunning == TRUE) {
+        OnBoardTest_execute();
+    } else {
+        // Add in the modules here
+    }
     return STATUS_SUCCESS;
 }
 

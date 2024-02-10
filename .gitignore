@@ -59,6 +59,3 @@ dkms.conf
 
 # DrawIO
 *.bkp
-
-# Project
-/G071_RotaryEncoder_Prototype

@@ -101,8 +101,7 @@ int main(void)
     MX_USART1_UART_Init();
     MX_TIM2_Init();
     /* USER CODE BEGIN 2 */
-    HAL_TIM_Base_Start_IT(&htim14);                 // Timer for sampling
-    HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL); // Timer for the Rotary Encoder
+    HAL_TIM_Base_Start_IT(&htim14);                 // Timer for sampling TODO: move to the Button Handler
     Printf_SetUartPort(&huart2);
 
     Executer_run();

@@ -41,6 +41,10 @@ typedef enum
     // Score
     MSG_ID_0500, // Score Updated Message
 
+    // Encoder
+    MSG_ID_0600, // Reset Encoder Value
+    MSG_ID_0601, // Encoder Value Changed
+
     E_TOPIC_LAST_TOPIC // Last Topic - DO NOT USE (Only for boundary checks)
 } msgId_e;
 
