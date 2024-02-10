@@ -3,11 +3,16 @@
 
 #include "Common.h"
 #include "MessageBroker.h"
-#include "RealTimeClock_Datatypes.h"
+#include "Button_Datatypes.h"
 
-typedef struct {
+typedef struct  {
   uint8_t u8MinutesWorktimePeriod;
   uint8_t u8MinutesBreaktimePeriod;
 } PomodoroPeriodConfiguration_t;
+
+typedef struct {
+  ButtonTypes_e eButton;
+  Event_e eEvent;
+}ButtonMessage_s;
 
 #endif  // MESSAGE_DEFINITIONS_H

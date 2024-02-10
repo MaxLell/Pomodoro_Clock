@@ -61,6 +61,8 @@ void Error_Handler(void);
 #define TRIGGER_BTN_GPIO_Port GPIOC
 #define MCO_Pin GPIO_PIN_0
 #define MCO_GPIO_Port GPIOF
+#define ENCODER_BTN_Pin GPIO_PIN_3
+#define ENCODER_BTN_GPIO_Port GPIOC
 #define ENCODER_1_Pin GPIO_PIN_0
 #define ENCODER_1_GPIO_Port GPIOA
 #define ENCODER_B_Pin GPIO_PIN_1

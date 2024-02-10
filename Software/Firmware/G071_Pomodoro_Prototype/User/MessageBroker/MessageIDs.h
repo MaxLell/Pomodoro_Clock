@@ -24,6 +24,7 @@ typedef enum
     MSG_ID_0100, // Trigger Button: was pressed once
     MSG_ID_0101, // Trigger Button: is Pressed Down Continuously
     MSG_ID_0102, // Trigger Button: was released after being pressed down
+    MSG_ID_0103, // Button Event
                  // continuously
 
     // State Machine Messages

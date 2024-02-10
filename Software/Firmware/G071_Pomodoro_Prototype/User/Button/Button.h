@@ -5,6 +5,8 @@
 
 void Button_TimIsr(void);
 
+void Button_init(void);
+
 void Button_execute(void);
 
 #endif // BUTTON_H

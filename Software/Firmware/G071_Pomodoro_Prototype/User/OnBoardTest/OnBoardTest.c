@@ -54,7 +54,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_BASIC_ENCODER
+#define TEST_TO_RUN E_TEST_BUTTON
 
 /************************************************************
  * Private Function Prototypes
@@ -170,33 +170,18 @@ status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
 {
     { // Input Checks
         ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
-
-        // Message ID check
-        ASSERT_MSG(
-            !(in_psMsg->eMsgId != MSG_ID_0100 && in_psMsg->eMsgId != MSG_ID_0101 && in_psMsg->eMsgId != MSG_ID_0102),
-            "Unknown Message ID: %d", in_psMsg->eMsgId);
     }
 
     switch (in_psMsg->eMsgId)
     {
 
-    case MSG_ID_0100:
-    { // Trigger Btn Pressed
-        log_info("Trigger Btn was short pressed");
-    }
-    break;
+    case MSG_ID_0103: {
+        // Print the score
+        ButtonMessage_s *psButtonMessage = (ButtonMessage_s *)in_psMsg->au8DataBytes;
 
-    case MSG_ID_0101:
-    { // Trigger Btn Long Pressed
-        log_info("Trigger Btn was looooooooong Pressed");
-    }
-    break;
-
-    case MSG_ID_0102:
-    { // Trigger Btn Released
-        log_info("Trigger Btn Released");
-    }
-    break;
+        // Print out the unsigned value of the score // Print an unsigned value
+        log_info("Button: %d, Event: %d", psButtonMessage->eButton, psButtonMessage->eEvent);
+    }break;
 
     default:
         ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
@@ -218,14 +203,10 @@ void OnBoardTest_testButtonBehaviours(void)
         // Clear the flag
         bRanOnce = TRUE;
 
-        // Subsribe to the Trigger Btn pressed Message
-        MessageBroker_subscribe(MSG_ID_0100, OnBoardTest_ButtonTestMsgCb);
-
-        // Subscribe to the Trigger Btn Long press Message
-        MessageBroker_subscribe(MSG_ID_0101, OnBoardTest_ButtonTestMsgCb);
-
         // Subscribe to the Trigger Btn Released Message
-        MessageBroker_subscribe(MSG_ID_0102, OnBoardTest_ButtonTestMsgCb);
+        MessageBroker_subscribe(MSG_ID_0103, OnBoardTest_ButtonTestMsgCb);
+
+        Button_init();
     }
 
     Button_execute();
@@ -391,6 +372,7 @@ void OnBoardTest_testBasicEncoder(void)
     // Run the Encoder execute function
     Encoder_execute();
 
+    // Run the Button execute function
     Button_execute();
 
     // Wait for 100 msec

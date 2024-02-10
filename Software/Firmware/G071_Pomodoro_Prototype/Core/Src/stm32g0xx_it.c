@@ -86,7 +86,7 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
-  log_info("Hard Fault Occured somewhere");
+  log_error("Hard Fault Occured somewhere");
 
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
