@@ -135,8 +135,8 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         // Initialize the Pomodoro Control
         PomodoroControl_init();
 
-        const uint8_t WORKTIME = 30;
-        const uint8_t BREAKTIME = 60;
+        const uint8_t WORKTIME = 1;
+        const uint8_t BREAKTIME = 10;
 
         PomodoroPeriodConfiguration_t sPomodoroPeriodConfig = {0};
         sPomodoroPeriodConfig.u8MinutesWorktimePeriod = WORKTIME;
@@ -178,7 +178,8 @@ status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
     switch (in_psMsg->eMsgId)
     {
 
-    case MSG_ID_0103: {
+    case MSG_ID_0103:
+    {
         // Print the score
         ButtonMessage_s *psButtonMessage = (ButtonMessage_s *)in_psMsg->au8DataBytes;
 
@@ -186,14 +187,14 @@ status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
         // log_info("Button: %d, Event: %d", psButtonMessage->eButton, psButtonMessage->eEvent);
 
         // Map the correct button to the button number
-        char* pcButtonNames[] = {"Invalid", "Trigger Btn", "Encoder Btn", "Shoulder Btn 1", "Shoulder Btn 2"};
+        char *pcButtonNames[] = {"Invalid", "Trigger Btn", "Encoder Btn", "Shoulder Btn 1", "Shoulder Btn 2"};
 
         // Map the correct event to the event number
-        char* pcEventNames[] = {"Invalid", "Pressed", "Released", "Long Pressed"};
+        char *pcEventNames[] = {"Invalid", "Pressed", "Released", "Long Pressed"};
 
         log_info("Button: %s, Event: %s", pcButtonNames[psButtonMessage->eButton], pcEventNames[psButtonMessage->eEvent]);
-
-    }break;
+    }
+    break;
 
     default:
         ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
@@ -406,10 +407,11 @@ void OnBoardTest_execute(void)
     test_functions[TEST_TO_RUN]();
 }
 
-BOOL OnBoardTest_isRunning(void) {
-    #ifdef RUN_ON_BOARD_TEST
+BOOL OnBoardTest_isRunning(void)
+{
+#ifdef RUN_ON_BOARD_TEST
     return TRUE;
-    #else
+#else
     return FALSE;
-    #endif
+#endif
 }

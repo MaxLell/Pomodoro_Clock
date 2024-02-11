@@ -16,12 +16,12 @@
 
 #define LEDS_PER_RING 60
 
-#define POMODORO_CONTROL_TEST
+// #define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
 #define TIMER_PERIOD_SEC 1000
-#define TIMER_PERIOD_SNOOZE_MS 30
+#define TIMER_PERIOD_SNOOZE_MS 300
 #define TIMER_PERIOD_CANCEL_SEQ_MS 50
 #define TIMER_PERIOD_WARNING_MS 1000
 #define TIMEOUT_PERIOD_MIN 5
@@ -184,7 +184,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_SNOOZE,
             [EVENT_ENCODER_BTN_RELEASED] = STATE_SNOOZE,
-            [EVENT_SEQUENCE_COMPLETE] = STATE_BREAKTIME,
+            [EVENT_SEQUENCE_COMPLETE] = STATE_BREAKTIME_INIT,
             [EVENT_SEQUENCE_PENDING] = STATE_SNOOZE,
         },
     // Current State
@@ -360,6 +360,12 @@ void StateActionWarning(void)
 
 void StateActionBreaktimeInit(void)
 {
+    // Generate the updated Minute Array
+    PomodoroControl_getMinuteArray(&sPomodoroProgress);
+
+    // Render the compressed Arrays on the Rings
+    LightEffects_RenderPomodoro(sPomodoroProgress.au8MinuteArray, TOTAL_MINUTES, TRUE);
+
     // Set Trigger Event to Sequence Complete
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
 }
