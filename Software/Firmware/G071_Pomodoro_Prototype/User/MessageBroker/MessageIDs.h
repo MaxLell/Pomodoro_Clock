@@ -32,6 +32,7 @@ typedef enum
     MSG_ID_0201, // Pomodoro Work Time Sequence Complete
     MSG_ID_0202, // Pomodoro Break Time Sequence Complete
     MSG_ID_0203, // Pomodoro Cancel Sequence Complete
+    MSG_ID_0204, // Pomodoro Sequence Complete
 
     // Real Time Clock Messages0101
     MSG_ID_0300, // RTC: 1 Second Tick

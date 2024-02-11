@@ -42,6 +42,7 @@ STATIC timer_t sTimerWtBtHandler = {0};
 STATIC timer_t sTimerWarningHandler = {0};
 STATIC timer_t sTimerCancelSeqHandler = {0};
 STATIC timer_t sTimerCancelSeqTimeoutHandler = {0};
+STATIC timer_t sTimerSnoozeHandler = {0};
 
 STATIC PCTRL_Progress_t sPomodoroProgress = {0};
 
@@ -69,6 +70,8 @@ STATIC void StateActionBreaktime(void);
 STATIC void StateActionCancelSequenceInit(void);
 STATIC void StateActionCancelSequenceRunning(void);
 STATIC void StateActionCancelSequenceHalted(void);
+STATIC void StateActionSnooze(void);
+STATIC void StateActionCleanUp(void);
 
 /**
  * Old State ----(Event)-----> New State Matrix
@@ -81,6 +84,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME_INIT,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_IDLE,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_IDLE,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_IDLE,
             [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
             [EVENT_SEQUENCE_PENDING] = STATE_IDLE,
         },
@@ -91,6 +95,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME_INIT,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_IDLE,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WORKTIME_INIT,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_WORKTIME_INIT,
             [EVENT_SEQUENCE_COMPLETE] = STATE_WORKTIME,
             [EVENT_SEQUENCE_PENDING] = STATE_WORKTIME_INIT,
         },
@@ -101,6 +106,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_IDLE,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WORKTIME,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_WORKTIME,
             [EVENT_SEQUENCE_COMPLETE] = STATE_WARNING,
             [EVENT_SEQUENCE_PENDING] = STATE_WORKTIME,
         },
@@ -111,6 +117,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WARNING,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WARNING,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_WARNING,
             [EVENT_SEQUENCE_COMPLETE] = STATE_BREAKTIME_INIT,
             [EVENT_SEQUENCE_PENDING] = STATE_WARNING,
         },
@@ -121,6 +128,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_BREAKTIME_INIT,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_BREAKTIME_INIT,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_BREAKTIME_INIT,
             [EVENT_SEQUENCE_COMPLETE] = STATE_BREAKTIME,
             [EVENT_SEQUENCE_PENDING] = STATE_BREAKTIME_INIT,
         },
@@ -131,6 +139,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_BREAKTIME,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_BREAKTIME,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_SNOOZE,
             [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
             [EVENT_SEQUENCE_PENDING] = STATE_BREAKTIME,
         },
@@ -141,6 +150,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_INIT,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_SEQUENCE_COMPLETE] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_SEQUENCE_PENDING] = STATE_CANCEL_SEQUENCE_INIT,
         },
@@ -151,6 +161,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_HALTED,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
             [EVENT_SEQUENCE_PENDING] = STATE_CANCEL_SEQUENCE_RUNNING,
         },
@@ -161,8 +172,31 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_CANCEL_SEQUENCE_HALTED,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_HALTED,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_HALTED,
             [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
             [EVENT_SEQUENCE_PENDING] = STATE_CANCEL_SEQUENCE_HALTED,
+        },
+    // Current State
+    [STATE_SNOOZE] =
+        {
+            // Event ----------------------> Next State
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_SNOOZE,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
+            [EVENT_TRIGGER_BTN_RELEASED] = STATE_SNOOZE,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_SNOOZE,
+            [EVENT_SEQUENCE_COMPLETE] = STATE_BREAKTIME,
+            [EVENT_SEQUENCE_PENDING] = STATE_SNOOZE,
+        },
+    // Current State
+    [STATE_CLEAN_UP] =
+        {
+            // Event ----------------------> Next State
+            [EVENT_POMODORO_SEQUENCE_START] = STATE_CLEAN_UP,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CLEAN_UP,
+            [EVENT_TRIGGER_BTN_RELEASED] = STATE_CLEAN_UP,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_CLEAN_UP,
+            [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
+            [EVENT_SEQUENCE_PENDING] = STATE_CLEAN_UP,
         },
 };
 
@@ -179,6 +213,8 @@ STATIC const FSM_StateActionCb aStateActions[] = {
     [STATE_CANCEL_SEQUENCE_INIT] = StateActionCancelSequenceInit,
     [STATE_CANCEL_SEQUENCE_RUNNING] = StateActionCancelSequenceRunning,
     [STATE_CANCEL_SEQUENCE_HALTED] = StateActionCancelSequenceHalted,
+    [STATE_SNOOZE] = StateActionSnooze,
+    [STATE_CLEAN_UP] = StateActionCleanUp,
 };
 
 /**
@@ -447,6 +483,67 @@ void StateActionCancelSequenceHalted(void)
     }
 }
 
+void StateActionSnooze(void)
+{
+    static BOOL bRunOnce = FALSE;
+
+    // Set Trigger Event to Pending
+    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
+
+    if (!bRunOnce)
+    {
+        // Set a new Timer Instance
+        Countdown_initTimerMs(&sTimerSnoozeHandler, TIMER_PERIOD_SNOOZE_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_startTimer(&sTimerSnoozeHandler);
+
+        // Clear the Pomodoro Progress Rings
+        LightEffects_ClearPomodoroProgressRings();
+
+        // Set the initial config
+        sRingCountdown.eEffect = E_RING_COUNTDOWN_EFFECT__SNOOZE;
+        sRingCountdown.u8CurrentFillingMin = MINUTES_IN_HOUR;
+        sRingCountdown.bIsComplete = FALSE;
+
+        LightEffects_RenderRingCountdown(&sRingCountdown);
+
+        // Set the Flag
+        bRunOnce = TRUE;
+    }
+
+    BOOL bSnoozePeriodIsOver = sRingCountdown.bIsComplete;
+
+    // If Warning Period is not over
+    if (FALSE == bSnoozePeriodIsOver)
+    {
+        // If one Minute is over - only then run the code
+        timer_status_t sTimerStatus = Countdown_getTimerStatus(&sTimerSnoozeHandler);
+        if (E_COUNTDOWN_TIMER_EXPIRED == sTimerStatus)
+        {
+            // Update the CFGs
+            LightEffects_UpdateRingCountdown(&sRingCountdown);
+
+            // Render the compressed Arrays on the Rings
+            LightEffects_RenderRingCountdown(&sRingCountdown);
+        }
+    }
+    else
+    { // If Warning Period is over
+      // Set Event -> Seq Complete
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
+
+        // Reset the flag
+        bRunOnce = FALSE;
+    }
+}
+
+void StateActionCleanUp(void)
+{
+    // Set the Trigger Event to Pending
+    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
+
+    log_info("huhu");
+}
+
 /********************************************************
  * Function Prototypes
  ********************************************************/
@@ -471,8 +568,6 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
         }
     }
 
-    status_e eStatus = STATUS_SUCCESS;
-
     switch (psMsg->eMsgId)
     {
     case MSG_ID_0200: // Pomodoro Sequence Start Event
@@ -484,36 +579,24 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
     case MSG_ID_0103: // Button Event
     {
         ButtonMessage_s *psButtonMsg = (ButtonMessage_s *)psMsg->au8DataBytes;
-        switch (psButtonMsg->eButton)
+        if (psButtonMsg->eButton == E_BUTTON_TRIGGER)
         {
-        case E_BUTTON_TRIGGER:
-        {
-            switch (psButtonMsg->eEvent)
-            {
-            case E_BTN_EVENT_LONG_PRESSED:
+            if (psButtonMsg->eEvent == E_BTN_EVENT_LONG_PRESSED)
             {
                 FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_LONG_PRESS);
-            } break;
+            }
 
-            case E_BTN_EVENT_RELEASED:
+            if (psButtonMsg->eEvent == E_BTN_EVENT_RELEASED)
             {
                 FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_RELEASED);
-            } break;
-
-            default:
-                // Do nothing
-                break;
             }
-        } break;
-
-        case E_BUTTON_ENCODER:
+        }
+        else if (psButtonMsg->eButton == E_BUTTON_ENCODER)
         {
-            // Shall eventually trigger the Snooze State
-        } break;
-
-        default:
-            // Do nothing
-            break;
+            if (psButtonMsg->eEvent == E_BTN_EVENT_RELEASED)
+            {
+                FSM_setTriggerEvent(&sFsmConfig, EVENT_ENCODER_BTN_RELEASED);
+            }
         }
     }
     break;
@@ -529,14 +612,17 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
     break;
 
     default:
+    {
         ASSERT_MSG(FALSE,
                    "This Callback should not be called for this message, but it "
                    "was with the following message ID: %d",
                    psMsg->eMsgId);
-        eStatus = STATUS_ERROR;
-        break;
+        return STATUS_ERROR;
     }
-    return eStatus;
+    break;
+    }
+
+    return STATUS_SUCCESS;
 }
 
 void PomodoroControl_init(void)

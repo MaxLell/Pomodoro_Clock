@@ -54,7 +54,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_BUTTON
+#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
 
 /************************************************************
  * Private Function Prototypes
@@ -135,8 +135,8 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         // Initialize the Pomodoro Control
         PomodoroControl_init();
 
-        const uint8_t WORKTIME = 51;
-        const uint8_t BREAKTIME = 17;
+        const uint8_t WORKTIME = 30;
+        const uint8_t BREAKTIME = 60;
 
         PomodoroPeriodConfiguration_t sPomodoroPeriodConfig = {0};
         sPomodoroPeriodConfig.u8MinutesWorktimePeriod = WORKTIME;
