@@ -16,14 +16,14 @@
 
 #define LEDS_PER_RING 60
 
-#define POMODORO_CONTROL_TEST
+// #define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
 #define TIMER_PERIOD_SEC 1000
-#define TIMER_PERIOD_SNOOZE_MS 300
-#define TIMER_PERIOD_CANCEL_SEQ_MS 50
-#define TIMER_PERIOD_WARNING_MS 1000
+#define TIMER_PERIOD_SNOOZE_MS 5000    // 5 Minute Snooze Interval (5000ms * 60 Increments = 5 Minutes)
+#define TIMER_PERIOD_CANCEL_SEQ_MS 150 // (150ms * 60 Increments = 9 Seconds)
+#define TIMER_PERIOD_WARNING_MS 300    // (300ms * 60 Increments = 30 Seconds)
 #define TIMEOUT_PERIOD_MIN 5
 #else
 #define TIMER_PERIOD_MIN 60
