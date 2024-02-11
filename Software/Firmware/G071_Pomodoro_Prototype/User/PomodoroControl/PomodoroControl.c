@@ -16,7 +16,7 @@
 
 #define LEDS_PER_RING 60
 
-// #define POMODORO_CONTROL_TEST
+#define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
@@ -37,8 +37,6 @@
 /********************************************************
  * Private Variables
  ********************************************************/
-
-STATIC uint8_t u8EffectArraySize = 0;
 
 STATIC timer_t sTimerWtBtHandler = {0};
 STATIC timer_t sTimerWarningHandler = {0};
@@ -483,15 +481,40 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
     }
     break;
 
-    case MSG_ID_0101: // Trigger Button: is Pressed Down Continuously
+    case MSG_ID_0103: // Button Event
     {
-        FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_LONG_PRESS);
-    }
-    break;
+        ButtonMessage_s *psButtonMsg = (ButtonMessage_s *)psMsg->au8DataBytes;
+        switch (psButtonMsg->eButton)
+        {
+        case E_BUTTON_TRIGGER:
+        {
+            switch (psButtonMsg->eEvent)
+            {
+            case E_BTN_EVENT_LONG_PRESSED:
+            {
+                FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_LONG_PRESS);
+            } break;
 
-    case MSG_ID_0102: // Trigger Button: is Released after a Long Press
-    {
-        FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_RELEASED);
+            case E_BTN_EVENT_RELEASED:
+            {
+                FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_RELEASED);
+            } break;
+
+            default:
+                // Do nothing
+                break;
+            }
+        } break;
+
+        case E_BUTTON_ENCODER:
+        {
+            // Shall eventually trigger the Snooze State
+        } break;
+
+        default:
+            // Do nothing
+            break;
+        }
     }
     break;
 
@@ -525,10 +548,7 @@ void PomodoroControl_init(void)
     eStatus = MessageBroker_subscribe(MSG_ID_0200, PomodoroControl_MessageCallback);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 
-    eStatus = MessageBroker_subscribe(MSG_ID_0101, PomodoroControl_MessageCallback);
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
-
-    eStatus = MessageBroker_subscribe(MSG_ID_0102, PomodoroControl_MessageCallback);
+    eStatus = MessageBroker_subscribe(MSG_ID_0103, PomodoroControl_MessageCallback);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 }
 
