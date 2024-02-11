@@ -16,7 +16,7 @@
 
 #define LEDS_PER_RING 60
 
-// #define POMODORO_CONTROL_TEST
+#define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
@@ -28,7 +28,7 @@
 #else
 #define TIMER_PERIOD_MIN 60
 #define TIMER_PERIOD_SEC 30
-#define TIMER_PERIOD_SNOOZE_MS 30
+#define TIMER_PERIOD_SNOOZE_MS 50
 #define TIMER_PERIOD_CANCEL_SEQ_MS 30
 #define TIMER_PERIOD_WARNING_MS 30
 #define TIMEOUT_PERIOD_MIN 100
@@ -492,6 +492,7 @@ void StateActionSnooze(void)
 
     if (!bRunOnce)
     {
+
         // Set a new Timer Instance
         Countdown_initTimerMs(&sTimerSnoozeHandler, TIMER_PERIOD_SNOOZE_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
         Countdown_startTimer(&sTimerSnoozeHandler);
