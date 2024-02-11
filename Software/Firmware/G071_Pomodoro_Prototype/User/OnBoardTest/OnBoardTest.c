@@ -54,7 +54,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
+#define TEST_TO_RUN E_TEST_BUTTON
 
 /************************************************************
  * Private Function Prototypes
@@ -183,7 +183,16 @@ status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
         ButtonMessage_s *psButtonMessage = (ButtonMessage_s *)in_psMsg->au8DataBytes;
 
         // Print out the unsigned value of the score // Print an unsigned value
-        log_info("Button: %d, Event: %d", psButtonMessage->eButton, psButtonMessage->eEvent);
+        // log_info("Button: %d, Event: %d", psButtonMessage->eButton, psButtonMessage->eEvent);
+
+        // Map the correct button to the button number
+        char* pcButtonNames[] = {"Invalid", "Trigger Btn", "Encoder Btn", "Shoulder Btn 1", "Shoulder Btn 2"};
+
+        // Map the correct event to the event number
+        char* pcEventNames[] = {"Invalid", "Pressed", "Released", "Long Pressed"};
+
+        log_info("Button: %s, Event: %s", pcButtonNames[psButtonMessage->eButton], pcEventNames[psButtonMessage->eEvent]);
+
     }break;
 
     default:

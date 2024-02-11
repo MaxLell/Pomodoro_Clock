@@ -68,10 +68,15 @@ void Button_getDebouncedState(Button_s *const inout_psButton)
 
 void Button_TimIsr(void)
 {
-    if (bInitialized == TRUE)
+    if (bInitialized == FALSE)
     {
-        Button_getDebouncedState(&sButtons[TRIGGER_BTN_IDX]);
-        Button_getDebouncedState(&sButtons[ENCODER_BTN_IDX]);
+        return;
+    }
+    
+    for (uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++)
+    {
+        // Update the Debounced State of the Buttons
+        Button_getDebouncedState(&sButtons[i]);
     }
 }
 
