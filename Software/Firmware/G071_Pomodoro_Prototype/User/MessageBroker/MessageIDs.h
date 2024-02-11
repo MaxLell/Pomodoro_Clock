@@ -20,14 +20,10 @@ typedef enum
     MSG_ID_0001 = 0U, // Chaos Elephant
     MSG_ID_0002,      // Tickly Giraffe
 
-    // Trigger Button Messages
-    MSG_ID_0100, // Trigger Button: was pressed once
-    MSG_ID_0101, // Trigger Button: is Pressed Down Continuously
-    MSG_ID_0102, // Trigger Button: was released after being pressed down
+    // Button Messages
     MSG_ID_0103, // Button Event
-                 // continuously
 
-    // State Machine Messages
+    // Pomodoro Control Messages
     MSG_ID_0200, // Pomodoro Sequence Start
     MSG_ID_0201, // Pomodoro Work Time Sequence Complete
     MSG_ID_0202, // Pomodoro Break Time Sequence Complete
@@ -46,6 +42,16 @@ typedef enum
     // Encoder
     MSG_ID_0600, // Reset Encoder Value
     MSG_ID_0601, // Encoder Value Changed
+
+    // Standby Control Messages
+    MSG_ID_0700, // Standby Ctrl: Start Sequence
+    MSG_ID_0701, // Standby Ctrl: Stop Sequence
+    MSG_ID_0702, // Standby Ctrl: Sequence Completed
+
+    // Setting Message
+    MSG_ID_0800, // Setting: Start Setting Brightness
+    MSG_ID_0801, // Setting: Start Setting Periods
+    MSG_ID_0802, // Setting: Setting Sequence Complete
 
     E_TOPIC_LAST_TOPIC // Last Topic - DO NOT USE (Only for boundary checks)
 } msgId_e;
