@@ -16,7 +16,7 @@
 
 #define LEDS_PER_RING 60
 
-// #define POMODORO_CONTROL_TEST
+#define POMODORO_CONTROL_TEST
 
 #ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
@@ -104,7 +104,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
         {
             // Event -----------> Next State
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WORKTIME,
-            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_IDLE,
+            [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CLEAN_UP,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WORKTIME,
             [EVENT_ENCODER_BTN_RELEASED] = STATE_WORKTIME,
             [EVENT_SEQUENCE_COMPLETE] = STATE_WARNING,
@@ -117,7 +117,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_POMODORO_SEQUENCE_START] = STATE_WARNING,
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_WARNING,
-            [EVENT_ENCODER_BTN_RELEASED] = STATE_WARNING,
+            [EVENT_ENCODER_BTN_RELEASED] = STATE_SNOOZE,
             [EVENT_SEQUENCE_COMPLETE] = STATE_BREAKTIME_INIT,
             [EVENT_SEQUENCE_PENDING] = STATE_WARNING,
         },
@@ -140,7 +140,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_INIT,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_BREAKTIME,
             [EVENT_ENCODER_BTN_RELEASED] = STATE_SNOOZE,
-            [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
+            [EVENT_SEQUENCE_COMPLETE] = STATE_CLEAN_UP,
             [EVENT_SEQUENCE_PENDING] = STATE_BREAKTIME,
         },
 
@@ -162,7 +162,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_HALTED,
             [EVENT_ENCODER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_RUNNING,
-            [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
+            [EVENT_SEQUENCE_COMPLETE] = STATE_CLEAN_UP,
             [EVENT_SEQUENCE_PENDING] = STATE_CANCEL_SEQUENCE_RUNNING,
         },
     // Current State
@@ -173,7 +173,7 @@ STATIC const uint16_t au16FsmTransitionMatrix[STATE_LAST][EVENT_LAST] = {
             [EVENT_TRIGGER_BTN_LONG_PRESS] = STATE_CANCEL_SEQUENCE_RUNNING,
             [EVENT_TRIGGER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_HALTED,
             [EVENT_ENCODER_BTN_RELEASED] = STATE_CANCEL_SEQUENCE_HALTED,
-            [EVENT_SEQUENCE_COMPLETE] = STATE_IDLE,
+            [EVENT_SEQUENCE_COMPLETE] = STATE_CLEAN_UP,
             [EVENT_SEQUENCE_PENDING] = STATE_CANCEL_SEQUENCE_HALTED,
         },
     // Current State
@@ -236,15 +236,9 @@ FSM_Config_t sFsmConfig = {
 void StateActionIdle(void)
 {
     /**
-     * If the Trigger Button is long pressed, the previous Pomodoro Sequence
-     * was canceled and the Progress Rings need to be cleared
+     * You do nuthin Jon Snow!
+     * Wait around and watch the pain dry on the wall
      */
-    if (EVENT_TRIGGER_BTN_LONG_PRESS == sFsmConfig.u16CurrentEvent)
-    {
-        LightEffects_ClearPomodoroProgressRings();
-
-        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
-    }
 }
 
 void StateActionWorktimeInit(void)
@@ -547,7 +541,21 @@ void StateActionCleanUp(void)
     // Set the Trigger Event to Pending
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_PENDING);
 
-    log_info("huhu");
+    // Clear the Progress Rings
+    LightEffects_ClearPomodoroProgressRings();
+
+    // Publish the Pomodoro Sequence Complete Message
+    msg_t sMsg = {0};
+    sMsg.eMsgId = MSG_ID_0204; // Pomodoro Sequence Complete
+    status_e eStatus = MessageBroker_publish(&sMsg);
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish: %d", eStatus);
+    unused(eStatus); // Avoid compiler warning
+
+    // Stop the Countdown Timer
+    Countdown_stopTimer(&sTimerCancelSeqTimeoutHandler);
+
+    // Set the Sequence to Complete
+    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
 }
 
 /********************************************************

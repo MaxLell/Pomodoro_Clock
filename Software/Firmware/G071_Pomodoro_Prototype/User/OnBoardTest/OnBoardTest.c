@@ -135,8 +135,8 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         // Initialize the Pomodoro Control
         PomodoroControl_init();
 
-        const uint8_t WORKTIME = 1;
-        const uint8_t BREAKTIME = 10;
+        const uint8_t WORKTIME = 25;
+        const uint8_t BREAKTIME = 35;
 
         PomodoroPeriodConfiguration_t sPomodoroPeriodConfig = {0};
         sPomodoroPeriodConfig.u8MinutesWorktimePeriod = WORKTIME;
