@@ -13,7 +13,7 @@ STATIC status_e RealTimeClock_publishTimeAndDate(TimeAndDate_t *in_psTimeAndDate
         ASSERT_MSG(!(in_psTimeAndDate == NULL), "Null pointer provided");
     }
     msg_t sMsg = {0};
-    sMsg.eMsgId = MSG_ID_0300;
+    sMsg.eMsgId = MSG_0300;
     sMsg.au8DataBytes = (uint8_t *)in_psTimeAndDate;
     sMsg.u16DataSize = sizeof(TimeAndDate_t);
     status_e tStatus = MessageBroker_publish(&sMsg);

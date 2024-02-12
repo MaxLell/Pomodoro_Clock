@@ -292,7 +292,7 @@ void StateActionWorktime(void)
 
         // Publish Message: Worktime Complete via the MsgBroker
         msg_t sMsg = {0};
-        sMsg.eMsgId = MSG_ID_0201; // Pomodoro Work Time Sequence Complete
+        sMsg.eMsgId = MSG_0201; // Pomodoro Work Time Sequence Complete
         status_e eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish: %d", eStatus);
         unused(eStatus); // Avoid compiler warning
@@ -396,7 +396,7 @@ void StateActionBreaktime(void)
 
         // Publish Message: Breaktime Complete via the MsgBroker
         msg_t sMsg = {0};
-        sMsg.eMsgId = MSG_ID_0202; // Pomodoro Break Time Sequence Complete
+        sMsg.eMsgId = MSG_0202; // Pomodoro Break Time Sequence Complete
         status_e eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish: %d", eStatus);
         unused(eStatus); // Avoid compiler warning
@@ -547,7 +547,7 @@ void StateActionCleanUp(void)
 
     // Publish the Pomodoro Sequence Complete Message
     msg_t sMsg = {0};
-    sMsg.eMsgId = MSG_ID_0204; // Pomodoro Sequence Complete
+    sMsg.eMsgId = MSG_0204; // Pomodoro Sequence Complete
     status_e eStatus = MessageBroker_publish(&sMsg);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish: %d", eStatus);
     unused(eStatus); // Avoid compiler warning
@@ -585,13 +585,13 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
 
     switch (psMsg->eMsgId)
     {
-    case MSG_ID_0200: // Pomodoro Sequence Start Event
+    case MSG_0200: // Pomodoro Sequence Start Event
     {
         FSM_setTriggerEvent(&sFsmConfig, EVENT_POMODORO_SEQUENCE_START);
     }
     break;
 
-    case MSG_ID_0103: // Button Event
+    case MSG_0103: // Button Event
     {
         ButtonMessage_s *psButtonMsg = (ButtonMessage_s *)psMsg->au8DataBytes;
         if (psButtonMsg->eButton == E_BUTTON_TRIGGER)
@@ -616,8 +616,8 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
     }
     break;
 
-    case MSG_ID_0400: // Pomodoro Configuration: Worktime and Breaktime
-                      // Periods
+    case MSG_0400: // Pomodoro Configuration: Worktime and Breaktime
+                   // Periods
     {
         // Get the Pomodoro Configuration
         PomodoroPeriodConfiguration_t *psPomodoroConfig = (PomodoroPeriodConfiguration_t *)psMsg->au8DataBytes;
@@ -643,13 +643,13 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
 void PomodoroControl_init(void)
 {
     // Subscribe to Messages
-    status_e eStatus = MessageBroker_subscribe(MSG_ID_0400, PomodoroControl_MessageCallback);
+    status_e eStatus = MessageBroker_subscribe(MSG_0400, PomodoroControl_MessageCallback);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 
-    eStatus = MessageBroker_subscribe(MSG_ID_0200, PomodoroControl_MessageCallback);
+    eStatus = MessageBroker_subscribe(MSG_0200, PomodoroControl_MessageCallback);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 
-    eStatus = MessageBroker_subscribe(MSG_ID_0103, PomodoroControl_MessageCallback);
+    eStatus = MessageBroker_subscribe(MSG_0103, PomodoroControl_MessageCallback);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 }
 

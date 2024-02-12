@@ -4,7 +4,6 @@
 #include "MessageBroker.h"
 #include "OnBoardTest.h"
 #include "RealTimeClock.h"
-#include "StandbyControl.h"
 
 STATIC BOOL bAreOnboardTestsRunning = FALSE;
 
@@ -14,12 +13,15 @@ STATIC BOOL bAreOnboardTestsRunning = FALSE;
 void Executer_init(void)
 {
     bAreOnboardTestsRunning = OnBoardTest_isRunning();
-    if (bAreOnboardTestsRunning == TRUE) {
+    if (bAreOnboardTestsRunning == TRUE)
+    {
         OnBoardTest_init();
-    } else {
+    }
+    else
+    {
         MessageBroker_init();
         // Add in the modules here
-    }  
+    }
 }
 
 /**
@@ -27,9 +29,12 @@ void Executer_init(void)
  */
 status_e Executer_execute(void)
 {
-    if (bAreOnboardTestsRunning == TRUE) {
+    if (bAreOnboardTestsRunning == TRUE)
+    {
         OnBoardTest_execute();
-    } else {
+    }
+    else
+    {
         // Add in the modules here
     }
     return STATUS_SUCCESS;

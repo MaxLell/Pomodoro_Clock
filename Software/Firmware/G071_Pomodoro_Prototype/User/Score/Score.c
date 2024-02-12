@@ -16,7 +16,7 @@ void Score_publishScore(void)
 {
     // Publish the current daily score
     msg_t sMsg;
-    sMsg.eMsgId = MSG_ID_0500;
+    sMsg.eMsgId = MSG_0500;
     uint8_t au8DataBytes[4] = {0U};
 
     au8DataBytes[0] = (uint8_t)(u32TotalDailyActivePomodoroSeconds >> 24);
@@ -27,7 +27,7 @@ void Score_publishScore(void)
     sMsg.u16DataSize = 4U;
 
     status_e eStatus = MessageBroker_publish(&sMsg);
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_publishScore: Failed to publish MSG_ID_0500");
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_publishScore: Failed to publish MSG_0500");
 
     unused(eStatus); // To avoid compiler warnings when the code is optimized
 }
@@ -44,7 +44,7 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
 
     switch (in_psMessage->eMsgId)
     {
-    case MSG_ID_0200: // Pomodoro Sequence Start
+    case MSG_0200: // Pomodoro Sequence Start
     {
         // Reset the currentScore
         u32CurrentSecondCount = 0U;
@@ -62,7 +62,7 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
     }
     break;
 
-    case MSG_ID_0201: // Pomodoro Work Time Sequence Complete
+    case MSG_0201: // Pomodoro Work Time Sequence Complete
     {
         // Add the currentScore to the daily score
         u32TotalDailyActivePomodoroSeconds += u32CurrentSecondCount;
@@ -78,7 +78,7 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
     }
     break;
 
-    case MSG_ID_0202: // Pomodoro Break Time Sequence Complete
+    case MSG_0202: // Pomodoro Break Time Sequence Complete
     {
         // Add the currentScore to the daily score
         u32TotalDailyActivePomodoroSeconds += u32CurrentSecondCount;
@@ -97,7 +97,7 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
     }
     break;
 
-    case MSG_ID_0203: // Pomodoro Cancel Sequence Complete
+    case MSG_0203: // Pomodoro Cancel Sequence Complete
     {
         // Stop the Seconds-counting Countdown Timer
         Countdown_stopTimer(&sCountdownTimerSec);
@@ -127,14 +127,14 @@ void Score_init(void)
 {
     // Subscive to all status messages from the Pomodoro
     status_e eStatus;
-    eStatus = MessageBroker_subscribe(MSG_ID_0200, Score_MsgCb); // Pomodoro Sequence Start
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_ID_0200");
-    eStatus = MessageBroker_subscribe(MSG_ID_0201, Score_MsgCb); // Pomodoro Work Time Sequence Complete
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_ID_0201");
-    eStatus = MessageBroker_subscribe(MSG_ID_0202, Score_MsgCb); // Pomodoro Break Time Sequence Complete
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_ID_0202");
-    eStatus = MessageBroker_subscribe(MSG_ID_0203, Score_MsgCb); // Pomodoro Cancel Sequence Complete
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_ID_0203");
+    eStatus = MessageBroker_subscribe(MSG_0200, Score_MsgCb); // Pomodoro Sequence Start
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_0200");
+    eStatus = MessageBroker_subscribe(MSG_0201, Score_MsgCb); // Pomodoro Work Time Sequence Complete
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_0201");
+    eStatus = MessageBroker_subscribe(MSG_0202, Score_MsgCb); // Pomodoro Break Time Sequence Complete
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_0202");
+    eStatus = MessageBroker_subscribe(MSG_0203, Score_MsgCb); // Pomodoro Cancel Sequence Complete
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_0203");
 
     unused(eStatus); // To avoid compiler warnings when the code is optimized
 

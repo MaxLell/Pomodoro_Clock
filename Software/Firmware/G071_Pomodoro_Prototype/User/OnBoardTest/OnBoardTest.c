@@ -23,6 +23,7 @@
 
 #include "CountdownTimer.h"
 #include "Delay.h"
+#include "inttypes.h"
 
 /************************************************************
  * Private Data Types
@@ -136,7 +137,7 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         PomodoroControl_init();
 
         const uint8_t WORKTIME = 50;
-        const uint8_t BREAKTIME = 30;
+        const uint8_t BREAKTIME = 10;
 
         PomodoroPeriodConfiguration_t sPomodoroPeriodConfig = {0};
         sPomodoroPeriodConfig.u8MinutesWorktimePeriod = WORKTIME;
@@ -144,7 +145,7 @@ void OnBoardTest_testNominalPomodoroSequence(void)
 
         // Publish the Pomodoro Config
         msg_t sMsg;
-        sMsg.eMsgId = MSG_ID_0400;
+        sMsg.eMsgId = MSG_0400;
 
         sMsg.au8DataBytes = (uint8_t *)&sPomodoroPeriodConfig;
         sMsg.u16DataSize = sizeof(PomodoroPeriodConfiguration_t);
@@ -152,7 +153,7 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Publish the Pomodoro Sequence Start: Triggers the transition from IDLE to WORKTIME_INIT
-        sMsg.eMsgId = MSG_ID_0200;
+        sMsg.eMsgId = MSG_0200;
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
@@ -178,7 +179,7 @@ status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
     switch (in_psMsg->eMsgId)
     {
 
-    case MSG_ID_0103:
+    case MSG_0103:
     {
         // Print the score
         ButtonMessage_s *psButtonMessage = (ButtonMessage_s *)in_psMsg->au8DataBytes;
@@ -217,7 +218,7 @@ void OnBoardTest_testButtonBehaviours(void)
         bRanOnce = TRUE;
 
         // Subscribe to the Trigger Btn Released Message
-        MessageBroker_subscribe(MSG_ID_0103, OnBoardTest_ButtonTestMsgCb);
+        MessageBroker_subscribe(MSG_0103, OnBoardTest_ButtonTestMsgCb);
 
         Button_init();
     }
@@ -231,7 +232,7 @@ status_e OnBoardTest_ScoreTestMsgCb(const msg_t *const in_psMsg)
         ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
 
         // Message ID check
-        ASSERT_MSG(in_psMsg->eMsgId == MSG_ID_0500, "Unknown Message ID: %d", in_psMsg->eMsgId);
+        ASSERT_MSG(in_psMsg->eMsgId == MSG_0500, "Unknown Message ID: %d", in_psMsg->eMsgId);
     }
 
     // Print the score
@@ -239,7 +240,7 @@ status_e OnBoardTest_ScoreTestMsgCb(const msg_t *const in_psMsg)
                            in_psMsg->au8DataBytes[2] << 8 | in_psMsg->au8DataBytes[3] << 0;
 
     // Print out the unsigned value of the score // Print an unsigned value
-    log_info("Score in Seconds: %u", u32ScoreSec);
+    log_info("Score in Seconds: %" PRIu32, u32ScoreSec);
 
     return STATUS_SUCCESS;
 }
@@ -263,7 +264,7 @@ void OnBoardTest_testScore(void)
         Countdown_startTimer(&sScoreTimer);
 
         // Subscribe to the Score Updated Message
-        MessageBroker_subscribe(MSG_ID_0500, OnBoardTest_ScoreTestMsgCb);
+        MessageBroker_subscribe(MSG_0500, OnBoardTest_ScoreTestMsgCb);
 
         // Run the score init function
         Score_init();
@@ -279,7 +280,7 @@ void OnBoardTest_testScore(void)
             log_info("%s", "Pomodoro Sequence Start");
 
             msg_t sMsg = {0};
-            sMsg.eMsgId = MSG_ID_0200;
+            sMsg.eMsgId = MSG_0200;
             status_e eStatus = MessageBroker_publish(&sMsg);
             ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
             unused(eStatus);
@@ -293,7 +294,7 @@ void OnBoardTest_testScore(void)
             log_info("%s", "Work Time Sequence Complete");
 
             msg_t sMsg = {0};
-            sMsg.eMsgId = MSG_ID_0201;
+            sMsg.eMsgId = MSG_0201;
             status_e eStatus = MessageBroker_publish(&sMsg);
             ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
             unused(eStatus);
@@ -306,7 +307,7 @@ void OnBoardTest_testScore(void)
             log_info("%s", "Break Time Sequence Complete");
 
             msg_t sMsg = {0};
-            sMsg.eMsgId = MSG_ID_0202;
+            sMsg.eMsgId = MSG_0202;
             status_e eStatus = MessageBroker_publish(&sMsg);
             ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
             unused(eStatus);
@@ -332,32 +333,36 @@ status_e OnboardTest_EncoderTestMsgCb(const msg_t *const in_psMsg)
 
     switch (in_psMsg->eMsgId)
     {
-    case MSG_ID_0601:
+    case MSG_0601:
     {
         // Print the score
         int32_t s32EncoderValue = in_psMsg->au8DataBytes[0] << 0 | in_psMsg->au8DataBytes[1] << 8 |
                                   in_psMsg->au8DataBytes[2] << 16 | in_psMsg->au8DataBytes[3] << 24;
 
         // Print out the unsigned value of the score // Print an unsigned value
-        log_info("Encoder Value: %d", s32EncoderValue);
+        log_info("Encoder Value: %" PRIu32, s32EncoderValue);
     }
     break;
 
-    case MSG_ID_0100:
+    case MSG_0103:
     {
-        // Publish the reset message
-        msg_t sMsg = {0};
-        sMsg.eMsgId = MSG_ID_0600;
-        status_e eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
-        unused(eStatus); // Suppress the unused variable warning
+        ButtonMessage_s *psButtonMessage = (ButtonMessage_s *)in_psMsg->au8DataBytes;
+        if (psButtonMessage->eButton == E_BUTTON_ENCODER)
+        {
+            // Publish the reset message
+            msg_t sMsg = {0};
+            sMsg.eMsgId = MSG_0600;
+            status_e eStatus = MessageBroker_publish(&sMsg);
+            ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+            unused(eStatus); // Suppress the unused variable warning
+        }
     }
     break;
     default:
         ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
         break;
-        return STATUS_SUCCESS;
     }
+    return STATUS_SUCCESS;
 }
 
 void OnBoardTest_testBasicEncoder(void)
@@ -373,10 +378,10 @@ void OnBoardTest_testBasicEncoder(void)
         bRanOnce = TRUE;
 
         // Subscribe to the Reset Encoder Value message
-        MessageBroker_subscribe(MSG_ID_0601, &OnboardTest_EncoderTestMsgCb);
+        MessageBroker_subscribe(MSG_0601, &OnboardTest_EncoderTestMsgCb);
 
         // Subscribe to the Trigger Button Message
-        MessageBroker_subscribe(MSG_ID_0100, &OnboardTest_EncoderTestMsgCb);
+        MessageBroker_subscribe(MSG_0103, &OnboardTest_EncoderTestMsgCb);
 
         // Run the Encoder init function
         Encoder_init();

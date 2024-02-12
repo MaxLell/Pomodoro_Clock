@@ -72,7 +72,7 @@ void Button_TimIsr(void)
     {
         return;
     }
-    
+
     for (uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++)
     {
         // Update the Debounced State of the Buttons
@@ -93,8 +93,8 @@ void Button_execute(void)
             sMsgContent.eEvent = sButtons[i].eEvent;
 
             msg_t sMsg = {0};
-            sMsg.eMsgId = MSG_ID_0103;
-            sMsg.au8DataBytes = &sMsgContent;
+            sMsg.eMsgId = MSG_0103;
+            sMsg.au8DataBytes = (uint8_t *)&sMsgContent;
             sMsg.u16DataSize = sizeof(ButtonMessage_s);
 
             // Publish the Button Message

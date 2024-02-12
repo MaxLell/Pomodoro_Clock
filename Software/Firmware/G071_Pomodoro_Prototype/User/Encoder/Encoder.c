@@ -4,8 +4,8 @@
 
 status_e Encoder_messageCallback(const msg_t* const in_psMsg) {
     ASSERT_MSG(!(in_psMsg == NULL), "in_psMsg is NULL");
-    ASSERT_MSG(!(in_psMsg->eMsgId != MSG_ID_0600), "Invalid Message");
-    if (in_psMsg->eMsgId != MSG_ID_0600) {
+    ASSERT_MSG(!(in_psMsg->eMsgId != MSG_0600), "Invalid Message");
+    if (in_psMsg->eMsgId != MSG_0600) {
         return STATUS_ERROR;
     }
 
@@ -19,7 +19,7 @@ void Encoder_init(){
     Encoder_Hardware_init();
 
     // Subscribe to the Reset Encoder Value message
-    MessageBroker_subscribe(MSG_ID_0600, &Encoder_messageCallback);
+    MessageBroker_subscribe(MSG_0600, &Encoder_messageCallback);
 
     // Reset the Encoder Value
     Encoder_Hardware_resetEncoderValue();
@@ -33,7 +33,7 @@ void Encoder_execute(){
 
     // Publish the Encoder Value Changed message with the current value 
     msg_t sMsg;
-    sMsg.eMsgId = MSG_ID_0601;
+    sMsg.eMsgId = MSG_0601;
     uint8_t au8DataBytes[4];
     au8DataBytes[0] = (uint8_t) s32EncoderValue;
     au8DataBytes[1] = (uint8_t) (s32EncoderValue >> 8);
