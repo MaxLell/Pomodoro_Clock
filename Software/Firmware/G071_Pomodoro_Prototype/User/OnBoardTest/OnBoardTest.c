@@ -41,6 +41,9 @@ typedef enum
     // Pomodoro Test
     E_TEST_POMODORO_SEQUENCE,
 
+    // Context Mgmt Test
+    E_TEST_CONTEXT_MGMT,
+
     // Score
     E_TEST_SCORE,
 
@@ -71,6 +74,9 @@ void OnBoardTest_testButtonBehaviours(void);
 // Pomodoro State Function Tests
 void OnBoardTest_testNominalPomodoroSequence(void);
 
+// Context Mgmt Test
+void OnBoardTest_testContextMgmt(void);
+
 // Score
 void OnBoardTest_testScore(void);
 
@@ -90,6 +96,9 @@ STATIC test_function_ptr test_functions[E_LAST_TEST] = {
 
     // Pomodoro Tests
     [E_TEST_POMODORO_SEQUENCE] = OnBoardTest_testNominalPomodoroSequence,
+
+    // Context Mgmt Test
+    [E_TEST_CONTEXT_MGMT] = OnBoardTest_testContextMgmt,
 
     // Score System
     [E_TEST_SCORE] = OnBoardTest_testScore,
@@ -253,7 +262,7 @@ void OnBoardTest_testScore(void)
     if (bRunOnce == FALSE)
     {
         printf("%s", "************************************************************\n");
-        printf("%s", "                 OnBoardTest_testScore\n");
+        printf("%s\n", "                 OnBoardTest_testScore");
         printf("%s", "************************************************************\n");
 
         // Clear the flag
@@ -371,7 +380,7 @@ void OnBoardTest_testBasicEncoder(void)
     if (bRanOnce == FALSE)
     {
         printf("%s", "************************************************************\n");
-        printf("%s", "                 OnBoardTest_testBasicEncoder\n");
+        printf("%s\n", "                 OnBoardTest_testBasicEncoder");
         printf("%s", "************************************************************\n");
 
         // Clear the flag
@@ -395,6 +404,53 @@ void OnBoardTest_testBasicEncoder(void)
 
     // Wait for 100 msec
     Delay_ms(100);
+}
+
+status_e OnBoardTest_ContextMgmtMsgCb(const msg_t *const in_psMsg)
+{
+    // Input Checks
+    ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
+
+    switch (in_psMsg->eMsgId)
+    {
+    case MSG_0200:
+    {
+        log_info("Pomodoro Sequence Start");
+    }
+    break;
+
+    case MSG_0204:
+    {
+        log_info("Pomodoro Complete -> Switching back to Idle/Seeking Attention");
+    }
+    break;
+
+    default:
+    {
+        ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
+    }
+    }
+    return STATUS_SUCCESS;
+}
+
+void OnBoardTest_testContextMgmt(void)
+{
+    static BOOL bRanOnce = FALSE;
+    if (bRanOnce == FALSE)
+    {
+        printf("%s", "************************************************************\n");
+        printf("%s\n", "                 OnBoardTest_testContextMgmt");
+        printf("%s", "************************************************************\n");
+
+        // Clear the flag
+        bRanOnce = TRUE;
+
+        // Initialize the Button
+        Button_init();
+    }
+
+    // Run the Button execute function
+    Button_execute();
 }
 
 /************************************************************
