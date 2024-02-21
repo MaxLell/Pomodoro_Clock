@@ -19,6 +19,7 @@ typedef enum
     // Test Messages
     MSG_0001 = 0U, // Chaos Elephant
     MSG_0002,      // Tickly Giraffe
+    MSG_0003,      // Test Message
 
     // Button Messages
     MSG_0103, // Button Event
@@ -43,14 +44,18 @@ typedef enum
     MSG_0600, // Reset Encoder Value
     MSG_0601, // Encoder Value Changed
 
-    // Standby Control Messages
-    MSG_0700, // Seeking Attenion: Start Sequence
-    MSG_0701, // Seeking Attenion: Stop Sequence
-
     // Setting Message
-    MSG_0800, // Setting: Start Setting Brightness
-    MSG_0801, // Setting: Start Setting Periods
-    MSG_0802, // Setting: Setting Sequence Complete
+    MSG_0700, // Setting Procedure Start
+    MSG_0701, // Setting Procedure finished
+
+    // Context Management Messages
+    MSG_0800, // Context Management: Current State IDLE
+    MSG_0801, // Context Management: Current State BUSY
+
+    // Seeking Attention
+    MSG_0900, // Seeking Attention: Start
+    MSG_0901, // Seeking Attention: Stop
+    MSG_0902, // Seeking Attention: Finished
 
     E_TOPIC_LAST_TOPIC // Last Topic - DO NOT USE (Only for boundary checks)
 } msgId_e;

@@ -21,6 +21,8 @@
 
 #include "Button.h"
 
+#include "SeekingAttention.h"
+
 #include "CountdownTimer.h"
 #include "Delay.h"
 #include "inttypes.h"
@@ -49,6 +51,9 @@ typedef enum
 
     // Encoder
     E_TEST_BASIC_ENCODER,
+
+    // Seeking Attention
+    E_TEST_SEEKING_ATTENTION,
 
     E_LAST_TEST
 } OnBoardTest_Test_e;
@@ -83,6 +88,9 @@ void OnBoardTest_testScore(void);
 // Encoder
 void OnBoardTest_testBasicEncoder(void);
 
+// Seeking Attention
+void OnBoardTest_testSeekingAttention(void);
+
 /************************************************************
  * Private Variables
  ************************************************************/
@@ -104,7 +112,10 @@ STATIC test_function_ptr test_functions[E_LAST_TEST] = {
     [E_TEST_SCORE] = OnBoardTest_testScore,
 
     // Encoder
-    [E_TEST_BASIC_ENCODER] = OnBoardTest_testBasicEncoder
+    [E_TEST_BASIC_ENCODER] = OnBoardTest_testBasicEncoder,
+
+    // Seeking Attention
+    [E_TEST_SEEKING_ATTENTION] = OnBoardTest_testSeekingAttention
 
 };
 
@@ -451,6 +462,76 @@ void OnBoardTest_testContextMgmt(void)
 
     // Run the Button execute function
     Button_execute();
+}
+
+status_e OnBoardTest_testSeekingAttentionMsgCb(const msg_t *const in_psMsg)
+{
+    // Input Checks
+    ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
+
+    switch (in_psMsg->eMsgId)
+    {
+    case MSG_0103:
+    {
+        status_e eStatus;
+        ButtonMessage_s *psButtonMessage = (ButtonMessage_s *)in_psMsg->au8DataBytes;
+
+        if (E_BUTTON_TRIGGER == psButtonMessage->eButton)
+        {
+            if (E_BTN_EVENT_RELEASED == psButtonMessage->eEvent)
+            {
+                // Publish the Seeking Attention Start Message
+                msg_t sMsg = {0};
+                sMsg.eMsgId = MSG_0900;
+                eStatus = MessageBroker_publish(&sMsg);
+                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+                unused(eStatus); // Suppress the unused variable warning
+            }
+
+            if (E_BTN_EVENT_LONG_PRESSED == psButtonMessage->eEvent)
+            {
+                // Publish the Seeking Attention Stop Message
+                msg_t sMsg = {0};
+                sMsg.eMsgId = MSG_0901;
+                eStatus = MessageBroker_publish(&sMsg);
+                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+                unused(eStatus); // Suppress the unused variable warning
+            }
+        }
+    }
+    break;
+    default:
+        ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
+        break;
+    }
+
+    return STATUS_SUCCESS;
+}
+
+void OnBoardTest_testSeekingAttention(void)
+{
+    static BOOL bRanOnce = FALSE;
+    if (bRanOnce == FALSE)
+    {
+        printf("%s", "************************************************************\n");
+        printf("%s\n", "                 OnBoardTest_testSeekingAttention");
+        printf("%s", "************************************************************\n");
+
+        // Clear the flag
+        bRanOnce = TRUE;
+
+        // Initialize the Button
+        Button_init();
+
+        // Initialize the Seeking Attention Sequence
+        SeekingAttention_init();
+    }
+
+    // Run the Button execute function
+    Button_execute();
+
+    // Run the Seeking Attention execute function
+    SeekingAttention_execute();
 }
 
 /************************************************************

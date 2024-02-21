@@ -20,6 +20,7 @@ status_e MessageBroker_checkInitCounter()
     }
     return STATUS_SUCCESS;
 }
+
 void MessageBroker_init()
 {
 
