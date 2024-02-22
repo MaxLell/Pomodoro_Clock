@@ -63,7 +63,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
+#define TEST_TO_RUN E_TEST_SEEKING_ATTENTION
 
 /************************************************************
  * Private Function Prototypes
@@ -487,8 +487,10 @@ status_e OnBoardTest_testSeekingAttentionMsgCb(const msg_t *const in_psMsg)
                 ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
                 unused(eStatus); // Suppress the unused variable warning
             }
-
-            if (E_BTN_EVENT_LONG_PRESSED == psButtonMessage->eEvent)
+        }
+        if (E_BUTTON_ENCODER == psButtonMessage->eButton)
+        {
+            if (E_BTN_EVENT_RELEASED == psButtonMessage->eEvent)
             {
                 // Publish the Seeking Attention Stop Message
                 msg_t sMsg = {0};
@@ -500,6 +502,13 @@ status_e OnBoardTest_testSeekingAttentionMsgCb(const msg_t *const in_psMsg)
         }
     }
     break;
+
+    case MSG_0902:
+    {
+        log_info("Seeking Attention is now finished");
+    }
+    break;
+
     default:
         ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
         break;
@@ -522,6 +531,12 @@ void OnBoardTest_testSeekingAttention(void)
 
         // Initialize the Button
         Button_init();
+
+        // Subscribe to the Button Events
+        MessageBroker_subscribe(MSG_0103, &OnBoardTest_testSeekingAttentionMsgCb);
+
+        // Subscribe to the Seeking Attention Finished Message
+        MessageBroker_subscribe(MSG_0902, &OnBoardTest_testSeekingAttentionMsgCb);
 
         // Initialize the Seeking Attention Sequence
         SeekingAttention_init();
