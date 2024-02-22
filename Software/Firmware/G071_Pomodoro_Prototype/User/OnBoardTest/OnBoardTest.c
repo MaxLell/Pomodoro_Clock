@@ -486,6 +486,8 @@ status_e OnBoardTest_testSeekingAttentionMsgCb(const msg_t *const in_psMsg)
                 eStatus = MessageBroker_publish(&sMsg);
                 ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
                 unused(eStatus); // Suppress the unused variable warning
+
+                log_info("Seeking Attention Command: Start");
             }
         }
         if (E_BUTTON_ENCODER == psButtonMessage->eButton)
@@ -498,6 +500,8 @@ status_e OnBoardTest_testSeekingAttentionMsgCb(const msg_t *const in_psMsg)
                 eStatus = MessageBroker_publish(&sMsg);
                 ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
                 unused(eStatus); // Suppress the unused variable warning
+
+                log_info("Seeking Attention Command: Stop");
             }
         }
     }

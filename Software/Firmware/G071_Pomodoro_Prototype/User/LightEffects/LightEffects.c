@@ -9,6 +9,15 @@
 #include "RgbLed_Config.h"
 #include "math.h"
 
+#include "stdlib.h"
+
+/************************************************************
+ * Private Defines
+ ************************************************************/
+
+#define SEEKING_ATTENTION__MAX_BRIGHTNESS 200
+#define SEEKING_ATTENTION__INCREMENT_REDUCER ((SEEKING_ATTENTION__MAX_BRIGHTNESS / 4) * 3) // 75% of the Max Brightness
+
 /************************************************************
  * Function Prototypes
  ************************************************************/
@@ -332,5 +341,61 @@ void LightEffects_UpdateRingCountdown(LightControl_RingCountdown_s *const psSelf
     {
         // Set the complete flag if the filling counter is 0
         psSelf->bIsComplete = TRUE;
+    }
+}
+
+void LightEffects_RenderSeekingAttention(LightEffects_SeekingAttention_s *const psSelf)
+{
+    // Input Argument Checks
+    ASSERT_MSG(!(psSelf == NULL), "psSelf is NULL");
+
+    if (FALSE == psSelf->bInitialized)
+    {
+        psSelf->bInitialized = TRUE;
+        HelperFunction_getPseudoRandomNumber(START_INDEX_OUTER_RING, END_INDEX_MIDDLE_RING, (uint32_t *)&psSelf->u8CurrentLedIdx);
+        psSelf->bSequenceComplete = 0;
+        psSelf->bDecline = FALSE;
+        psSelf->u8CurrentBrightness = 0;
+    }
+
+    if (FALSE == psSelf->bDecline)
+    {
+        if (psSelf->u8CurrentBrightness < SEEKING_ATTENTION__INCREMENT_REDUCER)
+        {
+            psSelf->u8CurrentBrightness += 3;
+        }
+        else if (psSelf->u8CurrentBrightness < SEEKING_ATTENTION__MAX_BRIGHTNESS)
+        {
+            psSelf->u8CurrentBrightness += 1;
+        }
+        else // (psSelf->u8CurrentBrightness >= SEEKING_ATTENTION__MAX_BRIGHTNESS)
+        {
+            psSelf->bDecline = TRUE;
+        }
+
+        RgbLed_setPixelColor(psSelf->u8CurrentLedIdx, psSelf->u8CurrentBrightness, psSelf->u8CurrentBrightness, psSelf->u8CurrentBrightness);
+    }
+
+    if (TRUE == psSelf->bDecline)
+    {
+        if (psSelf->u8CurrentBrightness > 5)
+        {
+            psSelf->u8CurrentBrightness -= 1;
+            RgbLed_setPixelColor(psSelf->u8CurrentLedIdx, psSelf->u8CurrentBrightness, psSelf->u8CurrentBrightness, psSelf->u8CurrentBrightness);
+            RgbLed_show();
+        }
+        else
+        {
+            psSelf->bSequenceComplete = TRUE;
+
+            // Reset the state
+            psSelf->bInitialized = FALSE;
+            psSelf->bDecline = FALSE;
+            psSelf->u8CurrentBrightness = 0;
+            psSelf->u8CurrentLedIdx = 0;
+
+            // Clear the LEDs
+            LightEffects_ClearPomodoroProgressRings();
+        }
     }
 }

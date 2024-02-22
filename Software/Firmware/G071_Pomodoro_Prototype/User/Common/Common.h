@@ -7,5 +7,6 @@
 #include "Status.h"
 #include "TestSupport.h"
 #include "Types.h"
+#include "HelperFunctions.h"
 
 #endif /* COMMON_H */

@@ -24,6 +24,15 @@ typedef struct
     BOOL bIsComplete;
 } LightControl_RingCountdown_s;
 
+typedef struct
+{
+    BOOL bInitialized;
+    BOOL bSequenceComplete;
+    BOOL bDecline;
+    uint8_t u8CurrentBrightness;
+    uint8_t u8CurrentLedIdx;
+} LightEffects_SeekingAttention_s;
+
 /************************************************************
  * Public functions
  ************************************************************/
@@ -43,5 +52,7 @@ void LightEffects_ClearAllRingLeds(void);
 void LightEffects_RenderRingCountdown(LightControl_RingCountdown_s *const psSelf);
 
 void LightEffects_UpdateRingCountdown(LightControl_RingCountdown_s *const psSelf);
+
+void LightEffects_RenderSeekingAttention(LightEffects_SeekingAttention_s *const psSelf);
 
 #endif // LIGHTEFFECTS_H

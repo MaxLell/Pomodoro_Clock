@@ -9,6 +9,10 @@
 
 #include <stdlib.h>
 
+/************************************************************
+ * Private Defines
+ ************************************************************/
+
 #define SEEKING_ATTENTION_TEST
 
 #ifndef SEEKING_ATTENTION_TEST
@@ -19,25 +23,27 @@
 #define MIN_MS 1000
 #endif
 
-/**
- * This function does only provide a Pseudo Random Number.
- * It is not super secure.
- */
-uint32_t getPseudoRandomNumber(uint32_t min, uint32_t max)
-{
-    ASSERT_MSG(!(max <= min), "values need to be different");
-    uint32_t u32RandomNumber = ((uint32_t)rand() % (max - min + 1)) + min;
-    return u32RandomNumber;
-}
-
+/************************************************************
+ * Private Data Types
+ ************************************************************/
 typedef struct
 {
     BOOL bIsActive;
     BOOL bSeekingAttentionIsActive;
 } SeekingAttention_internalState_s;
 
+/************************************************************
+ * Private Variables
+ ************************************************************/
+LightEffects_SeekingAttention_s sSeekingAttentionHandle = {0};
+
 STATIC timer_t sSeekingAttentionTimer = {0};
+STATIC timer_t sIncrementTimer = {0};
 STATIC SeekingAttention_internalState_s sInternalState = {0};
+
+/************************************************************
+ * Implementation
+ ************************************************************/
 
 status_e SeekingAttention_MsgCallback(const msg_t *const in_sMsg)
 {
@@ -92,9 +98,14 @@ void SeekingAttention_init(void)
     ASSERT_MSG(!(STATUS_SUCCESS != eStatus), "Subscription failed")
 
     // Setup and start the timer
-    uint32_t u32TimerPeriod = getPseudoRandomNumber(MIN_MS, MAX_MS);
+    uint32_t u32TimerPeriod;
+    HelperFunction_getPseudoRandomNumber(MIN_MS, MAX_MS, &u32TimerPeriod);
     Countdown_initTimerMs(&sSeekingAttentionTimer, u32TimerPeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
     Countdown_startTimer(&sSeekingAttentionTimer);
+
+    // Setup the Increment Timer
+    Countdown_initTimerMs(&sIncrementTimer, 3, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_startTimer(&sIncrementTimer);
 }
 
 void SeekingAttention_execute(void)
@@ -106,18 +117,25 @@ void SeekingAttention_execute(void)
             sInternalState.bSeekingAttentionIsActive = TRUE;
 
             // change the Timer Period by a random amount
-            sSeekingAttentionTimer.u32TimerPeriod = getPseudoRandomNumber(MIN_MS, MAX_MS);
+            HelperFunction_getPseudoRandomNumber(MIN_MS, MAX_MS, &sSeekingAttentionTimer.u32TimerPeriod);
+
+            // Reset the Increment Timer
+            sIncrementTimer.u32StartTimeMs = 0;
         }
     }
 
     if (TRUE == sInternalState.bSeekingAttentionIsActive)
     {
-        // Run the Seeking Attention Sequence in LightControl
-
-        // for the current time being this is only a log_info Statement.
-        log_info("Seeking Attention HUHU");
+        // Run the RenderSeekingAttention Function (but only if the Increment Timer has expired)
+        if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sIncrementTimer))
+        {
+            LightEffects_RenderSeekingAttention(&sSeekingAttentionHandle);
+        }
 
         // When the Sequence is properly rendered then reset the bSeekingAttentionIsActive flag
-        sInternalState.bSeekingAttentionIsActive = FALSE;
+        if (TRUE == sSeekingAttentionHandle.bSequenceComplete)
+        {
+            sInternalState.bSeekingAttentionIsActive = FALSE;
+        }
     }
 }
