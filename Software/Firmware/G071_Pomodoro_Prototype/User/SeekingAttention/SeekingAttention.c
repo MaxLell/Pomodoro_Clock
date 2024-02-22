@@ -13,15 +13,8 @@
  * Private Defines
  ************************************************************/
 
-#define SEEKING_ATTENTION_TEST
-
-#ifndef SEEKING_ATTENTION_TEST
 #define MAX_MS 20000
 #define MIN_MS 10000
-#else
-#define MAX_MS 2000
-#define MIN_MS 1000
-#endif
 
 /************************************************************
  * Private Data Types
@@ -30,12 +23,14 @@ typedef struct
 {
     BOOL bIsActive;
     BOOL bSeekingAttentionIsActive;
+    uint32_t u32MaxTimeMs;
+    uint32_t u32MinTimeMs;
 } SeekingAttention_internalState_s;
 
 /************************************************************
  * Private Variables
  ************************************************************/
-LightEffects_SeekingAttention_s sSeekingAttentionHandle = {0};
+STATIC LightEffects_SeekingAttention_s sSeekingAttentionHandle = {0};
 
 STATIC timer_t sSeekingAttentionTimer = {0};
 STATIC timer_t sIncrementTimer = {0};
@@ -80,6 +75,23 @@ status_e SeekingAttention_MsgCallback(const msg_t *const in_sMsg)
     }
     break;
 
+    case MSG_0003:
+    {
+        // Update the Min and Max Time
+        sInternalState.u32MaxTimeMs = 1000;
+        sInternalState.u32MinTimeMs = 500;
+
+        // Stop the Timer
+        Countdown_stopTimer(&sSeekingAttentionTimer);
+
+        // Start the Timer with the new Min and Max Time
+        uint32_t u32TimerPeriod;
+        HelperFunction_getPseudoRandomNumber(sInternalState.u32MinTimeMs, sInternalState.u32MaxTimeMs, &u32TimerPeriod);
+        Countdown_initTimerMs(&sSeekingAttentionTimer, u32TimerPeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_startTimer(&sSeekingAttentionTimer);
+    }
+    break;
+
     default:
         ASSERT_MSG(FALSE, "wrong message");
     }
@@ -97,9 +109,19 @@ void SeekingAttention_init(void)
     eStatus = MessageBroker_subscribe(MSG_0901, SeekingAttention_MsgCallback);
     ASSERT_MSG(!(STATUS_SUCCESS != eStatus), "Subscription failed")
 
+    // Subscribe to the Test Message
+    eStatus = MessageBroker_subscribe(MSG_0003, SeekingAttention_MsgCallback);
+    ASSERT_MSG(!(STATUS_SUCCESS != eStatus), "Subscription failed")
+
+    // Initialize the internal state
+    sInternalState.bIsActive = FALSE;
+    sInternalState.bSeekingAttentionIsActive = FALSE;
+    sInternalState.u32MaxTimeMs = MAX_MS;
+    sInternalState.u32MinTimeMs = MIN_MS;
+
     // Setup and start the timer
     uint32_t u32TimerPeriod;
-    HelperFunction_getPseudoRandomNumber(MIN_MS, MAX_MS, &u32TimerPeriod);
+    HelperFunction_getPseudoRandomNumber(sInternalState.u32MinTimeMs, sInternalState.u32MaxTimeMs, &u32TimerPeriod);
     Countdown_initTimerMs(&sSeekingAttentionTimer, u32TimerPeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
     Countdown_startTimer(&sSeekingAttentionTimer);
 
@@ -117,7 +139,7 @@ void SeekingAttention_execute(void)
             sInternalState.bSeekingAttentionIsActive = TRUE;
 
             // change the Timer Period by a random amount
-            HelperFunction_getPseudoRandomNumber(MIN_MS, MAX_MS, &sSeekingAttentionTimer.u32TimerPeriod);
+            HelperFunction_getPseudoRandomNumber(sInternalState.u32MinTimeMs, sInternalState.u32MaxTimeMs, &sSeekingAttentionTimer.u32TimerPeriod);
 
             // Reset the Increment Timer
             sIncrementTimer.u32StartTimeMs = 0;

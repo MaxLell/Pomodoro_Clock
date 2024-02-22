@@ -537,13 +537,23 @@ void OnBoardTest_testSeekingAttention(void)
         Button_init();
 
         // Subscribe to the Button Events
-        MessageBroker_subscribe(MSG_0103, &OnBoardTest_testSeekingAttentionMsgCb);
+        status_e eStatus = MessageBroker_subscribe(MSG_0103, &OnBoardTest_testSeekingAttentionMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
 
         // Subscribe to the Seeking Attention Finished Message
-        MessageBroker_subscribe(MSG_0902, &OnBoardTest_testSeekingAttentionMsgCb);
+        eStatus = MessageBroker_subscribe(MSG_0902, &OnBoardTest_testSeekingAttentionMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        unused(eStatus); // Suppress the unused variable warning
 
         // Initialize the Seeking Attention Sequence
         SeekingAttention_init();
+
+        // Publish the Test Message (Needs to be after the Seeking Attention Init function!!!)
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_0003;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
     }
 
     // Run the Button execute function

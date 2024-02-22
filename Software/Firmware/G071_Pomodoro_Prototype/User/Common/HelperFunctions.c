@@ -5,7 +5,7 @@
 
 void HelperFunction_getPseudoRandomNumber(const uint32_t in_u32MinValue, const uint32_t in_u32MaxValue, uint32_t *const out_pu32RandomNumber)
 {
-    ASSERT_MSG(!(in_u32MaxValue <= in_u32MinValue), "values need to be different");
+    ASSERT_MSG(!(in_u32MaxValue <= in_u32MinValue), "values need to be different. Provided values are Min: %d, Max: %d", (int)in_u32MinValue, (int)in_u32MaxValue);
     // Null Ptr Checks
     ASSERT_MSG(NULL != out_pu32RandomNumber, "Null Pointer");
 
