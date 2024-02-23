@@ -533,10 +533,10 @@ status_e OnBoardTest_testContextMgmtMsgCb(const msg_t *const in_psMsg)
                 msg_t sMsg = {0};
                 status_e eStatus;
 
-                // Publish the Pomodoro Complete Message
-                sMsg.eMsgId = MSG_0204;
-                // eStatus = MessageBroker_publish(&sMsg);
-                // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+                // Publish the Setting Complete Message
+                sMsg.eMsgId = MSG_0701;
+                eStatus = MessageBroker_publish(&sMsg);
+                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
                 log_info("Setting Complete Message sent");
 

@@ -626,6 +626,7 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
         sPomodoroProgress.u8Worktime = psPomodoroConfig->u8MinutesWorktimePeriod;
         sPomodoroProgress.u8Breaktime = psPomodoroConfig->u8MinutesBreaktimePeriod;
 
+        // Update the Period Configuration -> Needed in the CleanUp State
         sPomodoroPeriodCfg.u8MinutesWorktimePeriod = psPomodoroConfig->u8MinutesWorktimePeriod;
         sPomodoroPeriodCfg.u8MinutesBreaktimePeriod = psPomodoroConfig->u8MinutesBreaktimePeriod;
     }
@@ -647,7 +648,7 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
         sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = psPomodoroTimingCfg->u16TimerPeriodCancelSeqMs;
         sPomodoroTimingCfg.u16TimerPeriodWarningMs = psPomodoroTimingCfg->u16TimerPeriodWarningMs;
 
-        // Update the Period Configuration
+        // Update the Period Configuration -> Needed in the CleanUp State
         sPomodoroPeriodCfg.u8MinutesWorktimePeriod = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod;
         sPomodoroPeriodCfg.u8MinutesBreaktimePeriod = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod;
     }
