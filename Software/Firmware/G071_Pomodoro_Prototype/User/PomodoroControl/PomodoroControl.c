@@ -16,23 +16,12 @@
 
 #define LEDS_PER_RING 60
 
-// #define POMODORO_CONTROL_TEST
-
-#ifndef POMODORO_CONTROL_TEST
 #define TIMER_PERIOD_MIN 60000
 #define TIMER_PERIOD_SEC 1000
 #define TIMER_PERIOD_SNOOZE_MS 5000    // 5 Minute Snooze Interval (5000ms * 60 Increments = 5 Minutes)
 #define TIMER_PERIOD_CANCEL_SEQ_MS 150 // (150ms * 60 Increments = 9 Seconds)
 #define TIMER_PERIOD_WARNING_MS 300    // (300ms * 60 Increments = 30 Seconds)
 #define TIMEOUT_PERIOD_MIN 5
-#else
-#define TIMER_PERIOD_MIN 60
-#define TIMER_PERIOD_SEC 30
-#define TIMER_PERIOD_SNOOZE_MS 50
-#define TIMER_PERIOD_CANCEL_SEQ_MS 30
-#define TIMER_PERIOD_WARNING_MS 30
-#define TIMEOUT_PERIOD_MIN 100
-#endif
 
 /********************************************************
  * Private Variables
@@ -47,6 +36,10 @@ STATIC timer_t sTimerSnoozeHandler = {0};
 STATIC PCTRL_Progress_t sPomodoroProgress = {0};
 
 STATIC LightControl_RingCountdown_s sRingCountdown = {0};
+
+STATIC PomodoroTimingCfg_s sPomodoroTimingCfg = {0};
+
+STATIC PomodoroPeriodConfiguration_s sPomodoroPeriodCfg = {0};
 
 /********************************************************
  * Private Function Prototypes
@@ -252,7 +245,7 @@ void StateActionWorktimeInit(void)
     LightEffects_RenderPomodoro(sPomodoroProgress.au8MinuteArray, TOTAL_MINUTES, bWorktimeIsOver);
 
     // Initialize and start the Countdown Timer
-    Countdown_initTimerMs(&sTimerWtBtHandler, TIMER_PERIOD_MIN, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_initTimerMs(&sTimerWtBtHandler, sPomodoroTimingCfg.u16TimerPeriodMin, E_OPERATIONAL_MODE_CONTIUNOUS);
     Countdown_startTimer(&sTimerWtBtHandler);
 
     // Update the trigger event
@@ -306,7 +299,7 @@ void StateActionWarning(void)
     if (!bRunOnce)
     {
         // Set a new Timer Instance
-        Countdown_initTimerMs(&sTimerWarningHandler, TIMER_PERIOD_WARNING_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_initTimerMs(&sTimerWarningHandler, sPomodoroTimingCfg.u16TimerPeriodWarningMs, E_OPERATIONAL_MODE_CONTIUNOUS);
         Countdown_startTimer(&sTimerWarningHandler);
 
         // Clear the Pomodoro Progress Rings
@@ -409,11 +402,11 @@ void StateActionBreaktime(void)
 void StateActionCancelSequenceInit(void)
 {
     // Set the Cancel Sequence Timer
-    Countdown_initTimerMs(&sTimerCancelSeqHandler, TIMER_PERIOD_CANCEL_SEQ_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_initTimerMs(&sTimerCancelSeqHandler, sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs, E_OPERATIONAL_MODE_CONTIUNOUS);
     Countdown_startTimer(&sTimerCancelSeqHandler);
 
     // Start the timeout timer
-    Countdown_initTimerMs(&sTimerCancelSeqTimeoutHandler, TIMER_PERIOD_MIN, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_initTimerMs(&sTimerCancelSeqTimeoutHandler, sPomodoroTimingCfg.u16TimerPeriodMin, E_OPERATIONAL_MODE_CONTIUNOUS);
     Countdown_startTimer(&sTimerCancelSeqTimeoutHandler);
 
     // Clear all existing Progress LEDs
@@ -472,7 +465,7 @@ void StateActionCancelSequenceHalted(void)
         u8TimoutMinuteCounter++;
     }
 
-    if (u8TimoutMinuteCounter >= TIMEOUT_PERIOD_MIN)
+    if (u8TimoutMinuteCounter >= sPomodoroTimingCfg.u16TimeOutPeriodMin)
     {
         // Reset the Timeout Counter
         u8TimoutMinuteCounter = 0;
@@ -494,7 +487,7 @@ void StateActionSnooze(void)
     {
 
         // Set a new Timer Instance
-        Countdown_initTimerMs(&sTimerSnoozeHandler, TIMER_PERIOD_SNOOZE_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_initTimerMs(&sTimerSnoozeHandler, sPomodoroTimingCfg.u16TimerPeriodSnoozeMs, E_OPERATIONAL_MODE_CONTIUNOUS);
         Countdown_startTimer(&sTimerSnoozeHandler);
 
         // Clear the Pomodoro Progress Rings
@@ -554,6 +547,15 @@ void StateActionCleanUp(void)
 
     // Stop the Countdown Timer
     Countdown_stopTimer(&sTimerCancelSeqTimeoutHandler);
+
+    // Reset the Pomodoro Timestamps for Worktime and Breaktime
+    sPomodoroProgress.u8Worktime = sPomodoroPeriodCfg.u8MinutesWorktimePeriod;
+    sPomodoroProgress.u8Breaktime = sPomodoroPeriodCfg.u8MinutesBreaktimePeriod;
+    // Reset the Progress Array
+    for (uint8_t i = 0; i < TOTAL_MINUTES; i++)
+    {
+        sPomodoroProgress.au8MinuteArray[i] = 0;
+    }
 
     // Set the Sequence to Complete
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
@@ -623,11 +625,31 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
         PomodoroPeriodConfiguration_s *psPomodoroConfig = (PomodoroPeriodConfiguration_s *)psMsg->au8DataBytes;
         sPomodoroProgress.u8Worktime = psPomodoroConfig->u8MinutesWorktimePeriod;
         sPomodoroProgress.u8Breaktime = psPomodoroConfig->u8MinutesBreaktimePeriod;
+
+        sPomodoroPeriodCfg.u8MinutesWorktimePeriod = psPomodoroConfig->u8MinutesWorktimePeriod;
+        sPomodoroPeriodCfg.u8MinutesBreaktimePeriod = psPomodoroConfig->u8MinutesBreaktimePeriod;
     }
     break;
 
     case MSG_0003:
     {
+        // Parse the Pomodoro Timing Configuration
+        PomodoroTimingCfg_s *psPomodoroTimingCfg = (PomodoroTimingCfg_s *)psMsg->au8DataBytes;
+
+        // Update the Timestamps for Worktime and Breaktime
+        sPomodoroProgress.u8Worktime = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod;
+        sPomodoroProgress.u8Breaktime = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod;
+
+        // Update the Timing Configuration
+        sPomodoroTimingCfg.u16TimeOutPeriodMin = psPomodoroTimingCfg->u16TimeOutPeriodMin;
+        sPomodoroTimingCfg.u16TimerPeriodMin = psPomodoroTimingCfg->u16TimerPeriodMin;
+        sPomodoroTimingCfg.u16TimerPeriodSnoozeMs = psPomodoroTimingCfg->u16TimerPeriodSnoozeMs;
+        sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = psPomodoroTimingCfg->u16TimerPeriodCancelSeqMs;
+        sPomodoroTimingCfg.u16TimerPeriodWarningMs = psPomodoroTimingCfg->u16TimerPeriodWarningMs;
+
+        // Update the Period Configuration
+        sPomodoroPeriodCfg.u8MinutesWorktimePeriod = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod;
+        sPomodoroPeriodCfg.u8MinutesBreaktimePeriod = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod;
     }
     break;
 
@@ -645,26 +667,6 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
     return STATUS_SUCCESS;
 }
 
-void PomodoroControl_init(void)
-{
-    // Subscribe to Messages
-    status_e eStatus = MessageBroker_subscribe(MSG_0400, PomodoroControl_MessageCallback);
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
-
-    eStatus = MessageBroker_subscribe(MSG_0200, PomodoroControl_MessageCallback);
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
-
-    eStatus = MessageBroker_subscribe(MSG_0103, PomodoroControl_MessageCallback);
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
-}
-
-status_e PomodoroControl_execute(void)
-{
-    status_e eStatus = STATUS_SUCCESS;
-    FSM_execute(&sFsmConfig);
-    return eStatus;
-}
-
 void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf)
 {
     { // Input checks
@@ -672,10 +674,10 @@ void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf)
         ASSERT_MSG(!(NULL == inout_sSelf), "NULL Pointer");
 
         // Make sure that the Worktime is smaller then 121
-        ASSERT_MSG(!(inout_sSelf->u8Worktime > TOTAL_MINUTES), "Worktime is bigger then 120");
+        ASSERT_MSG(!(inout_sSelf->u8Worktime > TOTAL_MINUTES), "Worktime is bigger then 120, Worktime is %d", inout_sSelf->u8Worktime);
 
         // Make sure that the Breaktime is smaller then 61
-        ASSERT_MSG(!(inout_sSelf->u8Breaktime > MINUTES_IN_HOUR), "Breaktime is bigger then 60");
+        ASSERT_MSG(!(inout_sSelf->u8Breaktime > MINUTES_IN_HOUR), "Breaktime is bigger then 60, Breaktime is %d", inout_sSelf->u8Breaktime);
     }
 
     uint8_t u8LocalCopyWortime = inout_sSelf->u8Worktime;
@@ -829,4 +831,37 @@ STATIC void PomodoroControl_isBreaktimeOver(PCTRL_Progress_t *const inout_sSelf,
 
     *out_bIsBreaktimeOver = bNumberCheck;
     unused(bArrayCheck); // Avoid compiler warning
+}
+
+void PomodoroControl_init(void)
+{
+    // Subscribe to Messages
+    status_e eStatus = MessageBroker_subscribe(MSG_0400, PomodoroControl_MessageCallback);
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
+
+    eStatus = MessageBroker_subscribe(MSG_0200, PomodoroControl_MessageCallback);
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
+
+    eStatus = MessageBroker_subscribe(MSG_0103, PomodoroControl_MessageCallback);
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
+
+    eStatus = MessageBroker_subscribe(MSG_0003, PomodoroControl_MessageCallback);
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
+
+    unused(eStatus); // Avoid compiler warning
+
+    // Initialize the Pomodoro Timing Configuration
+    sPomodoroTimingCfg.u16TimerPeriodMin = TIMER_PERIOD_MIN;
+    sPomodoroTimingCfg.u16TimerPeriodSec = TIMER_PERIOD_SEC;
+    sPomodoroTimingCfg.u16TimerPeriodSnoozeMs = TIMER_PERIOD_SNOOZE_MS;
+    sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = TIMER_PERIOD_CANCEL_SEQ_MS;
+    sPomodoroTimingCfg.u16TimerPeriodWarningMs = TIMER_PERIOD_WARNING_MS;
+    sPomodoroTimingCfg.u16TimeOutPeriodMin = TIMEOUT_PERIOD_MIN;
+}
+
+status_e PomodoroControl_execute(void)
+{
+    status_e eStatus = STATUS_SUCCESS;
+    FSM_execute(&sFsmConfig);
+    return eStatus;
 }

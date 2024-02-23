@@ -535,8 +535,8 @@ status_e OnBoardTest_testContextMgmtMsgCb(const msg_t *const in_psMsg)
 
                 // Publish the Pomodoro Complete Message
                 sMsg.eMsgId = MSG_0204;
-                eStatus = MessageBroker_publish(&sMsg);
-                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+                // eStatus = MessageBroker_publish(&sMsg);
+                // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
                 log_info("Setting Complete Message sent");
 
@@ -654,20 +654,17 @@ void OnBoardTest_testContextMgmt(void)
         // So that the Seeking Attention is visible
         msg_t sMsg = {0};
         sMsg.eMsgId = MSG_0003;
-        eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        PomodoroTimingCfg_s sTimingCfg = {0};
+        sTimingCfg.sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod = 50;
+        sTimingCfg.sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod = 10;
+        sTimingCfg.u16TimeOutPeriodMin = 100;
+        sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
+        sTimingCfg.u16TimerPeriodSnoozeMs = 50;
+        sTimingCfg.u16TimerPeriodWarningMs = 30;
+        sTimingCfg.u16TimerPeriodSec = 30;
+        sTimingCfg.u16TimerPeriodMin = 60;
 
-        const uint8_t WORKTIME = 50;
-        const uint8_t BREAKTIME = 10;
-
-        PomodoroPeriodConfiguration_s sPomodoroPeriodConfig = {0};
-        sPomodoroPeriodConfig.u8MinutesWorktimePeriod = WORKTIME;
-        sPomodoroPeriodConfig.u8MinutesBreaktimePeriod = BREAKTIME;
-
-        // Publish the Pomodoro Config
-        sMsg.eMsgId = MSG_0400;
-        sMsg.au8DataBytes = (uint8_t *)&sPomodoroPeriodConfig;
-        sMsg.u16DataSize = sizeof(PomodoroPeriodConfiguration_s);
+        sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
     }
