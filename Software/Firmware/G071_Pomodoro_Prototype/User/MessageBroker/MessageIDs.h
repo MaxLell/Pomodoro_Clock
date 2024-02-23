@@ -48,10 +48,6 @@ typedef enum
     MSG_0700, // Setting Procedure Start
     MSG_0701, // Setting Procedure finished
 
-    // Context Management Messages
-    MSG_0800, // Context Management: Current State IDLE
-    MSG_0801, // Context Management: Current State BUSY
-
     // Seeking Attention
     MSG_0900, // Seeking Attention: Start
     MSG_0901, // Seeking Attention: Stop

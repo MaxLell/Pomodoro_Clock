@@ -14,7 +14,7 @@ void FSM_checkConfig(const FSM_Config_t *const in_psFsmConfig)
     ASSERT_MSG(!(in_psFsmConfig->u16CurrentState >= in_psFsmConfig->NUMBER_OF_STATES),
                "Current State is out of bounds");
     ASSERT_MSG(!(in_psFsmConfig->u16CurrentEvent >= in_psFsmConfig->NUMBER_OF_EVENTS),
-               "Current Event is out of bounds");
+               "Current Event is out of bounds: %d", in_psFsmConfig->u16CurrentEvent);
 }
 
 void FSM_setTriggerEvent(FSM_Config_t *const inout_psFsmConfig, uint16_t in_u16Event)

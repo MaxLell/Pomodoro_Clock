@@ -159,4 +159,6 @@ status_e Score_execute(void)
     {
         u32CurrentSecondCount++;
     }
+
+    return STATUS_SUCCESS;
 }

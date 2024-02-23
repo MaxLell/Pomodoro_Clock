@@ -3,26 +3,23 @@
  ************************************************************/
 #include "OnBoardTest.h"
 
+// Module Includes
+#include "PomodoroControl.h"
+#include "PomodoroControl_Datatypes.h"
+#include "LightEffects.h"
+#include "LightEffects_Pomodoro.h"
+#include "RgbLed.h"
+#include "RgbLed_Config.h"
+#include "Score.h"
+#include "Encoder.h"
+#include "Button.h"
+#include "SeekingAttention.h"
+#include "ContextManagement.h"
+
+// Utility includes
 #include "FSM.h"
 #include "MessageBroker.h"
 #include "MessageDefinitions.h"
-#include "PomodoroControl.h"
-#include "PomodoroControl_Datatypes.h"
-
-#include "LightEffects.h"
-#include "LightEffects_Pomodoro.h"
-
-#include "RgbLed.h"
-#include "RgbLed_Config.h"
-
-#include "Score.h"
-
-#include "Encoder.h"
-
-#include "Button.h"
-
-#include "SeekingAttention.h"
-
 #include "CountdownTimer.h"
 #include "Delay.h"
 #include "inttypes.h"
@@ -63,7 +60,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_SEEKING_ATTENTION
+#define TEST_TO_RUN E_TEST_CONTEXT_MGMT
 
 /************************************************************
  * Private Function Prototypes
@@ -159,7 +156,7 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         const uint8_t WORKTIME = 50;
         const uint8_t BREAKTIME = 10;
 
-        PomodoroPeriodConfiguration_t sPomodoroPeriodConfig = {0};
+        PomodoroPeriodConfiguration_s sPomodoroPeriodConfig = {0};
         sPomodoroPeriodConfig.u8MinutesWorktimePeriod = WORKTIME;
         sPomodoroPeriodConfig.u8MinutesBreaktimePeriod = BREAKTIME;
 
@@ -168,7 +165,7 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         sMsg.eMsgId = MSG_0400;
 
         sMsg.au8DataBytes = (uint8_t *)&sPomodoroPeriodConfig;
-        sMsg.u16DataSize = sizeof(PomodoroPeriodConfiguration_t);
+        sMsg.u16DataSize = sizeof(PomodoroPeriodConfiguration_s);
         status_e eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
@@ -417,53 +414,6 @@ void OnBoardTest_testBasicEncoder(void)
     Delay_ms(100);
 }
 
-status_e OnBoardTest_ContextMgmtMsgCb(const msg_t *const in_psMsg)
-{
-    // Input Checks
-    ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
-
-    switch (in_psMsg->eMsgId)
-    {
-    case MSG_0200:
-    {
-        log_info("Pomodoro Sequence Start");
-    }
-    break;
-
-    case MSG_0204:
-    {
-        log_info("Pomodoro Complete -> Switching back to Idle/Seeking Attention");
-    }
-    break;
-
-    default:
-    {
-        ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
-    }
-    }
-    return STATUS_SUCCESS;
-}
-
-void OnBoardTest_testContextMgmt(void)
-{
-    static BOOL bRanOnce = FALSE;
-    if (bRanOnce == FALSE)
-    {
-        printf("%s", "************************************************************\n");
-        printf("%s\n", "                 OnBoardTest_testContextMgmt");
-        printf("%s", "************************************************************\n");
-
-        // Clear the flag
-        bRanOnce = TRUE;
-
-        // Initialize the Button
-        Button_init();
-    }
-
-    // Run the Button execute function
-    Button_execute();
-}
-
 status_e OnBoardTest_testSeekingAttentionMsgCb(const msg_t *const in_psMsg)
 {
     // Input Checks
@@ -561,6 +511,178 @@ void OnBoardTest_testSeekingAttention(void)
 
     // Run the Seeking Attention execute function
     SeekingAttention_execute();
+}
+
+status_e OnBoardTest_testContextMgmtMsgCb(const msg_t *const in_psMsg)
+{
+    // Input Checks
+    ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
+
+    // Pomodoro Messages
+    switch (in_psMsg->eMsgId)
+    {
+    case MSG_0103:
+    {
+        // if the Trigger Button is pressed for long -> Send out the Pomodoro Complete Message
+        ButtonMessage_s *psButtonMessage = (ButtonMessage_s *)in_psMsg->au8DataBytes;
+
+        if (psButtonMessage->eButton == E_BUTTON_TRIGGER)
+        {
+            if (psButtonMessage->eEvent == E_BTN_EVENT_LONG_PRESSED)
+            {
+                msg_t sMsg = {0};
+                status_e eStatus;
+
+                // Publish the Pomodoro Complete Message
+                sMsg.eMsgId = MSG_0204;
+                eStatus = MessageBroker_publish(&sMsg);
+                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+                log_info("Setting Complete Message sent");
+
+                unused(eStatus); // Suppress the unused variable warning
+            }
+        }
+    }
+    break;
+
+    case MSG_0200:
+    {
+        log_info("Pomodoro Sequence Start Command");
+    }
+    break;
+
+    case MSG_0204:
+    {
+        log_info("Pomodoro Complete Message received");
+    }
+    break;
+
+    // Seeking Attention Messages
+    case MSG_0900:
+    {
+        log_info("Seeking Attention Start Command");
+    }
+    break;
+
+    case MSG_0901:
+    {
+        log_info("Seeking Attention Stop Command");
+    }
+    break;
+
+    case MSG_0902:
+    {
+        log_info("Seeking Attention is now finished");
+    }
+    break;
+
+    // Setting Messages
+    case MSG_0700:
+    {
+        log_info("Setting Start Commands");
+    }
+    break;
+
+    case MSG_0701:
+    {
+        log_info("Setting Complete Msg received");
+    }
+    break;
+
+    default:
+    {
+        ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
+    }
+    }
+    return STATUS_SUCCESS;
+}
+
+void OnBoardTest_testContextMgmt(void)
+{
+    static BOOL bRanOnce = FALSE;
+    if (bRanOnce == FALSE)
+    {
+        printf("%s", "************************************************************\n");
+        printf("%s\n", "                 OnBoardTest_testContextMgmt");
+        printf("%s", "************************************************************\n");
+
+        // Clear the flag
+        bRanOnce = TRUE;
+
+        // Initialize the Button
+        Button_init();
+
+        // Subscribe the messages
+        status_e eStatus;
+        eStatus = MessageBroker_subscribe(MSG_0103, &OnBoardTest_testContextMgmtMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        eStatus = MessageBroker_subscribe(MSG_0200, &OnBoardTest_testContextMgmtMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        eStatus = MessageBroker_subscribe(MSG_0204, &OnBoardTest_testContextMgmtMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        eStatus = MessageBroker_subscribe(MSG_0900, &OnBoardTest_testContextMgmtMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        eStatus = MessageBroker_subscribe(MSG_0901, &OnBoardTest_testContextMgmtMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        eStatus = MessageBroker_subscribe(MSG_0902, &OnBoardTest_testContextMgmtMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        eStatus = MessageBroker_subscribe(MSG_0700, &OnBoardTest_testContextMgmtMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        eStatus = MessageBroker_subscribe(MSG_0701, &OnBoardTest_testContextMgmtMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        unused(eStatus); // Suppress the unused variable warning
+
+        // Initialize the Context Management
+        ContextManagement_init();
+
+        // Initialize the Seeking Attention
+        SeekingAttention_init();
+
+        // Initialize the POmodoro Control
+        PomodoroControl_init();
+
+        // Publish the Test Message (Needs to be after the Seeking Attention Init function!!!)
+        // So that the Seeking Attention is visible
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_0003;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+        const uint8_t WORKTIME = 50;
+        const uint8_t BREAKTIME = 10;
+
+        PomodoroPeriodConfiguration_s sPomodoroPeriodConfig = {0};
+        sPomodoroPeriodConfig.u8MinutesWorktimePeriod = WORKTIME;
+        sPomodoroPeriodConfig.u8MinutesBreaktimePeriod = BREAKTIME;
+
+        // Publish the Pomodoro Config
+        sMsg.eMsgId = MSG_0400;
+        sMsg.au8DataBytes = (uint8_t *)&sPomodoroPeriodConfig;
+        sMsg.u16DataSize = sizeof(PomodoroPeriodConfiguration_s);
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+    }
+
+    // Run the Button execute function
+    Button_execute();
+
+    // Run the Context Management execute function
+    ContextManagement_execute();
+
+    // Run the Seeking Attention execute function
+    SeekingAttention_execute();
+
+    // Run the Pomodoro Control execute function
+    PomodoroControl_execute();
 }
 
 /************************************************************

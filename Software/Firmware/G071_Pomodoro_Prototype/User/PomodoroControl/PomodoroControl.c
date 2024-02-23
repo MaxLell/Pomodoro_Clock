@@ -620,9 +620,14 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
                    // Periods
     {
         // Get the Pomodoro Configuration
-        PomodoroPeriodConfiguration_t *psPomodoroConfig = (PomodoroPeriodConfiguration_t *)psMsg->au8DataBytes;
+        PomodoroPeriodConfiguration_s *psPomodoroConfig = (PomodoroPeriodConfiguration_s *)psMsg->au8DataBytes;
         sPomodoroProgress.u8Worktime = psPomodoroConfig->u8MinutesWorktimePeriod;
         sPomodoroProgress.u8Breaktime = psPomodoroConfig->u8MinutesBreaktimePeriod;
+    }
+    break;
+
+    case MSG_0003:
+    {
     }
     break;
 
