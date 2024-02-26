@@ -90,7 +90,7 @@ STATIC FSM_Config_t sContextManagementFsmConfig = {
 
 STATIC void ContextManagement_IdleStateFunction(void)
 {
-    status_e eStatus = STATUS_SUCCESS;
+    status_e eStatus = STATUS_OK;
 
     if (bRunOnce == FALSE)
     {
@@ -101,7 +101,7 @@ STATIC void ContextManagement_IdleStateFunction(void)
         msg_t sMsg = {0};
         sMsg.eMsgId = MSG_0900;
         eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "Failed to publish MSG_0900");
+        ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to publish MSG_0900");
     }
 
     // Only execute this section, when the Trigger Btn or the Rotary Encoder Btn is released
@@ -112,7 +112,7 @@ STATIC void ContextManagement_IdleStateFunction(void)
         msg_t sMsg = {0};
         sMsg.eMsgId = MSG_0901;
         eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "Failed to publish MSG_0901");
+        ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to publish MSG_0901");
 
         if (TRUE == bSeekingAttentionIsFinished)
         {
@@ -131,7 +131,7 @@ STATIC void ContextManagement_IdleStateFunction(void)
                 // Send out the Start Pomodoro Message
                 sMsg.eMsgId = MSG_0200;
                 eStatus = MessageBroker_publish(&sMsg);
-                ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "Failed to publish MSG_0200");
+                ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to publish MSG_0200");
 
                 // Set the Trigger Event to EVENT_BUTTON_TRIGGER_BTN_PRESSED
                 FSM_setTriggerEvent(&sContextManagementFsmConfig, EVENT_BUTTON_TRIGGER_BTN_PRESSED);
@@ -151,7 +151,7 @@ STATIC void ContextManagement_IdleStateFunction(void)
                 // Send out the Start Setting Message
                 sMsg.eMsgId = MSG_0700;
                 eStatus = MessageBroker_publish(&sMsg);
-                ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "Failed to publish MSG_0700");
+                ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to publish MSG_0700");
 
                 // Set the Trigger Event to EVENT_ROTATY_ENCODER_BTN_PRESSED
                 FSM_setTriggerEvent(&sContextManagementFsmConfig, EVENT_ROTATY_ENCODER_BTN_PRESSED);
@@ -184,7 +184,7 @@ STATIC void ContextManagement_SettingStateFunction(void)
 
 status_e ContextManagement_MsgCallback(const msg_t *const in_sMsg)
 {
-    status_e eStatus = STATUS_SUCCESS;
+    status_e eStatus = STATUS_OK;
 
     switch (in_sMsg->eMsgId)
     {
@@ -231,21 +231,21 @@ status_e ContextManagement_MsgCallback(const msg_t *const in_sMsg)
 void ContextManagement_init(void)
 {
     // subscribe to the Button Event Message
-    status_e eStatus = STATUS_SUCCESS;
+    status_e eStatus = STATUS_OK;
     eStatus = MessageBroker_subscribe(MSG_0103, ContextManagement_MsgCallback);
-    ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "Failed to subscribe to MSG_0103");
+    ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to subscribe to MSG_0103");
 
     // Subscribe to Seeking Attention finished Message
     eStatus = MessageBroker_subscribe(MSG_0902, ContextManagement_MsgCallback);
-    ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "Failed to subscribe to MSG_0901");
+    ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to subscribe to MSG_0901");
 
     // Subscribe to the Pomodoro Complete Message
     eStatus = MessageBroker_subscribe(MSG_0204, ContextManagement_MsgCallback);
-    ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "Failed to subscribe to MSG_0204");
+    ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to subscribe to MSG_0204");
 
     // Subscribe to the Setting Complete Message
     eStatus = MessageBroker_subscribe(MSG_0701, ContextManagement_MsgCallback);
-    ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "Failed to subscribe to MSG_0701");
+    ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to subscribe to MSG_0701");
 
     // Reset the RunOnce Flag
     bRunOnce = FALSE;

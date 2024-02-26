@@ -2,163 +2,194 @@
 
 #include "CountdownTimer.h"
 #include "MessageBroker.h"
+#include "MessageDefinitions.h"
 
-#define ONE_SECOND 1000
-#define SCORE_WATCHDOG_TIMEOUT 1000 * 60 * 60 * 6 // 6 hours
+#define ONE_MINUTE 60000
+#define TEN_MINUTES 600000
+#define FOUR_HOURS 14400000
 
-STATIC uint32_t u32TotalDailyActivePomodoroSeconds = 0U;
-STATIC uint32_t u32CurrentSecondCount = 0U;
+/*************************************************************
+ * Private Data
+ *************************************************************/
 
-timer_t sCountdownTimerSec;
-timer_t sScoreWatchdogTimer;
+STATIC ScoreTimeStamps_s sScoreTimeStamps = {
+    .u32MinutePeriod = ONE_MINUTE,
+    .u32TimeoutPeriod = TEN_MINUTES,
+    .u32WatchdogPeriod = FOUR_HOURS,
+};
 
-void Score_publishScore(void)
-{
-    // Publish the current daily score
-    msg_t sMsg;
-    sMsg.eMsgId = MSG_0500;
-    uint8_t au8DataBytes[4] = {0U};
+STATIC timer_t sMinuteTimer;
+STATIC timer_t sWatchdogTimer;
+STATIC timer_t sTimeoutTimer;
 
-    au8DataBytes[0] = (uint8_t)(u32TotalDailyActivePomodoroSeconds >> 24);
-    au8DataBytes[1] = (uint8_t)(u32TotalDailyActivePomodoroSeconds >> 16);
-    au8DataBytes[2] = (uint8_t)(u32TotalDailyActivePomodoroSeconds >> 8);
-    au8DataBytes[3] = (uint8_t)(u32TotalDailyActivePomodoroSeconds);
-    sMsg.au8DataBytes = au8DataBytes;
-    sMsg.u16DataSize = 4U;
+STATIC BOOL bPomodoroActive = FALSE;
 
-    status_e eStatus = MessageBroker_publish(&sMsg);
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_publishScore: Failed to publish MSG_0500");
+STATIC uint32_t u32TotalDailyScoreInMinutes = 0U;
 
-    unused(eStatus); // To avoid compiler warnings when the code is optimized
-}
-
-void Score_kickWatchdog(void)
-{
-    // Reset the Score Watchdog Timer
-    Countdown_resetAndStartTimer(&sScoreWatchdogTimer);
-}
+/*************************************************************
+ * Implementation
+ *************************************************************/
 
 status_e Score_MsgCb(const msg_t *const in_psMessage)
 {
-    status_e eStatus = STATUS_ERROR;
+    { // Input Checks
+        ASSERT_MSG(!(NULL == in_psMessage), "Null Pointer");
+        if (NULL == in_psMessage)
+        {
+            return STATUS_ERROR;
+        }
+    }
 
     switch (in_psMessage->eMsgId)
     {
-    case MSG_0200: // Pomodoro Sequence Start
+    case MSG_0003:
     {
-        // Reset the currentScore
-        u32CurrentSecondCount = 0U;
+        // Parse out the ScoreTimeStamps_s struct from the message
+        ScoreTimeStamps_s *psScoreTimeStamps = (ScoreTimeStamps_s *)in_psMessage->au8DataBytes;
 
-        // Start the Countdown Timer
-        Countdown_resetAndStartTimer(&sCountdownTimerSec);
+        // Update the global ScoreTimeStamps_s struct
+        sScoreTimeStamps.u32MinutePeriod = psScoreTimeStamps->u32MinutePeriod;
+        sScoreTimeStamps.u32TimeoutPeriod = psScoreTimeStamps->u32TimeoutPeriod;
+        sScoreTimeStamps.u32WatchdogPeriod = psScoreTimeStamps->u32WatchdogPeriod;
 
-        // Publish the current daily score
-        Score_publishScore();
+        // Initialize the Timers
+        Countdown_initTimerMs(&sMinuteTimer, sScoreTimeStamps.u32MinutePeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_initTimerMs(&sWatchdogTimer, sScoreTimeStamps.u32WatchdogPeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_initTimerMs(&sTimeoutTimer, sScoreTimeStamps.u32TimeoutPeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
 
-        // kick the Score Watchdog Timer
-        Score_kickWatchdog();
+        // Start the Watchdog Timer and the Timeout Timer
+        Countdown_resetAndStartTimer(&sWatchdogTimer);
+        Countdown_resetAndStartTimer(&sTimeoutTimer);
+    }
 
-        eStatus = STATUS_SUCCESS;
+    break;
+
+    case MSG_0200:
+    {
+        // Check that the Minute Timer is not Enabled
+        ASSERT_MSG(!(E_COUNTDOWN_TIMER_NOT_ENABLED != Countdown_getTimerStatus(&sMinuteTimer)), "Minute Timer is already enabled");
+
+        // Check that the Pomodoro Active Flag is FALSE
+        ASSERT_MSG(!(TRUE == bPomodoroActive), "Pomodoro is already active");
+
+        // Set the Pomodoro Active Flag to TRUE
+        bPomodoroActive = TRUE;
+
+        // Reset and Start the Minute Counter Timer
+        Countdown_resetAndStartTimer(&sMinuteTimer);
+
+        // Reset the Watchdog and the Timout Timer
+        Countdown_resetTimer(&sWatchdogTimer);
+        Countdown_resetTimer(&sTimeoutTimer);
+
+        log_info("Pomodoro Started Message received");
     }
     break;
 
-    case MSG_0201: // Pomodoro Work Time Sequence Complete
+    case MSG_0204:
     {
-        // Add the currentScore to the daily score
-        u32TotalDailyActivePomodoroSeconds += u32CurrentSecondCount;
-        u32CurrentSecondCount = 0U;
+        // Check that the Pomodoro is active
+        ASSERT_MSG(!(FALSE == bPomodoroActive), "Pomodoro is not active, but should be!");
 
-        // Publish the current daily score
-        Score_publishScore();
+        // Check that the Minute Timer is Active
+        ASSERT_MSG(!(E_COUNTDOWN_TIMER_NOT_ENABLED == Countdown_getTimerStatus(&sMinuteTimer)), "Minute Timer is not enabled");
 
-        // kick the Score Watchdog Timer
-        Score_kickWatchdog();
+        // Set the Pomodoro Active Flag to FALSE
+        bPomodoroActive = FALSE;
 
-        eStatus = STATUS_SUCCESS;
-    }
-    break;
+        // Stop the Minute Countdown Timer
+        Countdown_stopTimer(&sMinuteTimer);
 
-    case MSG_0202: // Pomodoro Break Time Sequence Complete
-    {
-        // Add the currentScore to the daily score
-        u32TotalDailyActivePomodoroSeconds += u32CurrentSecondCount;
-        u32CurrentSecondCount = 0U;
+        // Reset the Watchdog and the Timout Timer
+        Countdown_resetTimer(&sWatchdogTimer);
+        Countdown_resetTimer(&sTimeoutTimer);
 
-        // Publish the current daily score
-        Score_publishScore();
-
-        // kick the Score Watchdog Timer
-        Score_kickWatchdog();
-
-        // Stop the Seconds-counting Countdown Timer
-        Countdown_stopTimer(&sCountdownTimerSec);
-
-        eStatus = STATUS_SUCCESS;
-    }
-    break;
-
-    case MSG_0203: // Pomodoro Cancel Sequence Complete
-    {
-        // Stop the Seconds-counting Countdown Timer
-        Countdown_stopTimer(&sCountdownTimerSec);
-
-        // reset the currentScore
-        u32CurrentSecondCount = 0U;
-
-        // publish the current daily score
-        Score_publishScore();
-
-        // kick the Score Watchdog Timer
-        Score_kickWatchdog();
-
-        eStatus = STATUS_SUCCESS;
+        log_info("Pomodoro Complete Message received");
     }
     break;
 
     default:
-        ASSERT_MSG(FALSE, "Score_MsgCb: Unhandled message ID");
-        break;
+        ASSERT_MSG(FALSE, "Invalid Message ID: %d", in_psMessage->eMsgId);
+        return STATUS_ERROR;
     }
-
-    return eStatus;
+    return STATUS_OK;
 }
 
 void Score_init(void)
 {
-    // Subscive to all status messages from the Pomodoro
-    status_e eStatus;
-    eStatus = MessageBroker_subscribe(MSG_0200, Score_MsgCb); // Pomodoro Sequence Start
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_0200");
-    eStatus = MessageBroker_subscribe(MSG_0201, Score_MsgCb); // Pomodoro Work Time Sequence Complete
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_0201");
-    eStatus = MessageBroker_subscribe(MSG_0202, Score_MsgCb); // Pomodoro Break Time Sequence Complete
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_0202");
-    eStatus = MessageBroker_subscribe(MSG_0203, Score_MsgCb); // Pomodoro Cancel Sequence Complete
-    ASSERT_MSG(!(eStatus == STATUS_ERROR), "Score_init: Failed to subscribe to MSG_0203");
+    // Subscribe to the Messages
+    // Test Message
+    status_e eStatus = MessageBroker_subscribe(MSG_0003, Score_MsgCb);
+    ASSERT_MSG(STATUS_OK == eStatus, "Failed to Subscribe to MSG_0003");
 
-    unused(eStatus); // To avoid compiler warnings when the code is optimized
+    // Pomodoro Start
+    eStatus = MessageBroker_subscribe(MSG_0200, Score_MsgCb);
+    ASSERT_MSG(STATUS_OK == eStatus, "Failed to Subscribe to MSG_0200");
 
-    // Set up the Second Timer
-    Countdown_initTimerMs(&sCountdownTimerSec, ONE_SECOND, E_OPERATIONAL_MODE_CONTIUNOUS);
+    // Pomodoro Complete
+    eStatus = MessageBroker_subscribe(MSG_0204, Score_MsgCb);
+    ASSERT_MSG(STATUS_OK == eStatus, "Failed to Subscribe to MSG_0204");
+    unused(eStatus);
 
-    // Set up the Score Watchdog Timer
-    Countdown_initTimerMs(&sScoreWatchdogTimer, SCORE_WATCHDOG_TIMEOUT, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_resetAndStartTimer(&sScoreWatchdogTimer);
+    // Initialize the Timers
+    Countdown_initTimerMs(&sMinuteTimer, sScoreTimeStamps.u32MinutePeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_initTimerMs(&sWatchdogTimer, sScoreTimeStamps.u32WatchdogPeriod, E_OPERATIONAL_MODE_ONE_SHOT);
+    Countdown_initTimerMs(&sTimeoutTimer, sScoreTimeStamps.u32TimeoutPeriod, E_OPERATIONAL_MODE_ONE_SHOT);
+
+    // Start the Watchdog Timer and the Timeout Timer
+    Countdown_resetAndStartTimer(&sWatchdogTimer);
+    Countdown_resetAndStartTimer(&sTimeoutTimer);
+
+    // Reset the Pomodoro Active Flag
+    bPomodoroActive = FALSE;
+
+    // Reset the Daily Score
+    u32TotalDailyScoreInMinutes = 0U;
+
+    log_info("Score Init Complete");
 }
 
 status_e Score_execute(void)
 {
-    // Reset the Total Daily Active Pomodoro Seconds if the Watchdog Timer has expired
-    if (Countdown_getTimerStatus(&sScoreWatchdogTimer) == E_COUNTDOWN_TIMER_EXPIRED)
-    {
-        u32TotalDailyActivePomodoroSeconds = 0U;
+    if (TRUE == bPomodoroActive)
+    { // Pomodoro is active
+        // Reset the Watchdog Timer
+        Countdown_resetTimer(&sWatchdogTimer);
+
+        // Reset the Timeout Timer
+        Countdown_resetTimer(&sTimeoutTimer);
+
+        if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sMinuteTimer))
+        {
+            // Increment the Total Daily Score
+            u32TotalDailyScoreInMinutes++;
+
+            // Render the Minutes on the Inner Ring (Score)
+
+            // Print the Score
+            log_info("Total Daily Score: %d", (int)u32TotalDailyScoreInMinutes);
+        }
+    }
+    else
+    { // Pomodoro is NOT active
+        if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sWatchdogTimer))
+        {
+            // Reset the Total Daily Score
+            u32TotalDailyScoreInMinutes = 0U;
+
+            // Clear the Score Ring
+
+            log_info("Watchdog Timer Expired");
+            log_info("Total Daily Score: %d", (int)u32TotalDailyScoreInMinutes);
+        }
+
+        if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sTimeoutTimer))
+        {
+            // Clear the Score Ring
+
+            log_info("Timeout Timer Expired");
+        }
     }
 
-    // Update the Current Second Count - Update the counter once per second
-    if (Countdown_getTimerStatus(&sCountdownTimerSec) == E_COUNTDOWN_TIMER_EXPIRED)
-    {
-        u32CurrentSecondCount++;
-    }
-
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }

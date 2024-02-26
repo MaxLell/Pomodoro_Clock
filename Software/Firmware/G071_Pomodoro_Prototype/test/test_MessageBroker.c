@@ -1,10 +1,11 @@
 #include "../User/MessageBroker/MessageBroker.h"
 #include "unity.h"
 
-extern msgTopic_t* pasMsgTopicLib[E_TOPIC_LAST_TOPIC];
+extern msgTopic_t *pasMsgTopicLib[E_TOPIC_LAST_TOPIC];
 extern msgTopic_t saMsg[E_TOPIC_LAST_TOPIC];
 
-void setUp(void) {
+void setUp(void)
+{
   /*
   Reset the callback arrays with the init function
   */
@@ -14,24 +15,28 @@ void setUp(void) {
 void tearDown(void) {}
 
 uint32_t u32CallbackTestMessage1Counter_1;
-status_e testyMsg1Callback_1(msg_t* in_sMessage) {
+status_e testyMsg1Callback_1(msg_t *in_sMessage)
+{
   u32CallbackTestMessage1Counter_1++;
-  return STATUS_SUCCESS;
+  return STATUS_OK;
 }
 
 uint32_t u32CallbackTestMessage2Counter_2;
-status_e testyMsg2Callback_2(msg_t* in_sMessage) {
+status_e testyMsg2Callback_2(msg_t *in_sMessage)
+{
   u32CallbackTestMessage2Counter_2++;
-  return STATUS_SUCCESS;
+  return STATUS_OK;
 }
 
 uint32_t u32CallbackMsg0204Counter;
-status_e testyMsgCallback(msg_t* in_sMessage) {
+status_e testyMsgCallback(msg_t *in_sMessage)
+{
   u32CallbackMsg0204Counter++;
-  return STATUS_SUCCESS;
+  return STATUS_OK;
 }
 
-void test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero() {
+void test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero()
+{
   // Set some dummy function into the callback array before hand
   saMsg[MSG_0001].aCallbackArray[0] = testyMsgCallback;
   saMsg[MSG_0002].aCallbackArray[0] = testyMsgCallback;
@@ -44,7 +49,8 @@ void test_MessageBroker_init_shall_InitializeAllCallbackArraysToBeZero() {
   TEST_ASSERT_EQUAL(NULL, saMsg[MSG_0002].aCallbackArray[0]);
 }
 
-void test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot() {
+void test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot()
+{
   /* Clears all the Callback Arrays and sets all of its entries to NULL*/
   MessageBroker_init();
   status_e tStatus;
@@ -63,30 +69,38 @@ void test_MessageBroker_subscribe_shall_PlaceFunctionPointerAtEmptySpot() {
   TEST_ASSERT_EQUAL(NULL, saMsg[MSG_0002].aCallbackArray[0]);
 
   /* Only transform a portion of the array */
-  for (uint8_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; i++) {
-    if (i < (MESSAGE_BROKER_CALLBACK_ARRAY_SIZE - 2)) {
+  for (uint8_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; i++)
+  {
+    if (i < (MESSAGE_BROKER_CALLBACK_ARRAY_SIZE - 2))
+    {
       MessageBroker_subscribe(MSG_0002, testyMsgCallback);
       MessageBroker_subscribe(MSG_0001, testyMsgCallback);
     }
   }
 
-  for (uint8_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; i++) {
-    if (i < (MESSAGE_BROKER_CALLBACK_ARRAY_SIZE - 2)) {
+  for (uint8_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; i++)
+  {
+    if (i < (MESSAGE_BROKER_CALLBACK_ARRAY_SIZE - 2))
+    {
       TEST_ASSERT_NOT_EQUAL(NULL, saMsg[MSG_0001].aCallbackArray[i]);
       TEST_ASSERT_NOT_EQUAL(NULL, saMsg[MSG_0002].aCallbackArray[i]);
-    } else {
+    }
+    else
+    {
       TEST_ASSERT_EQUAL(NULL, saMsg[MSG_0001].aCallbackArray[i]);
       TEST_ASSERT_EQUAL(NULL, saMsg[MSG_0002].aCallbackArray[i]);
     }
   }
 }
 
-void test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument() {
+void test_MessageBroker_subscribe_shall_ReturnStatusNullPointer_when_ProvidedWithANullPointerArgument()
+{
   status_e status = MessageBroker_subscribe(MSG_0001, NULL);
   TEST_ASSERT_EQUAL(STATUS_ERROR, status);
 }
 
-void test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers() {
+void test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers()
+{
   msg_t tTestMessage1;
   msg_t tTestMessage2;
 
@@ -141,7 +155,8 @@ void test_MessageBroker_publish_shall_PublishItsMessagesOnlyToItsSubscribers() {
   TEST_ASSERT_EQUAL(u32TargetCallbackMsg0204Counter, u32CallbackMsg0204Counter);
 }
 
-void test_MessageBroker_publish_should_ReturnError_when_invalidMessageIdIsProvided() {
+void test_MessageBroker_publish_should_ReturnError_when_invalidMessageIdIsProvided()
+{
   msg_t tTestMessage1;
   tTestMessage1.eMsgId = E_TOPIC_LAST_TOPIC;
 
@@ -152,12 +167,14 @@ void test_MessageBroker_publish_should_ReturnError_when_invalidMessageIdIsProvid
 // have 5 subscribers to one topic -> The Message Broker subscribe function
 // shall respond with an error
 
-void test_MessageBroker_subscribe_should_ReturnError_when_TooManySubscribersAreAdded() {
+void test_MessageBroker_subscribe_should_ReturnError_when_TooManySubscribersAreAdded()
+{
   MessageBroker_init();
-  status_e tStatus = STATUS_SUCCESS;
-  for (uint8_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE - 1; i++) {
+  status_e tStatus = STATUS_OK;
+  for (uint8_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE - 1; i++)
+  {
     tStatus = MessageBroker_subscribe(MSG_0001, testyMsgCallback);
-    TEST_ASSERT_EQUAL(STATUS_SUCCESS, tStatus);
+    TEST_ASSERT_EQUAL(STATUS_OK, tStatus);
   }
 
   // Add a sixth subscriber

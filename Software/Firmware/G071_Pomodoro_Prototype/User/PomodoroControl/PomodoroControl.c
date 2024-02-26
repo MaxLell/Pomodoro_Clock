@@ -665,7 +665,7 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
     break;
     }
 
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf)
@@ -862,7 +862,7 @@ void PomodoroControl_init(void)
 
 status_e PomodoroControl_execute(void)
 {
-    status_e eStatus = STATUS_SUCCESS;
+    status_e eStatus = STATUS_OK;
     FSM_execute(&sFsmConfig);
     return eStatus;
 }

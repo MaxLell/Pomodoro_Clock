@@ -18,7 +18,7 @@ status_e MessageBroker_checkInitCounter()
     {
         return STATUS_ERROR;
     }
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 void MessageBroker_init()
@@ -79,7 +79,7 @@ status_e MessageBroker_subscribe(msgId_e in_eMsgTopic, msgCallback_t in_p32Funct
     /* Add in the provided Callback, so that later messages can be sent to that
      * callback */
     pasMsgTopicLib[in_eMsgTopic]->aCallbackArray[u16EmptyPointerPositionIndex] = in_p32FunctionCallback;
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 status_e MessageBroker_publish(msg_t *in_psMessage)
@@ -116,5 +116,5 @@ status_e MessageBroker_publish(msg_t *in_psMessage)
                        eTopic);
         }
     }
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }

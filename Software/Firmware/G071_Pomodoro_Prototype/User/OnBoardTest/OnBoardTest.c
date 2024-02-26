@@ -60,7 +60,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
+#define TEST_TO_RUN E_TEST_SCORE
 
 /************************************************************
  * Private Function Prototypes
@@ -226,7 +226,7 @@ status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
         break;
     }
 
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 void OnBoardTest_testButtonBehaviours(void)
@@ -254,19 +254,9 @@ status_e OnBoardTest_ScoreTestMsgCb(const msg_t *const in_psMsg)
 {
     { // Input Checks
         ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
-
-        // Message ID check
-        ASSERT_MSG(in_psMsg->eMsgId == MSG_0500, "Unknown Message ID: %d", in_psMsg->eMsgId);
     }
 
-    // Print the score
-    uint32_t u32ScoreSec = in_psMsg->au8DataBytes[0] << 24 | in_psMsg->au8DataBytes[1] << 16 |
-                           in_psMsg->au8DataBytes[2] << 8 | in_psMsg->au8DataBytes[3] << 0;
-
-    // Print out the unsigned value of the score // Print an unsigned value
-    log_info("Score in Seconds: %" PRIu32, u32ScoreSec);
-
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 timer_t sScoreTimer;
@@ -283,71 +273,52 @@ void OnBoardTest_testScore(void)
         // Clear the flag
         bRunOnce = TRUE;
 
-        // Set the timer
-        Countdown_initTimerMs(&sScoreTimer, 5000, E_OPERATIONAL_MODE_CONTIUNOUS);
-        Countdown_resetAndStartTimer(&sScoreTimer);
-
-        // Subscribe to the Score Updated Message
-        MessageBroker_subscribe(MSG_0500, OnBoardTest_ScoreTestMsgCb);
-
         // Run the score init function
         Score_init();
-    }
 
-    static uint8_t u8ProgramCounter = 0U;
-    if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sScoreTimer))
-    {
-        switch (u8ProgramCounter)
-        {
-        case 0U:
-        {
-            log_info("%s", "Pomodoro Sequence Start");
+        const uint32_t FIFTY_MSEC = 50;
+        const uint32_t ONE_MINUTE = 60000;
+        const uint32_t TWENTY_SECONDS = 20000;
+        const uint32_t THIRTY_SECONDS = 30000;
+        const uint32_t TEN_SECONDS = 10000;
 
-            msg_t sMsg = {0};
-            sMsg.eMsgId = MSG_0200;
-            status_e eStatus = MessageBroker_publish(&sMsg);
-            ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
-            unused(eStatus);
+        // Send out the Test Message
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_0003;
+        ScoreTimeStamps_s sScoreTimeStamps = {0};
+        sScoreTimeStamps.u32MinutePeriod = FIFTY_MSEC;
+        sScoreTimeStamps.u32TimeoutPeriod = TWENTY_SECONDS;
+        sScoreTimeStamps.u32WatchdogPeriod = THIRTY_SECONDS;
+        sMsg.au8DataBytes = (uint8_t *)&sScoreTimeStamps;
+        status_e eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        log_info("Test Config Message Sent");
 
-            u8ProgramCounter++;
-        }
-        break;
+        // Send in the Pomodoro Start Message
+        sMsg.eMsgId = MSG_0200;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        log_info("Pomodoro Start Message Sent");
 
-        case 1:
-        {
-            log_info("%s", "Work Time Sequence Complete");
+        // Start a timer that runs for 10 seconds
+        Countdown_initTimerMs(&sScoreTimer, TEN_SECONDS, E_OPERATIONAL_MODE_ONE_SHOT);
+        Countdown_resetAndStartTimer(&sScoreTimer);
 
-            msg_t sMsg = {0};
-            sMsg.eMsgId = MSG_0201;
-            status_e eStatus = MessageBroker_publish(&sMsg);
-            ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
-            unused(eStatus);
-
-            u8ProgramCounter++;
-        }
-        break;
-        case 2:
-        {
-            log_info("%s", "Break Time Sequence Complete");
-
-            msg_t sMsg = {0};
-            sMsg.eMsgId = MSG_0202;
-            status_e eStatus = MessageBroker_publish(&sMsg);
-            ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
-            unused(eStatus);
-
-            u8ProgramCounter = 0;
-        }
-        break;
-        default:
-        {
-        }
-        }
+        unused(eStatus);
     }
 
     Score_execute();
 
-    unused(eStatus);
+    // if the timer has expired - sent out the Pomodoro Complete Message
+    if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sScoreTimer))
+    {
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_0204;
+        status_e eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        unused(eStatus);
+        log_info("Pomodoro Complete Message Sent");
+    }
 }
 
 status_e OnboardTest_EncoderTestMsgCb(const msg_t *const in_psMsg)
@@ -386,7 +357,7 @@ status_e OnboardTest_EncoderTestMsgCb(const msg_t *const in_psMsg)
         ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
         break;
     }
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 void OnBoardTest_testBasicEncoder(void)
@@ -475,7 +446,7 @@ status_e OnBoardTest_testSeekingAttentionMsgCb(const msg_t *const in_psMsg)
         break;
     }
 
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 void OnBoardTest_testSeekingAttention(void)
@@ -602,7 +573,7 @@ status_e OnBoardTest_testContextMgmtMsgCb(const msg_t *const in_psMsg)
         ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
     }
     }
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 void OnBoardTest_testContextMgmt(void)

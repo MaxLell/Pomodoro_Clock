@@ -27,7 +27,7 @@ status_e RealTimeClock_execute(void)
 
     if (eTimerStatus == E_COUNTDOWN_TIMER_NOT_EXPIRED)
     {
-        return STATUS_SUCCESS;
+        return STATUS_OK;
     }
     else
     { // E_COUNTDOWN_TIMER_EXPIRED
@@ -37,7 +37,7 @@ status_e RealTimeClock_execute(void)
         tStatus = RealTimeClock_publishTimeAndDate(&tTimeAndDate);
         ASSERT_MSG(!(tStatus == STATUS_ERROR), "Publishing caused an error");
     }
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 void RealTimeClock_init(void)

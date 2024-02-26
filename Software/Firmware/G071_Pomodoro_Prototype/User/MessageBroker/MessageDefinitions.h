@@ -28,4 +28,11 @@ typedef struct
   Event_e eEvent;
 } ButtonMessage_s;
 
+typedef struct
+{
+  uint32_t u32MinutePeriod;
+  uint32_t u32WatchdogPeriod;
+  uint32_t u32TimeoutPeriod;
+} ScoreTimeStamps_s;
+
 #endif // MESSAGE_DEFINITIONS_H

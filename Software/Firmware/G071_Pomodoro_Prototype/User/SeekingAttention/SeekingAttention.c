@@ -42,7 +42,7 @@ STATIC SeekingAttention_internalState_s sInternalState = {0};
 
 status_e SeekingAttention_MsgCallback(const msg_t *const in_sMsg)
 {
-    status_e eStatus = STATUS_SUCCESS;
+    status_e eStatus = STATUS_OK;
 
     switch (in_sMsg->eMsgId)
     {
@@ -70,7 +70,7 @@ status_e SeekingAttention_MsgCallback(const msg_t *const in_sMsg)
         msg_t sMsg = {0};
         sMsg.eMsgId = MSG_0902;
         eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(STATUS_SUCCESS != eStatus), "Message could not be published")
+        ASSERT_MSG(!(STATUS_OK != eStatus), "Message could not be published")
         unused(eStatus); // suppress warning when ASSERTS are not compiled
     }
     break;
@@ -103,15 +103,15 @@ void SeekingAttention_init(void)
 {
     // Subscribe Seeking Attention Start
     status_e eStatus = MessageBroker_subscribe(MSG_0900, SeekingAttention_MsgCallback);
-    ASSERT_MSG(!(STATUS_SUCCESS != eStatus), "Subscription failed")
+    ASSERT_MSG(!(STATUS_OK != eStatus), "Subscription failed")
 
     // Subscribe Seeking Attention Stop
     eStatus = MessageBroker_subscribe(MSG_0901, SeekingAttention_MsgCallback);
-    ASSERT_MSG(!(STATUS_SUCCESS != eStatus), "Subscription failed")
+    ASSERT_MSG(!(STATUS_OK != eStatus), "Subscription failed")
 
     // Subscribe to the Test Message
     eStatus = MessageBroker_subscribe(MSG_0003, SeekingAttention_MsgCallback);
-    ASSERT_MSG(!(STATUS_SUCCESS != eStatus), "Subscription failed")
+    ASSERT_MSG(!(STATUS_OK != eStatus), "Subscription failed")
 
     // Initialize the internal state
     sInternalState.bIsActive = FALSE;

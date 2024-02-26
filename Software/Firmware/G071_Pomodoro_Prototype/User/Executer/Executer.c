@@ -37,7 +37,7 @@ status_e Executer_execute(void)
     {
         // Add in the modules here
     }
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 /**
@@ -50,7 +50,7 @@ status_e Executer_execute(void)
 void Executer_run(void)
 {
     Executer_init();
-    while (Executer_execute() == STATUS_SUCCESS)
+    while (Executer_execute() == STATUS_OK)
     {
         /**
          * The main execution steps are run in the Executer_execute() function.

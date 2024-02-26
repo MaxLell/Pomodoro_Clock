@@ -5,7 +5,8 @@
 
 extern RTC_HandleTypeDef hrtc;
 
-status_e RealTimeClockHW_getTimeAndDate(TimeAndDate_t *inout_pTimeAndDate) {
+status_e RealTimeClockHW_getTimeAndDate(TimeAndDate_t *inout_pTimeAndDate)
+{
   RTC_TimeTypeDef sTime = {0};
   RTC_DateTypeDef sDate = {0};
   HAL_StatusTypeDef tStatus = HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
@@ -23,5 +24,5 @@ status_e RealTimeClockHW_getTimeAndDate(TimeAndDate_t *inout_pTimeAndDate) {
   inout_pTimeAndDate->u8Month = sDate.Month;
   inout_pTimeAndDate->u8Year = sDate.Year;
 
-  return STATUS_SUCCESS;
+  return STATUS_OK;
 }

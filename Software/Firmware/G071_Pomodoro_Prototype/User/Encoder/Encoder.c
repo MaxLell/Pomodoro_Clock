@@ -13,7 +13,7 @@ status_e Encoder_messageCallback(const msg_t *const in_psMsg)
 
     // Reset the Encoder Value
     Encoder_Hardware_resetEncoderValue();
-    return STATUS_SUCCESS;
+    return STATUS_OK;
 }
 
 void Encoder_init()
@@ -47,5 +47,5 @@ void Encoder_execute()
     sMsg.au8DataBytes = au8DataBytes;
     sMsg.u16DataSize = 4;
     status_e eStatus = MessageBroker_publish(&sMsg);
-    ASSERT_MSG(!(eStatus != STATUS_SUCCESS), "Failed to publish Encoder Value Changed message");
+    ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to publish Encoder Value Changed message");
 }

@@ -48,7 +48,7 @@ void Countdown_resetAndStartTimer(timer_t *const inout_psTimer)
     Countdown_resetTimer(inout_psTimer);
 }
 
-void Countdonw_startTimer(timer_t *const inout_psTimer)
+void Countdown_startTimer(timer_t *const inout_psTimer)
 {
     { // Input Checks
         ASSERT_MSG(!(NULL == inout_psTimer), "Timer cannot be NULL");
