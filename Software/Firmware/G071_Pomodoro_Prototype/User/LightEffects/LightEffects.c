@@ -142,8 +142,8 @@ void LightEffects_mapColorsToIdx(const LightEffects_Animation_e in_eAnimation, c
     }
 }
 
-void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_t in_u8MiddleRingArraySize,
-                              const uint8_t *const in_au8OuterRingArray, uint8_t in_u8OuterRingArraySize)
+void LightEffects_RenderMiddleAndOuterRings(const uint8_t *const in_au8MiddleRingArray, uint8_t in_u8MiddleRingArraySize,
+                                            const uint8_t *const in_au8OuterRingArray, uint8_t in_u8OuterRingArraySize)
 {
     { // Input Checks
         ASSERT_MSG(!(in_au8MiddleRingArray == NULL), "in_au8MiddleRingArray is NULL");
@@ -269,8 +269,8 @@ void LightEffects_RenderPomodoro(const uint8_t *const in_au8MinuteArray, const u
                             NOF_LEDS_MIDDLE_RING);
 
     // Send the compressed array full of animation to the Render Array Module
-    LightEffects_RenderRings(au8CompressedArrayRingMiddle, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRingOuter,
-                             NOF_LEDS_OUTER_RING);
+    LightEffects_RenderMiddleAndOuterRings(au8CompressedArrayRingMiddle, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRingOuter,
+                                           NOF_LEDS_OUTER_RING);
 }
 
 void LightEffects_RenderRingCountdown(LightControl_RingCountdown_s *const psSelf)
@@ -321,8 +321,8 @@ void LightEffects_RenderRingCountdown(LightControl_RingCountdown_s *const psSelf
                             NOF_LEDS_OUTER_RING);
 
     // Send the compressed ful of the animation to the Render Array Module
-    LightEffects_RenderRings(au8CompressedArrayRingMiddle, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRingOuter,
-                             NOF_LEDS_OUTER_RING);
+    LightEffects_RenderMiddleAndOuterRings(au8CompressedArrayRingMiddle, NOF_LEDS_MIDDLE_RING, au8CompressedArrayRingOuter,
+                                           NOF_LEDS_OUTER_RING);
 }
 
 void LightEffects_UpdateRingCountdown(LightControl_RingCountdown_s *const psSelf)
@@ -398,4 +398,32 @@ void LightEffects_RenderSeekingAttention(LightEffects_SeekingAttention_s *const 
             LightEffects_ClearPomodoroProgressRings();
         }
     }
+}
+
+void LightEffects_RenderScore(uint32_t in_u32ScoreInMinutes)
+{
+    // Calculate the hours from the Minutes
+    uint32_t u32Hours = in_u32ScoreInMinutes / MINUTES_IN_HOUR;
+
+    // Make sure that the calculated Hours do not exceed 12h
+    ASSERT_MSG(!(u32Hours > 12), "u32Hours is larger than 12, which cannot be displayed on only one ring");
+
+    for (uint32_t i = START_INDEX_INNER_RING; i < START_INDEX_INNER_RING + u32Hours; i++)
+    {
+        // Make sure that the index does not exceed the total number of LEDs of the Inner Ring
+        ASSERT_MSG(!(i >= (START_INDEX_INNER_RING + NOF_LEDS_INNER_RING)), "i is larger than the total number of LEDs of the Inner Ring: %d", i);
+
+        RgbLed_setPixelColor(i, 0, 0, 5);
+    }
+
+    RgbLed_show();
+}
+
+void LightEffects_ClearScore(void)
+{
+    for (uint32_t i = START_INDEX_INNER_RING; i < START_INDEX_INNER_RING + NOF_LEDS_INNER_RING; i++)
+    {
+        RgbLed_setPixelColor(i, 0, 0, 0);
+    }
+    RgbLed_show();
 }

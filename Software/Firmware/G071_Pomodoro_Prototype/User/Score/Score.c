@@ -3,6 +3,7 @@
 #include "CountdownTimer.h"
 #include "MessageBroker.h"
 #include "MessageDefinitions.h"
+#include "LightEffects.h"
 
 #define ONE_MINUTE 60000
 #define TEN_MINUTES 600000
@@ -165,6 +166,7 @@ status_e Score_execute(void)
             u32TotalDailyScoreInMinutes++;
 
             // Render the Minutes on the Inner Ring (Score)
+            LightEffects_RenderScore(u32TotalDailyScoreInMinutes);
 
             // Print the Score
             log_info("Total Daily Score: %d", (int)u32TotalDailyScoreInMinutes);
@@ -178,6 +180,7 @@ status_e Score_execute(void)
             u32TotalDailyScoreInMinutes = 0U;
 
             // Clear the Score Ring
+            LightEffects_ClearScore();
 
             log_info("Watchdog Timer Expired");
             log_info("Total Daily Score: %d", (int)u32TotalDailyScoreInMinutes);
@@ -186,6 +189,7 @@ status_e Score_execute(void)
         if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sTimeoutTimer))
         {
             // Clear the Score Ring
+            LightEffects_ClearScore();
 
             log_info("Timeout Timer Expired");
         }

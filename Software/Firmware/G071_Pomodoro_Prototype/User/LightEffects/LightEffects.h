@@ -39,8 +39,8 @@ typedef struct
 void LightEffects_scaleArray(const uint8_t *const in_au8SourceArray, uint8_t in_u8SourceArraySize,
                              uint8_t *out_au8TargetArray, uint8_t in_u8TargetArraySize);
 
-void LightEffects_RenderRings(const uint8_t *const in_au8MiddleRingArray, uint8_t in_u8MiddleRingArraySize,
-                              const uint8_t *const in_au8OuterRingArray, uint8_t in_u8OuterRingArraySize);
+void LightEffects_RenderMiddleAndOuterRings(const uint8_t *const in_au8MiddleRingArray, uint8_t in_u8MiddleRingArraySize,
+                                            const uint8_t *const in_au8OuterRingArray, uint8_t in_u8OuterRingArraySize);
 
 void LightEffects_ClearPomodoroProgressRings(void);
 
@@ -54,5 +54,9 @@ void LightEffects_RenderRingCountdown(LightControl_RingCountdown_s *const psSelf
 void LightEffects_UpdateRingCountdown(LightControl_RingCountdown_s *const psSelf);
 
 void LightEffects_RenderSeekingAttention(LightEffects_SeekingAttention_s *const psSelf);
+
+void LightEffects_RenderScore(uint32_t in_u32ScoreInMinutes);
+
+void LightEffects_ClearScore(void);
 
 #endif // LIGHTEFFECTS_H
