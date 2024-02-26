@@ -49,7 +49,7 @@ status_e SeekingAttention_MsgCallback(const msg_t *const in_sMsg)
     case MSG_0900:
         sInternalState.bIsActive = TRUE;
         sSeekingAttentionTimer.u32StartTimeMs = 0;
-        Countdown_startTimer(&sSeekingAttentionTimer);
+        Countdown_resetAndStartTimer(&sSeekingAttentionTimer);
         break;
 
     case MSG_0901:
@@ -88,7 +88,7 @@ status_e SeekingAttention_MsgCallback(const msg_t *const in_sMsg)
         uint32_t u32TimerPeriod;
         HelperFunction_getPseudoRandomNumber(sInternalState.u32MinTimeMs, sInternalState.u32MaxTimeMs, &u32TimerPeriod);
         Countdown_initTimerMs(&sSeekingAttentionTimer, u32TimerPeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
-        Countdown_startTimer(&sSeekingAttentionTimer);
+        Countdown_resetAndStartTimer(&sSeekingAttentionTimer);
     }
     break;
 
@@ -123,11 +123,11 @@ void SeekingAttention_init(void)
     uint32_t u32TimerPeriod;
     HelperFunction_getPseudoRandomNumber(sInternalState.u32MinTimeMs, sInternalState.u32MaxTimeMs, &u32TimerPeriod);
     Countdown_initTimerMs(&sSeekingAttentionTimer, u32TimerPeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_startTimer(&sSeekingAttentionTimer);
+    Countdown_resetAndStartTimer(&sSeekingAttentionTimer);
 
     // Setup the Increment Timer
     Countdown_initTimerMs(&sIncrementTimer, 3, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_startTimer(&sIncrementTimer);
+    Countdown_resetAndStartTimer(&sIncrementTimer);
 }
 
 void SeekingAttention_execute(void)

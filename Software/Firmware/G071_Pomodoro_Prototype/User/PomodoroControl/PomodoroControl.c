@@ -246,7 +246,7 @@ void StateActionWorktimeInit(void)
 
     // Initialize and start the Countdown Timer
     Countdown_initTimerMs(&sTimerWtBtHandler, sPomodoroTimingCfg.u16TimerPeriodMin, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_startTimer(&sTimerWtBtHandler);
+    Countdown_resetAndStartTimer(&sTimerWtBtHandler);
 
     // Update the trigger event
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
@@ -300,7 +300,7 @@ void StateActionWarning(void)
     {
         // Set a new Timer Instance
         Countdown_initTimerMs(&sTimerWarningHandler, sPomodoroTimingCfg.u16TimerPeriodWarningMs, E_OPERATIONAL_MODE_CONTIUNOUS);
-        Countdown_startTimer(&sTimerWarningHandler);
+        Countdown_resetAndStartTimer(&sTimerWarningHandler);
 
         // Clear the Pomodoro Progress Rings
         LightEffects_ClearPomodoroProgressRings();
@@ -403,11 +403,11 @@ void StateActionCancelSequenceInit(void)
 {
     // Set the Cancel Sequence Timer
     Countdown_initTimerMs(&sTimerCancelSeqHandler, sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_startTimer(&sTimerCancelSeqHandler);
+    Countdown_resetAndStartTimer(&sTimerCancelSeqHandler);
 
     // Start the timeout timer
     Countdown_initTimerMs(&sTimerCancelSeqTimeoutHandler, sPomodoroTimingCfg.u16TimerPeriodMin, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_startTimer(&sTimerCancelSeqTimeoutHandler);
+    Countdown_resetAndStartTimer(&sTimerCancelSeqTimeoutHandler);
 
     // Clear all existing Progress LEDs
     LightEffects_ClearPomodoroProgressRings();
@@ -488,7 +488,7 @@ void StateActionSnooze(void)
 
         // Set a new Timer Instance
         Countdown_initTimerMs(&sTimerSnoozeHandler, sPomodoroTimingCfg.u16TimerPeriodSnoozeMs, E_OPERATIONAL_MODE_CONTIUNOUS);
-        Countdown_startTimer(&sTimerSnoozeHandler);
+        Countdown_resetAndStartTimer(&sTimerSnoozeHandler);
 
         // Clear the Pomodoro Progress Rings
         LightEffects_ClearPomodoroProgressRings();

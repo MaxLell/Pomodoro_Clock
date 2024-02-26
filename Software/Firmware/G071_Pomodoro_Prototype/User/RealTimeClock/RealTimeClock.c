@@ -44,5 +44,5 @@ void RealTimeClock_init(void)
 {
     // Set up a countdown timer for one second
     Countdown_initTimerMs(&tTimer, 1000U, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_startTimer(&tTimer);
+    Countdown_resetAndStartTimer(&tTimer);
 }

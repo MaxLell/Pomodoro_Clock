@@ -35,7 +35,7 @@ void Score_publishScore(void)
 void Score_kickWatchdog(void)
 {
     // Reset the Score Watchdog Timer
-    Countdown_startTimer(&sScoreWatchdogTimer);
+    Countdown_resetAndStartTimer(&sScoreWatchdogTimer);
 }
 
 status_e Score_MsgCb(const msg_t *const in_psMessage)
@@ -50,7 +50,7 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
         u32CurrentSecondCount = 0U;
 
         // Start the Countdown Timer
-        Countdown_startTimer(&sCountdownTimerSec);
+        Countdown_resetAndStartTimer(&sCountdownTimerSec);
 
         // Publish the current daily score
         Score_publishScore();
@@ -143,7 +143,7 @@ void Score_init(void)
 
     // Set up the Score Watchdog Timer
     Countdown_initTimerMs(&sScoreWatchdogTimer, SCORE_WATCHDOG_TIMEOUT, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_startTimer(&sScoreWatchdogTimer);
+    Countdown_resetAndStartTimer(&sScoreWatchdogTimer);
 }
 
 status_e Score_execute(void)

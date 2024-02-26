@@ -25,7 +25,15 @@ void Countdown_initTimerMs(timer_t *const inout_psTimer, const uint32_t in_u32Pe
     inout_psTimer->u8Mode = in_u8UserMode;
 }
 
-void Countdown_startTimer(timer_t *const inout_psTimer)
+void Countdown_resetTimer(timer_t *const inout_psTimer)
+{
+    { // Input Checks
+        ASSERT_MSG(!(NULL == inout_psTimer), "Timer cannot be NULL");
+    }
+    inout_psTimer->u32StartTimeMs = Countdown_getSysTick();
+}
+
+void Countdown_resetAndStartTimer(timer_t *const inout_psTimer)
 {
     { // Input Checks
         ASSERT_MSG(!(NULL == inout_psTimer), "Timer cannot be NULL");
@@ -35,7 +43,16 @@ void Countdown_startTimer(timer_t *const inout_psTimer)
         // Mode must not be invalid
         ASSERT_MSG(!(inout_psTimer->u8Mode >= E_OPERATIONAL_MODE_INVALID), "Invalid Timer Mode");
     }
-    inout_psTimer->u32StartTimeMs = Countdown_getSysTick();
+
+    Countdown_startTimer(inout_psTimer);
+    Countdown_resetTimer(inout_psTimer);
+}
+
+void Countdonw_startTimer(timer_t *const inout_psTimer)
+{
+    { // Input Checks
+        ASSERT_MSG(!(NULL == inout_psTimer), "Timer cannot be NULL");
+    }
     inout_psTimer->bTimerEnabled = TRUE;
 }
 
@@ -66,7 +83,7 @@ timer_status_t Countdown_getTimerStatus(timer_t *const inout_psTimer)
             if (inout_psTimer->u8Mode == E_OPERATIONAL_MODE_CONTIUNOUS)
             {
                 // Restart Timer for user in Continuous mode
-                Countdown_startTimer(inout_psTimer);
+                Countdown_resetAndStartTimer(inout_psTimer);
             }
             else
             {

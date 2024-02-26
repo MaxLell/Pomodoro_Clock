@@ -60,7 +60,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_CONTEXT_MGMT
+#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
 
 /************************************************************
  * Private Function Prototypes
@@ -156,16 +156,21 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         const uint8_t WORKTIME = 50;
         const uint8_t BREAKTIME = 10;
 
-        PomodoroPeriodConfiguration_s sPomodoroPeriodConfig = {0};
-        sPomodoroPeriodConfig.u8MinutesWorktimePeriod = WORKTIME;
-        sPomodoroPeriodConfig.u8MinutesBreaktimePeriod = BREAKTIME;
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_0003;
+        PomodoroTimingCfg_s sTimingCfg = {0};
+        sTimingCfg.sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod = WORKTIME;
+        sTimingCfg.sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod = BREAKTIME;
 
-        // Publish the Pomodoro Config
-        msg_t sMsg;
-        sMsg.eMsgId = MSG_0400;
+        // Comment out the following section if you do not want to speed up the sequence
+        sTimingCfg.u16TimeOutPeriodMin = 100;
+        sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
+        sTimingCfg.u16TimerPeriodSnoozeMs = 50;
+        sTimingCfg.u16TimerPeriodWarningMs = 30;
+        sTimingCfg.u16TimerPeriodSec = 30;
+        sTimingCfg.u16TimerPeriodMin = 60;
 
-        sMsg.au8DataBytes = (uint8_t *)&sPomodoroPeriodConfig;
-        sMsg.u16DataSize = sizeof(PomodoroPeriodConfiguration_s);
+        sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
         status_e eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
@@ -179,6 +184,8 @@ void OnBoardTest_testNominalPomodoroSequence(void)
 
         // Initialize the Button
         Button_init();
+
+        unused(eStatus);
     }
 
     // Run the CUT
@@ -278,7 +285,7 @@ void OnBoardTest_testScore(void)
 
         // Set the timer
         Countdown_initTimerMs(&sScoreTimer, 5000, E_OPERATIONAL_MODE_CONTIUNOUS);
-        Countdown_startTimer(&sScoreTimer);
+        Countdown_resetAndStartTimer(&sScoreTimer);
 
         // Subscribe to the Score Updated Message
         MessageBroker_subscribe(MSG_0500, OnBoardTest_ScoreTestMsgCb);

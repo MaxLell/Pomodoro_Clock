@@ -28,8 +28,10 @@ typedef struct
 } timer_t;
 
 void Countdown_initTimerMs(timer_t *const inout_psTimer, const uint32_t in_u32PeriodMs, const uint8_t in_u8UserMode);
-void Countdown_startTimer(timer_t *const inout_psTimer);
+void Countdown_resetAndStartTimer(timer_t *const inout_psTimer);
+void Countdonw_startTimer(timer_t *const inout_psTimer);
 void Countdown_stopTimer(timer_t *const inout_psTimer);
+void Countdown_resetTimer(timer_t *const inout_psTimer);
 timer_status_t Countdown_getTimerStatus(timer_t *const inout_psTimer);
 
 #endif // COUNTDOWN_TIMER_H
