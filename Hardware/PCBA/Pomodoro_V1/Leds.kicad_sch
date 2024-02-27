@@ -1,0 +1,122 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "0d8b4d58-d2ed-4ddf-9833-572a4f5c850f")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 52.07 46.99)
+		(size 21.59 16.51)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "360373dc-6844-455f-b20a-39cf2b489677")
+		(property "Sheetname" "LEDs_OuterRing"
+			(at 52.07 46.2784 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "LEDs_OuterRing.kicad_sch"
+			(at 52.07 64.0846 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Pomodoro_V1"
+				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298/229321d6-581c-43f0-99a7-d20c362b1348"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 52.07 72.39)
+		(size 21.59 17.78)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "46bb6057-71f5-4b5d-9798-ba809e1ba058")
+		(property "Sheetname" "LEDs_MiddleRing"
+			(at 52.07 71.6784 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "LEDs_MiddleRing.kicad_sch"
+			(at 52.07 90.7546 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Pomodoro_V1"
+				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298/229321d6-581c-43f0-99a7-d20c362b1348"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 52.07 100.33)
+		(size 21.59 19.05)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "e017012d-e48e-4e14-a006-0fecebf06543")
+		(property "Sheetname" "LEDs_InnerRing"
+			(at 52.07 99.6184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "LEDs_InnerRing.kicad_sch"
+			(at 52.07 119.9646 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Pomodoro_V1"
+				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298/229321d6-581c-43f0-99a7-d20c362b1348"
+					(page "8")
+				)
+			)
+		)
+	)
+)
