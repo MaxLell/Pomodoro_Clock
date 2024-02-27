@@ -301,7 +301,7 @@ void OnBoardTest_testScore(void)
         log_info("Pomodoro Start Message Sent");
 
         // Start a timer that runs for 10 seconds
-        Countdown_initTimerMs(&sScoreTimer, TEN_SECONDS, E_OPERATIONAL_MODE_ONE_SHOT);
+        Countdown_initTimerMs(&sScoreTimer, TWENTY_SECONDS, E_OPERATIONAL_MODE_ONE_SHOT);
         Countdown_resetAndStartTimer(&sScoreTimer);
 
         unused(eStatus);
