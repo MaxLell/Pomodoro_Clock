@@ -16,10 +16,12 @@
  */
 typedef enum
 {
+    E_TOPIC_FIRST_TOPIC = 0U, // First Topic - DO NOT USE (Only for boundary checks)
+
     // Test Messages
-    MSG_0001 = 0U, // Chaos Elephant
-    MSG_0002,      // Tickly Giraffe
-    MSG_0003,      // Test Message
+    MSG_0001, // Chaos Elephant
+    MSG_0002, // Tickly Giraffe
+    MSG_0003, // Test Message - Be careful that the Message's Content may vary due to the Test being performed
 
     // Button Messages
     MSG_0103, // Button Event
@@ -36,9 +38,6 @@ typedef enum
 
     // Configuration Messages
     MSG_0400, // Pomodoro Configuration: Worktime and Breaktime Periods
-
-    // Score
-    MSG_0500, // Score Updated Message
 
     // Encoder
     MSG_0600, // Reset Encoder Value

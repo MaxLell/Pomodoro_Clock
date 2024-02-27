@@ -23,8 +23,7 @@ status_e MessageBroker_checkInitCounter()
 
 void MessageBroker_init()
 {
-
-    for (uint16_t msgId = 0; msgId < E_TOPIC_LAST_TOPIC; msgId++)
+    for (uint16_t msgId = (E_TOPIC_FIRST_TOPIC + 1); msgId < E_TOPIC_LAST_TOPIC; msgId++)
     {
         // Set the msgId in the respective Message Topic
         saMsg[msgId].eMsgId = msgId;
@@ -46,7 +45,13 @@ void MessageBroker_init()
 status_e MessageBroker_subscribe(msgId_e in_eMsgTopic, msgCallback_t in_p32FunctionCallback)
 {
     { // Input Verfication
-        ASSERT_MSG(!(in_eMsgTopic >= E_TOPIC_LAST_TOPIC), "Topic is out of bounds!");
+        ASSERT_MSG(!(in_eMsgTopic <= E_TOPIC_FIRST_TOPIC), "Topic needs to be different from E_TOPIC_FIRST!");
+        if (in_eMsgTopic <= E_TOPIC_FIRST_TOPIC)
+        {
+            return STATUS_ERROR;
+        }
+
+        ASSERT_MSG(!(in_eMsgTopic >= E_TOPIC_LAST_TOPIC), "Topic must not be E_TOPIC_LAST!");
         if (in_eMsgTopic >= E_TOPIC_LAST_TOPIC)
         {
             return STATUS_ERROR;
@@ -114,6 +119,10 @@ status_e MessageBroker_publish(msg_t *in_psMessage)
             status_e eStatus = msgCallback(in_psMessage);
             ASSERT_MSG(!(eStatus == STATUS_ERROR), "Message Callback Function returned an error for MSG_ID: %d",
                        eTopic);
+            if (eStatus == STATUS_ERROR)
+            {
+                return STATUS_ERROR;
+            }
         }
     }
     return STATUS_OK;

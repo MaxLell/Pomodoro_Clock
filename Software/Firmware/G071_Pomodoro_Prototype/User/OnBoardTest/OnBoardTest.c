@@ -300,6 +300,13 @@ status_e OnBoardTest_ScoreTestMsgCb(const msg_t *const in_psMsg)
 
 timer_t sScoreTimer;
 
+/**
+ * In order to run this test - the following steps need to be taken:
+ * 1. Open the Serial Terminal and wait until the Pomodoro Start Message and the Pomodoro Complete Message were received by the Score Module
+ * 2. Only then can you press the Trigger Button to start the Pomodoro Sequence again and
+ *    only then can you press the Encoder Button to stop the Pomodoro Sequence
+ * 3. The Score will be updated on the inner Ring accordingly.
+ */
 void OnBoardTest_testScore(void)
 {
     static BOOL bRunOnce = FALSE;
