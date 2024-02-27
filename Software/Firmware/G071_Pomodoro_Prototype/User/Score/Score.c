@@ -65,7 +65,7 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
 
     break;
 
-    case MSG_0200:
+    case MSG_0200: // Pomodoro Start
     {
         // Check that the Minute Timer is not Enabled
         ASSERT_MSG(!(E_COUNTDOWN_TIMER_NOT_ENABLED != Countdown_getTimerStatus(&sMinuteTimer)), "Minute Timer is already enabled");
@@ -80,14 +80,12 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
         Countdown_resetAndStartTimer(&sMinuteTimer);
 
         // Reset the Watchdog and the Timout Timer
-        Countdown_resetTimer(&sWatchdogTimer);
-        Countdown_resetTimer(&sTimeoutTimer);
-
-        log_info("Pomodoro Started Message received");
+        Countdown_resetAndStartTimer(&sWatchdogTimer);
+        Countdown_resetAndStartTimer(&sTimeoutTimer);
     }
     break;
 
-    case MSG_0204:
+    case MSG_0204: // Pomodoro Complete
     {
         // Check that the Pomodoro is active
         ASSERT_MSG(!(FALSE == bPomodoroActive), "Pomodoro is not active, but should be!");
@@ -104,8 +102,6 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
         // Reset the Watchdog and the Timout Timer
         Countdown_resetTimer(&sWatchdogTimer);
         Countdown_resetTimer(&sTimeoutTimer);
-
-        log_info("Pomodoro Complete Message received");
     }
     break;
 
@@ -134,12 +130,8 @@ void Score_init(void)
 
     // Initialize the Timers
     Countdown_initTimerMs(&sMinuteTimer, sScoreTimeStamps.u32MinutePeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_initTimerMs(&sWatchdogTimer, sScoreTimeStamps.u32WatchdogPeriod, E_OPERATIONAL_MODE_ONE_SHOT);
-    Countdown_initTimerMs(&sTimeoutTimer, sScoreTimeStamps.u32TimeoutPeriod, E_OPERATIONAL_MODE_ONE_SHOT);
-
-    // Start the Watchdog Timer and the Timeout Timer
-    Countdown_resetAndStartTimer(&sWatchdogTimer);
-    Countdown_resetAndStartTimer(&sTimeoutTimer);
+    Countdown_initTimerMs(&sWatchdogTimer, sScoreTimeStamps.u32WatchdogPeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
+    Countdown_initTimerMs(&sTimeoutTimer, sScoreTimeStamps.u32TimeoutPeriod, E_OPERATIONAL_MODE_CONTIUNOUS);
 
     // Reset the Pomodoro Active Flag
     bPomodoroActive = FALSE;
@@ -167,9 +159,6 @@ status_e Score_execute(void)
 
             // Render the Minutes on the Inner Ring (Score)
             LightEffects_RenderScore(u32TotalDailyScoreInMinutes);
-
-            // Print the Score
-            log_info("Total Daily Score: %d", (int)u32TotalDailyScoreInMinutes);
         }
     }
     else
@@ -182,8 +171,10 @@ status_e Score_execute(void)
             // Clear the Score Ring
             LightEffects_ClearScore();
 
-            log_info("Watchdog Timer Expired");
-            log_info("Total Daily Score: %d", (int)u32TotalDailyScoreInMinutes);
+            // Stop the Watchdog Timer
+            Countdown_stopTimer(&sWatchdogTimer);
+
+            log_info("Watchdog Timer Expired!");
         }
 
         if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sTimeoutTimer))
@@ -191,7 +182,10 @@ status_e Score_execute(void)
             // Clear the Score Ring
             LightEffects_ClearScore();
 
-            log_info("Timeout Timer Expired");
+            // Stop the Timeout Timer
+            Countdown_stopTimer(&sTimeoutTimer);
+
+            log_info("Timeout Timer Expired!");
         }
     }
 

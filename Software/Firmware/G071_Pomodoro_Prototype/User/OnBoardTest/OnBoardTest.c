@@ -256,6 +256,45 @@ status_e OnBoardTest_ScoreTestMsgCb(const msg_t *const in_psMsg)
         ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
     }
 
+    switch (in_psMsg->eMsgId)
+    {
+    case MSG_0103: // Button Event Message
+    {
+        ButtonMessage_s *psButtonMessage = (ButtonMessage_s *)in_psMsg->au8DataBytes;
+        if (psButtonMessage->eButton == E_BUTTON_TRIGGER)
+        {
+            if (psButtonMessage->eEvent == E_BTN_EVENT_SHORT_PRESSED)
+            {
+                // Publish the Pomodoro Start Message
+                msg_t sMsg = {0};
+                sMsg.eMsgId = MSG_0200;
+                status_e eStatus = MessageBroker_publish(&sMsg);
+                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+                unused(eStatus); // Suppress the unused variable warning
+
+                log_info("Pomodoro Start Message Sent");
+            }
+        }
+        if (psButtonMessage->eButton == E_BUTTON_ENCODER)
+        {
+            if (psButtonMessage->eEvent == E_BTN_EVENT_SHORT_PRESSED)
+            {
+                // Publish the Pomodoro Complete Message
+                msg_t sMsg = {0};
+                sMsg.eMsgId = MSG_0204;
+                status_e eStatus = MessageBroker_publish(&sMsg);
+                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+                unused(eStatus); // Suppress the unused variable warning
+                log_info("Pomodoro Complete Message Sent");
+            }
+        }
+    }
+    break;
+    default:
+        ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
+        break;
+    }
+
     return STATUS_OK;
 }
 
@@ -277,10 +316,8 @@ void OnBoardTest_testScore(void)
         Score_init();
 
         const uint32_t FIFTY_MSEC = 50;
-        const uint32_t ONE_MINUTE = 60000;
         const uint32_t TWENTY_SECONDS = 20000;
         const uint32_t THIRTY_SECONDS = 30000;
-        const uint32_t TEN_SECONDS = 10000;
 
         // Send out the Test Message
         msg_t sMsg = {0};
@@ -304,10 +341,19 @@ void OnBoardTest_testScore(void)
         Countdown_initTimerMs(&sScoreTimer, TWENTY_SECONDS, E_OPERATIONAL_MODE_ONE_SHOT);
         Countdown_resetAndStartTimer(&sScoreTimer);
 
+        // Init the Button
+        Button_init();
+
+        // Subscribe to the Button Events (Trigger Button Short Press)
+        eStatus = MessageBroker_subscribe(MSG_0103, &OnBoardTest_ScoreTestMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
         unused(eStatus);
     }
 
     Score_execute();
+
+    Button_execute();
 
     // if the timer has expired - sent out the Pomodoro Complete Message
     if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sScoreTimer))

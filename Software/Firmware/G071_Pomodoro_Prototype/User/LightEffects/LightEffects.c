@@ -405,8 +405,8 @@ void LightEffects_RenderScore(uint32_t in_u32ScoreInMinutes)
     // Calculate the hours from the Minutes
     uint32_t u32Hours = in_u32ScoreInMinutes / MINUTES_IN_HOUR;
 
-    // Make sure that the calculated Hours do not exceed 12h
-    ASSERT_MSG(!(u32Hours > 12), "u32Hours is larger than 12, which cannot be displayed on only one ring");
+    // Make sure that the calculated Hours do not exceed 16h
+    ASSERT_MSG(!(u32Hours > 16), "u32Hours is larger than 16, which cannot be displayed on only one ring");
 
     for (uint32_t i = START_INDEX_INNER_RING; i < START_INDEX_INNER_RING + u32Hours; i++)
     {
