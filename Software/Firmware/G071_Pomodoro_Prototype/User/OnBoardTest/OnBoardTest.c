@@ -60,7 +60,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_SCORE
+#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
 
 /************************************************************
  * Private Function Prototypes
