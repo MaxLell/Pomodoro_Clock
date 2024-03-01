@@ -668,6 +668,10 @@
     [
       "e017012d-e48e-4e14-a006-0fecebf06543",
       "LEDs_InnerRing"
+    ],
+    [
+      "9f2433d1-940c-48a8-ba5b-cf06fc1a113d",
+      "Accelerometer"
     ]
   ],
   "text_variables": {}

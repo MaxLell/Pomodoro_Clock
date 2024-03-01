@@ -87,6 +87,45 @@
 		)
 	)
 	(sheet
+		(at 62.23 119.38)
+		(size 25.4 17.78)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "9f2433d1-940c-48a8-ba5b-cf06fc1a113d")
+		(property "Sheetname" "Accelerometer"
+			(at 62.23 118.6684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Accelerometer.kicad_sch"
+			(at 62.23 137.7446 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "Pomodoro_V1"
+				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298"
+					(page "9")
+				)
+			)
+		)
+	)
+	(sheet
 		(at 125.73 92.71)
 		(size 24.13 17.78)
 		(fields_autoplaced yes)

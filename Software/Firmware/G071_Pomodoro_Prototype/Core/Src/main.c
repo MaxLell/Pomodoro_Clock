@@ -102,7 +102,6 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   MX_I2C1_Init();
-  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim14); // Timer for sampling TODO: move to the Button Handler
   Printf_SetUartPort(&huart2);
