@@ -532,7 +532,7 @@
       "plot": "",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "../../../../../../Downloads/Browser_Downloads/Pomodoro_V1.step",
       "svg": "",
       "vrml": ""
     },
@@ -672,6 +672,10 @@
     [
       "9f2433d1-940c-48a8-ba5b-cf06fc1a113d",
       "Accelerometer"
+    ],
+    [
+      "e2399056-8c29-46e1-8bfd-c8581dc19d6b",
+      "Trigger Btn Lights"
     ]
   ],
   "text_variables": {}

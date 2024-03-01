@@ -59,3 +59,8 @@ dkms.conf
 
 # DrawIO
 *.bkp
+
+# Kicad Backups
+*.zip
+
+*.*-bak

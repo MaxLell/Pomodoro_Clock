@@ -123,4 +123,42 @@
 			)
 		)
 	)
+	(sheet
+		(at 52.07 125.73)
+		(size 21.59 19.05)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "e2399056-8c29-46e1-8bfd-c8581dc19d6b")
+		(property "Sheetname" "Trigger Btn Lights"
+			(at 52.07 125.0184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Trigger Btn Lights.kicad_sch"
+			(at 52.07 145.3646 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Pomodoro_V1"
+				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298/229321d6-581c-43f0-99a7-d20c362b1348"
+					(page "10")
+				)
+			)
+		)
+	)
 )

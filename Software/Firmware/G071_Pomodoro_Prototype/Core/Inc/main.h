@@ -71,6 +71,10 @@ void Error_Handler(void);
 #define USART2_RX_GPIO_Port GPIOA
 #define BLINKY_LED_Pin GPIO_PIN_5
 #define BLINKY_LED_GPIO_Port GPIOA
+#define EXTI2_Pin GPIO_PIN_2
+#define EXTI2_GPIO_Port GPIOB
+#define EXTI10_Pin GPIO_PIN_10
+#define EXTI10_GPIO_Port GPIOB
 #define RGB_LED_Pin GPIO_PIN_8
 #define RGB_LED_GPIO_Port GPIOA
 #define GPIO_Output_Pin GPIO_PIN_7

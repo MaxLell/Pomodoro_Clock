@@ -677,6 +677,12 @@
 		(uuid "35daa77f-c84a-4403-97af-b7a2ef011983")
 	)
 	(junction
+		(at 52.07 95.25)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "35ff7350-48fa-44a4-8b40-7dafcfe76294")
+	)
+	(junction
 		(at 128.27 76.2)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -807,6 +813,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7e483494-e6b2-4143-9dbf-60510925c49f")
+	)
+	(junction
+		(at 52.07 110.49)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7f21bc27-2a19-4597-a198-cbd9a11ee0d9")
 	)
 	(junction
 		(at 17.78 76.2)
@@ -988,6 +1000,16 @@
 	)
 	(wire
 		(pts
+			(xy 52.07 110.49) (xy 67.31 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "02ef880d-9fd9-40a6-9f5b-2f336dfac5ff")
+	)
+	(wire
+		(pts
 			(xy 40.64 54.61) (xy 40.64 68.58)
 		)
 		(stroke
@@ -1078,6 +1100,16 @@
 	)
 	(wire
 		(pts
+			(xy 278.13 88.9) (xy 40.64 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "196c11ea-1618-4450-a891-62ab171594ec")
+	)
+	(wire
+		(pts
 			(xy 189.23 76.2) (xy 204.47 76.2)
 		)
 		(stroke
@@ -1095,6 +1127,16 @@
 			(type default)
 		)
 		(uuid "1dbf4f73-0e8f-4ea3-82be-00cfa6a30f5f")
+	)
+	(wire
+		(pts
+			(xy 74.93 102.87) (xy 90.17 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1e23fe43-f512-4796-afef-26c0d68096d5")
 	)
 	(wire
 		(pts
@@ -1198,6 +1240,16 @@
 	)
 	(wire
 		(pts
+			(xy 52.07 95.25) (xy 67.31 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a3e565e-e9e9-4a3a-b688-a0b17a0da8ae")
+	)
+	(wire
+		(pts
 			(xy 62.23 20.32) (xy 64.77 20.32)
 		)
 		(stroke
@@ -1265,6 +1317,16 @@
 			(type default)
 		)
 		(uuid "58373d39-ae85-4b69-80a5-9e51af9bc60b")
+	)
+	(wire
+		(pts
+			(xy 278.13 68.58) (xy 278.13 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "585d4ad7-0b03-43b0-bc8a-6aba54b0deef")
 	)
 	(wire
 		(pts
@@ -1348,6 +1410,16 @@
 	)
 	(wire
 		(pts
+			(xy 40.64 102.87) (xy 44.45 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "754e78c9-f2fb-4474-bd87-62477cb9d18a")
+	)
+	(wire
+		(pts
 			(xy 113.03 31.75) (xy 128.27 31.75)
 		)
 		(stroke
@@ -1365,6 +1437,16 @@
 			(type default)
 		)
 		(uuid "7a26475c-f7de-4e38-b6ae-ba4cdcf3b8f4")
+	)
+	(wire
+		(pts
+			(xy 40.64 88.9) (xy 40.64 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c16375b-9da1-4e9e-8f67-10936d20019a")
 	)
 	(wire
 		(pts
@@ -1488,16 +1570,6 @@
 	)
 	(wire
 		(pts
-			(xy 240.03 87.63) (xy 278.13 87.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a38e8dd0-3a86-499c-b2e1-be2246a745f5")
-	)
-	(wire
-		(pts
 			(xy 82.55 46.99) (xy 97.79 46.99)
 		)
 		(stroke
@@ -1615,16 +1687,6 @@
 			(type default)
 		)
 		(uuid "c7684769-2a5b-4fd0-9ef8-7cd8a29d0496")
-	)
-	(wire
-		(pts
-			(xy 278.13 68.58) (xy 278.13 87.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c906a479-2179-4c23-b415-55a691c48898")
 	)
 	(wire
 		(pts
@@ -1788,22 +1850,22 @@
 	)
 	(global_label "TIM1_CH1 (RgbLed Inner Ring)"
 		(shape input)
-		(at 240.03 87.63 180)
+		(at 90.17 102.87 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
 		(uuid "82336b11-96c8-4c54-bc96-0a4d515241b8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 207.6536 87.63 0)
+			(at 122.5464 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -2107,6 +2169,82 @@
 			(project "Pomodoro_V1"
 				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298/229321d6-581c-43f0-99a7-d20c362b1348/46bb6057-71f5-4b5d-9798-ba809e1ba058"
 					(reference "D78")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B-2020")
+		(at 52.07 102.87 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "10e08389-4033-43b2-9889-e39fb8401a8d")
+		(property "Reference" "D91"
+			(at 56.134 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 66.04 101.762 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
+			(at 53.34 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
+			(at 54.61 112.395 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
+			(at 52.07 102.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a6b22e27-9903-49cb-bc43-c5940a42c176")
+		)
+		(pin "4"
+			(uuid "1d969ec1-a4b3-4d2c-ac94-f4ecd05c2cb6")
+		)
+		(pin "3"
+			(uuid "66039398-ff09-4431-8bf1-58d1e0e62e65")
+		)
+		(pin "2"
+			(uuid "34ec9148-c88f-40b0-9990-062c9564aa82")
+		)
+		(instances
+			(project "Pomodoro_V1"
+				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298/229321d6-581c-43f0-99a7-d20c362b1348/46bb6057-71f5-4b5d-9798-ba809e1ba058"
+					(reference "D91")
 					(unit 1)
 				)
 			)
@@ -2864,6 +3002,82 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
+		(at 67.31 102.87 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "636a8f0e-c190-4726-b9e2-71d7ec371db5")
+		(property "Reference" "D92"
+			(at 71.374 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 81.28 101.762 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
+			(at 68.58 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
+			(at 69.85 112.395 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
+			(at 67.31 102.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d94e654f-ee27-49ed-8dc3-e80a258b3064")
+		)
+		(pin "4"
+			(uuid "96793a51-b969-449c-9f03-1c3a17009b8c")
+		)
+		(pin "3"
+			(uuid "989aa76c-28fb-472f-af7f-366eb1a8dd28")
+		)
+		(pin "2"
+			(uuid "7b7be346-b8b8-4e66-8626-75f71de5bdb8")
+		)
+		(instances
+			(project "Pomodoro_V1"
+				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298/229321d6-581c-43f0-99a7-d20c362b1348/46bb6057-71f5-4b5d-9798-ba809e1ba058"
+					(reference "D92")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B-2020")
 		(at 219.71 39.37 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -3162,6 +3376,72 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
+		(at 52.07 95.25 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8b1d6d3a-b111-4f2f-86d2-97a70d5e9c35")
+		(property "Reference" "#PWR025"
+			(at 52.07 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 52.07 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 52.07 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 52.07 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 52.07 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3a59409a-0c5e-4d0a-83bf-e8d315999c87")
+		)
+		(instances
+			(project "Pomodoro_V1"
+				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298/229321d6-581c-43f0-99a7-d20c362b1348/46bb6057-71f5-4b5d-9798-ba809e1ba058"
+					(reference "#PWR025")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
 		(at 17.78 33.02 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -3221,6 +3501,72 @@
 			(project "Pomodoro_V1"
 				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298/229321d6-581c-43f0-99a7-d20c362b1348/46bb6057-71f5-4b5d-9798-ba809e1ba058"
 					(reference "#PWR018")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 52.07 110.49 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8faab92e-d927-474f-b1bc-ce56494b221a")
+		(property "Reference" "#PWR026"
+			(at 52.07 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 52.07 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 52.07 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 52.07 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 52.07 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3d83788e-0b19-4552-8132-a0e80ba5bfbe")
+		)
+		(instances
+			(project "Pomodoro_V1"
+				(path "/8b8515f0-2a7a-4fc4-bc5a-86877c499298/229321d6-581c-43f0-99a7-d20c362b1348/46bb6057-71f5-4b5d-9798-ba809e1ba058"
+					(reference "#PWR026")
 					(unit 1)
 				)
 			)
