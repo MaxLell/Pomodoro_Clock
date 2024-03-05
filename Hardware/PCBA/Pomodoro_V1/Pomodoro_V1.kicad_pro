@@ -58,7 +58,20 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        "clearance|175779200|116915500|5136b26b-eef5-4d44-82e0-e969acb254bb|71695524-c5b2-47f4-b11a-2cf2123d22c6",
+        "clearance|176154200|116265500|21333145-93ef-4eba-83f8-80af9bc4b876|2dfad540-d139-4c38-8715-b58c76d8b5e0",
+        "clearance|176654200|116265500|2dfad540-d139-4c38-8715-b58c76d8b5e0|b970fe4a-1a90-4e7a-868d-c7103c82b3ed",
+        "clearance|177304200|116265500|428d7563-5796-49e7-836a-e48971499742|8a34a5c2-08f1-491b-9320-3b30dcee2378",
+        "clearance|177304200|116265500|428d7563-5796-49e7-836a-e48971499742|b970fe4a-1a90-4e7a-868d-c7103c82b3ed",
+        "clearance|177304200|116765500|8a34a5c2-08f1-491b-9320-3b30dcee2378|b12b797e-f3a6-478d-8e38-1421604d1d95",
+        "clearance|177304200|117265500|b12b797e-f3a6-478d-8e38-1421604d1d95|d3df93cb-ef5c-4909-b0e6-671fd000e209",
+        "clearance|177304200|117415500|d3df93cb-ef5c-4909-b0e6-671fd000e209|bcb45dec-3d81-41c2-b2f8-b80ba25a7a3a",
+        "hole_clearance|146700000|112990000|0f27338a-d6e4-42c0-b68e-4c5947727ed9|4c8b4aed-7cb9-46ae-b600-562d1253af55",
+        "hole_clearance|153300000|112990000|eb536ed9-3c17-491f-a7d6-9240e9747b6c|ba597758-0914-4206-bd19-00db03008d6e",
+        "solder_mask_bridge|146700000|113460000|5dfecd19-c578-4618-be27-302f1f47f4be|2ace2df4-451c-4087-840d-a71c035b4202",
+        "solder_mask_bridge|153300000|113460000|e97b024f-77bb-418b-bcd8-a201812e7e08|df4b7255-9d84-416e-a9af-0acfce7b034d"
+      ],
       "meta": {
         "version": 2
       },
@@ -520,7 +533,10 @@
     "meta": {
       "version": 3
     },
-    "net_colors": null,
+    "net_colors": {
+      "+3V3": "rgb(255, 153, 0)",
+      "+5V": "rgb(255, 0, 0)"
+    },
     "netclass_assignments": null,
     "netclass_patterns": [
       {
@@ -539,8 +555,8 @@
   },
   "pcbnew": {
     "last_paths": {
-      "gencad": "",
-      "idf": "",
+      "gencad": "../../../../../../Downloads/Pomodoro_V1.cad",
+      "idf": "../../../../../../Downloads/Pomodoro_V1.emn",
       "netlist": "",
       "plot": "",
       "pos_files": "",
@@ -583,7 +599,7 @@
           "group_by": false,
           "label": "Datasheet",
           "name": "Datasheet",
-          "show": true
+          "show": false
         },
         {
           "group_by": false,
@@ -661,6 +677,18 @@
           "group_by": false,
           "label": "Description",
           "name": "Description",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "MPN",
+          "name": "MPN",
+          "show": true
+        },
+        {
+          "group_by": false,
+          "label": "Digikey",
+          "name": "Digikey",
           "show": false
         }
       ],
