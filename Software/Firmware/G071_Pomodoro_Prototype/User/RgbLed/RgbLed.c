@@ -25,15 +25,16 @@
 uint8_t bDataIsSent = 1;
 uint16_t au16PwmData[PWM_DATA_SIZE];
 uint8_t u8LedData[TOTAL_LEDS]
-                 [4];  // This stores the u32Color data values of the LEDs
+                 [4]; // This stores the u32Color data values of the LEDs
 
 extern TIM_HandleTypeDef htim1;
 
 void RgbLed_setPixelColor(uint8_t u8LedIdx,
                           uint8_t u8Red,
                           uint8_t u8Green,
-                          uint8_t u8Blue) {
-  {  // Input Checks
+                          uint8_t u8Blue)
+{
+  { // Input Checks
     ASSERT_MSG(!(u8LedIdx >= TOTAL_LEDS),
                "u8LedIdx out of bounds. Provided Index was %d", u8LedIdx);
   }
@@ -44,27 +45,34 @@ void RgbLed_setPixelColor(uint8_t u8LedIdx,
   u8LedData[u8LedIdx][3] = u8Blue;
 }
 
-void RgbLed_show(void) {
-  if (bDataIsSent == TRUE) {
+void RgbLed_show(void)
+{
+  if (bDataIsSent == TRUE)
+  {
     // What do you want from me compiler
     uint32_t u32LedPulses = 0;
     uint32_t u32Color;
     /**
      * PWM for LED Illumination
      */
-    for (int k = 0; k < TOTAL_LEDS; k++) {
-      u32Color = ((u8LedData[k][1] << 16) |  // green
-                  (u8LedData[k][2] << 8) |   // red
-                  (u8LedData[k][3]));        // blue
+    for (int k = 0; k < TOTAL_LEDS; k++)
+    {
+      u32Color = ((u8LedData[k][1] << 16) | // green
+                  (u8LedData[k][2] << 8) |  // red
+                  (u8LedData[k][3]));       // blue
 
       /**
        * Parsing of the u32Color Array and inserting the respective PWM Value
        * For PWM generation
        */
-      for (int8_t i = BIT_WIDTH_RGB_LED - 1; i >= 0; i--) {
-        if (u32Color & (1 << i)) {
+      for (int8_t i = BIT_WIDTH_RGB_LED - 1; i >= 0; i--)
+      {
+        if (u32Color & (1 << i))
+        {
           au16PwmData[u32LedPulses] = WS2812B_HIGH_BIT;
-        } else {
+        }
+        else
+        {
           au16PwmData[u32LedPulses] = WS2812B_LOW_BIT;
         }
         u32LedPulses++;
@@ -75,23 +83,26 @@ void RgbLed_show(void) {
      * Insert some 0 values as a reset value to be placed in
      * between sequences
      */
-    for (uint8_t i = 0; i < NUMBER_OF_OFF_PULSES_BETWEEN_LED_PULSES; i++) {
+    for (uint8_t i = 0; i < NUMBER_OF_OFF_PULSES_BETWEEN_LED_PULSES; i++)
+    {
       au16PwmData[u32LedPulses] = WS2812B_OFF;
       u32LedPulses++;
     }
 
-    HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t*)au16PwmData,
+    HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)au16PwmData,
                           u32LedPulses);
 
     bDataIsSent = 0;
   }
 
-  else {
+  else
+  {
     // YOUUUU DUU NUTHIN JUUHN SNUUW
   }
 }
 
-void RgbLed_isr() {
+void RgbLed_isr()
+{
   /**
    * The DMA needs to be stopped, otherwise the signal
    * is repeated over and over again.
@@ -114,19 +125,24 @@ void RgbLed_isr() {
  * This function draws a light, that spins around the
  * RgbLed Circle
  */
-void RgbLed_HardwareTest_DrawSpinningCircle() {
+void RgbLed_HardwareTest_DrawSpinningCircle()
+{
   uint8_t u8LedIndex = 0;
-  for (uint8_t i = 0; i < 30; i++) {
-    if (u8LedIndex == TOTAL_LEDS) {
+  for (uint8_t i = 0; i < 30; i++)
+  {
+    if (u8LedIndex == TOTAL_LEDS)
+    {
       u8LedIndex = 0;
     }
     uint8_t effect[TOTAL_LEDS] = {2, 5, 5, 5, 2};
 
     uint8_t effect_size = sizeof(effect);
-    for (uint8_t i = 0; i < TOTAL_LEDS; i++) {
+    for (uint8_t i = 0; i < TOTAL_LEDS; i++)
+    {
       RgbLed_setPixelColor(i, 0, 0, 0);
     }
-    for (uint8_t i = 0; i < effect_size; i++) {
+    for (uint8_t i = 0; i < effect_size; i++)
+    {
       uint8_t tmp = (u8LedIndex + i) % TOTAL_LEDS;
       RgbLed_setPixelColor(tmp, effect[i], effect[i], effect[i]);
     }
@@ -138,8 +154,10 @@ void RgbLed_HardwareTest_DrawSpinningCircle() {
   }
 }
 
-void RgbLed_clear(void) {
-  for (uint8_t i = 0; i < TOTAL_LEDS; i++) {
+void RgbLed_clear(void)
+{
+  for (uint8_t i = 0; i < TOTAL_LEDS; i++)
+  {
     RgbLed_setPixelColor(i, 0, 0, 0);
   }
   RgbLed_show();

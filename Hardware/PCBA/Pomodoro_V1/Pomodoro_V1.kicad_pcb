@@ -4915,7 +4915,7 @@
 			(uuid "c80cd5f7-50c7-4922-a4e8-ddf99ad4689e")
 		)
 		(fp_line
-			(start -1.520001 -1.25)
+			(start -1.520002 -1.25)
 			(end -1.52 1.25)
 			(stroke
 				(width 0.05)
@@ -4926,7 +4926,7 @@
 		)
 		(fp_line
 			(start -1.52 1.25)
-			(end 1.520001 1.25)
+			(end 1.520002 1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -4936,7 +4936,7 @@
 		)
 		(fp_line
 			(start 1.52 -1.25)
-			(end -1.520001 -1.25)
+			(end -1.520002 -1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -4945,7 +4945,7 @@
 			(uuid "457cd38f-819b-414e-96e6-3d4037a7bb42")
 		)
 		(fp_line
-			(start 1.520001 1.25)
+			(start 1.520002 1.25)
 			(end 1.52 -1.25)
 			(stroke
 				(width 0.05)
@@ -6112,7 +6112,7 @@
 			(uuid "d7c43a32-2fad-456d-ae43-b89d390f9d6f")
 		)
 		(fp_line
-			(start 1.520001 1.25)
+			(start 1.520002 1.25)
 			(end 1.52 -1.25)
 			(stroke
 				(width 0.05)
@@ -6123,7 +6123,7 @@
 		)
 		(fp_line
 			(start 1.52 -1.25)
-			(end -1.520001 -1.25)
+			(end -1.520002 -1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -6133,7 +6133,7 @@
 		)
 		(fp_line
 			(start -1.52 1.25)
-			(end 1.520001 1.25)
+			(end 1.520002 1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -6142,7 +6142,7 @@
 			(uuid "27fae786-17c9-40be-9742-3ac1fda6dcac")
 		)
 		(fp_line
-			(start -1.520001 -1.25)
+			(start -1.520002 -1.25)
 			(end -1.52 1.25)
 			(stroke
 				(width 0.05)
@@ -10087,7 +10087,7 @@
 		)
 		(fp_line
 			(start 1.52 -1.25)
-			(end -1.520001 -1.25)
+			(end -1.520002 -1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -10096,7 +10096,7 @@
 			(uuid "72e78bba-be0e-40d8-a5e9-6ad3fd99fdf0")
 		)
 		(fp_line
-			(start -1.520001 -1.25)
+			(start -1.520002 -1.25)
 			(end -1.52 1.25)
 			(stroke
 				(width 0.05)
@@ -10106,7 +10106,7 @@
 			(uuid "3d06aeb4-1f85-481f-86c3-5ad889bba0b1")
 		)
 		(fp_line
-			(start 1.520001 1.25)
+			(start 1.520002 1.25)
 			(end 1.52 -1.25)
 			(stroke
 				(width 0.05)
@@ -10117,7 +10117,7 @@
 		)
 		(fp_line
 			(start -1.52 1.25)
-			(end 1.520001 1.25)
+			(end 1.520002 1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -10475,7 +10475,7 @@
 		)
 		(fp_circle
 			(center -1.8 -1)
-			(end -1.7 -1.000001)
+			(end -1.7 -1.000002)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -10545,7 +10545,7 @@
 			(uuid "52a5950d-6818-4112-8656-8354257d3456")
 		)
 		(fp_line
-			(start -0.550001 -1)
+			(start -0.550002 -1)
 			(end -1.1 -0.45)
 			(stroke
 				(width 0.1)
@@ -10566,7 +10566,7 @@
 		)
 		(fp_line
 			(start 1.1 -1)
-			(end -0.550001 -1)
+			(end -0.550002 -1)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -14476,7 +14476,7 @@
 		)
 		(fp_line
 			(start -1.52 -1.25)
-			(end -1.520001 1.25)
+			(end -1.520002 1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -14485,7 +14485,7 @@
 			(uuid "f7219af9-5dd7-4469-9412-24cb1f504911")
 		)
 		(fp_line
-			(start 1.520001 -1.25)
+			(start 1.520002 -1.25)
 			(end -1.52 -1.25)
 			(stroke
 				(width 0.05)
@@ -14495,7 +14495,7 @@
 			(uuid "375ee7bc-b615-45f3-b5d9-092fb94182cf")
 		)
 		(fp_line
-			(start -1.520001 1.25)
+			(start -1.520002 1.25)
 			(end 1.52 1.25)
 			(stroke
 				(width 0.05)
@@ -14506,7 +14506,7 @@
 		)
 		(fp_line
 			(start 1.52 1.25)
-			(end 1.520001 -1.25)
+			(end 1.520002 -1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -15273,7 +15273,7 @@
 			(uuid "540b2134-d6da-4046-8c18-c94a0c8329c7")
 		)
 		(fp_line
-			(start 1.520001 -1.25)
+			(start 1.520002 -1.25)
 			(end -1.52 -1.25)
 			(stroke
 				(width 0.05)
@@ -15284,7 +15284,7 @@
 		)
 		(fp_line
 			(start 1.52 1.25)
-			(end 1.520001 -1.25)
+			(end 1.520002 -1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -15294,7 +15294,7 @@
 		)
 		(fp_line
 			(start -1.52 -1.25)
-			(end -1.520001 1.25)
+			(end -1.520002 1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -15303,7 +15303,7 @@
 			(uuid "eedaf627-c742-41f2-8a8e-209b41b8d506")
 		)
 		(fp_line
-			(start -1.520001 1.25)
+			(start -1.520002 1.25)
 			(end 1.52 1.25)
 			(stroke
 				(width 0.05)
@@ -19251,7 +19251,7 @@
 		)
 		(fp_circle
 			(center -1.8 -1)
-			(end -1.7 -1.000001)
+			(end -1.7 -1.000002)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -19312,7 +19312,7 @@
 		)
 		(fp_line
 			(start 1.1 -1)
-			(end -0.550001 -1)
+			(end -0.550002 -1)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -19321,7 +19321,7 @@
 			(uuid "c5089043-03fb-4640-931c-527f0bb73c52")
 		)
 		(fp_line
-			(start -0.550001 -1)
+			(start -0.550002 -1)
 			(end -1.1 -0.45)
 			(stroke
 				(width 0.1)
@@ -30424,7 +30424,7 @@
 		)
 		(fp_line
 			(start 1.52 1.25)
-			(end 1.520001 -1.25)
+			(end 1.520002 -1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -30433,7 +30433,7 @@
 			(uuid "b54d7971-136a-43d6-beb0-0c726abd3624")
 		)
 		(fp_line
-			(start -1.520001 1.25)
+			(start -1.520002 1.25)
 			(end 1.52 1.25)
 			(stroke
 				(width 0.05)
@@ -30443,7 +30443,7 @@
 			(uuid "c09360a5-4936-455c-9f69-a53365d07715")
 		)
 		(fp_line
-			(start 1.520001 -1.25)
+			(start 1.520002 -1.25)
 			(end -1.52 -1.25)
 			(stroke
 				(width 0.05)
@@ -30454,7 +30454,7 @@
 		)
 		(fp_line
 			(start -1.52 -1.25)
-			(end -1.520001 1.25)
+			(end -1.520002 1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -34807,7 +34807,7 @@
 		)
 		(fp_line
 			(start -1.52 1.25)
-			(end 1.520001 1.25)
+			(end 1.520002 1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -34816,7 +34816,7 @@
 			(uuid "e2a31623-41c1-4a75-8d95-60c6eb89b5bb")
 		)
 		(fp_line
-			(start 1.520001 1.25)
+			(start 1.520002 1.25)
 			(end 1.52 -1.25)
 			(stroke
 				(width 0.05)
@@ -34826,7 +34826,7 @@
 			(uuid "63389552-ebef-41ed-aa74-011dcc133361")
 		)
 		(fp_line
-			(start -1.520001 -1.25)
+			(start -1.520002 -1.25)
 			(end -1.52 1.25)
 			(stroke
 				(width 0.05)
@@ -34837,7 +34837,7 @@
 		)
 		(fp_line
 			(start 1.52 -1.25)
-			(end -1.520001 -1.25)
+			(end -1.520002 -1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -39584,7 +39584,7 @@
 		)
 		(fp_circle
 			(center -1.8 -1)
-			(end -1.7 -1.000001)
+			(end -1.7 -1.000002)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -39654,7 +39654,7 @@
 			(uuid "10d04d5e-deaa-4996-a87a-3147b092abc7")
 		)
 		(fp_line
-			(start -0.550001 -1)
+			(start -0.550002 -1)
 			(end -1.1 -0.45)
 			(stroke
 				(width 0.1)
@@ -39665,7 +39665,7 @@
 		)
 		(fp_line
 			(start 1.1 -1)
-			(end -0.550001 -1)
+			(end -0.550002 -1)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -41976,7 +41976,7 @@
 		)
 		(fp_circle
 			(center -1.8 -1)
-			(end -1.7 -1.000001)
+			(end -1.7 -1.000002)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -42027,7 +42027,7 @@
 		)
 		(fp_line
 			(start 1.1 -1)
-			(end -0.550001 -1)
+			(end -0.550002 -1)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -42046,7 +42046,7 @@
 			(uuid "124db201-3526-4cf4-8c8b-da725969bc1d")
 		)
 		(fp_line
-			(start -0.550001 -1)
+			(start -0.550002 -1)
 			(end -1.1 -0.45)
 			(stroke
 				(width 0.1)
@@ -42784,7 +42784,7 @@
 			(uuid "758054c1-167a-4fd0-84af-1addec9ae0cd")
 		)
 		(fp_line
-			(start -1.520001 1.25)
+			(start -1.520002 1.25)
 			(end 1.52 1.25)
 			(stroke
 				(width 0.05)
@@ -42795,7 +42795,7 @@
 		)
 		(fp_line
 			(start -1.52 -1.25)
-			(end -1.520001 1.25)
+			(end -1.520002 1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -42805,7 +42805,7 @@
 		)
 		(fp_line
 			(start 1.52 1.25)
-			(end 1.520001 -1.25)
+			(end 1.520002 -1.25)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -42814,7 +42814,7 @@
 			(uuid "565a55af-63d5-4eb5-b3ea-f76c3ab8f8be")
 		)
 		(fp_line
-			(start 1.520001 -1.25)
+			(start 1.520002 -1.25)
 			(end -1.52 -1.25)
 			(stroke
 				(width 0.05)
@@ -46755,7 +46755,7 @@
 		(descr "Resistor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "resistor")
 		(property "Reference" "R13"
-			(at 0 1.65 270)
+			(at 0 1.65 -90)
 			(layer "B.SilkS")
 			(hide yes)
 			(uuid "976927e7-9471-4afc-ac29-821e55b4f697")
@@ -46768,7 +46768,7 @@
 			)
 		)
 		(property "Value" "270"
-			(at 0 -1.65 270)
+			(at 0 -1.65 -90)
 			(layer "B.Fab")
 			(uuid "5b7ce009-a2e4-4195-a3ab-49956d5c47f6")
 			(effects
@@ -47050,7 +47050,7 @@
 			(uuid "bd8b7d75-9ab2-489c-b60f-8c6ec13c35e6")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 0 270)
+			(at 0 0 -90)
 			(layer "B.Fab")
 			(uuid "df3a3d96-c80f-46e0-8122-cdaa8c8665cf")
 			(effects
@@ -51627,7 +51627,7 @@
 		(descr "Through hole straight pin header, 1x03, 2.54mm pitch, single row")
 		(tags "Through hole pin header THT 1x03 2.54mm single row")
 		(property "Reference" "J3"
-			(at 0 2.33 360)
+			(at 0 2.33 0)
 			(layer "B.SilkS")
 			(hide yes)
 			(uuid "279aa843-df23-427f-9598-e0fd0bab939e")
@@ -51640,7 +51640,7 @@
 			)
 		)
 		(property "Value" "Conn_01x03_Pin"
-			(at 0 -7.41 360)
+			(at 0 -7.41 0)
 			(layer "B.Fab")
 			(hide yes)
 			(uuid "5badaa29-fab2-422b-b3ae-04d382a857f8")
@@ -62862,6 +62862,138 @@
 			)
 			(justify left bottom mirror)
 		)
+	)
+	(dimension
+		(type aligned)
+		(layer "Dwgs.User")
+		(uuid "5f8f4827-4a2c-49b1-b23a-9e194d93afc9")
+		(pts
+			(xy 139 100) (xy 161 100)
+		)
+		(height -37.33)
+		(gr_text "22.0000 mm"
+			(at 150 61.52 0)
+			(layer "Dwgs.User")
+			(uuid "5f8f4827-4a2c-49b1-b23a-9e194d93afc9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 1)
+			(precision 4)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(extension_height 0.58642)
+			(extension_offset 0.5) keep_text_aligned)
+	)
+	(dimension
+		(type aligned)
+		(layer "Dwgs.User")
+		(uuid "7c042115-4e65-44be-800b-47ccf7c532b1")
+		(pts
+			(xy 109.02 102.58) (xy 191.02 102.58)
+		)
+		(height -50.01)
+		(gr_text "82.0000 mm"
+			(at 150.02 51.42 0)
+			(layer "Dwgs.User")
+			(uuid "7c042115-4e65-44be-800b-47ccf7c532b1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 1)
+			(precision 4)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(extension_height 0.58642)
+			(extension_offset 0.5) keep_text_aligned)
+	)
+	(dimension
+		(type aligned)
+		(layer "Dwgs.User")
+		(uuid "a3e0738c-83d4-4c86-abcb-a3f9714946fe")
+		(pts
+			(xy 129 100) (xy 171 100)
+		)
+		(height -42.18)
+		(gr_text "42.0000 mm"
+			(at 150 56.67 0)
+			(layer "Dwgs.User")
+			(uuid "a3e0738c-83d4-4c86-abcb-a3f9714946fe")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 1)
+			(precision 4)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(extension_height 0.58642)
+			(extension_offset 0.5) keep_text_aligned)
+	)
+	(dimension
+		(type aligned)
+		(layer "Dwgs.User")
+		(uuid "c7d2b420-5bd8-4016-b754-781f5a1b866d")
+		(pts
+			(xy 119 99.985) (xy 181 100)
+		)
+		(height -44.443817)
+		(gr_text "62.0000 mm"
+			(at 150.011031 54.398684 359.9861381)
+			(layer "Dwgs.User")
+			(uuid "c7d2b420-5bd8-4016-b754-781f5a1b866d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 1)
+			(precision 4)
+		)
+		(style
+			(thickness 0.1)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(extension_height 0.58642)
+			(extension_offset 0.5) keep_text_aligned)
 	)
 	(segment
 		(start 149.45 65.415)

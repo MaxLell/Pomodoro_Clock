@@ -156,23 +156,32 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         const uint8_t WORKTIME = 50;
         const uint8_t BREAKTIME = 10;
 
+        status_e eStatus;
+
+        PomodoroPeriodConfiguration_s sPeriodCfg = {0};
+        sPeriodCfg.u8MinutesWorktimePeriod = WORKTIME;
+        sPeriodCfg.u8MinutesBreaktimePeriod = BREAKTIME;
+
         msg_t sMsg = {0};
-        sMsg.eMsgId = MSG_0003;
-        PomodoroTimingCfg_s sTimingCfg = {0};
-        sTimingCfg.sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod = WORKTIME;
-        sTimingCfg.sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod = BREAKTIME;
+        sMsg.eMsgId = MSG_0400;
+        sMsg.au8DataBytes = (uint8_t *)&sPeriodCfg;
+        sMsg.u16DataSize = sizeof(PomodoroPeriodConfiguration_s);
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Comment out the following section if you do not want to speed up the sequence
-        sTimingCfg.u16TimeOutPeriodMin = 100;
-        sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
-        sTimingCfg.u16TimerPeriodSnoozeMs = 50;
-        sTimingCfg.u16TimerPeriodWarningMs = 30;
-        sTimingCfg.u16TimerPeriodSec = 30;
-        sTimingCfg.u16TimerPeriodMin = 60;
-
-        sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
-        status_e eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        // sMsg.eMsgId = MSG_0003;
+        // PomodoroTimingCfg_s sTimingCfg = {0};
+        // Comment out the following section if you do not want to speed up the sequence
+        // sTimingCfg.u16TimeOutPeriodMin = 100;
+        // sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
+        // sTimingCfg.u16TimerPeriodSnoozeMs = 50;
+        // sTimingCfg.u16TimerPeriodWarningMs = 30;
+        // sTimingCfg.u16TimerPeriodSec = 30;
+        // sTimingCfg.u16TimerPeriodMin = 60;
+        // sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
+        // eStatus = MessageBroker_publish(&sMsg);
+        // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Publish the Pomodoro Sequence Start: Triggers the transition from IDLE to WORKTIME_INIT
         sMsg.eMsgId = MSG_0200;

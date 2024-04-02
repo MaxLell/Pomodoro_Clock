@@ -637,10 +637,6 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
         // Parse the Pomodoro Timing Configuration
         PomodoroTimingCfg_s *psPomodoroTimingCfg = (PomodoroTimingCfg_s *)psMsg->au8DataBytes;
 
-        // Update the Timestamps for Worktime and Breaktime
-        sPomodoroProgress.u8Worktime = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod;
-        sPomodoroProgress.u8Breaktime = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod;
-
         // Update the Timing Configuration
         sPomodoroTimingCfg.u16TimeOutPeriodMin = psPomodoroTimingCfg->u16TimeOutPeriodMin;
         sPomodoroTimingCfg.u16TimerPeriodMin = psPomodoroTimingCfg->u16TimerPeriodMin;
