@@ -112,6 +112,9 @@ void LightEffects_mapColorsToIdx(const LightEffects_Animation_e in_eAnimation, c
 
     switch (in_eAnimation)
     {
+        /**
+         * Do not choose values below 3 for the LEDs, as they are not visible
+         */
     case E_ANIMATION_OFF:
         RgbLed_setPixelColor(u8Idx, 0, 0, 0);
         break;
@@ -119,7 +122,7 @@ void LightEffects_mapColorsToIdx(const LightEffects_Animation_e in_eAnimation, c
         RgbLed_setPixelColor(u8Idx, 5, 0, 0);
         break;
     case E_ANIMATION_BREAK_TIME:
-        RgbLed_setPixelColor(u8Idx, 0, 1, 0);
+        RgbLed_setPixelColor(u8Idx, 0, 5, 0);
         break;
     case E_ANIMATION_BREAK_TIME_BRIGHT:
         RgbLed_setPixelColor(u8Idx, 0, 100, 0);

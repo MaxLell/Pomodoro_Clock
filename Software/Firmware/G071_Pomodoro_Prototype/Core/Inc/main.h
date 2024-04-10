@@ -59,6 +59,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define TRIGGER_BTN_Pin GPIO_PIN_13
 #define TRIGGER_BTN_GPIO_Port GPIOC
+#define NRST_Pin GPIO_PIN_2
+#define NRST_GPIO_Port GPIOF
 #define ENCODER_BTN_Pin GPIO_PIN_3
 #define ENCODER_BTN_GPIO_Port GPIOC
 #define ENCODER_A_Pin GPIO_PIN_0

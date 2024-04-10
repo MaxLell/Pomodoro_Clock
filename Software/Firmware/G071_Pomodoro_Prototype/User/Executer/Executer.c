@@ -4,6 +4,9 @@
 #include "MessageBroker.h"
 #include "OnBoardTest.h"
 #include "RealTimeClock.h"
+#include "ContextManagement.h"
+#include "SeekingAttention.h"
+#include "PomodoroControl.h"
 
 STATIC BOOL bAreOnboardTestsRunning = FALSE;
 
@@ -21,6 +24,11 @@ void Executer_init(void)
     {
         MessageBroker_init();
         // Add in the modules here
+
+        Button_init();
+        ContextManagement_init();
+        SeekingAttention_init();
+        PomodoroControl_init();
     }
 }
 
@@ -36,6 +44,11 @@ status_e Executer_execute(void)
     else
     {
         // Add in the modules here
+        Button_execute();
+
+        ContextManagement_execute();
+        SeekingAttention_execute();
+        PomodoroControl_execute();
     }
     return STATUS_OK;
 }

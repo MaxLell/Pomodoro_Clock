@@ -60,7 +60,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
+#define TEST_TO_RUN E_TEST_CONTEXT_MGMT
 
 /************************************************************
  * Private Function Prototypes
@@ -128,11 +128,72 @@ extern FSM_Config_t sFsmConfig;
 
 void OnBoardTest_testLightUpAllLeds(void)
 {
+    static BOOL bRanOnce = FALSE;
+    if (!bRanOnce)
+    {
+        printf("%s\n", "************************************************************");
+        printf("%s\n", "                 OnBoardTest_testLightUpAllLeds");
+        printf("%s\n", "************************************************************");
+        bRanOnce = TRUE;
+    }
+
+    // Light up all the LEDs
     for (uint8_t u8LedIndex = 0; u8LedIndex < TOTAL_LEDS; u8LedIndex++)
     {
-        RgbLed_setPixelColor(u8LedIndex, 2, 0, 0);
+        RgbLed_setPixelColor(u8LedIndex, 5, 0, 0);
+        RgbLed_show();
+        Delay_ms(30);
     }
-    RgbLed_show();
+
+    // Remove one LED at the time
+    for (uint8_t u8LedIndex = 0; u8LedIndex < TOTAL_LEDS; u8LedIndex++)
+    {
+        RgbLed_setPixelColor(u8LedIndex, 0, 0, 0);
+        RgbLed_show();
+        Delay_ms(30);
+    }
+
+    log_info("Light up all LEDs test finished AAAAnd restarting....");
+}
+
+status_e OnBoardTest_PomodoroTestMsgCb(const msg_t *const in_psMsg)
+{
+    // Input Checks
+    ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
+
+    switch (in_psMsg->eMsgId)
+    {
+    case MSG_0204:
+    {
+        log_info("Pomodoro Complete Message received");
+    }
+    break;
+
+    case MSG_0103:
+    {
+        ButtonMessage_s *psButtonMessage = (ButtonMessage_s *)in_psMsg->au8DataBytes;
+        if (psButtonMessage->eButton == E_BUTTON_TRIGGER)
+        {
+            if (psButtonMessage->eEvent == E_BTN_EVENT_SHORT_PRESSED)
+            {
+                // Publish the Pomodoro Start Message
+                msg_t sMsg = {0};
+                sMsg.eMsgId = MSG_0200;
+                status_e eStatus = MessageBroker_publish(&sMsg);
+                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+                unused(eStatus); // Suppress the unused variable warning
+                log_info("Pomodoro Start Message Sent");
+            }
+        }
+    }
+    break;
+
+    default:
+        ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
+        break;
+    }
+
+    return STATUS_OK;
 }
 
 void OnBoardTest_testNominalPomodoroSequence(void)
@@ -140,15 +201,12 @@ void OnBoardTest_testNominalPomodoroSequence(void)
     static BOOL bRanOnce = FALSE;
     if (!bRanOnce)
     {
-        printf("%s", "************************************************************\n");
-        printf("%s", "                 OnBoardTest_testNominalPomodoroSequence\n");
-        printf("%s", "************************************************************\n");
+        printf("%s\n", "************************************************************");
+        printf("%s\n", "                 OnBoardTest_test Nominal Pomodoro Sequence");
+        printf("%s\n", "************************************************************");
 
         // Clear the Rings
         LightEffects_ClearAllRingLeds();
-
-        // Delay to make a restart visible
-        Delay_ms(100);
 
         // Initialize the Pomodoro Control
         PomodoroControl_init();
@@ -170,29 +228,36 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Comment out the following section if you do not want to speed up the sequence
-        // sMsg.eMsgId = MSG_0003;
-        // PomodoroTimingCfg_s sTimingCfg = {0};
-        // Comment out the following section if you do not want to speed up the sequence
-        // sTimingCfg.u16TimeOutPeriodMin = 100;
-        // sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
-        // sTimingCfg.u16TimerPeriodSnoozeMs = 50;
-        // sTimingCfg.u16TimerPeriodWarningMs = 30;
-        // sTimingCfg.u16TimerPeriodSec = 30;
-        // sTimingCfg.u16TimerPeriodMin = 60;
-        // sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
-        // eStatus = MessageBroker_publish(&sMsg);
-        // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        sMsg.eMsgId = MSG_0003;
+        PomodoroTimingCfg_s sTimingCfg = {0};
+        sTimingCfg.u16TimeOutPeriodMin = 100;
+        sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
+        sTimingCfg.u16TimerPeriodSnoozeMs = 50;
+        sTimingCfg.u16TimerPeriodWarningMs = 30;
+        sTimingCfg.u16TimerPeriodSec = 30;
+        sTimingCfg.u16TimerPeriodMin = 60;
+        sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Publish the Pomodoro Sequence Start: Triggers the transition from IDLE to WORKTIME_INIT
         sMsg.eMsgId = MSG_0200;
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
-        // Clear the Flag
-        bRanOnce = TRUE;
+        // Subscribe to the Pomodoro Complete Message
+        eStatus = MessageBroker_subscribe(MSG_0204, &OnBoardTest_PomodoroTestMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+        // Subscribe to the button Event message
+        eStatus = MessageBroker_subscribe(MSG_0103, &OnBoardTest_PomodoroTestMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Initialize the Button
         Button_init();
+
+        // Clear the Flag
+        bRanOnce = TRUE;
 
         unused(eStatus);
     }
@@ -226,7 +291,9 @@ status_e OnBoardTest_ButtonTestMsgCb(const msg_t *const in_psMsg)
         // Map the correct event to the event number
         char *pcEventNames[] = {"Invalid", "Pressed", "Released", "Long Pressed"};
 
-        log_info("Button: %s, Event: %s", pcButtonNames[psButtonMessage->eButton], pcEventNames[psButtonMessage->eEvent]);
+        // log_info("Button: %s, Event: %s", pcButtonNames[psButtonMessage->eButton], pcEventNames[psButtonMessage->eEvent]);
+
+        printf("Button: %s, Event: %s\n", pcButtonNames[psButtonMessage->eButton], pcEventNames[psButtonMessage->eEvent]);
     }
     break;
 
@@ -701,8 +768,8 @@ void OnBoardTest_testContextMgmt(void)
         sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
         sTimingCfg.u16TimerPeriodSnoozeMs = 50;
         sTimingCfg.u16TimerPeriodWarningMs = 30;
-        sTimingCfg.u16TimerPeriodSec = 30;
-        sTimingCfg.u16TimerPeriodMin = 60;
+        sTimingCfg.u16TimerPeriodSec = 1000;
+        sTimingCfg.u16TimerPeriodMin = 60000;
 
         sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
         eStatus = MessageBroker_publish(&sMsg);

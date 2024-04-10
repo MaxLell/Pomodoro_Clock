@@ -7,7 +7,7 @@
  * Public Defines
  ************************************************************/
 
-#define RUN_ON_BOARD_TEST
+// #define RUN_ON_BOARD_TEST
 
 /************************************************************
  * Public Datastructures
@@ -22,4 +22,4 @@ void OnBoardTest_init(void);
 
 void OnBoardTest_execute(void);
 
-#endif  // ONBOARDTEST_H
+#endif // ONBOARDTEST_H

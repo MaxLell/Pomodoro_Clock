@@ -236,6 +236,8 @@ void StateActionIdle(void)
 
 void StateActionWorktimeInit(void)
 {
+    // Request the Pomodoro Configuration and only move forward when the config was received
+
     // Get the initial Pomodoro Setting
     PomodoroControl_getMinuteArray(&sPomodoroProgress);
 
@@ -739,8 +741,8 @@ void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf)
 
     // Make sure that the original config is not changed
     ASSERT_MSG(!(u8LocalCopyWortime != inout_sSelf->u8Worktime), "Worktime has changed");
+    unused(u8LocalCopyWortime); // Avoid compiler warning
     ASSERT_MSG(!(u8LocalCopyBreaktime != inout_sSelf->u8Breaktime), "Breaktime has changed");
-    unused(u8LocalCopyWortime);   // Avoid compiler warning
     unused(u8LocalCopyBreaktime); // Avoid compiler warning
 }
 
