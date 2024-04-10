@@ -237,21 +237,35 @@ void StateActionIdle(void)
 void StateActionWorktimeInit(void)
 {
     // Request the Pomodoro Configuration and only move forward when the config was received
+    if (TRUE == sPomodoroPeriodCfg.bConfigWasUpdated)
+    {
+        // Get the initial Pomodoro Setting
+        PomodoroControl_getMinuteArray(&sPomodoroProgress);
 
-    // Get the initial Pomodoro Setting
-    PomodoroControl_getMinuteArray(&sPomodoroProgress);
+        // Check if the Worktime is over
+        BOOL bWorktimeIsOver = FALSE;
+        PomodoroControl_isWorktimeOver(&sPomodoroProgress, &bWorktimeIsOver);
+        LightEffects_RenderPomodoro(sPomodoroProgress.au8MinuteArray, TOTAL_MINUTES, bWorktimeIsOver);
 
-    // Check if the Worktime is over
-    BOOL bWorktimeIsOver = FALSE;
-    PomodoroControl_isWorktimeOver(&sPomodoroProgress, &bWorktimeIsOver);
-    LightEffects_RenderPomodoro(sPomodoroProgress.au8MinuteArray, TOTAL_MINUTES, bWorktimeIsOver);
+        // Initialize and start the Countdown Timer
+        Countdown_initTimerMs(&sTimerWtBtHandler, sPomodoroTimingCfg.u16TimerPeriodMin, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_resetAndStartTimer(&sTimerWtBtHandler);
 
-    // Initialize and start the Countdown Timer
-    Countdown_initTimerMs(&sTimerWtBtHandler, sPomodoroTimingCfg.u16TimerPeriodMin, E_OPERATIONAL_MODE_CONTIUNOUS);
-    Countdown_resetAndStartTimer(&sTimerWtBtHandler);
+        // Update the trigger event
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
 
-    // Update the trigger event
-    FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
+        // Reset the updated flag
+        sPomodoroPeriodCfg.bConfigWasUpdated = FALSE;
+    }
+    else
+    {
+        // Request the Pomodoro Configuration
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_0401; // Request Pomodoro Configuration
+        status_e eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish: %d", eStatus);
+        unused(eStatus); // Avoid compiler warning
+    }
 }
 
 void StateActionWorktime(void)
@@ -577,95 +591,6 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const sMsg);
  * Implementation
  ********************************************************/
 
-STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
-{
-    { // Input Verification
-        ASSERT_MSG(!(psMsg == NULL), "Message is NULL!");
-        if (psMsg == NULL)
-        {
-            return STATUS_ERROR;
-        }
-    }
-
-    switch (psMsg->eMsgId)
-    {
-    case MSG_0200: // Pomodoro Sequence Start Event
-    {
-        FSM_setTriggerEvent(&sFsmConfig, EVENT_POMODORO_SEQUENCE_START);
-    }
-    break;
-
-    case MSG_0103: // Button Event
-    {
-        ButtonMessage_s *psButtonMsg = (ButtonMessage_s *)psMsg->au8DataBytes;
-        if (psButtonMsg->eButton == E_BUTTON_TRIGGER)
-        {
-            if (psButtonMsg->eEvent == E_BTN_EVENT_LONG_PRESSED)
-            {
-                FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_LONG_PRESS);
-            }
-
-            if (psButtonMsg->eEvent == E_BTN_EVENT_RELEASED)
-            {
-                FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_RELEASED);
-            }
-        }
-        else if (psButtonMsg->eButton == E_BUTTON_ENCODER)
-        {
-            if (psButtonMsg->eEvent == E_BTN_EVENT_RELEASED)
-            {
-                FSM_setTriggerEvent(&sFsmConfig, EVENT_ENCODER_BTN_RELEASED);
-            }
-        }
-    }
-    break;
-
-    case MSG_0400: // Pomodoro Configuration: Worktime and Breaktime
-                   // Periods
-    {
-        // Get the Pomodoro Configuration
-        PomodoroPeriodConfiguration_s *psPomodoroConfig = (PomodoroPeriodConfiguration_s *)psMsg->au8DataBytes;
-        sPomodoroProgress.u8Worktime = psPomodoroConfig->u8MinutesWorktimePeriod;
-        sPomodoroProgress.u8Breaktime = psPomodoroConfig->u8MinutesBreaktimePeriod;
-
-        // Update the Period Configuration -> Needed in the CleanUp State
-        sPomodoroPeriodCfg.u8MinutesWorktimePeriod = psPomodoroConfig->u8MinutesWorktimePeriod;
-        sPomodoroPeriodCfg.u8MinutesBreaktimePeriod = psPomodoroConfig->u8MinutesBreaktimePeriod;
-    }
-    break;
-
-    case MSG_0003:
-    {
-        // Parse the Pomodoro Timing Configuration
-        PomodoroTimingCfg_s *psPomodoroTimingCfg = (PomodoroTimingCfg_s *)psMsg->au8DataBytes;
-
-        // Update the Timing Configuration
-        sPomodoroTimingCfg.u16TimeOutPeriodMin = psPomodoroTimingCfg->u16TimeOutPeriodMin;
-        sPomodoroTimingCfg.u16TimerPeriodMin = psPomodoroTimingCfg->u16TimerPeriodMin;
-        sPomodoroTimingCfg.u16TimerPeriodSnoozeMs = psPomodoroTimingCfg->u16TimerPeriodSnoozeMs;
-        sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = psPomodoroTimingCfg->u16TimerPeriodCancelSeqMs;
-        sPomodoroTimingCfg.u16TimerPeriodWarningMs = psPomodoroTimingCfg->u16TimerPeriodWarningMs;
-
-        // Update the Period Configuration -> Needed in the CleanUp State
-        sPomodoroPeriodCfg.u8MinutesWorktimePeriod = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod;
-        sPomodoroPeriodCfg.u8MinutesBreaktimePeriod = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod;
-    }
-    break;
-
-    default:
-    {
-        ASSERT_MSG(FALSE,
-                   "This Callback should not be called for this message, but it "
-                   "was with the following message ID: %d",
-                   psMsg->eMsgId);
-        return STATUS_ERROR;
-    }
-    break;
-    }
-
-    return STATUS_OK;
-}
-
 void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf)
 {
     { // Input checks
@@ -830,6 +755,96 @@ STATIC void PomodoroControl_isBreaktimeOver(PCTRL_Progress_t *const inout_sSelf,
 
     *out_bIsBreaktimeOver = bNumberCheck;
     unused(bArrayCheck); // Avoid compiler warning
+}
+
+STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
+{
+    { // Input Verification
+        ASSERT_MSG(!(psMsg == NULL), "Message is NULL!");
+        if (psMsg == NULL)
+        {
+            return STATUS_ERROR;
+        }
+    }
+
+    switch (psMsg->eMsgId)
+    {
+    case MSG_0200: // Pomodoro Sequence Start Event
+    {
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_POMODORO_SEQUENCE_START);
+    }
+    break;
+
+    case MSG_0103: // Button Event
+    {
+        ButtonMessage_s *psButtonMsg = (ButtonMessage_s *)psMsg->au8DataBytes;
+        if (psButtonMsg->eButton == E_BUTTON_TRIGGER)
+        {
+            if (psButtonMsg->eEvent == E_BTN_EVENT_LONG_PRESSED)
+            {
+                FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_LONG_PRESS);
+            }
+
+            if (psButtonMsg->eEvent == E_BTN_EVENT_RELEASED)
+            {
+                FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_RELEASED);
+            }
+        }
+        else if (psButtonMsg->eButton == E_BUTTON_ENCODER)
+        {
+            if (psButtonMsg->eEvent == E_BTN_EVENT_RELEASED)
+            {
+                FSM_setTriggerEvent(&sFsmConfig, EVENT_ENCODER_BTN_RELEASED);
+            }
+        }
+    }
+    break;
+
+    case MSG_0400: // Pomodoro Configuration: Worktime and Breaktime
+                   // Periods
+    {
+        // Get the Pomodoro Configuration
+        PomodoroPeriodConfiguration_s *psPomodoroConfig = (PomodoroPeriodConfiguration_s *)psMsg->au8DataBytes;
+        sPomodoroProgress.u8Worktime = psPomodoroConfig->u8MinutesWorktimePeriod;
+        sPomodoroProgress.u8Breaktime = psPomodoroConfig->u8MinutesBreaktimePeriod;
+
+        // Update the Period Configuration -> Needed in the CleanUp State
+        sPomodoroPeriodCfg.u8MinutesWorktimePeriod = psPomodoroConfig->u8MinutesWorktimePeriod;
+        sPomodoroPeriodCfg.u8MinutesBreaktimePeriod = psPomodoroConfig->u8MinutesBreaktimePeriod;
+        sPomodoroPeriodCfg.bConfigWasUpdated = psPomodoroConfig->bConfigWasUpdated;
+    }
+    break;
+
+    case MSG_0003:
+    {
+        // Parse the Pomodoro Timing Configuration
+        PomodoroTimingCfg_s *psPomodoroTimingCfg = (PomodoroTimingCfg_s *)psMsg->au8DataBytes;
+
+        // Update the Timing Configuration
+        sPomodoroTimingCfg.u16TimeOutPeriodMin = psPomodoroTimingCfg->u16TimeOutPeriodMin;
+        sPomodoroTimingCfg.u16TimerPeriodMin = psPomodoroTimingCfg->u16TimerPeriodMin;
+        sPomodoroTimingCfg.u16TimerPeriodSnoozeMs = psPomodoroTimingCfg->u16TimerPeriodSnoozeMs;
+        sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = psPomodoroTimingCfg->u16TimerPeriodCancelSeqMs;
+        sPomodoroTimingCfg.u16TimerPeriodWarningMs = psPomodoroTimingCfg->u16TimerPeriodWarningMs;
+
+        // Update the Period Configuration -> Needed in the CleanUp State
+        sPomodoroPeriodCfg.u8MinutesWorktimePeriod = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod;
+        sPomodoroPeriodCfg.u8MinutesBreaktimePeriod = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod;
+    }
+    break;
+
+    default:
+    {
+        ASSERT_MSG(FALSE,
+                   "This Callback should not be called for this message, but it "
+                   "was with the following message ID: %d",
+                   psMsg->eMsgId);
+        return STATUS_ERROR;
+    }
+    break;
+    }
+
+    return STATUS_OK;
 }
 
 void PomodoroControl_init(void)

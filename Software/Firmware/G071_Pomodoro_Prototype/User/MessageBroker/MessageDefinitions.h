@@ -7,6 +7,7 @@
 
 typedef struct
 {
+  BOOL bConfigWasUpdated;
   uint8_t u8MinutesWorktimePeriod;
   uint8_t u8MinutesBreaktimePeriod;
 } PomodoroPeriodConfiguration_s;

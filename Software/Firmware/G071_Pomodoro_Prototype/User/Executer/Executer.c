@@ -7,6 +7,7 @@
 #include "ContextManagement.h"
 #include "SeekingAttention.h"
 #include "PomodoroControl.h"
+#include "CfgStore.h"
 
 STATIC BOOL bAreOnboardTestsRunning = FALSE;
 
@@ -25,6 +26,7 @@ void Executer_init(void)
         MessageBroker_init();
         // Add in the modules here
 
+        CfgStore_init();
         Button_init();
         ContextManagement_init();
         SeekingAttention_init();
@@ -46,6 +48,7 @@ status_e Executer_execute(void)
         // Add in the modules here
         Button_execute();
 
+        CfgStore_execute();
         ContextManagement_execute();
         SeekingAttention_execute();
         PomodoroControl_execute();
