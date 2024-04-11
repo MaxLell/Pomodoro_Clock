@@ -15,6 +15,7 @@
 #include "Button.h"
 #include "SeekingAttention.h"
 #include "ContextManagement.h"
+#include "CfgStore.h"
 
 // Utility includes
 #include "FSM.h"
@@ -60,7 +61,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_CONTEXT_MGMT
+#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
 
 /************************************************************
  * Private Function Prototypes
@@ -211,25 +212,16 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         // Initialize the Pomodoro Control
         PomodoroControl_init();
 
-        const uint8_t WORKTIME = 50;
-        const uint8_t BREAKTIME = 10;
+        // Initialize the CfgStore
+        CfgStore_init();
 
         status_e eStatus;
 
-        PomodoroPeriodConfiguration_s sPeriodCfg = {0};
-        sPeriodCfg.u8MinutesWorktimePeriod = WORKTIME;
-        sPeriodCfg.u8MinutesBreaktimePeriod = BREAKTIME;
-
         msg_t sMsg = {0};
-        sMsg.eMsgId = MSG_0400;
-        sMsg.au8DataBytes = (uint8_t *)&sPeriodCfg;
-        sMsg.u16DataSize = sizeof(PomodoroPeriodConfiguration_s);
-        eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
-        // Comment out the following section if you do not want to speed up the sequence
-        sMsg.eMsgId = MSG_0003;
-        PomodoroTimingCfg_s sTimingCfg = {0};
+        // Overwrite the timing configuration inside of the PomodoroControl to speed up the execution
+        sMsg.eMsgId = MSG_0004;
+        TestData_0004_s sTimingCfg = {0};
         sTimingCfg.u16TimeOutPeriodMin = 100;
         sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
         sTimingCfg.u16TimerPeriodSnoozeMs = 50;
@@ -237,11 +229,6 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         sTimingCfg.u16TimerPeriodSec = 30;
         sTimingCfg.u16TimerPeriodMin = 60;
         sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
-        eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
-
-        // Publish the Pomodoro Sequence Start: Triggers the transition from IDLE to WORKTIME_INIT
-        sMsg.eMsgId = MSG_0200;
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
@@ -760,10 +747,8 @@ void OnBoardTest_testContextMgmt(void)
         // Publish the Test Message (Needs to be after the Seeking Attention Init function!!!)
         // So that the Seeking Attention is visible
         msg_t sMsg = {0};
-        sMsg.eMsgId = MSG_0003;
-        PomodoroTimingCfg_s sTimingCfg = {0};
-        sTimingCfg.sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod = 50;
-        sTimingCfg.sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod = 10;
+        sMsg.eMsgId = MSG_0004;
+        TestData_0004_s sTimingCfg = {0};
         sTimingCfg.u16TimeOutPeriodMin = 100;
         sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
         sTimingCfg.u16TimerPeriodSnoozeMs = 50;

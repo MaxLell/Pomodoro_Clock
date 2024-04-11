@@ -4,8 +4,11 @@
 #include "MessageIDs.h"
 #include "MessageDefinitions.h"
 
+const uint8_t u8WorktimePeriodMin = 50;
+const uint8_t u8BreaktimePeriodMin = 10;
+
 /*********************************************
- * Private Data
+ * Implementation
  *********************************************/
 
 status_e CfgStore_MsgCallback(const msg_t *const in_sMsg)
@@ -17,8 +20,8 @@ status_e CfgStore_MsgCallback(const msg_t *const in_sMsg)
         // Publish the Pomodoro Configuration
         PomodoroPeriodConfiguration_s sPeriodCfg = {0};
         sPeriodCfg.bConfigWasUpdated = TRUE;
-        sPeriodCfg.u8MinutesWorktimePeriod = 50;
-        sPeriodCfg.u8MinutesBreaktimePeriod = 10;
+        sPeriodCfg.u8MinutesWorktimePeriod = u8WorktimePeriodMin;
+        sPeriodCfg.u8MinutesBreaktimePeriod = u8BreaktimePeriodMin;
 
         msg_t sMsg = {0};
         sMsg.eMsgId = MSG_0400;

@@ -33,11 +33,13 @@ STATIC timer_t sTimerCancelSeqHandler = {0};
 STATIC timer_t sTimerCancelSeqTimeoutHandler = {0};
 STATIC timer_t sTimerSnoozeHandler = {0};
 
+STATIC timer_t sTimerTest = {0};
+
 STATIC PCTRL_Progress_t sPomodoroProgress = {0};
 
 STATIC LightControl_RingCountdown_s sRingCountdown = {0};
 
-STATIC PomodoroTimingCfg_s sPomodoroTimingCfg = {0};
+STATIC TestData_0004_s sPomodoroTimingCfg = {0};
 
 STATIC PomodoroPeriodConfiguration_s sPomodoroPeriodCfg = {0};
 
@@ -815,21 +817,21 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
     }
     break;
 
-    case MSG_0003:
+    case MSG_0004:
     {
         // Parse the Pomodoro Timing Configuration
-        PomodoroTimingCfg_s *psPomodoroTimingCfg = (PomodoroTimingCfg_s *)psMsg->au8DataBytes;
+        TestData_0004_s *psTestPomodoroTimingCfg = (TestData_0004_s *)psMsg->au8DataBytes;
 
         // Update the Timing Configuration
-        sPomodoroTimingCfg.u16TimeOutPeriodMin = psPomodoroTimingCfg->u16TimeOutPeriodMin;
-        sPomodoroTimingCfg.u16TimerPeriodMin = psPomodoroTimingCfg->u16TimerPeriodMin;
-        sPomodoroTimingCfg.u16TimerPeriodSnoozeMs = psPomodoroTimingCfg->u16TimerPeriodSnoozeMs;
-        sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = psPomodoroTimingCfg->u16TimerPeriodCancelSeqMs;
-        sPomodoroTimingCfg.u16TimerPeriodWarningMs = psPomodoroTimingCfg->u16TimerPeriodWarningMs;
+        sPomodoroTimingCfg.u16TimeOutPeriodMin = psTestPomodoroTimingCfg->u16TimeOutPeriodMin;
+        sPomodoroTimingCfg.u16TimerPeriodMin = psTestPomodoroTimingCfg->u16TimerPeriodMin;
+        sPomodoroTimingCfg.u16TimerPeriodSnoozeMs = psTestPomodoroTimingCfg->u16TimerPeriodSnoozeMs;
+        sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = psTestPomodoroTimingCfg->u16TimerPeriodCancelSeqMs;
+        sPomodoroTimingCfg.u16TimerPeriodWarningMs = psTestPomodoroTimingCfg->u16TimerPeriodWarningMs;
 
-        // Update the Period Configuration -> Needed in the CleanUp State
-        sPomodoroPeriodCfg.u8MinutesWorktimePeriod = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesWorktimePeriod;
-        sPomodoroPeriodCfg.u8MinutesBreaktimePeriod = psPomodoroTimingCfg->sPomodoroPeriodConfiguration.u8MinutesBreaktimePeriod;
+        // Initialize the countdown timer to trigger every 200ms
+        Countdown_initTimerMs(&sTimerTest, 200, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_resetAndStartTimer(&sTimerTest);
     }
     break;
 
@@ -859,7 +861,7 @@ void PomodoroControl_init(void)
     eStatus = MessageBroker_subscribe(MSG_0103, PomodoroControl_MessageCallback);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 
-    eStatus = MessageBroker_subscribe(MSG_0003, PomodoroControl_MessageCallback);
+    eStatus = MessageBroker_subscribe(MSG_0004, PomodoroControl_MessageCallback);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe: %d", eStatus);
 
     unused(eStatus); // Avoid compiler warning
@@ -877,5 +879,29 @@ status_e PomodoroControl_execute(void)
 {
     status_e eStatus = STATUS_OK;
     FSM_execute(&sFsmConfig);
+
+    // Check if the Test Timer has expired
+    if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sTimerTest))
+    {
+        // Print out the current state
+        // Create an array that contains all the state's names:
+        const char *const asStateNames[] = {
+            "STATE_IDLE",
+            "STATE_WORKTIME_INIT",
+            "STATE_WORKTIME",
+            "STATE_WARNING",
+            "STATE_BREAKTIME_INIT",
+            "STATE_BREAKTIME",
+            "STATE_CANCEL_SEQUENCE_INIT",
+            "STATE_CANCEL_SEQUENCE_RUNNING",
+            "STATE_CANCEL_SEQUENCE_HALTED",
+            "STATE_SNOOZE",
+            "STATE_CLEAN_UP",
+        };
+
+        // Print the current state
+        printf("Current State: %s\n", asStateNames[sFsmConfig.u16CurrentState]);
+    }
+
     return eStatus;
 }

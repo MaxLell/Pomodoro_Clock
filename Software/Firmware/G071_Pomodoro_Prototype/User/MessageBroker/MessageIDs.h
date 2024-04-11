@@ -21,7 +21,8 @@ typedef enum
     // Test Messages
     MSG_0001, // Chaos Elephant
     MSG_0002, // Tickly Giraffe
-    MSG_0003, // Test Message - Be careful that the Message's Content may vary due to the Test being performed
+    MSG_0003, // Generic and obsolete Test Message
+    MSG_0004, // Test Message for the Pomodoro Sequence
 
     // Button Messages
     MSG_0103, // Button Event
