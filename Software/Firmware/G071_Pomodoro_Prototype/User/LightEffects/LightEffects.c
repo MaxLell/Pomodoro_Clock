@@ -38,6 +38,7 @@ void LightEffects_scaleArray(const uint8_t *const in_au8SourceArray, uint8_t in_
 
     // Calculate the Scale Factor
     float fScaleFactor = (float)in_u8SourceArraySize / (float)in_u8TargetArraySize;
+
     // Scale the Array
     for (uint8_t i = 0; i < in_u8TargetArraySize; i++)
     {

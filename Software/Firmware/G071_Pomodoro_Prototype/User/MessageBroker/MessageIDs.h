@@ -23,6 +23,7 @@ typedef enum
     MSG_0002, // Tickly Giraffe
     MSG_0003, // Generic and obsolete Test Message
     MSG_0004, // Test Message for the Pomodoro Sequence
+    MSG_0005, // Test Message for the Seeking Attention Module
 
     // Button Messages
     MSG_0103, // Button Event

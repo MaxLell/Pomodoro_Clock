@@ -75,7 +75,7 @@ status_e SeekingAttention_MsgCallback(const msg_t *const in_sMsg)
     }
     break;
 
-    case MSG_0003:
+    case MSG_0005:
     {
         // Update the Min and Max Time
         sInternalState.u32MaxTimeMs = 1000;
@@ -110,7 +110,7 @@ void SeekingAttention_init(void)
     ASSERT_MSG(!(STATUS_OK != eStatus), "Subscription failed")
 
     // Subscribe to the Test Message
-    eStatus = MessageBroker_subscribe(MSG_0003, SeekingAttention_MsgCallback);
+    eStatus = MessageBroker_subscribe(MSG_0005, SeekingAttention_MsgCallback);
     ASSERT_MSG(!(STATUS_OK != eStatus), "Subscription failed")
 
     // Initialize the internal state

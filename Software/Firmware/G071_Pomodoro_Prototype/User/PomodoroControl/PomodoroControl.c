@@ -632,7 +632,7 @@ void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf)
         ASSERT_MSG(!(u8CurrentIdx > TOTAL_MINUTES), "u8CurrentIdx >= TOTAL_MINUTES");
     }
 
-    if (u8Sum >= LEDS_PER_RING)
+    if (u8Sum > LEDS_PER_RING)
     {
         // Breaktime and Worktime are not fitting into on Ring
         if (u8CurrentIdx < LEDS_PER_RING)
@@ -655,13 +655,13 @@ void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf)
         {
             i8CurrentBreaktime--;
             inout_sSelf->au8MinuteArray[u8CurrentIdx] = E_CFG_BREAKTIME;
+
             u8CurrentIdx++;
 
             if (u8CurrentIdx >= TOTAL_MINUTES)
             {
                 u8CurrentIdx = MINUTES_IN_HOUR;
             }
-
             ASSERT_MSG(!(u8CurrentIdx >= TOTAL_MINUTES), "u8CurrentIdx >= TOTAL_MINUTES");
         }
     }
@@ -829,8 +829,7 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
         sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = psTestPomodoroTimingCfg->u16TimerPeriodCancelSeqMs;
         sPomodoroTimingCfg.u16TimerPeriodWarningMs = psTestPomodoroTimingCfg->u16TimerPeriodWarningMs;
 
-        // Initialize the countdown timer to trigger every 200ms
-        Countdown_initTimerMs(&sTimerTest, 200, E_OPERATIONAL_MODE_CONTIUNOUS);
+        // Only then start the timer
         Countdown_resetAndStartTimer(&sTimerTest);
     }
     break;
@@ -873,6 +872,9 @@ void PomodoroControl_init(void)
     sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = TIMER_PERIOD_CANCEL_SEQ_MS;
     sPomodoroTimingCfg.u16TimerPeriodWarningMs = TIMER_PERIOD_WARNING_MS;
     sPomodoroTimingCfg.u16TimeOutPeriodMin = TIMEOUT_PERIOD_MIN;
+
+    // Initialize the countdown timer to trigger every 200ms
+    Countdown_initTimerMs(&sTimerTest, 200, E_OPERATIONAL_MODE_ONE_SHOT);
 }
 
 status_e PomodoroControl_execute(void)
@@ -900,7 +902,10 @@ status_e PomodoroControl_execute(void)
         };
 
         // Print the current state
-        printf("Current State: %s\n", asStateNames[sFsmConfig.u16CurrentState]);
+        log_info("Current State: %s", asStateNames[sFsmConfig.u16CurrentState]);
+
+        // Reset the Timer
+        Countdown_resetAndStartTimer(&sTimerTest);
     }
 
     return eStatus;

@@ -61,7 +61,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
+#define TEST_TO_RUN E_TEST_CONTEXT_MGMT
 
 /************************************************************
  * Private Function Prototypes
@@ -229,8 +229,8 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         sTimingCfg.u16TimerPeriodSec = 30;
         sTimingCfg.u16TimerPeriodMin = 60;
         sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
-        eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        // eStatus = MessageBroker_publish(&sMsg);
+        // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Subscribe to the Pomodoro Complete Message
         eStatus = MessageBroker_subscribe(MSG_0204, &OnBoardTest_PomodoroTestMsgCb);
@@ -238,6 +238,11 @@ void OnBoardTest_testNominalPomodoroSequence(void)
 
         // Subscribe to the button Event message
         eStatus = MessageBroker_subscribe(MSG_0103, &OnBoardTest_PomodoroTestMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+        // Publish the Pomodoro Start Message
+        sMsg.eMsgId = MSG_0200;
+        eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Initialize the Button
@@ -744,6 +749,9 @@ void OnBoardTest_testContextMgmt(void)
         // Initialize the POmodoro Control
         PomodoroControl_init();
 
+        // Initialize the CfgStore
+        CfgStore_init();
+
         // Publish the Test Message (Needs to be after the Seeking Attention Init function!!!)
         // So that the Seeking Attention is visible
         msg_t sMsg = {0};
@@ -753,10 +761,14 @@ void OnBoardTest_testContextMgmt(void)
         sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
         sTimingCfg.u16TimerPeriodSnoozeMs = 50;
         sTimingCfg.u16TimerPeriodWarningMs = 30;
-        sTimingCfg.u16TimerPeriodSec = 1000;
-        sTimingCfg.u16TimerPeriodMin = 60000;
-
+        sTimingCfg.u16TimerPeriodSec = 30;
+        sTimingCfg.u16TimerPeriodMin = 60;
         sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+        // Publish the Seeking Attention Test Message
+        sMsg.eMsgId = MSG_0005;
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
     }
