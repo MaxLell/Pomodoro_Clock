@@ -8,6 +8,7 @@
 #include "SeekingAttention.h"
 #include "PomodoroControl.h"
 #include "CfgStore.h"
+#include "Score.h"
 
 STATIC BOOL bAreOnboardTestsRunning = FALSE;
 
@@ -31,6 +32,7 @@ void Executer_init(void)
         ContextManagement_init();
         SeekingAttention_init();
         PomodoroControl_init();
+        Score_init();
     }
 }
 
@@ -52,6 +54,7 @@ status_e Executer_execute(void)
         ContextManagement_execute();
         SeekingAttention_execute();
         PomodoroControl_execute();
+        Score_execute();
     }
     return STATUS_OK;
 }

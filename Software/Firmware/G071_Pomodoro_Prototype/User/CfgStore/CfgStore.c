@@ -4,8 +4,8 @@
 #include "MessageIDs.h"
 #include "MessageDefinitions.h"
 
-const uint8_t u8WorktimePeriodMin = 51;
-const uint8_t u8BreaktimePeriodMin = 17;
+const uint8_t u8WorktimePeriodMin = 50;
+const uint8_t u8BreaktimePeriodMin = 10;
 
 /*********************************************
  * Implementation

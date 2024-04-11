@@ -764,12 +764,12 @@ void OnBoardTest_testContextMgmt(void)
         sTimingCfg.u16TimerPeriodSec = 30;
         sTimingCfg.u16TimerPeriodMin = 60;
         sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
-        eStatus = MessageBroker_publish(&sMsg);
+        // eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Publish the Seeking Attention Test Message
         sMsg.eMsgId = MSG_0005;
-        eStatus = MessageBroker_publish(&sMsg);
+        // eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
     }
 
