@@ -396,8 +396,8 @@ void OnBoardTest_testScore(void)
 
         // Send out the Test Message
         msg_t sMsg = {0};
-        sMsg.eMsgId = MSG_0003;
-        ScoreTimeStamps_s sScoreTimeStamps = {0};
+        sMsg.eMsgId = MSG_0006;
+        TestData_0006_s sScoreTimeStamps = {0};
         sScoreTimeStamps.u32MinutePeriod = FIFTY_MSEC;
         sScoreTimeStamps.u32TimeoutPeriod = TWENTY_SECONDS;
         sScoreTimeStamps.u32WatchdogPeriod = THIRTY_SECONDS;
@@ -752,8 +752,13 @@ void OnBoardTest_testContextMgmt(void)
         // Initialize the CfgStore
         CfgStore_init();
 
-        // Publish the Test Message (Needs to be after the Seeking Attention Init function!!!)
-        // So that the Seeking Attention is visible
+        // Initialize the Score
+        Score_init();
+
+        /**
+         * Test Message for the Pomodoro Sequence
+         * Comment out for regular operation
+         */
         msg_t sMsg = {0};
         sMsg.eMsgId = MSG_0004;
         TestData_0004_s sTimingCfg = {0};
@@ -765,12 +770,30 @@ void OnBoardTest_testContextMgmt(void)
         sTimingCfg.u16TimerPeriodMin = 60;
         sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
         // eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
-        // Publish the Seeking Attention Test Message
+        /**
+         * Test Message for the Seeking Attention Module
+         * Comment out for regular operation
+         */
         sMsg.eMsgId = MSG_0005;
         // eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+        /**
+         * Test Message for the Score Module
+         * Comment out for regular operation
+         */
+        sMsg.eMsgId = MSG_0006;
+        TestData_0006_s sScoreTimeStamps = {0};
+        sScoreTimeStamps.u32MinutePeriod = 60;
+        sScoreTimeStamps.u32TimeoutPeriod = 40000;
+        sScoreTimeStamps.u32WatchdogPeriod = 60000;
+        sMsg.au8DataBytes = (uint8_t *)&sScoreTimeStamps;
+        // eStatus = MessageBroker_publish(&sMsg);
+        // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+        unused(eStatus); // Suppress the unused variable warning
     }
 
     // Run the Button execute function
@@ -784,6 +807,9 @@ void OnBoardTest_testContextMgmt(void)
 
     // Run the Pomodoro Control execute function
     PomodoroControl_execute();
+
+    // Run the Score execute function
+    Score_execute();
 }
 
 /************************************************************

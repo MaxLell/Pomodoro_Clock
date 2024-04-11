@@ -13,7 +13,7 @@
  * Private Data
  *************************************************************/
 
-STATIC ScoreTimeStamps_s sScoreTimeStamps = {
+STATIC TestData_0006_s sScoreTimeStamps = {
     .u32MinutePeriod = ONE_MINUTE,
     .u32TimeoutPeriod = TEN_MINUTES,
     .u32WatchdogPeriod = FOUR_HOURS,
@@ -43,12 +43,12 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
 
     switch (in_psMessage->eMsgId)
     {
-    case MSG_0003:
+    case MSG_0006:
     {
-        // Parse out the ScoreTimeStamps_s struct from the message
-        ScoreTimeStamps_s *psScoreTimeStamps = (ScoreTimeStamps_s *)in_psMessage->au8DataBytes;
+        // Parse out the TestData_0006_s struct from the message
+        TestData_0006_s *psScoreTimeStamps = (TestData_0006_s *)in_psMessage->au8DataBytes;
 
-        // Update the global ScoreTimeStamps_s struct
+        // Update the global TestData_0006_s struct
         sScoreTimeStamps.u32MinutePeriod = psScoreTimeStamps->u32MinutePeriod;
         sScoreTimeStamps.u32TimeoutPeriod = psScoreTimeStamps->u32TimeoutPeriod;
         sScoreTimeStamps.u32WatchdogPeriod = psScoreTimeStamps->u32WatchdogPeriod;
@@ -116,7 +116,7 @@ void Score_init(void)
 {
     // Subscribe to the Messages
     // Test Message
-    status_e eStatus = MessageBroker_subscribe(MSG_0003, Score_MsgCb);
+    status_e eStatus = MessageBroker_subscribe(MSG_0006, Score_MsgCb);
     ASSERT_MSG(STATUS_OK == eStatus, "Failed to Subscribe to MSG_0003");
 
     // Pomodoro Start
@@ -138,8 +138,6 @@ void Score_init(void)
 
     // Reset the Daily Score
     u32TotalDailyScoreInMinutes = 0U;
-
-    log_info("Score Init Complete");
 }
 
 status_e Score_execute(void)
@@ -174,7 +172,7 @@ status_e Score_execute(void)
             // Stop the Watchdog Timer
             Countdown_stopTimer(&sWatchdogTimer);
 
-            log_info("Watchdog Timer Expired!");
+            log_info("Score Watchdog Timer Expired - Resetting Score");
         }
 
         if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sTimeoutTimer))
@@ -185,7 +183,7 @@ status_e Score_execute(void)
             // Stop the Timeout Timer
             Countdown_stopTimer(&sTimeoutTimer);
 
-            log_info("Timeout Timer Expired!");
+            log_info("Timeout Timer Expired - Disabling Score Indicator");
         }
     }
 

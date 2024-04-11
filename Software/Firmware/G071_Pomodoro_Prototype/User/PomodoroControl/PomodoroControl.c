@@ -33,8 +33,6 @@ STATIC timer_t sTimerCancelSeqHandler = {0};
 STATIC timer_t sTimerCancelSeqTimeoutHandler = {0};
 STATIC timer_t sTimerSnoozeHandler = {0};
 
-STATIC timer_t sTimerTest = {0};
-
 STATIC PCTRL_Progress_t sPomodoroProgress = {0};
 
 STATIC LightControl_RingCountdown_s sRingCountdown = {0};
@@ -828,9 +826,6 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
         sPomodoroTimingCfg.u16TimerPeriodSnoozeMs = psTestPomodoroTimingCfg->u16TimerPeriodSnoozeMs;
         sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = psTestPomodoroTimingCfg->u16TimerPeriodCancelSeqMs;
         sPomodoroTimingCfg.u16TimerPeriodWarningMs = psTestPomodoroTimingCfg->u16TimerPeriodWarningMs;
-
-        // Only then start the timer
-        Countdown_resetAndStartTimer(&sTimerTest);
     }
     break;
 
@@ -872,41 +867,12 @@ void PomodoroControl_init(void)
     sPomodoroTimingCfg.u16TimerPeriodCancelSeqMs = TIMER_PERIOD_CANCEL_SEQ_MS;
     sPomodoroTimingCfg.u16TimerPeriodWarningMs = TIMER_PERIOD_WARNING_MS;
     sPomodoroTimingCfg.u16TimeOutPeriodMin = TIMEOUT_PERIOD_MIN;
-
-    // Initialize the countdown timer to trigger every 200ms
-    Countdown_initTimerMs(&sTimerTest, 200, E_OPERATIONAL_MODE_ONE_SHOT);
 }
 
 status_e PomodoroControl_execute(void)
 {
     status_e eStatus = STATUS_OK;
     FSM_execute(&sFsmConfig);
-
-    // Check if the Test Timer has expired
-    if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sTimerTest))
-    {
-        // Print out the current state
-        // Create an array that contains all the state's names:
-        const char *const asStateNames[] = {
-            "STATE_IDLE",
-            "STATE_WORKTIME_INIT",
-            "STATE_WORKTIME",
-            "STATE_WARNING",
-            "STATE_BREAKTIME_INIT",
-            "STATE_BREAKTIME",
-            "STATE_CANCEL_SEQUENCE_INIT",
-            "STATE_CANCEL_SEQUENCE_RUNNING",
-            "STATE_CANCEL_SEQUENCE_HALTED",
-            "STATE_SNOOZE",
-            "STATE_CLEAN_UP",
-        };
-
-        // Print the current state
-        log_info("Current State: %s", asStateNames[sFsmConfig.u16CurrentState]);
-
-        // Reset the Timer
-        Countdown_resetAndStartTimer(&sTimerTest);
-    }
 
     return eStatus;
 }

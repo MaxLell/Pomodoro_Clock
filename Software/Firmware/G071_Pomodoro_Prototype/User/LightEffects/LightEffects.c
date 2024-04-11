@@ -120,25 +120,25 @@ void LightEffects_mapColorsToIdx(const LightEffects_Animation_e in_eAnimation, c
         RgbLed_setPixelColor(u8Idx, 0, 0, 0);
         break;
     case E_ANIMATION_WORK_TIME:
-        RgbLed_setPixelColor(u8Idx, 5, 0, 0);
+        RgbLed_setPixelColor(u8Idx, 50, 0, 0);
         break;
     case E_ANIMATION_BREAK_TIME:
-        RgbLed_setPixelColor(u8Idx, 0, 5, 0);
+        RgbLed_setPixelColor(u8Idx, 0, 50, 0);
         break;
     case E_ANIMATION_BREAK_TIME_BRIGHT:
         RgbLed_setPixelColor(u8Idx, 0, 100, 0);
         break;
     case E_ANIMATION_FLASHLIGHT:
-        RgbLed_setPixelColor(u8Idx, 100, 100, 100);
+        RgbLed_setPixelColor(u8Idx, 200, 200, 200);
         break;
     case E_ANIMATION_WARNING:
-        RgbLed_setPixelColor(u8Idx, 5, 5, 0);
+        RgbLed_setPixelColor(u8Idx, 50, 50, 0);
         break;
     case E_ANIMATION_CANCEL_SEQUENCE:
         RgbLed_setPixelColor(u8Idx, 100, 0, 200);
         break;
     case E_ANIMATION_SNOOZE:
-        RgbLed_setPixelColor(u8Idx, 0, 0, 100);
+        RgbLed_setPixelColor(u8Idx, 0, 0, 50);
         break;
     default:
         ASSERT_MSG(FALSE, "Unknown Animation Type");
@@ -410,14 +410,14 @@ void LightEffects_RenderScore(uint32_t in_u32ScoreInMinutes)
     uint32_t u32Hours = in_u32ScoreInMinutes / MINUTES_IN_HOUR;
 
     // Make sure that the calculated Hours do not exceed 16h
-    ASSERT_MSG(!(u32Hours > 16), "u32Hours is larger than 16, which cannot be displayed on only one ring");
+    ASSERT_MSG(!(u32Hours > NOF_LEDS_INNER_RING), "u32Hours is larger than 12, which cannot be displayed on only one ring");
 
     for (uint32_t i = START_INDEX_INNER_RING; i < START_INDEX_INNER_RING + u32Hours; i++)
     {
         // Make sure that the index does not exceed the total number of LEDs of the Inner Ring
         ASSERT_MSG(!(i >= (START_INDEX_INNER_RING + NOF_LEDS_INNER_RING)), "i is larger than the total number of LEDs of the Inner Ring: %d", i);
 
-        RgbLed_setPixelColor(i, 0, 0, 5);
+        RgbLed_setPixelColor(i, 0, 0, 50);
     }
 
     RgbLed_show();

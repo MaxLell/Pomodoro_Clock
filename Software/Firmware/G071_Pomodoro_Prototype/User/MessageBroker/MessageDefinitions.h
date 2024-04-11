@@ -18,13 +18,6 @@ typedef struct
   Event_e eEvent;
 } ButtonMessage_s;
 
-typedef struct
-{
-  uint32_t u32MinutePeriod;
-  uint32_t u32WatchdogPeriod;
-  uint32_t u32TimeoutPeriod;
-} ScoreTimeStamps_s;
-
 /*********************************************
  * Data structures for Tests
  *********************************************/
@@ -38,5 +31,12 @@ typedef struct
   uint16_t u16TimerPeriodWarningMs;
   uint16_t u16TimeOutPeriodMin;
 } TestData_0004_s;
+
+typedef struct
+{
+  uint32_t u32MinutePeriod;
+  uint32_t u32WatchdogPeriod;
+  uint32_t u32TimeoutPeriod;
+} TestData_0006_s;
 
 #endif // MESSAGE_DEFINITIONS_H

@@ -24,6 +24,7 @@ typedef enum
     MSG_0003, // Generic and obsolete Test Message
     MSG_0004, // Test Message for the Pomodoro Sequence
     MSG_0005, // Test Message for the Seeking Attention Module
+    MSG_0006, // Test Message for the Score Module
 
     // Button Messages
     MSG_0103, // Button Event
