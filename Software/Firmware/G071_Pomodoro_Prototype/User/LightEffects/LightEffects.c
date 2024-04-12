@@ -120,16 +120,16 @@ void LightEffects_mapColorsToIdx(const LightEffects_Animation_e in_eAnimation, c
         RgbLed_setPixelColor(u8Idx, 0, 0, 0);
         break;
     case E_ANIMATION_WORK_TIME:
-        RgbLed_setPixelColor(u8Idx, 50, 0, 0);
+        RgbLed_setPixelColor(u8Idx, 30, 0, 0);
         break;
     case E_ANIMATION_BREAK_TIME:
-        RgbLed_setPixelColor(u8Idx, 0, 50, 0);
+        RgbLed_setPixelColor(u8Idx, 0, 30, 0);
         break;
     case E_ANIMATION_BREAK_TIME_BRIGHT:
         RgbLed_setPixelColor(u8Idx, 0, 100, 0);
         break;
     case E_ANIMATION_FLASHLIGHT:
-        RgbLed_setPixelColor(u8Idx, 200, 200, 200);
+        RgbLed_setPixelColor(u8Idx, 100, 100, 100);
         break;
     case E_ANIMATION_WARNING:
         RgbLed_setPixelColor(u8Idx, 50, 50, 0);
@@ -308,15 +308,6 @@ void LightEffects_RenderRingCountdown(LightControl_RingCountdown_s *const psSelf
         }
     }
 
-    // Set all other entries to OFF
-    // for (uint8_t i = 0; i < TOTAL_MINUTES; i++)
-    // {
-    //     if (!(au8MinuteArray[i] == psSelf->eEffect))
-    //     {
-    //         au8MinuteArray[i] = E_ANIMATION_OFF;
-    //     }
-    // }
-
     // Compress the array
     uint8_t au8CompressedArrayRingMiddle[NOF_LEDS_MIDDLE_RING] = {0};
     uint8_t au8CompressedArrayRingOuter[NOF_LEDS_OUTER_RING] = {0};
@@ -409,17 +400,21 @@ void LightEffects_RenderScore(uint32_t in_u32ScoreInMinutes)
     // Calculate the hours from the Minutes
     uint32_t u32Hours = in_u32ScoreInMinutes / MINUTES_IN_HOUR;
 
-    // Make sure that the calculated Hours do not exceed 16h
-    ASSERT_MSG(!(u32Hours > NOF_LEDS_INNER_RING), "u32Hours is larger than 12, which cannot be displayed on only one ring");
-
-    for (uint32_t i = START_INDEX_INNER_RING; i < START_INDEX_INNER_RING + u32Hours; i++)
+    // when you work more then 12h - then it is capped at 12h, so that the LEDs are not overfilled
+    if (u32Hours <= NOF_LEDS_INNER_RING)
     {
-        // Make sure that the index does not exceed the total number of LEDs of the Inner Ring
-        ASSERT_MSG(!(i >= (START_INDEX_INNER_RING + NOF_LEDS_INNER_RING)), "i is larger than the total number of LEDs of the Inner Ring: %d", i);
-
-        RgbLed_setPixelColor(i, 0, 0, 50);
+        for (uint32_t i = START_INDEX_INNER_RING; i < START_INDEX_INNER_RING + u32Hours; i++)
+        {
+            RgbLed_setPixelColor(i, 0, 0, 50);
+        }
     }
-
+    else
+    {
+        for (uint32_t i = START_INDEX_INNER_RING; i < START_INDEX_INNER_RING + NOF_LEDS_INNER_RING; i++)
+        {
+            RgbLed_setPixelColor(i, 0, 0, 50);
+        }
+    }
     RgbLed_show();
 }
 
@@ -430,4 +425,20 @@ void LightEffects_ClearScore(void)
         RgbLed_setPixelColor(i, 0, 0, 0);
     }
     RgbLed_show();
+}
+
+void LightEffects_DisplayError(void)
+{
+    for (uint32_t i = 0; i < RGB_LED_TOTAL_LEDS; i++)
+    {
+        RgbLed_setPixelColor(i, 5, 0, 0);
+    }
+    RgbLed_show();
+    Delay_ms(500);
+    for (uint32_t i = 0; i < RGB_LED_TOTAL_LEDS; i++)
+    {
+        RgbLed_setPixelColor(i, 0, 0, 0);
+    }
+    RgbLed_show();
+    Delay_ms(500);
 }

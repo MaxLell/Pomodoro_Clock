@@ -53,6 +53,9 @@ typedef enum
     // Seeking Attention
     E_TEST_SEEKING_ATTENTION,
 
+    // Settings Test
+    E_TEST_SETTINGS,
+
     E_LAST_TEST
 } OnBoardTest_Test_e;
 
@@ -61,7 +64,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_CONTEXT_MGMT
+#define TEST_TO_RUN E_TEST_SETTINGS
 
 /************************************************************
  * Private Function Prototypes
@@ -89,6 +92,9 @@ void OnBoardTest_testBasicEncoder(void);
 // Seeking Attention
 void OnBoardTest_testSeekingAttention(void);
 
+// Settings Test
+void OnboardTest_testSettings(void);
+
 /************************************************************
  * Private Variables
  ************************************************************/
@@ -113,7 +119,10 @@ STATIC test_function_ptr test_functions[E_LAST_TEST] = {
     [E_TEST_BASIC_ENCODER] = OnBoardTest_testBasicEncoder,
 
     // Seeking Attention
-    [E_TEST_SEEKING_ATTENTION] = OnBoardTest_testSeekingAttention
+    [E_TEST_SEEKING_ATTENTION] = OnBoardTest_testSeekingAttention,
+
+    // Settings Test
+    [E_TEST_SETTINGS] = OnboardTest_testSettings
 
 };
 
@@ -738,8 +747,6 @@ void OnBoardTest_testContextMgmt(void)
         eStatus = MessageBroker_subscribe(MSG_0701, &OnBoardTest_testContextMgmtMsgCb);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
 
-        unused(eStatus); // Suppress the unused variable warning
-
         // Initialize the Context Management
         ContextManagement_init();
 
@@ -786,14 +793,15 @@ void OnBoardTest_testContextMgmt(void)
          */
         sMsg.eMsgId = MSG_0006;
         TestData_0006_s sScoreTimeStamps = {0};
-        sScoreTimeStamps.u32MinutePeriod = 60;
-        sScoreTimeStamps.u32TimeoutPeriod = 40000;
+        sScoreTimeStamps.u32MinutePeriod = 20;
+        sScoreTimeStamps.u32TimeoutPeriod = 20000;
         sScoreTimeStamps.u32WatchdogPeriod = 60000;
         sMsg.au8DataBytes = (uint8_t *)&sScoreTimeStamps;
         // eStatus = MessageBroker_publish(&sMsg);
         // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         unused(eStatus); // Suppress the unused variable warning
+        unused(sMsg);
     }
 
     // Run the Button execute function
@@ -812,8 +820,63 @@ void OnBoardTest_testContextMgmt(void)
     Score_execute();
 }
 
+status_e OnboardTest_SettingsTestMsgCb(const msg_t *const in_psMsg)
+{
+    // Input Checks
+    ASSERT_MSG(in_psMsg != NULL, "in_psMsg is NULL");
+
+    switch (in_psMsg->eMsgId)
+    {
+    case MSG_0103: // Button Message
+    {
+        log_info("Huhu");
+    }
+    break;
+
+    case MSG_0700: // Setting procedure start
+    {
+    }
+    break;
+
+    case MSG_0701: // Setting procedure finished
+    {
+    }
+    break;
+
+    default:
+    {
+        ASSERT_MSG(NULL, "Unknown Message ID: %d", in_psMsg->eMsgId);
+    }
+    }
+    return STATUS_OK;
+}
+
+void OnboardTest_testSettings(void)
+{
+    static BOOL bRanOnce = FALSE;
+    if (bRanOnce == FALSE)
+    {
+        printf("%s", "************************************************************\n");
+        printf("%s\n", "                 OnBoardTest_testSettings");
+        printf("%s", "************************************************************\n");
+
+        // Clear the flag
+        bRanOnce = TRUE;
+
+        // Subscribe to the Button Events
+        status_e eStatus = STATUS_ERROR;
+        eStatus = MessageBroker_subscribe(MSG_0103, &OnboardTest_SettingsTestMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        // Initialize the Button
+        Button_init();
+    }
+
+    Button_execute();
+}
+
 /************************************************************
- * Implementation
+ * Onboard Test module internal functions
  ************************************************************/
 
 void OnBoardTest_init(void)

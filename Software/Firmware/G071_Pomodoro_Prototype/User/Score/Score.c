@@ -141,6 +141,8 @@ void Score_init(void)
 
     // Reset the Daily Score
     u32TotalDailyScoreInMinutes = 0U;
+
+    unused(eStatus);
 }
 
 status_e Score_execute(void)
@@ -174,8 +176,6 @@ status_e Score_execute(void)
 
             // Stop the Watchdog Timer
             Countdown_stopTimer(&sWatchdogTimer);
-
-            log_info("Score Watchdog Timer Expired - Resetting Score");
         }
 
         if (E_COUNTDOWN_TIMER_EXPIRED == Countdown_getTimerStatus(&sTimeoutTimer))
@@ -185,8 +185,6 @@ status_e Score_execute(void)
 
             // Stop the Timeout Timer
             Countdown_stopTimer(&sTimeoutTimer);
-
-            log_info("Timeout Timer Expired - Disabling Score Indicator");
         }
     }
 
