@@ -102,6 +102,9 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
         // Reset the Watchdog and the Timout Timer
         Countdown_resetTimer(&sWatchdogTimer);
         Countdown_resetTimer(&sTimeoutTimer);
+
+        // Render the Minutes on the Inner Ring (Score) - otherwise it will only be shown after one minute passed
+        LightEffects_RenderScore(u32TotalDailyScoreInMinutes);
     }
     break;
 
