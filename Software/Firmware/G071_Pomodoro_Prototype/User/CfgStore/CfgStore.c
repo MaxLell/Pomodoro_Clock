@@ -4,14 +4,29 @@
 #include "MessageIDs.h"
 #include "MessageDefinitions.h"
 
-const uint8_t u8WorktimePeriodMin = 50;
-const uint8_t u8BreaktimePeriodMin = 10;
+typedef enum
+{
+    SETTING_25_5 = 0,
+    SETTING_50_10,
+    SETTING_90_15,
+    SETTING_LAST
+} PomodoroSettings_e;
+
+#define NOF_SETTINGS 3
+
+TimeCfg_s sPomodoroTimingCfgStore[NOF_SETTINGS] = {
+    [SETTING_25_5] = {.u8WorktimeMinutes = 25, .u8BreaktimeMinutes = 5},
+    [SETTING_50_10] = {.u8WorktimeMinutes = 50, .u8BreaktimeMinutes = 10},
+    [SETTING_90_15] = {.u8WorktimeMinutes = 90, .u8BreaktimeMinutes = 15}};
+
+STATIC PomodoroSettings_e eCurrentSetting = SETTING_25_5;
 
 /*********************************************
  * Implementation
  *********************************************/
 
-status_e CfgStore_MsgCallback(const msg_t *const in_sMsg)
+status_e
+CfgStore_MsgCallback(const msg_t *const in_sMsg)
 {
     switch (in_sMsg->eMsgId)
     {
@@ -20,8 +35,8 @@ status_e CfgStore_MsgCallback(const msg_t *const in_sMsg)
         // Publish the Pomodoro Configuration
         PomodoroPeriodConfiguration_s sPeriodCfg = {0};
         sPeriodCfg.bConfigWasUpdated = TRUE;
-        sPeriodCfg.u8MinutesWorktimePeriod = u8WorktimePeriodMin;
-        sPeriodCfg.u8MinutesBreaktimePeriod = u8BreaktimePeriodMin;
+        sPeriodCfg.u8MinutesWorktimePeriod = sPomodoroTimingCfgStore[eCurrentSetting].u8WorktimeMinutes;
+        sPeriodCfg.u8MinutesBreaktimePeriod = sPomodoroTimingCfgStore[eCurrentSetting].u8BreaktimeMinutes;
 
         msg_t sMsg = {0};
         sMsg.eMsgId = MSG_0400;

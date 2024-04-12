@@ -870,9 +870,29 @@ void OnboardTest_testSettings(void)
 
         // Initialize the Button
         Button_init();
-    }
 
+        // Initialize the Settings
+        Settings_init();
+
+        // Send out the Start Setting Procedure Message
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_0700;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+        // Initialize the Encoder
+        Encoder_init();
+
+        // Publish the Reset Encoder Value Message - Sets the current value to 0
+        sMsg.eMsgId = MSG_0600;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+    }
     Button_execute();
+
+    Encoder_execute();
+
+    Settings_execute();
 }
 
 /************************************************************

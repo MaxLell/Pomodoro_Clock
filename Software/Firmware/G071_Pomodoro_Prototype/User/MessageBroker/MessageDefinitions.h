@@ -18,6 +18,12 @@ typedef struct
   Event_e eEvent;
 } ButtonMessage_s;
 
+typedef struct
+{
+  uint8_t u8WorktimeMinutes;
+  uint8_t u8BreaktimeMinutes;
+} TimeCfg_s;
+
 /*********************************************
  * Data structures for Tests
  *********************************************/
