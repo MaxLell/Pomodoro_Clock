@@ -39,9 +39,11 @@ typedef enum
     // Real Time Clock Messages0101
     MSG_0300, // RTC: 1 Second Tick
 
-    // Configuration Messages
-    MSG_0400, // Pomodoro Configuration: Current Worktime and Breaktime Periods
+    // CfgStore Messages
+    MSG_0400, // Respond Current Worktime and Breaktime Periods of the active config
     MSG_0401, // Request Pomodoro Configuration
+    MSG_0402, // Request all Pomodoro Configurations
+    MSG_0403, // Respond all Pomodoro Configurations
 
     // Encoder
     MSG_0600, // Reset Encoder Value

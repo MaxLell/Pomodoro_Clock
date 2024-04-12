@@ -16,6 +16,7 @@
 #include "SeekingAttention.h"
 #include "ContextManagement.h"
 #include "CfgStore.h"
+#include "Settings.h"
 
 // Utility includes
 #include "FSM.h"
@@ -64,7 +65,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_SETTINGS
+#define TEST_TO_RUN E_TEST_BASIC_ENCODER
 
 /************************************************************
  * Private Function Prototypes
@@ -465,7 +466,7 @@ status_e OnboardTest_EncoderTestMsgCb(const msg_t *const in_psMsg)
                                   in_psMsg->au8DataBytes[2] << 16 | in_psMsg->au8DataBytes[3] << 24;
 
         // Print out the unsigned value of the score // Print an unsigned value
-        log_info("Encoder Value: %" PRIu32, s32EncoderValue);
+        log_info("Encoder Value: %d", (int)s32EncoderValue);
     }
     break;
 
@@ -829,17 +830,37 @@ status_e OnboardTest_SettingsTestMsgCb(const msg_t *const in_psMsg)
     {
     case MSG_0103: // Button Message
     {
-        log_info("Huhu");
+        ButtonMessage_s *psButtonMessage = (ButtonMessage_s *)in_psMsg->au8DataBytes;
+        if (psButtonMessage->eButton == E_BUTTON_TRIGGER)
+        {
+            if (psButtonMessage->eEvent == E_BTN_EVENT_SHORT_PRESSED)
+            {
+                // Publish the Request all Cfgs Message
+                msg_t sMsg = {0};
+                sMsg.eMsgId = MSG_0402;
+                status_e eStatus = MessageBroker_publish(&sMsg);
+                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+                unused(eStatus); // Suppress the unused variable warning
+
+                log_info("Requested all Configurations");
+            }
+        }
     }
     break;
 
-    case MSG_0700: // Setting procedure start
+    case MSG_0403: // All Configurations
     {
-    }
-    break;
+        // Print out all the configurations
+        TimeCfg_s *psTimeCfg = (TimeCfg_s *)in_psMsg->au8DataBytes;
+        uint8_t u8NofSettings = in_psMsg->u16DataSize / sizeof(TimeCfg_s);
 
-    case MSG_0701: // Setting procedure finished
-    {
+        for (uint8_t u8Setting = 0; u8Setting < u8NofSettings; u8Setting++)
+        {
+            log_info("Setting: %d, Worktime: %d, Breaktime: %d",
+                     u8Setting,
+                     psTimeCfg[u8Setting].u8WorktimeMinutes,
+                     psTimeCfg[u8Setting].u8BreaktimeMinutes);
+        }
     }
     break;
 
@@ -868,11 +889,21 @@ void OnboardTest_testSettings(void)
         eStatus = MessageBroker_subscribe(MSG_0103, &OnboardTest_SettingsTestMsgCb);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
 
+        // Subscribe to the Request Pomodoro Configuration Message
+        eStatus = MessageBroker_subscribe(MSG_0403, &OnboardTest_SettingsTestMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
         // Initialize the Button
         Button_init();
 
         // Initialize the Settings
         Settings_init();
+
+        // Initialize the CfgStore
+        CfgStore_init();
+
+        // Initialize the Encoder
+        Encoder_init();
 
         // Send out the Start Setting Procedure Message
         msg_t sMsg = {0};
@@ -880,19 +911,16 @@ void OnboardTest_testSettings(void)
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
-        // Initialize the Encoder
-        Encoder_init();
-
         // Publish the Reset Encoder Value Message - Sets the current value to 0
         sMsg.eMsgId = MSG_0600;
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
     }
+
     Button_execute();
-
     Encoder_execute();
-
     Settings_execute();
+    CfgStore_execute();
 }
 
 /************************************************************
