@@ -518,9 +518,6 @@ void OnBoardTest_testBasicEncoder(void)
 
     // Run the Button execute function
     Button_execute();
-
-    // Wait for 100 msec
-    Delay_ms(100);
 }
 
 status_e OnBoardTest_testSeekingAttentionMsgCb(const msg_t *const in_psMsg)

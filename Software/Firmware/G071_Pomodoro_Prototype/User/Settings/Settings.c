@@ -5,11 +5,12 @@
 
 STATIC TimeCfg_s *psTimeCfg = NULL;
 STATIC uint8_t u8NofSettings = 0;
+STATIC int32_t s32EncoderValue = 0;
 
 status_e
-Settings_MsgCallback(const msg_t *const in_sMsg)
+Settings_MsgCallback(const msg_t *const in_psMsg)
 {
-    switch (in_sMsg->eMsgId)
+    switch (in_psMsg->eMsgId)
     {
     case MSG_0700: // Start Settings Message
     {
@@ -25,10 +26,17 @@ Settings_MsgCallback(const msg_t *const in_sMsg)
     case MSG_0403:
     {
         // Receive all Pomodoro Configurations
-        psTimeCfg = (TimeCfg_s *)in_sMsg->au8DataBytes;
-        u8NofSettings = in_sMsg->u16DataSize / sizeof(TimeCfg_s);
+        psTimeCfg = (TimeCfg_s *)in_psMsg->au8DataBytes;
+        u8NofSettings = in_psMsg->u16DataSize / sizeof(TimeCfg_s);
     }
     break;
+
+    case MSG_0601:
+    {
+        // Encoder Value Changed - parse the current value from the Encoder
+        s32EncoderValue = in_psMsg->au8DataBytes[0] << 0 | in_psMsg->au8DataBytes[1] << 8 |
+                          in_psMsg->au8DataBytes[2] << 16 | in_psMsg->au8DataBytes[3] << 24;
+    }
 
     default:
         break;
@@ -48,9 +56,12 @@ void Settings_init(void)
     eStatus = MessageBroker_subscribe(MSG_0403, Settings_MsgCallback);
     ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to subscribe to MSG_0403");
 
-    // Publish the Reset Encoder Message
+    // Subscribe to the Encoder Value Changed Message
+    eStatus = MessageBroker_subscribe(MSG_0601, Settings_MsgCallback);
+    ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to subscribe to MSG_0601");
 }
 
 void Settings_execute(void)
 {
+    //
 }
