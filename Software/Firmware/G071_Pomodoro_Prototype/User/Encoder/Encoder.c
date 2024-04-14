@@ -4,7 +4,7 @@
 #include "CountdownTimer.h"
 
 STATIC timer_t sTimer;
-STATIC const uint32_t INTERVAL_MSEC = 200;
+STATIC const uint32_t INTERVAL_MSEC = 50;
 
 status_e Encoder_messageCallback(const msg_t *const in_psMsg)
 {

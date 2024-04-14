@@ -216,7 +216,7 @@ STATIC const FSM_StateActionCb aStateActions[] = {
  * contains a couple of const members.
  */
 
-FSM_Config_t sFsmConfig = {
+STATIC FSM_Config_t sFsmConfig = {
 
     .NUMBER_OF_STATES = STATE_LAST,
     .NUMBER_OF_EVENTS = EVENT_LAST,
@@ -604,6 +604,7 @@ void PomodoroControl_getMinuteArray(PCTRL_Progress_t *const inout_sSelf)
         ASSERT_MSG(!(inout_sSelf->u8Breaktime > MINUTES_IN_HOUR), "Breaktime is bigger then 60, Breaktime is %d", inout_sSelf->u8Breaktime);
     }
 
+    // Just for extra safety to make sure that the original config is not changed
     uint8_t u8LocalCopyWortime = inout_sSelf->u8Worktime;
     uint8_t u8LocalCopyBreaktime = inout_sSelf->u8Breaktime;
 

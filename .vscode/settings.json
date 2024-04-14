@@ -2,6 +2,7 @@
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_fallbackStyle": "Microsoft",
     "files.associations": {
-        "button_datatypes.h": "c"
+        "button_datatypes.h": "c",
+        "cfgstore_datatypes.h": "c"
     }
 }

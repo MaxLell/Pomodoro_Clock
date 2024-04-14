@@ -40,10 +40,12 @@ typedef enum
     MSG_0300, // RTC: 1 Second Tick
 
     // CfgStore Messages
-    MSG_0400, // Respond Current Worktime and Breaktime Periods of the active config
-    MSG_0401, // Request Pomodoro Configuration
-    MSG_0402, // Request all Pomodoro Configurations
-    MSG_0403, // Respond all Pomodoro Configurations
+    MSG_0400, // POST Current Pomodoro Configuration (Worktime, Breaktime) - Response
+    MSG_0401, // GET Current Pomodoro Configuration (Worktime, Breaktime) - Request
+    MSG_0402, // GET all Pomodoro Configurations (Array of Configuration) - Request
+    MSG_0403, // POST all Pomodoro Configurations (Array of Configuration) - Response
+    MSG_0404, // POST current Pomodoro Configuration (Index of the selected Cfg in the Array of Configuration)
+    MSG_0405, // GET current Pomodoro Configuration (Index of the selected Cfg in the Array of Configuration)
 
     // Encoder
     MSG_0600, // Reset Encoder Value

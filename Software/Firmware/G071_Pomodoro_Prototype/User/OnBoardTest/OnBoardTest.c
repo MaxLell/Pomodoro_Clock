@@ -65,7 +65,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_BASIC_ENCODER
+#define TEST_TO_RUN E_TEST_CONTEXT_MGMT
 
 /************************************************************
  * Private Function Prototypes
@@ -764,16 +764,16 @@ void OnBoardTest_testContextMgmt(void)
          * Test Message for the Pomodoro Sequence
          * Comment out for regular operation
          */
-        msg_t sMsg = {0};
-        sMsg.eMsgId = MSG_0004;
-        TestData_0004_s sTimingCfg = {0};
-        sTimingCfg.u16TimeOutPeriodMin = 100;
-        sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
-        sTimingCfg.u16TimerPeriodSnoozeMs = 50;
-        sTimingCfg.u16TimerPeriodWarningMs = 30;
-        sTimingCfg.u16TimerPeriodSec = 30;
-        sTimingCfg.u16TimerPeriodMin = 60;
-        sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
+        // msg_t sMsg = {0};
+        // sMsg.eMsgId = MSG_0004;
+        // TestData_0004_s sTimingCfg = {0};
+        // sTimingCfg.u16TimeOutPeriodMin = 100;
+        // sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
+        // sTimingCfg.u16TimerPeriodSnoozeMs = 50;
+        // sTimingCfg.u16TimerPeriodWarningMs = 30;
+        // sTimingCfg.u16TimerPeriodSec = 30;
+        // sTimingCfg.u16TimerPeriodMin = 60;
+        // sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
         // eStatus = MessageBroker_publish(&sMsg);
         // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
@@ -781,7 +781,7 @@ void OnBoardTest_testContextMgmt(void)
          * Test Message for the Seeking Attention Module
          * Comment out for regular operation
          */
-        sMsg.eMsgId = MSG_0005;
+        // sMsg.eMsgId = MSG_0005;
         // eStatus = MessageBroker_publish(&sMsg);
         // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
@@ -789,17 +789,17 @@ void OnBoardTest_testContextMgmt(void)
          * Test Message for the Score Module
          * Comment out for regular operation
          */
-        sMsg.eMsgId = MSG_0006;
-        TestData_0006_s sScoreTimeStamps = {0};
-        sScoreTimeStamps.u32MinutePeriod = 20;
-        sScoreTimeStamps.u32TimeoutPeriod = 20000;
-        sScoreTimeStamps.u32WatchdogPeriod = 60000;
-        sMsg.au8DataBytes = (uint8_t *)&sScoreTimeStamps;
+        // sMsg.eMsgId = MSG_0006;
+        // TestData_0006_s sScoreTimeStamps = {0};
+        // sScoreTimeStamps.u32MinutePeriod = 20;
+        // sScoreTimeStamps.u32TimeoutPeriod = 20000;
+        // sScoreTimeStamps.u32WatchdogPeriod = 60000;
+        // sMsg.au8DataBytes = (uint8_t *)&sScoreTimeStamps;
         // eStatus = MessageBroker_publish(&sMsg);
         // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
+        // unused(sMsg);
         unused(eStatus); // Suppress the unused variable warning
-        unused(sMsg);
     }
 
     // Run the Button execute function
@@ -832,14 +832,6 @@ status_e OnboardTest_SettingsTestMsgCb(const msg_t *const in_psMsg)
         {
             if (psButtonMessage->eEvent == E_BTN_EVENT_SHORT_PRESSED)
             {
-                // Publish the Request all Cfgs Message
-                msg_t sMsg = {0};
-                sMsg.eMsgId = MSG_0402;
-                status_e eStatus = MessageBroker_publish(&sMsg);
-                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
-                unused(eStatus); // Suppress the unused variable warning
-
-                log_info("Requested all Configurations");
             }
         }
     }
@@ -847,19 +839,15 @@ status_e OnboardTest_SettingsTestMsgCb(const msg_t *const in_psMsg)
 
     case MSG_0403: // All Configurations
     {
-        // Print out all the configurations
-        TimeCfg_s *psTimeCfg = (TimeCfg_s *)in_psMsg->au8DataBytes;
-        uint8_t u8NofSettings = in_psMsg->u16DataSize / sizeof(TimeCfg_s);
-
-        for (uint8_t u8Setting = 0; u8Setting < u8NofSettings; u8Setting++)
-        {
-            log_info("Setting: %d, Worktime: %d, Breaktime: %d",
-                     u8Setting,
-                     psTimeCfg[u8Setting].u8WorktimeMinutes,
-                     psTimeCfg[u8Setting].u8BreaktimeMinutes);
-        }
     }
     break;
+
+    case MSG_0404: // POST Configuration
+    {
+        // Print out the current configuration
+        uint8_t u8CurrentSetting = in_psMsg->au8DataBytes[0];
+        log_info("Current Setting: %d", u8CurrentSetting);
+    }
 
     default:
     {
@@ -888,6 +876,10 @@ void OnboardTest_testSettings(void)
 
         // Subscribe to the Request Pomodoro Configuration Message
         eStatus = MessageBroker_subscribe(MSG_0403, &OnboardTest_SettingsTestMsgCb);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
+
+        // Subscribe to the POST current Pomodoro Configuration Message
+        eStatus = MessageBroker_subscribe(MSG_0404, &OnboardTest_SettingsTestMsgCb);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
 
         // Initialize the Button
