@@ -65,7 +65,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_CONTEXT_MGMT
+#define TEST_TO_RUN E_TEST_SETTINGS
 
 /************************************************************
  * Private Function Prototypes
@@ -832,22 +832,23 @@ status_e OnboardTest_SettingsTestMsgCb(const msg_t *const in_psMsg)
         {
             if (psButtonMessage->eEvent == E_BTN_EVENT_SHORT_PRESSED)
             {
+                // Get the current Pomodoro Configuration (0401)
+                msg_t sMsg = {0};
+                sMsg.eMsgId = MSG_0401;
+                status_e eStatus = MessageBroker_publish(&sMsg);
+                ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+                unused(eStatus); // Suppress the unused variable warning
             }
         }
     }
     break;
 
-    case MSG_0403: // All Configurations
+    case MSG_0400: // Pomodoro Configuration Message
     {
+        PomodoroPeriodConfiguration_s *psPomodoroConfiguration = (PomodoroPeriodConfiguration_s *)in_psMsg->au8DataBytes;
+        log_info("Worktime: %d, Breaktime: %d", psPomodoroConfiguration->u8MinutesWorktimePeriod, psPomodoroConfiguration->u8MinutesBreaktimePeriod);
     }
     break;
-
-    case MSG_0404: // POST Configuration
-    {
-        // Print out the current configuration
-        uint8_t u8CurrentSetting = in_psMsg->au8DataBytes[0];
-        log_info("Current Setting: %d", u8CurrentSetting);
-    }
 
     default:
     {
@@ -874,12 +875,8 @@ void OnboardTest_testSettings(void)
         eStatus = MessageBroker_subscribe(MSG_0103, &OnboardTest_SettingsTestMsgCb);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
 
-        // Subscribe to the Request Pomodoro Configuration Message
-        eStatus = MessageBroker_subscribe(MSG_0403, &OnboardTest_SettingsTestMsgCb);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
-
-        // Subscribe to the POST current Pomodoro Configuration Message
-        eStatus = MessageBroker_subscribe(MSG_0404, &OnboardTest_SettingsTestMsgCb);
+        // Subscribe to the Pomodoro Configuration Message
+        eStatus = MessageBroker_subscribe(MSG_0400, &OnboardTest_SettingsTestMsgCb);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_subscribe failed");
 
         // Initialize the Button
@@ -897,11 +894,6 @@ void OnboardTest_testSettings(void)
         // Send out the Start Setting Procedure Message
         msg_t sMsg = {0};
         sMsg.eMsgId = MSG_0700;
-        eStatus = MessageBroker_publish(&sMsg);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
-
-        // Publish the Reset Encoder Value Message - Sets the current value to 0
-        sMsg.eMsgId = MSG_0600;
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
     }

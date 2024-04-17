@@ -11,7 +11,7 @@ static const TimeCfg_s sPomodoroTimingCfgStore[NOF_SETTINGS] = {
     [CFG_50_10] = {.u8WorktimeMinutes = 50, .u8BreaktimeMinutes = 10},
     [CFG_90_15] = {.u8WorktimeMinutes = 90, .u8BreaktimeMinutes = 15}};
 
-STATIC PomodoroCfgSetting_e eCurrentSetting = CFG_90_15;
+STATIC PomodoroCfgSetting_e eCurrentSetting = CFG_50_10;
 
 /*********************************************
  * Implementation
@@ -51,6 +51,13 @@ CfgStore_MsgCallback(const msg_t *const in_sMsg)
     }
     break;
 
+    case MSG_0404:
+    {
+        // Set the current Pomodoro Configuration
+        eCurrentSetting = *(PomodoroCfgSetting_e *)in_sMsg->au8DataBytes;
+    }
+    break;
+
     case MSG_0405:
     {
         // Publish the current Pomodoro Configuration
@@ -60,10 +67,10 @@ CfgStore_MsgCallback(const msg_t *const in_sMsg)
         status_e eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
     }
+    break;
 
     default:
         ASSERT_MSG(0, "Unknown Message ID: %d", in_sMsg->eMsgId);
-        break;
     }
     return STATUS_OK;
 }
@@ -81,6 +88,10 @@ void CfgStore_init(void)
 
     // Subscribe to Get Current Setting
     eStatus = MessageBroker_subscribe(MSG_0405, CfgStore_MsgCallback);
+    ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to subscribe");
+
+    // Subscribe to Set Current Setting
+    eStatus = MessageBroker_subscribe(MSG_0404, CfgStore_MsgCallback);
     ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to subscribe");
 
     unused(eStatus); // To avoid compiler warning

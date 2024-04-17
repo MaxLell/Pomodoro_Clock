@@ -103,7 +103,7 @@ STATIC const uint16_t Settings_transitionMatrix[SETTING_STATE_LAST][SETTING_EVEN
         [SETTING_EVENT_TRIGGERED] = SETTING_STATE_CLEAN_UP,
         [SETTING_EVENT_INIT_COMPLETE] = SETTING_STATE_CLEAN_UP,
         [SETTING_EVENT_SETTING_SELECTED] = SETTING_STATE_CLEAN_UP,
-        [SETTING_EVENT_SETTING_CLEANED_UP] = SETTING_STATE_INIT,
+        [SETTING_EVENT_SETTING_CLEANED_UP] = SETTING_STATE_IDLE,
     }};
 
 // Generate the FSM Configuration
@@ -112,7 +112,7 @@ STATIC FSM_Config_t sSettingsFsmConfig = {
     .NUMBER_OF_EVENTS = SETTING_EVENT_LAST,
     .au16TransitionMatrix = (const uint16_t *)Settings_transitionMatrix,
     .asStateActions = (const FSM_StateActionCb *)aStateActions,
-    .u16CurrentState = SETTING_STATE_INIT,
+    .u16CurrentState = SETTING_STATE_IDLE,
     .u16CurrentEvent = SETTING_EVENT_SETTING_CLEANED_UP,
 };
 
@@ -124,7 +124,7 @@ void Settings_IdleStateFunction(void)
 
 void Settings_InitStateFunction(void)
 {
-
+    log_info("Settings_InitStateFunction");
     msg_t sMsg = {0};
     status_e eStatus;
 
@@ -136,6 +136,8 @@ void Settings_InitStateFunction(void)
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         sInternalState.bCfgStoreRequested = TRUE;
+
+        log_info("Requesting CfgStore");
     }
 
     // Wait for the CfgStore to be received - do not move forward
@@ -143,6 +145,8 @@ void Settings_InitStateFunction(void)
     {
         return;
     }
+
+    log_info("CfgStore Received");
 
     // GET Currently Selected Setting (Index) for the CfgStore
     if (!sInternalState.bCfgCurrentSettingRequested)
@@ -152,6 +156,8 @@ void Settings_InitStateFunction(void)
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         sInternalState.bCfgCurrentSettingRequested = TRUE;
+
+        log_info("Requesting Current Setting");
     }
 
     // Wait for the Currently selected Index of the CfgStore
@@ -159,11 +165,14 @@ void Settings_InitStateFunction(void)
     {
         return;
     }
+    log_info("Current Setting Received");
 
     // Reset the Encoder
     sMsg.eMsgId = MSG_0600;
     eStatus = MessageBroker_publish(&sMsg);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+    log_info("Encoder is reset");
 
     // Start the Timer for the toggling Animation of the Progress LED Rings
     Countdown_resetAndStartTimer(&sAnimationTimer);
@@ -173,6 +182,13 @@ void Settings_InitStateFunction(void)
 }
 void Settings_SelectSettingStateFunction(void)
 {
+    static BOOL bRunOnce = TRUE;
+    if (bRunOnce)
+    {
+        log_info("Settings_SelectSettingStateFunction");
+        bRunOnce = FALSE;
+    }
+
     // Determine Setting to render from the current Rotary Encoder Position
     u8CurrentSetting = Settings_getCurrentSettingFromEncoder(s32EncoderValue);
 
@@ -193,6 +209,8 @@ void Settings_SelectSettingStateFunction(void)
             // Clear the Progress Rings
             LightEffects_ClearPomodoroProgressRings();
         }
+
+        bToggleNow = !bToggleNow;
     }
 
     // Transition: When the Rotary Encoder Button was pressed
@@ -204,6 +222,8 @@ void Settings_SelectSettingStateFunction(void)
 }
 void Settings_CleanUpStateFunction(void)
 {
+    log_info("Settings_CleanUpStateFunction");
+
     status_e eStatus;
     msg_t sMsg = {0};
 
@@ -241,7 +261,7 @@ void Settings_getMinuteArray(const TimeCfg_s *const in_psTimeCfg, uint8_t *const
         // Make sure that the provided TimeCfg_s is valid
         ASSERT_MSG(!(in_psTimeCfg->u8WorktimeMinutes == 0), "Worktime is 0");
         ASSERT_MSG(!(in_psTimeCfg->u8BreaktimeMinutes == 0), "Breaktime is 0");
-        ASSERT_MSG(!(in_psTimeCfg->u8WorktimeMinutes + in_psTimeCfg->u8BreaktimeMinutes != TOTAL_MINUTES), "Worktime + Breaktime != TOTAL_MINUTES");
+        ASSERT_MSG(!(in_psTimeCfg->u8WorktimeMinutes + in_psTimeCfg->u8BreaktimeMinutes >= TOTAL_MINUTES), "Worktime + Breaktime >= TOTAL_MINUTES");
     }
 
     int8_t i8CurrentWorktime = in_psTimeCfg->u8WorktimeMinutes;
@@ -317,6 +337,7 @@ status_e Settings_MsgCallback(const msg_t *const in_psMsg)
             if (sButtonMessage.eEvent == E_BTN_EVENT_SHORT_PRESSED)
             {
                 sInternalState.bRotaryEncoderButtonPressed = TRUE;
+                log_info("Rotary Encoder Button Short Pressed");
             }
         }
     }
@@ -333,6 +354,7 @@ status_e Settings_MsgCallback(const msg_t *const in_psMsg)
         for (uint8_t i = 0; i < u8NofSettings; i++)
         {
             sTimeCfg[i] = psTmpTimeCfg[i];
+            log_info("Setting %d: Worktime: %d, Breaktime: %d", i, sTimeCfg[i].u8WorktimeMinutes, sTimeCfg[i].u8BreaktimeMinutes);
         }
 
         sInternalState.bCfgStoreReceived = TRUE;
@@ -344,6 +366,7 @@ status_e Settings_MsgCallback(const msg_t *const in_psMsg)
         // Receive the current selected Configuration
         u8CurrentSetting = in_psMsg->au8DataBytes[0];
         sInternalState.bCfgCurrentSettingReceived = TRUE;
+        log_info("Current Setting Index: %d", u8CurrentSetting);
     }
 
     case MSG_0601:
@@ -360,6 +383,7 @@ status_e Settings_MsgCallback(const msg_t *const in_psMsg)
     {
         // Transition: Trigger the Settings FSM
         FSM_setTriggerEvent(&sSettingsFsmConfig, SETTING_EVENT_TRIGGERED);
+        log_info("Settings procedure started");
     }
     break;
 
@@ -376,15 +400,15 @@ uint8_t Settings_getCurrentSettingFromEncoder(int32_t s32CurrentEncoderValue)
     uint8_t u8ReturnValue = 0;
     if (s32CurrentEncoderValue % 3 == 0)
     {
-        u8ReturnValue = 1;
+        u8ReturnValue = 0;
     }
     else if (s32CurrentEncoderValue % 2 == 0)
     {
-        u8ReturnValue = 2;
+        u8ReturnValue = 1;
     }
     else if (s32CurrentEncoderValue % 1 == 0)
     {
-        u8ReturnValue = 3;
+        u8ReturnValue = 2;
     }
     return u8ReturnValue;
 }
