@@ -182,7 +182,7 @@ void LightEffects_RenderMiddleAndOuterRings(const uint8_t *const in_au8MiddleRin
 
     RgbLed_show();
 
-    Delay_ms(10); // TODO: Fix the Bug, which makes it necessary to wait here
+    RgbLed_show();
 }
 
 void LightEffects_ClearPomodoroProgressRings(void)

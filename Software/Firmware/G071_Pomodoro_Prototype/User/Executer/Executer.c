@@ -9,6 +9,8 @@
 #include "PomodoroControl.h"
 #include "CfgStore.h"
 #include "Score.h"
+#include "Settings.h"
+#include "Encoder.h"
 
 STATIC BOOL bAreOnboardTestsRunning = FALSE;
 
@@ -24,15 +26,29 @@ void Executer_init(void)
     }
     else
     {
+        printf("%s\n", "############################################################");
+        printf("%s\n", "--                 Nominal Behaviour                      --");
+        printf("%s\n", "############################################################");
+
         MessageBroker_init();
-        // Add in the modules here
+
+        Button_init();
+
+        ContextManagement_init();
+
+        SeekingAttention_init();
+
+        PomodoroControl_init();
+
+        Score_init();
 
         CfgStore_init();
-        Button_init();
-        ContextManagement_init();
-        SeekingAttention_init();
-        PomodoroControl_init();
-        Score_init();
+
+        Settings_init();
+
+        Encoder_init();
+
+        log_info("Init Complete");
     }
 }
 
@@ -49,12 +65,13 @@ status_e Executer_execute(void)
     {
         // Add in the modules here
         Button_execute();
-
-        CfgStore_execute();
         ContextManagement_execute();
         SeekingAttention_execute();
         PomodoroControl_execute();
         Score_execute();
+        CfgStore_execute();
+        Encoder_execute();
+        Settings_execute();
     }
     return STATUS_OK;
 }

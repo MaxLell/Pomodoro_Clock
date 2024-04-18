@@ -4,11 +4,11 @@
 #include "MessageIDs.h"
 #include "MessageDefinitions.h"
 
-#define NOF_SETTINGS 3
-
-static const TimeCfg_s sPomodoroTimingCfgStore[NOF_SETTINGS] = {
+static const TimeCfg_s sPomodoroTimingCfgStore[CFG_LAST] = {
+    [CFG_1_1] = {.u8WorktimeMinutes = 1, .u8BreaktimeMinutes = 1},
     [CFG_25_5] = {.u8WorktimeMinutes = 25, .u8BreaktimeMinutes = 5},
     [CFG_50_10] = {.u8WorktimeMinutes = 50, .u8BreaktimeMinutes = 10},
+    [CFG_52_17] = {.u8WorktimeMinutes = 52, .u8BreaktimeMinutes = 17},
     [CFG_90_15] = {.u8WorktimeMinutes = 90, .u8BreaktimeMinutes = 15}};
 
 STATIC PomodoroCfgSetting_e eCurrentSetting = CFG_50_10;

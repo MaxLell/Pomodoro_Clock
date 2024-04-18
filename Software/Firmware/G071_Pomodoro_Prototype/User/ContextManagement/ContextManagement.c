@@ -114,56 +114,59 @@ STATIC void ContextManagement_IdleStateFunction(void)
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to publish MSG_0901");
 
-        if (TRUE == bSeekingAttentionIsFinished)
+        if (FALSE == bSeekingAttentionIsFinished)
         {
-            if (E_BUTTON_TRIGGER == sButtonMessage.eButton)
-            {
-                // reset the RunOnce Flag
-                bRunOnce = FALSE;
+            return;
+        }
 
-                // Reset the BTN back to invalid
-                sButtonMessage.eButton = E_BUTTON_INVALID;
-                sButtonMessage.eEvent = E_BTN_EVENT_INVALID;
+        if (E_BUTTON_TRIGGER == sButtonMessage.eButton)
+        {
+            // reset the RunOnce Flag
+            bRunOnce = FALSE;
 
-                // Reset the Seeking Attention Finished Flag
-                bSeekingAttentionIsFinished = FALSE;
+            // Reset the BTN back to invalid
+            sButtonMessage.eButton = E_BUTTON_INVALID;
+            sButtonMessage.eEvent = E_BTN_EVENT_INVALID;
 
-                // Send out the Start Pomodoro Message
-                sMsg.eMsgId = MSG_0200;
-                eStatus = MessageBroker_publish(&sMsg);
-                ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to publish MSG_0200");
+            // Reset the Seeking Attention Finished Flag
+            bSeekingAttentionIsFinished = FALSE;
 
-                // Set the Trigger Event to EVENT_BUTTON_TRIGGER_BTN_PRESSED
-                FSM_setTriggerEvent(&sContextManagementFsmConfig, EVENT_BUTTON_TRIGGER_BTN_PRESSED);
-            }
-            else if (E_BUTTON_ENCODER == sButtonMessage.eButton)
-            {
-                // reset the RunOnce Flag
-                bRunOnce = FALSE;
+            // Send out the Start Pomodoro Message
+            sMsg.eMsgId = MSG_0200;
+            eStatus = MessageBroker_publish(&sMsg);
+            ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to publish MSG_0200");
 
-                // Reset the BTN back to invalid
-                sButtonMessage.eButton = E_BUTTON_INVALID;
-                sButtonMessage.eEvent = E_BTN_EVENT_INVALID;
+            // Set the Trigger Event to EVENT_BUTTON_TRIGGER_BTN_PRESSED
+            FSM_setTriggerEvent(&sContextManagementFsmConfig, EVENT_BUTTON_TRIGGER_BTN_PRESSED);
+        }
+        else if (E_BUTTON_ENCODER == sButtonMessage.eButton)
+        {
+            // reset the RunOnce Flag
+            bRunOnce = FALSE;
 
-                // Reset the Seeking Attention Finished Flag
-                bSeekingAttentionIsFinished = FALSE;
+            // Reset the BTN back to invalid
+            sButtonMessage.eButton = E_BUTTON_INVALID;
+            sButtonMessage.eEvent = E_BTN_EVENT_INVALID;
 
-                // Send out the Start Setting Message
-                sMsg.eMsgId = MSG_0700;
-                eStatus = MessageBroker_publish(&sMsg);
-                ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to publish MSG_0700");
+            // Reset the Seeking Attention Finished Flag
+            bSeekingAttentionIsFinished = FALSE;
 
-                // Set the Trigger Event to EVENT_ROTATY_ENCODER_BTN_PRESSED
-                FSM_setTriggerEvent(&sContextManagementFsmConfig, EVENT_ROTATY_ENCODER_BTN_PRESSED);
-            }
-            else
-            {
-                // This must never happen
-                ASSERT_MSG(FALSE, "Invalid Button Type: %d, Event Type: %d", sButtonMessage.eButton, sButtonMessage.eEvent);
-            }
+            // Send out the Start Setting Message
+            sMsg.eMsgId = MSG_0700;
+            eStatus = MessageBroker_publish(&sMsg);
+            ASSERT_MSG(!(eStatus != STATUS_OK), "Failed to publish MSG_0700");
+
+            // Set the Trigger Event to EVENT_ROTATY_ENCODER_BTN_PRESSED
+            FSM_setTriggerEvent(&sContextManagementFsmConfig, EVENT_ROTATY_ENCODER_BTN_PRESSED);
+        }
+        else
+        {
+            // This must never happen
+            ASSERT_MSG(FALSE, "Invalid Button Type: %d, Event Type: %d", sButtonMessage.eButton, sButtonMessage.eEvent);
         }
     }
     unused(eStatus);
+    return;
 }
 
 STATIC void ContextManagement_PomodoroStateFunction(void)
@@ -203,18 +206,21 @@ status_e ContextManagement_MsgCallback(const msg_t *const in_sMsg)
 
     case MSG_0902:
     {
+        log_info("Seeking Attention Finished");
         bSeekingAttentionIsFinished = TRUE;
     }
     break;
 
     case MSG_0204:
     {
+        log_info("Pomodoro Complete");
         FSM_setTriggerEvent(&sContextManagementFsmConfig, EVENT_POMODORO_COMPLETE);
     }
     break;
 
     case MSG_0701:
     {
+        log_info("Setting Complete");
         FSM_setTriggerEvent(&sContextManagementFsmConfig, EVENT_SETTING_COMPLETE);
     }
     break;

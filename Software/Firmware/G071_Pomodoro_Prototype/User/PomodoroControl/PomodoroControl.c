@@ -9,6 +9,7 @@
 #include "PomodoroControl_Datatypes.h"
 #include "RgbLed.h"
 #include "RgbLed_Config.h"
+#include "Delay.h"
 
 /********************************************************
  * Private Defines
@@ -772,6 +773,14 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
     {
     case MSG_0200: // Pomodoro Sequence Start Event
     {
+        /**
+         * Keep this log statement in here. The reason being that the current
+         * implementation requires the small delay which is introduced by the statement
+         * to properly render the RgbLeds.
+         * It is not pretty but for the moment works, until a better solution is found.
+         * (Basically the RGBLED driver needs to be rewritten).
+         */
+        log_info("Pomodoro Sequence Start Event received - On we go");
         FSM_setTriggerEvent(&sFsmConfig, EVENT_POMODORO_SEQUENCE_START);
     }
     break;

@@ -151,6 +151,8 @@ void RgbLed_HardwareTest_DrawSpinningCircle()
     u8LedIndex++;
 
     HAL_Delay(30);
+
+    RgbLed_show();
   }
 }
 

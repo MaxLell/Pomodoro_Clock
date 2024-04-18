@@ -25,7 +25,7 @@ typedef struct
  * Private Variables
  ********************************************************/
 
-STATIC TimeCfg_s sTimeCfg[MAX_CFGS] = {0};
+STATIC TimeCfg_s sTimeCfg[CFG_LAST] = {0};
 STATIC uint8_t u8NofSettings = 3;
 STATIC const uint32_t TOGGLE_INTERVAL_MS = 200;
 STATIC uint8_t u8CurrentSetting = 0;
@@ -174,6 +174,9 @@ void Settings_InitStateFunction(void)
 
     log_info("Encoder is reset");
 
+    // Reset the Encoder's Button State
+    sInternalState.bRotaryEncoderButtonPressed = FALSE;
+
     // Start the Timer for the toggling Animation of the Progress LED Rings
     Countdown_resetAndStartTimer(&sAnimationTimer);
 
@@ -223,7 +226,6 @@ void Settings_SelectSettingStateFunction(void)
 void Settings_CleanUpStateFunction(void)
 {
     log_info("Settings_CleanUpStateFunction");
-
     status_e eStatus;
     msg_t sMsg = {0};
 
@@ -241,6 +243,14 @@ void Settings_CleanUpStateFunction(void)
 
     // Reset the Encoder
     sMsg.eMsgId = MSG_0600;
+    eStatus = MessageBroker_publish(&sMsg);
+    ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+
+    // Reset the Encoder's Button State
+    sInternalState.bRotaryEncoderButtonPressed = FALSE;
+
+    // Publish the Setting Complete Message
+    sMsg.eMsgId = MSG_0701;
     eStatus = MessageBroker_publish(&sMsg);
     ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
@@ -398,17 +408,12 @@ status_e Settings_MsgCallback(const msg_t *const in_psMsg)
 uint8_t Settings_getCurrentSettingFromEncoder(int32_t s32CurrentEncoderValue)
 {
     uint8_t u8ReturnValue = 0;
-    if (s32CurrentEncoderValue % 3 == 0)
+    for (int i = 1; i <= CFG_LAST; i++)
     {
-        u8ReturnValue = 0;
-    }
-    else if (s32CurrentEncoderValue % 2 == 0)
-    {
-        u8ReturnValue = 1;
-    }
-    else if (s32CurrentEncoderValue % 1 == 0)
-    {
-        u8ReturnValue = 2;
+        if (s32CurrentEncoderValue % i == 0)
+        {
+            u8ReturnValue = i - 1;
+        }
     }
     return u8ReturnValue;
 }
@@ -439,6 +444,9 @@ void Settings_init(void)
 
     // Initialize the Timer
     Countdown_initTimerMs(&sAnimationTimer, TOGGLE_INTERVAL_MS, E_OPERATIONAL_MODE_CONTIUNOUS);
+
+    // Reset the Encoder's Button State
+    sInternalState.bRotaryEncoderButtonPressed = FALSE;
 
     unused(eStatus); // To avoid compiler warning
 }

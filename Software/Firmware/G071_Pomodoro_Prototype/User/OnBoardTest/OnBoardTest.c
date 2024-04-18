@@ -17,6 +17,7 @@
 #include "ContextManagement.h"
 #include "CfgStore.h"
 #include "Settings.h"
+#include "Executer.h"
 
 // Utility includes
 #include "FSM.h"
@@ -57,6 +58,9 @@ typedef enum
     // Settings Test
     E_TEST_SETTINGS,
 
+    // Test Core Features
+    E_TEST_CORE_FEATURES,
+
     E_LAST_TEST
 } OnBoardTest_Test_e;
 
@@ -65,7 +69,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_SETTINGS
+#define TEST_TO_RUN E_TEST_CONTEXT_MGMT
 
 /************************************************************
  * Private Function Prototypes
@@ -96,6 +100,9 @@ void OnBoardTest_testSeekingAttention(void);
 // Settings Test
 void OnboardTest_testSettings(void);
 
+// Test All
+void OnboardTest_testCoreFeatures(void);
+
 /************************************************************
  * Private Variables
  ************************************************************/
@@ -123,7 +130,10 @@ STATIC test_function_ptr test_functions[E_LAST_TEST] = {
     [E_TEST_SEEKING_ATTENTION] = OnBoardTest_testSeekingAttention,
 
     // Settings Test
-    [E_TEST_SETTINGS] = OnboardTest_testSettings
+    [E_TEST_SETTINGS] = OnboardTest_testSettings,
+
+    // Test all Core features in conjunction
+    [E_TEST_CORE_FEATURES] = OnboardTest_testCoreFeatures,
 
 };
 
@@ -227,18 +237,18 @@ void OnBoardTest_testNominalPomodoroSequence(void)
 
         status_e eStatus;
 
-        msg_t sMsg = {0};
+        // msg_t sMsg = {0};
 
         // Overwrite the timing configuration inside of the PomodoroControl to speed up the execution
-        sMsg.eMsgId = MSG_0004;
-        TestData_0004_s sTimingCfg = {0};
-        sTimingCfg.u16TimeOutPeriodMin = 100;
-        sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
-        sTimingCfg.u16TimerPeriodSnoozeMs = 50;
-        sTimingCfg.u16TimerPeriodWarningMs = 30;
-        sTimingCfg.u16TimerPeriodSec = 30;
-        sTimingCfg.u16TimerPeriodMin = 60;
-        sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
+        // sMsg.eMsgId = MSG_0004;
+        // TestData_0004_s sTimingCfg = {0};
+        // sTimingCfg.u16TimeOutPeriodMin = 100;
+        // sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
+        // sTimingCfg.u16TimerPeriodSnoozeMs = 50;
+        // sTimingCfg.u16TimerPeriodWarningMs = 30;
+        // sTimingCfg.u16TimerPeriodSec = 30;
+        // sTimingCfg.u16TimerPeriodMin = 60;
+        // sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
         // eStatus = MessageBroker_publish(&sMsg);
         // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
@@ -248,11 +258,6 @@ void OnBoardTest_testNominalPomodoroSequence(void)
 
         // Subscribe to the button Event message
         eStatus = MessageBroker_subscribe(MSG_0103, &OnBoardTest_PomodoroTestMsgCb);
-        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
-
-        // Publish the Pomodoro Start Message
-        sMsg.eMsgId = MSG_0200;
-        eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Initialize the Button
@@ -816,6 +821,9 @@ void OnBoardTest_testContextMgmt(void)
 
     // Run the Score execute function
     Score_execute();
+
+    // Run the CfgStore execute function
+    CfgStore_execute();
 }
 
 status_e OnboardTest_SettingsTestMsgCb(const msg_t *const in_psMsg)
@@ -902,6 +910,24 @@ void OnboardTest_testSettings(void)
     Encoder_execute();
     Settings_execute();
     CfgStore_execute();
+}
+
+status_e OnboardTest_testCoreFeaturesMsgCb(const msg_t *const in_psMsg)
+{
+    return STATUS_OK;
+}
+void OnboardTest_testCoreFeatures(void)
+{
+    static BOOL bRanOnce = FALSE;
+    if (bRanOnce == FALSE)
+    {
+        printf("%s", "************************************************************\n");
+        printf("%s\n", "                 OnBoardTest_testCoreFeatures");
+        printf("%s", "************************************************************\n");
+
+        // Clear the flag
+        bRanOnce = TRUE;
+    }
 }
 
 /************************************************************

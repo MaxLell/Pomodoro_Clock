@@ -103,7 +103,8 @@ void Button_execute(void)
             unused(eStatus); // Suppress the unused variable warning
 
             // Reset the Event to Invalid
-            sButtons[i].eEvent = E_BTN_EVENT_INVALID;
+            sButtons[i]
+                .eEvent = E_BTN_EVENT_INVALID;
         }
     }
 }
