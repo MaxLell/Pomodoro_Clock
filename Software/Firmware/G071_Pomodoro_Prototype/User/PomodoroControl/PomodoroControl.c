@@ -394,10 +394,9 @@ void StateActionBreaktime(void)
 
             // Generate the updated Minute Array
             PomodoroControl_getMinuteArray(&sPomodoroProgress);
-
-            // Render the compressed Arrays on the Rings
-            LightEffects_RenderPomodoro(sPomodoroProgress.au8MinuteArray, TOTAL_MINUTES, TRUE);
         }
+        // Render the compressed Arrays on the Rings
+        LightEffects_RenderPomodoro(sPomodoroProgress.au8MinuteArray, TOTAL_MINUTES, TRUE);
     }
     else
     { // If Breaktime is over

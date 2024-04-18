@@ -129,7 +129,7 @@ void LightEffects_mapColorsToIdx(const LightEffects_Animation_e in_eAnimation, c
         RgbLed_setPixelColor(u8Idx, 0, 100, 0);
         break;
     case E_ANIMATION_FLASHLIGHT:
-        RgbLed_setPixelColor(u8Idx, 100, 100, 100);
+        RgbLed_setPixelColor(u8Idx, 200, 200, 200);
         break;
     case E_ANIMATION_WARNING:
         RgbLed_setPixelColor(u8Idx, 50, 50, 0);
@@ -234,8 +234,21 @@ void LightEffects_RenderPomodoro(const uint8_t *const in_au8MinuteArray, const u
      * NO: set the internal mode to Worktime
      */
 
+    /**
+     * Use a toggle timer to toggle the BreakTime Animation on and off
+     */
+    static BOOL bRunOnce = TRUE;
+    static timer_t sToggleTimer = {0};
+    if (bRunOnce)
+    {
+        Countdown_initTimerMs(&sToggleTimer, 100, E_OPERATIONAL_MODE_CONTIUNOUS);
+        Countdown_startTimer(&sToggleTimer);
+        bRunOnce = FALSE;
+    }
+
     // Create a Minute Array filled with the animation types
     uint8_t au8AnimationArray[TOTAL_MINUTES] = {0};
+
     for (uint8_t i = 0; i < in_u8ArraySize; i++)
     {
         switch (in_au8MinuteArray[i])
@@ -247,7 +260,9 @@ void LightEffects_RenderPomodoro(const uint8_t *const in_au8MinuteArray, const u
             break;
 
         case E_CFG_BREAKTIME:
+
             au8AnimationArray[i] = bIsWorktimeOver ? E_ANIMATION_BREAK_TIME_BRIGHT : E_ANIMATION_BREAK_TIME;
+
             break;
 
         case E_CFG_OFF:
@@ -263,9 +278,22 @@ void LightEffects_RenderPomodoro(const uint8_t *const in_au8MinuteArray, const u
     // if the Worktime is over, set the animation to flashlight on the inner ring
     if (bIsWorktimeOver)
     {
+        static BOOL bToggle = FALSE;
+        if (Countdown_getTimerStatus(&sToggleTimer) == E_COUNTDOWN_TIMER_EXPIRED)
+        {
+            bToggle = !bToggle;
+        }
+
         for (uint8_t i = MINUTES_IN_HOUR; i < TOTAL_MINUTES; i++)
         {
-            au8AnimationArray[i] = E_ANIMATION_FLASHLIGHT;
+            if (bToggle)
+            {
+                au8AnimationArray[i] = E_ANIMATION_FLASHLIGHT;
+            }
+            else
+            {
+                au8AnimationArray[i] = E_ANIMATION_OFF;
+            }
         }
     }
 

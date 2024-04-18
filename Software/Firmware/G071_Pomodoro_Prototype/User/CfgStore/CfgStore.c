@@ -7,8 +7,7 @@
 static const TimeCfg_s sPomodoroTimingCfgStore[CFG_LAST] = {
     [CFG_25_5] = {.u8WorktimeMinutes = 25, .u8BreaktimeMinutes = 5},
     [CFG_50_10] = {.u8WorktimeMinutes = 50, .u8BreaktimeMinutes = 10},
-    [CFG_52_17] = {.u8WorktimeMinutes = 52, .u8BreaktimeMinutes = 17},
-    [CFG_90_15] = {.u8WorktimeMinutes = 90, .u8BreaktimeMinutes = 15}};
+    [CFG_75_15] = {.u8WorktimeMinutes = 75, .u8BreaktimeMinutes = 15}};
 
 STATIC PomodoroCfgSetting_e eCurrentSetting = CFG_50_10;
 

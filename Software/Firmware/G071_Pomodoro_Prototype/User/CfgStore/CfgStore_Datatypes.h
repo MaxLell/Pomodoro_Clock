@@ -5,8 +5,7 @@ typedef enum
 {
     CFG_25_5 = 0U,
     CFG_50_10,
-    CFG_52_17,
-    CFG_90_15,
+    CFG_75_15,
     CFG_LAST
 } PomodoroCfgSetting_e;
 

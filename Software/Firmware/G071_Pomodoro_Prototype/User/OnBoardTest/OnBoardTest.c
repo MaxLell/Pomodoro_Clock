@@ -69,7 +69,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_CONTEXT_MGMT
+#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
 
 /************************************************************
  * Private Function Prototypes
@@ -237,20 +237,19 @@ void OnBoardTest_testNominalPomodoroSequence(void)
 
         status_e eStatus;
 
-        // msg_t sMsg = {0};
-
         // Overwrite the timing configuration inside of the PomodoroControl to speed up the execution
-        // sMsg.eMsgId = MSG_0004;
-        // TestData_0004_s sTimingCfg = {0};
-        // sTimingCfg.u16TimeOutPeriodMin = 100;
-        // sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
-        // sTimingCfg.u16TimerPeriodSnoozeMs = 50;
-        // sTimingCfg.u16TimerPeriodWarningMs = 30;
-        // sTimingCfg.u16TimerPeriodSec = 30;
-        // sTimingCfg.u16TimerPeriodMin = 60;
-        // sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
-        // eStatus = MessageBroker_publish(&sMsg);
-        // ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_0004;
+        TestData_0004_s sTimingCfg = {0};
+        sTimingCfg.u16TimeOutPeriodMin = 100;
+        sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
+        sTimingCfg.u16TimerPeriodSnoozeMs = 50;
+        sTimingCfg.u16TimerPeriodWarningMs = 30;
+        sTimingCfg.u16TimerPeriodSec = 30;
+        sTimingCfg.u16TimerPeriodMin = 60;
+        sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
 
         // Subscribe to the Pomodoro Complete Message
         eStatus = MessageBroker_subscribe(MSG_0204, &OnBoardTest_PomodoroTestMsgCb);
