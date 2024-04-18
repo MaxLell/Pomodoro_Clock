@@ -358,7 +358,7 @@ status_e Settings_MsgCallback(const msg_t *const in_psMsg)
         // Receive all Pomodoro Configurations
         TimeCfg_s *psTmpTimeCfg = (TimeCfg_s *)in_psMsg->au8DataBytes;
         u8NofSettings = in_psMsg->u16DataSize / sizeof(TimeCfg_s);
-        ASSERT_MSG(!(u8NofSettings > MAX_CFGS), "u8NofSettings > MAX_CFGS - too many Settings Provided");
+        ASSERT_MSG(!(u8NofSettings > CFG_LAST), "u8NofSettings > CFG_LAST - too many Settings Provided");
 
         // Copy the Settings into the local Store
         for (uint8_t i = 0; i < u8NofSettings; i++)

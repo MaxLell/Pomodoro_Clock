@@ -51,7 +51,7 @@ void RgbLed_show(void)
   {
     // What do you want from me compiler
     uint32_t u32LedPulses = 0;
-    uint32_t u32Color;
+    uint32_t u32Color = 0;
     /**
      * PWM for LED Illumination
      */
@@ -93,11 +93,6 @@ void RgbLed_show(void)
                           u32LedPulses);
 
     bDataIsSent = 0;
-  }
-
-  else
-  {
-    // YOUUUU DUU NUTHIN JUUHN SNUUW
   }
 }
 

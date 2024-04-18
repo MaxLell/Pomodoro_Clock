@@ -182,7 +182,11 @@ void LightEffects_RenderMiddleAndOuterRings(const uint8_t *const in_au8MiddleRin
 
     RgbLed_show();
 
+    Delay_ms(5); // TODO: Fix the Bug, which makes it necessary to wait here
+
     RgbLed_show();
+
+    Delay_ms(5); // TODO: Fix the Bug, which makes it necessary to wait here
 }
 
 void LightEffects_ClearPomodoroProgressRings(void)
@@ -425,6 +429,12 @@ void LightEffects_ClearScore(void)
         RgbLed_setPixelColor(i, 0, 0, 0);
     }
     RgbLed_show();
+
+    Delay_ms(5);
+
+    RgbLed_show();
+
+    Delay_ms(5);
 }
 
 void LightEffects_DisplayError(void)

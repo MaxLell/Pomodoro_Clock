@@ -804,6 +804,7 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
         {
             if (psButtonMsg->eEvent == E_BTN_EVENT_RELEASED)
             {
+                log_info("Encoder Button Released");
                 FSM_setTriggerEvent(&sFsmConfig, EVENT_ENCODER_BTN_RELEASED);
             }
         }

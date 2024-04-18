@@ -5,7 +5,6 @@
 #include "MessageDefinitions.h"
 
 static const TimeCfg_s sPomodoroTimingCfgStore[CFG_LAST] = {
-    [CFG_1_1] = {.u8WorktimeMinutes = 1, .u8BreaktimeMinutes = 1},
     [CFG_25_5] = {.u8WorktimeMinutes = 25, .u8BreaktimeMinutes = 5},
     [CFG_50_10] = {.u8WorktimeMinutes = 50, .u8BreaktimeMinutes = 10},
     [CFG_52_17] = {.u8WorktimeMinutes = 52, .u8BreaktimeMinutes = 17},
