@@ -18,6 +18,7 @@
 #include "CfgStore.h"
 #include "Settings.h"
 #include "Executer.h"
+#include "WatchDog.h"
 
 // Utility includes
 #include "FSM.h"
@@ -58,8 +59,8 @@ typedef enum
     // Settings Test
     E_TEST_SETTINGS,
 
-    // Test Core Features
-    E_TEST_CORE_FEATURES,
+    // Watchdog Test
+    E_TEST_WATCHDOG,
 
     E_LAST_TEST
 } OnBoardTest_Test_e;
@@ -69,7 +70,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
+#define TEST_TO_RUN E_TEST_WATCHDOG
 
 /************************************************************
  * Private Function Prototypes
@@ -100,8 +101,8 @@ void OnBoardTest_testSeekingAttention(void);
 // Settings Test
 void OnboardTest_testSettings(void);
 
-// Test All
-void OnboardTest_testCoreFeatures(void);
+// Watchdog Test
+void OnBoardTest_testWatchdog(void);
 
 /************************************************************
  * Private Variables
@@ -132,8 +133,8 @@ STATIC test_function_ptr test_functions[E_LAST_TEST] = {
     // Settings Test
     [E_TEST_SETTINGS] = OnboardTest_testSettings,
 
-    // Test all Core features in conjunction
-    [E_TEST_CORE_FEATURES] = OnboardTest_testCoreFeatures,
+    // Watchdog Test
+    [E_TEST_WATCHDOG] = OnBoardTest_testWatchdog,
 
 };
 
@@ -911,22 +912,26 @@ void OnboardTest_testSettings(void)
     CfgStore_execute();
 }
 
-status_e OnboardTest_testCoreFeaturesMsgCb(const msg_t *const in_psMsg)
-{
-    return STATUS_OK;
-}
-void OnboardTest_testCoreFeatures(void)
+void OnBoardTest_testWatchdog(void)
 {
     static BOOL bRanOnce = FALSE;
     if (bRanOnce == FALSE)
     {
         printf("%s", "************************************************************\n");
-        printf("%s\n", "                 OnBoardTest_testCoreFeatures");
+        printf("%s\n", "                 OnBoardTest_testWatchdog");
         printf("%s", "************************************************************\n");
+
+        LightEffects_ClearAllRingLeds();
 
         // Clear the flag
         bRanOnce = TRUE;
+
+        Delay_ms(2000);
+
+        Watchdog_Feed();
     }
+
+    ASSERT_MSG(FALSE, "Stop the execution and wait for the Watchdog to restart the system");
 }
 
 /************************************************************

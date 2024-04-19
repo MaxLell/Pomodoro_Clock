@@ -11,6 +11,7 @@
 #include "Score.h"
 #include "Settings.h"
 #include "Encoder.h"
+#include "WatchDog.h"
 
 STATIC BOOL bAreOnboardTestsRunning = FALSE;
 
@@ -31,22 +32,17 @@ void Executer_init(void)
         printf("%s\n", "############################################################");
 
         MessageBroker_init();
-
         Button_init();
-
         ContextManagement_init();
-
         SeekingAttention_init();
-
         PomodoroControl_init();
-
         Score_init();
-
         CfgStore_init();
-
         Settings_init();
-
         Encoder_init();
+
+        // Feed the Watchdog
+        Watchdog_Feed();
 
         log_info("Init Complete");
     }
@@ -72,6 +68,9 @@ status_e Executer_execute(void)
         CfgStore_execute();
         Encoder_execute();
         Settings_execute();
+
+        // Feed the Watchdog
+        Watchdog_Feed();
     }
     return STATUS_OK;
 }
