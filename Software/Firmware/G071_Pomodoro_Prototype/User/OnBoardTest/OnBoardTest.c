@@ -70,7 +70,7 @@ typedef void (*test_function_ptr)(void);
 /************************************************************
  * Private Defines
  ************************************************************/
-#define TEST_TO_RUN E_TEST_WATCHDOG
+#define TEST_TO_RUN E_TEST_POMODORO_SEQUENCE
 
 /************************************************************
  * Private Function Prototypes
@@ -243,11 +243,11 @@ void OnBoardTest_testNominalPomodoroSequence(void)
         sMsg.eMsgId = MSG_0004;
         TestData_0004_s sTimingCfg = {0};
         sTimingCfg.u16TimeOutPeriodMin = 100;
-        sTimingCfg.u16TimerPeriodCancelSeqMs = 30;
-        sTimingCfg.u16TimerPeriodSnoozeMs = 50;
-        sTimingCfg.u16TimerPeriodWarningMs = 30;
-        sTimingCfg.u16TimerPeriodSec = 30;
-        sTimingCfg.u16TimerPeriodMin = 60;
+        sTimingCfg.u16TimerPeriodCancelSeqMs = 100;
+        sTimingCfg.u16TimerPeriodSnoozeMs = 100;
+        sTimingCfg.u16TimerPeriodWarningMs = 100;
+        sTimingCfg.u16TimerPeriodSec = 50;
+        sTimingCfg.u16TimerPeriodMin = 300;
         sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
@@ -947,6 +947,11 @@ void OnBoardTest_execute(void)
 {
     // run the "Test to run"
     test_functions[TEST_TO_RUN]();
+    if (TEST_TO_RUN != E_TEST_WATCHDOG)
+    {
+        /* Only feed the watchdog when its test is not running */
+        Watchdog_Feed();
+    }
 }
 
 BOOL OnBoardTest_isRunning(void)

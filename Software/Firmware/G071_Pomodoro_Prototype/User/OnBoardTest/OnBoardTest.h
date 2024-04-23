@@ -7,7 +7,7 @@
  * Public Defines
  ************************************************************/
 
-// #define RUN_ON_BOARD_TEST
+#define RUN_ON_BOARD_TEST
 
 /************************************************************
  * Public Datastructures
