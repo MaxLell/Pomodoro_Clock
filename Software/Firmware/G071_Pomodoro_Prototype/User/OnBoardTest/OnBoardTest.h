@@ -7,7 +7,9 @@
  * Public Defines
  ************************************************************/
 
+#ifndef NO_DEBUG
 #define RUN_ON_BOARD_TEST
+#endif
 
 /************************************************************
  * Public Datastructures

@@ -1,7 +1,7 @@
 #ifndef CUSTOM_ASSERT_H
 #define CUSTOM_ASSERT_H
 
-// #define NO_DEBUG
+#define NO_DEBUG
 
 #ifndef NO_DEBUG
 

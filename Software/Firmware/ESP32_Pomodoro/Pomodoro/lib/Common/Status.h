@@ -1,0 +1,15 @@
+#ifndef STATUS_H
+#define STATUS_H
+
+typedef enum
+{
+  STATUS_AVAILABLE,
+  STATUS_PENDING,
+  STATUS_OK = 0,
+  STATUS_ERROR = -1,
+  STATUS_UNAVAILABLE,
+  STATUS_UNKNOWN_ERROR,
+  STATUS_NULL_POINTER,
+} status_e;
+
+#endif // STATUS_H
