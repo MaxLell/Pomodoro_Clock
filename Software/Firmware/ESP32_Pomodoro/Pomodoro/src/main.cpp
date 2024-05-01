@@ -1,26 +1,22 @@
 #include <Arduino.h>
-#include "RgbLed.h"
-
-#define LED_PIN 13
+#include "OnBoardTest.h"
 
 void setup()
 {
-  RgbLed_init();
+#ifdef DBG
+  OnBoardTest_init();
+#else
+  // Run the nominal procedure
+  // This is still to be added in
+#endif
 }
 
 void loop()
 {
-  printf("Hello World\n");
-  for (u8 i = 0; i < TOTAL_LEDS; i++)
-  {
-    RgbLed_setPixelColor(i, 10, 0, 0);
-    RgbLed_show();
-    delay(10);
-  }
-  for (u8 i = 0; i < TOTAL_LEDS; i++)
-  {
-    RgbLed_setPixelColor(i, 0, 0, 0);
-    RgbLed_show();
-    delay(10);
-  }
+#ifdef DBG
+  OnBoardTest_execute();
+#else
+  // Run the nominal procedure
+  // This is still to be added in
+#endif
 }
