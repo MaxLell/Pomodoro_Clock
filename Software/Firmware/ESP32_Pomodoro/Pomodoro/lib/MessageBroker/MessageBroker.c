@@ -4,7 +4,7 @@
 STATIC msgTopic_t *pasMsgTopicLib[E_TOPIC_LAST_TOPIC] = {NULL};
 STATIC msgTopic_t saMsg[E_TOPIC_LAST_TOPIC] = {0};
 
-STATIC BOOL u8IsInitializedCounter = 0;
+STATIC u8 u8IsInitializedCounter = 0;
 
 status_e MessageBroker_checkInitCounter()
 {
@@ -23,20 +23,21 @@ status_e MessageBroker_checkInitCounter()
 
 void MessageBroker_init()
 {
-    for (uint16_t msgId = (E_TOPIC_FIRST_TOPIC + 1); msgId < E_TOPIC_LAST_TOPIC; msgId++)
+    for (u16 u16MsgId = (E_TOPIC_FIRST_TOPIC + 1); u16MsgId < E_TOPIC_LAST_TOPIC; u16MsgId++)
     {
-        // Set the msgId in the respective Message Topic
-        saMsg[msgId].eMsgId = msgId;
+        // Set the u16MsgId in the respective Message Topic
+        saMsg[u16MsgId].eMsgId = (msgId_e)u16MsgId;
 
         // Clear out all Callback Array Entries (if there are any)
-        for (uint16_t i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; i++)
+        for (u16 i = 0; i < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; i++)
         {
-            saMsg[msgId].aCallbackArray[i] = NULL;
+            saMsg[u16MsgId].aCallbackArray[i] = NULL;
         }
 
         // Assign the msg topic to the Library as an entry
-        pasMsgTopicLib[msgId] = &saMsg[msgId];
+        pasMsgTopicLib[u16MsgId] = &saMsg[u16MsgId];
     }
+
     u8IsInitializedCounter++;
 
     MessageBroker_checkInitCounter();
@@ -50,7 +51,6 @@ status_e MessageBroker_subscribe(msgId_e in_eMsgTopic, msgCallback_t in_p32Funct
         {
             return STATUS_ERROR;
         }
-
         ASSERT_MSG(!(in_eMsgTopic >= E_TOPIC_LAST_TOPIC), "Topic must not be E_TOPIC_LAST!");
         if (in_eMsgTopic >= E_TOPIC_LAST_TOPIC)
         {
@@ -64,8 +64,8 @@ status_e MessageBroker_subscribe(msgId_e in_eMsgTopic, msgCallback_t in_p32Funct
         MessageBroker_checkInitCounter();
     }
 
-    uint16_t u16EmptyPointerPositionIndex = 0;
-    for (uint16_t u16ArrayIndex = 0; u16ArrayIndex < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; u16ArrayIndex++)
+    u16 u16EmptyPointerPositionIndex = 0;
+    for (u16 u16ArrayIndex = 0; u16ArrayIndex < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; u16ArrayIndex++)
     {
         /* Find the first empty spot in the callback array, */
         if (pasMsgTopicLib[in_eMsgTopic]->aCallbackArray[u16ArrayIndex] == 0)
@@ -108,7 +108,7 @@ status_e MessageBroker_publish(msg_t *in_psMessage)
 
     /* Run all the Callback functions there are in the Callback Array and pass the
      * Message over */
-    for (uint8_t u8CallbackIndex = 0; u8CallbackIndex < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; u8CallbackIndex++)
+    for (u8 u8CallbackIndex = 0; u8CallbackIndex < MESSAGE_BROKER_CALLBACK_ARRAY_SIZE; u8CallbackIndex++)
     {
         if (pasMsgTopicLib[eTopic]->aCallbackArray[u8CallbackIndex] != NULL)
         {
@@ -121,6 +121,15 @@ status_e MessageBroker_publish(msg_t *in_psMessage)
                        eTopic);
             if (eStatus == STATUS_ERROR)
             {
+                return STATUS_ERROR;
+            }
+        }
+        else // (pasMsgTopicLib[eTopic]->aCallbackArray[u8CallbackIndex] == NULL)
+        {
+            if (u8CallbackIndex == 0)
+            {
+                /* If there are no Callback Functions to call, then raise an error, since noone is listening */
+                ASSERT_MSG(false, "No Subscribers for MSG_ID: %d", eTopic);
                 return STATUS_ERROR;
             }
         }

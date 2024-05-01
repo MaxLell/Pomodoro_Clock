@@ -36,5 +36,9 @@ void RgbLed_show(void)
 
 void RgbLed_clear(void)
 {
-  strip.clear();
+  for (u8 i = 0; i < TOTAL_LEDS; i++)
+  {
+    RgbLed_setPixelColor(i, 0, 0, 0);
+  }
+  RgbLed_show();
 }

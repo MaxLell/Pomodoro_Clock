@@ -7,21 +7,21 @@
 
 typedef struct
 {
-  BOOL bConfigWasUpdated;
-  uint8_t u8MinutesWorktimePeriod;
-  uint8_t u8MinutesBreaktimePeriod;
+  bool bConfigWasUpdated;
+  u8 u8MinutesWorktimePeriod;
+  u8 u8MinutesBreaktimePeriod;
 } PomodoroPeriodConfiguration_s;
 
 typedef struct
 {
   ButtonTypes_e eButton;
-  Event_e eEvent;
+  ButtonEvent_e eEvent;
 } ButtonMessage_s;
 
 typedef struct
 {
-  uint8_t u8WorktimeMinutes;
-  uint8_t u8BreaktimeMinutes;
+  u8 u8WorktimeMinutes;
+  u8 u8BreaktimeMinutes;
 } TimeCfg_s;
 
 /*********************************************
@@ -30,12 +30,12 @@ typedef struct
 
 typedef struct
 {
-  uint16_t u16TimerPeriodMin;
-  uint16_t u16TimerPeriodSec;
-  uint16_t u16TimerPeriodSnoozeMs; // 5 Minute Snooze Interval (5000ms * 60 Increments = 5 Minutes) (for example)
-  uint16_t u16TimerPeriodCancelSeqMs;
-  uint16_t u16TimerPeriodWarningMs;
-  uint16_t u16TimeOutPeriodMin;
+  u16 u16TimerPeriodMin;
+  u16 u16TimerPeriodSec;
+  u16 u16TimerPeriodSnoozeMs; // 5 Minute Snooze Interval (5000ms * 60 Increments = 5 Minutes) (for example)
+  u16 u16TimerPeriodCancelSeqMs;
+  u16 u16TimerPeriodWarningMs;
+  u16 u16TimeOutPeriodMin;
 } TestData_0004_s;
 
 typedef struct

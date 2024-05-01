@@ -17,8 +17,8 @@ extern "C"
     typedef struct
     {
         msgId_e eMsgId;
-        uint16_t u16DataSize;
-        uint8_t *au8DataBytes;
+        u16 u16DataSize;
+        u8 *au8DataBytes;
     } msg_t;
 
     /* Function Callback Type */

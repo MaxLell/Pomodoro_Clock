@@ -3,8 +3,11 @@
 
 typedef enum
 {
-    // Basic Tests - Lighteffects
-    E_TEST_LIGHT_UP_ALL_LEDS = 0,
+    // RgbLed Test
+    E_TEST_RGBLED = 0,
+
+    // Button Test
+    E_TEST_BUTTON,
 
     E_LAST_TEST
 } OnBoardTest_Test_e;
