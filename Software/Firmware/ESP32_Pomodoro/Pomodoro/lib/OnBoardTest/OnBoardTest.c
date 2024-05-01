@@ -1,7 +1,7 @@
 /************************************************************
  * Includes
  ************************************************************/
-#include "OnBoardTest_TestDecleration.h"
+#include "OnBoardTest_TestDeclarations.h"
 #include "OnBoardTest.h"
 
 // Module specific test includes
