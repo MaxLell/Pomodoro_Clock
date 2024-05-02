@@ -25,7 +25,7 @@ static void InputSampling_task(void *pvParameters)
     ASSERT_MSG(0, "Task just exited - should never happen");
 }
 
-void InputSampling_taskCreate(void)
+void InputSampling_createTask(void)
 {
     BaseType_t xReturned = xTaskCreate(
         InputSampling_task,   // Pointer to the task entry function

@@ -7,7 +7,8 @@ void setup()
 #ifdef DBG
   OnBoardTest_init();
 #else
-  InputSampling_taskCreate();
+  // Run the nominal procedure
+  // This is still to be added in
 #endif
 }
 

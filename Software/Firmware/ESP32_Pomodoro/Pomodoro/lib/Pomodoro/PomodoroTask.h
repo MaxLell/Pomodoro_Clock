@@ -11,5 +11,7 @@ extern "C"
     void PomodoroTask_deleteTask(void);
 
 #ifdef __cplusplus
+}
+#endif
 
 #endif // POMODORO_TASK_H

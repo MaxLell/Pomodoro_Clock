@@ -41,7 +41,7 @@ void OnBoardTest_InputSampling_init(void)
     printf("%s\n", "************************************************************");
 
     // Create and run the Thread
-    InputSampling_taskCreate();
+    InputSampling_createTask();
 
     // Subscribe to the Module Messages, which are exececuted in the Thread
     // Button

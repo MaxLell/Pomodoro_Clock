@@ -6,7 +6,7 @@ extern "C"
 {
 #endif
 
-    void InputSampling_taskCreate(void);
+    void InputSampling_createTask(void);
 
     void InputSampling_taskDelete(void);
 

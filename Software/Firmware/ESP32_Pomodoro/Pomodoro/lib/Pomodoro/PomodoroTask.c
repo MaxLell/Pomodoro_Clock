@@ -1,6 +1,6 @@
 #include "PomodoroTask.h"
 #include "Delay.h"
-#include "Pomodoro.h"
+#include "PomodoroControl.h"
 #include "Arduino.h"
 
 static TaskHandle_t sTaskHandle = NULL;
@@ -9,9 +9,15 @@ static void Pomodoro_task(void *pvParameters)
 {
     unused(pvParameters);
 
+    // Init the Pomodoro
+    PomodoroControl_init();
+
     for (;;)
     {
-        // Do Pomodoro Task
+        // Run the Pomodoro Sequence
+        PomodoroControl_execute();
+
+        Delay_ms(1); // So that the scheduler can switch task
     }
 
     // Delete the task if it ever breaks out of the loop

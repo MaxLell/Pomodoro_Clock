@@ -19,7 +19,7 @@
  * private variables
  ************************************************************/
 
-static OnBoardTest_Test_e eCurrentTest = E_TEST_COUNTDOWN_TIMER_AND_BLINKY_LED;
+static OnBoardTest_Test_e eCurrentTest = E_TEST_POMODORO;
 
 /**
  * Init Function Array

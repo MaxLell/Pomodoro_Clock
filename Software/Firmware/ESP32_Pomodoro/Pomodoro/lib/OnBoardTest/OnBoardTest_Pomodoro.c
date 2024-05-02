@@ -1,9 +1,14 @@
 #include "OnBoardTest_Pomodoro.h"
 #include "Common.h"
-#include "InputSampling.h"
 
+#include "CfgStore.h"
 #include "MessageBroker.h"
 #include "MessageDefinitions.h"
+
+#include "Delay.h"
+
+#include "InputSampling.h"
+#include "PomodoroTask.h"
 
 status_e OnBoardTest_PomodoroTestMsgCb(const msg_t *const in_psMsg)
 {
@@ -102,11 +107,37 @@ void OnBoardTest_Pomodoro_init(void)
     }
 
     // Start the Input Sampling Task
-    InputSampling_taskCreate();
+    InputSampling_createTask();
 
     // Start the Pomodoro Task
+    PomodoroTask_createTask();
+
+    // Initialize the CfgStore
+    CfgStore_init();
+
+    Delay_ms(30); // Wait for the system to settle
+
+    // Publish the configuration to speed up the testing
+    // Comment out for regular execution
+    {
+        msg_t sMsg = {0};
+        sMsg.eMsgId = MSG_0004;
+        TestData_0004_s sTimingCfg = {0};
+        sTimingCfg.u16TimeOutPeriodMin = 100;
+        sTimingCfg.u16TimerPeriodCancelSeqMs = 100;
+        sTimingCfg.u16TimerPeriodSnoozeMs = 100;
+        sTimingCfg.u16TimerPeriodWarningMs = 100;
+        sTimingCfg.u16TimerPeriodSec = 50;
+        sTimingCfg.u16TimerPeriodMin = 300;
+        sMsg.au8DataBytes = (uint8_t *)&sTimingCfg;
+        eStatus = MessageBroker_publish(&sMsg);
+        ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
+    }
+
+    unused(eStatus); // Suppress the unused variable warning
 }
 
 void OnBoardTest_Pomodoro_execute(void)
 {
+    // Nothing much to be done here - the main procedure is executed in the tasks
 }
