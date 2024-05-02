@@ -9,6 +9,9 @@ typedef enum
     // Button Test
     E_TEST_BUTTON,
 
+    // Input Sampling Thread Test
+    E_TEST_INPUTSAMPLING,
+
     E_LAST_TEST
 } OnBoardTest_Test_e;
 

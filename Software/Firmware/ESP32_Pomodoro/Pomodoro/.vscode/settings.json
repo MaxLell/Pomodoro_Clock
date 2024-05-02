@@ -1,6 +1,7 @@
 {
     "editor.formatOnSave": true,
     "files.associations": {
-        "arduino.h": "c"
+        "arduino.h": "c",
+        "messagedefinitions.h": "c"
     }
 }

@@ -3,8 +3,8 @@
 
 #include "Common.h"
 
-void Delay_ms(uint32_t u32DelayMs);
+void Delay_ms(u32 u32DelayMs);
 
-void Delay_sec(uint32_t u32DelaySec);
+void Delay_sec(u32 u32DelaySec);
 
-#endif  // DELAY_H
+#endif // DELAY_H

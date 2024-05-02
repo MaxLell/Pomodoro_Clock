@@ -22,7 +22,7 @@ typedef enum
 typedef struct
 {
     u16 u16LongPressState;
-    uint32_t u32State;
+    u32 u32State;
     bool bLongPressTriggered;
 } DebounceFlags_s;
 

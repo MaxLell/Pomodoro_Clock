@@ -7,6 +7,7 @@
 // Module specific test includes
 #include "OnBoardTest_RgbLed.h"
 #include "OnBoardTest_Button.h"
+#include "OnBoardTest_InputSampling.h"
 
 // Utilities
 #include "MessageBroker.h"
@@ -16,7 +17,7 @@
  * private variables
  ************************************************************/
 
-static OnBoardTest_Test_e eCurrentTest = E_TEST_BUTTON;
+static OnBoardTest_Test_e eCurrentTest = E_TEST_INPUTSAMPLING;
 
 /**
  * Init Function Array
@@ -24,6 +25,7 @@ static OnBoardTest_Test_e eCurrentTest = E_TEST_BUTTON;
 static const test_function_ptr initLookUpTable[E_LAST_TEST] = {
     [E_TEST_RGBLED] = OnBoardTest_RgbLed_init,
     [E_TEST_BUTTON] = OnBoardTest_Button_init,
+    [E_TEST_INPUTSAMPLING] = OnBoardTest_InputSampling_init,
 };
 
 /**
@@ -32,6 +34,7 @@ static const test_function_ptr initLookUpTable[E_LAST_TEST] = {
 static const test_function_ptr executeLookUpTable[E_LAST_TEST] = {
     [E_TEST_RGBLED] = OnBoardTest_RgbLed_execute,
     [E_TEST_BUTTON] = OnBoardTest_Button_execute,
+    [E_TEST_INPUTSAMPLING] = OnBoardTest_InputSampling_execute,
 };
 
 /************************************************************

@@ -20,7 +20,7 @@ bool bInitialized = false;
 void Button_getSampleAndDebouncedState(Button_s *const inout_psButton)
 {
     // Work with local copies due to better readability
-    uint32_t u32State = inout_psButton->sDebounceFlags.u32State;
+    u32 u32State = inout_psButton->sDebounceFlags.u32State;
     u32State = (u32State << 1) | !BtnHw_getState(inout_psButton->eButton) | 0x0;
 
     // // Print out the state in binary

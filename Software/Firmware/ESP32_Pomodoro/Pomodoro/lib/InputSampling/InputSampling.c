@@ -30,7 +30,7 @@ void InputSampling_taskCreate(void)
     BaseType_t xReturned = xTaskCreate(
         InputSampling_task,   // Pointer to the task entry function
         "InputSampling_task", // Descriptive name for the task
-        1024,                 // Stack size (bytes for an ESP32 target)
+        2048,                 // Stack size (bytes for an ESP32 target)
         NULL,                 // Task input parameters
         1,                    // Task priority
         &tTaskHandle          // Task handle

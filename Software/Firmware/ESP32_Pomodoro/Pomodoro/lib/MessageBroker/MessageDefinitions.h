@@ -40,9 +40,9 @@ typedef struct
 
 typedef struct
 {
-  uint32_t u32MinutePeriod;
-  uint32_t u32WatchdogPeriod;
-  uint32_t u32TimeoutPeriod;
+  u32 u32MinutePeriod;
+  u32 u32WatchdogPeriod;
+  u32 u32TimeoutPeriod;
 } TestData_0006_s;
 
 #endif // MESSAGE_DEFINITIONS_H
