@@ -9,7 +9,6 @@
 #include "PomodoroControl_Datatypes.h"
 #include "RgbLed.h"
 #include "RgbLed_Config.h"
-#include "Delay.h"
 
 /********************************************************
  * Private Defines
@@ -41,6 +40,8 @@ STATIC LightEffects_RingCountdown_s sRingCountdown = {0};
 STATIC TestData_0004_s sPomodoroTimingCfg = {0};
 
 STATIC PomodoroPeriodConfiguration_s sPomodoroPeriodCfg = {0};
+
+STATIC bool bSequenceSuccessfullyInitialized = false;
 
 /********************************************************
  * Private Function Prototypes
@@ -252,11 +253,14 @@ void StateActionWorktimeInit(void)
         Countdown_initTimerMs(&sTimerWtBtHandler, sPomodoroTimingCfg.u16TimerPeriodMin, E_OPERATIONAL_MODE_CONTIUNOUS);
         Countdown_resetAndStartTimer(&sTimerWtBtHandler);
 
-        // Update the trigger event
-        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
-
         // Reset the updated flag
         sPomodoroPeriodCfg.bConfigWasUpdated = false;
+
+        // Enable the Snooze Functionality
+        bSequenceSuccessfullyInitialized = true;
+
+        // Update the trigger event
+        FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
     }
     else
     {
@@ -573,6 +577,9 @@ void StateActionCleanUp(void)
         sPomodoroProgress.au8MinuteArray[i] = 0;
     }
 
+    // Disable the Snooze Functionality
+    bSequenceSuccessfullyInitialized = false;
+
     // Set the Sequence to Complete
     FSM_setTriggerEvent(&sFsmConfig, EVENT_SEQUENCE_COMPLETE);
 }
@@ -789,6 +796,18 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
         ButtonMessage_s *psButtonMsg = (ButtonMessage_s *)psMsg->au8DataBytes;
         if (psButtonMsg->eButton == E_BTN_TRIGGER)
         {
+
+            if (psButtonMsg->eEvent == E_BTN_EVENT_SHORT_PRESSED)
+            {
+                if (true == bSequenceSuccessfullyInitialized)
+                {
+                    // This Variable is required, otherwise this Button Event will overwrite the
+                    // 0200 Message (Sequence Start) Message and the System will remain in the
+                    // Idle State
+                    FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_SHORT_PRESS);
+                }
+            }
+
             if (psButtonMsg->eEvent == E_BTN_EVENT_LONG_PRESSED)
             {
                 FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_LONG_PRESS);
@@ -799,14 +818,6 @@ STATIC status_e PomodoroControl_MessageCallback(const msg_t *const psMsg)
                 FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_RELEASED);
             }
         }
-        // else if (psButtonMsg->eButton == E_BTN_ENCODER)
-        // {
-        //     if (psButtonMsg->eEvent == E_BTN_EVENT_RELEASED)
-        //     {
-        //         log_info("Encoder Button Released");
-        //         FSM_setTriggerEvent(&sFsmConfig, EVENT_TRIGGER_BTN_SHORT_PRESS);
-        //     }
-        // }
     }
     break;
 

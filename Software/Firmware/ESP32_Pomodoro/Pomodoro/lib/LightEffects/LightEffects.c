@@ -189,7 +189,6 @@ void LightEffects_ClearPomodoroProgressRings(void)
     {
         RgbLed_setPixelColor(u8LedIndex, 0, 0, 0);
         u8LedIndex++;
-        RgbLed_show();
     }
 
     ASSERT_MSG(!(u8LedIndex != START_INDEX_MIDDLE_RING), "u8LedIndex is not equal to %d. It is instead %d",
@@ -201,14 +200,11 @@ void LightEffects_ClearPomodoroProgressRings(void)
     {
         RgbLed_setPixelColor(u8LedIndex, 0, 0, 0);
         u8LedIndex++;
-        RgbLed_show();
     }
-    ASSERT_MSG(!(u8LedIndex != START_INDEX_INNER_RING), "u8LedIndex is not equal to %d. It is instead %d",
-               START_INDEX_INNER_RING, u8LedIndex);
-
-    Delay_ms(5); // TODO: Fix the Bug, which makes it necessary to wait here
 
     RgbLed_show();
+    ASSERT_MSG(!(u8LedIndex != START_INDEX_INNER_RING), "u8LedIndex is not equal to %d. It is instead %d",
+               START_INDEX_INNER_RING, u8LedIndex);
 }
 
 void LightEffects_RenderPomodoro(const u8 *const in_au8MinuteArray, const u8 in_u8ArraySize,

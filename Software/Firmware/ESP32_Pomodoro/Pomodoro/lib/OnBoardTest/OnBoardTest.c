@@ -14,6 +14,7 @@
 // Utilities
 #include "MessageBroker.h"
 #include "RgbLed.h"
+#include "Delay.h"
 
 /************************************************************
  * private variables
@@ -67,4 +68,5 @@ void OnBoardTest_execute(void)
         ASSERT_MSG(eCurrentTest < E_LAST_TEST, "Invalid Test - Test is out of bounds");
     }
     executeLookUpTable[eCurrentTest]();
+    Delay_ms(1);
 }

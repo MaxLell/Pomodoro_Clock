@@ -115,7 +115,7 @@ void OnBoardTest_Pomodoro_init(void)
     // Initialize the CfgStore
     CfgStore_init();
 
-    Delay_ms(30); // Wait for the system to settle
+    Delay_ms(10); // Wait for the system to settle
 
     // Publish the configuration to speed up the testing
     // Comment out for regular execution
