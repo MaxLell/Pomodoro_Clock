@@ -19,8 +19,8 @@ typedef enum
     E_TOPIC_FIRST_TOPIC = 0U, // First Topic - DO NOT USE (Only for boundary checks)
 
     // Test Messages
-    MSG_0001, // Chaos Elephant
-    MSG_0002, // Tickly Giraffe
+    MSG_0001, // Chaos Elephant - used for Prototyping
+    MSG_0002, // Tickly Giraffe - used for Prototyping
     MSG_0003, // Generic and obsolete Test Message
     MSG_0004, // Test Message for the Pomodoro Sequence
     MSG_0005, // Test Message for the Seeking Attention Module

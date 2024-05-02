@@ -6,6 +6,7 @@
 #ifdef DBG
 
 #include "Common.h"
+#include "LightEffects_Error.h"
 
 #define ASSERT_MSG(x, msg, ...)                                                                  \
     if ((x))                                                                                     \
@@ -15,7 +16,9 @@
     {                                                                                            \
         printf("[ASSERT FAIL] (%s:%d): (%s): " msg "\n", __FILE__, __LINE__, #x, ##__VA_ARGS__); \
         while (1)                                                                                \
-            ;                                                                                    \
+        {                                                                                        \
+            LightEffects_DisplayError();                                                         \
+        }                                                                                        \
     }
 
 #else

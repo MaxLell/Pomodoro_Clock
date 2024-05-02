@@ -4,7 +4,7 @@
 #include "Button.h"
 #include "Delay.h"
 
-static TaskHandle_t tTaskHandle = NULL;
+static TaskHandle_t sTaskHandle = NULL;
 
 static void InputSampling_task(void *pvParameters)
 {
@@ -33,7 +33,7 @@ void InputSampling_taskCreate(void)
         2048,                 // Stack size (bytes for an ESP32 target)
         NULL,                 // Task input parameters
         1,                    // Task priority
-        &tTaskHandle          // Task handle
+        &sTaskHandle          // Task handle
     );
 
     ASSERT_MSG(xReturned == pdPASS, "Task creation failed");
@@ -41,6 +41,6 @@ void InputSampling_taskCreate(void)
 
 void InputSampling_taskDelete(void)
 {
-    ASSERT_MSG(tTaskHandle != NULL, "Task handle is NULL");
-    vTaskDelete(tTaskHandle);
+    ASSERT_MSG(sTaskHandle != NULL, "Task handle is NULL");
+    vTaskDelete(sTaskHandle);
 }

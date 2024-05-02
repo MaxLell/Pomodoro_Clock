@@ -53,5 +53,5 @@ void OnBoardTest_InputSampling_init(void)
 
 void OnBoardTest_InputSampling_execute(void)
 {
-    // Nothing much to be done here
+    // Nothing much to be done here as everything is done in the thread
 }

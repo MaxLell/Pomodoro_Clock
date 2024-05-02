@@ -8,6 +8,8 @@
 #include "OnBoardTest_RgbLed.h"
 #include "OnBoardTest_Button.h"
 #include "OnBoardTest_InputSampling.h"
+#include "OnBoardTest_Pomodoro.h"
+#include "OnBoardTest_CountdownTimer.h"
 
 // Utilities
 #include "MessageBroker.h"
@@ -17,7 +19,7 @@
  * private variables
  ************************************************************/
 
-static OnBoardTest_Test_e eCurrentTest = E_TEST_INPUTSAMPLING;
+static OnBoardTest_Test_e eCurrentTest = E_TEST_COUNTDOWN_TIMER_AND_BLINKY_LED;
 
 /**
  * Init Function Array
@@ -26,7 +28,8 @@ static const test_function_ptr initLookUpTable[E_LAST_TEST] = {
     [E_TEST_RGBLED] = OnBoardTest_RgbLed_init,
     [E_TEST_BUTTON] = OnBoardTest_Button_init,
     [E_TEST_INPUTSAMPLING] = OnBoardTest_InputSampling_init,
-};
+    [E_TEST_POMODORO] = OnBoardTest_Pomodoro_init,
+    [E_TEST_COUNTDOWN_TIMER_AND_BLINKY_LED] = OnBoardTest_CountdownTimer_init};
 
 /**
  * Execute Function Array
@@ -35,7 +38,8 @@ static const test_function_ptr executeLookUpTable[E_LAST_TEST] = {
     [E_TEST_RGBLED] = OnBoardTest_RgbLed_execute,
     [E_TEST_BUTTON] = OnBoardTest_Button_execute,
     [E_TEST_INPUTSAMPLING] = OnBoardTest_InputSampling_execute,
-};
+    [E_TEST_POMODORO] = OnBoardTest_Pomodoro_execute,
+    [E_TEST_COUNTDOWN_TIMER_AND_BLINKY_LED] = OnBoardTest_CountdownTimer_execute};
 
 /************************************************************
  * Implementation
