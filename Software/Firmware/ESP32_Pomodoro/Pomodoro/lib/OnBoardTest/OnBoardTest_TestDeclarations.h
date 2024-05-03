@@ -18,6 +18,9 @@ typedef enum
     // Countdown Timer and BlinkyLed Test
     E_TEST_COUNTDOWN_TIMER_AND_BLINKY_LED,
 
+    // Score Test
+    E_TEST_SCORE,
+
     E_LAST_TEST
 } OnBoardTest_Test_e;
 

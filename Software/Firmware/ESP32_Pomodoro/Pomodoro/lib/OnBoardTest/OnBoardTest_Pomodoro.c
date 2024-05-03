@@ -133,7 +133,6 @@ void OnBoardTest_Pomodoro_init(void)
         eStatus = MessageBroker_publish(&sMsg);
         ASSERT_MSG(!(eStatus == STATUS_ERROR), "MessageBroker_publish failed");
     }
-
     unused(eStatus); // Suppress the unused variable warning
 }
 

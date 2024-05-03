@@ -224,7 +224,7 @@ void OnBoardTest_testNominalPomodoroSequence(void)
     if (!bRanOnce)
     {
         printf("%s\n", "************************************************************");
-        printf("%s\n", "                 OnBoardTest_test Nominal Pomodoro Sequence");
+        printf("%s\n", "          OnBoardTest_test Nominal Pomodoro Sequence");
         printf("%s\n", "************************************************************");
 
         // Clear the Rings
