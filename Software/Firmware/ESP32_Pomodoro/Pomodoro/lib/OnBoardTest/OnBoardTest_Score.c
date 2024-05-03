@@ -55,6 +55,9 @@ void OnBoardTest_Score_init(void)
 {
     printf("%s\n", "************************************************************");
     printf("%s\n", "                        Score Test");
+    printf("%s\n", "In order to run this test: ");
+    printf("%s\n", "1. Keep the Trigger Btn pressed to start the Score counting");
+    printf("%s\n", "2. Release the Trigger Btn to stop the Score counting");
     printf("%s\n", "************************************************************");
 
     // Subscribe to the Button Messages (these are used to trigger the input events for the Score Thread)
@@ -73,13 +76,13 @@ void OnBoardTest_Score_init(void)
 
     // Send out the Test Message to speed up the procedure
     {
-        const u32 FIFTY_MSEC = 50;
+        const u32 FIVE_MSEC = 5;
         const u32 TWENTY_SECONDS = 20000;
         const u32 THIRTY_SECONDS = 30000;
         msg_t sMsg = {0};
         sMsg.eMsgId = MSG_0006;
         TestData_0006_s sScoreTimeStamps = {0};
-        sScoreTimeStamps.u32MinutePeriod = FIFTY_MSEC;
+        sScoreTimeStamps.u32MinutePeriod = FIVE_MSEC;
         sScoreTimeStamps.u32TimeoutPeriod = TWENTY_SECONDS;  // Display of the Score is Switched Off
         sScoreTimeStamps.u32WatchdogPeriod = THIRTY_SECONDS; // The Score is Reset
         sMsg.au8DataBytes = (uint8_t *)&sScoreTimeStamps;
