@@ -21,6 +21,9 @@ typedef enum
     // Score Test
     E_TEST_SCORE,
 
+    // Seeking Attention Test
+    E_TEST_SEEKING_ATTENTION,
+
     E_LAST_TEST
 } OnBoardTest_Test_e;
 
