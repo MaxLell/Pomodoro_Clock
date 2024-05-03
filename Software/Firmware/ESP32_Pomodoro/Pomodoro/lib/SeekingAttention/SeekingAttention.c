@@ -13,8 +13,8 @@
  * Private Defines
  ************************************************************/
 
-#define MAX_MS 20000
-#define MIN_MS 10000
+#define MAX_MS 10000
+#define MIN_MS 5000
 
 /************************************************************
  * Private Data Types
