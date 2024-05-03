@@ -8,6 +8,8 @@
         "lighteffects_pomodoro.h": "c",
         "onboardtest_pomodoro.h": "c",
         "button.h": "c",
-        "inputsampling.h": "c"
+        "inputsampling.h": "c",
+        "scoretask.h": "c",
+        "messagebroker.h": "c"
     }
 }

@@ -22,7 +22,7 @@
  * private variables
  ************************************************************/
 
-static OnBoardTest_Test_e eCurrentTest = E_TEST_SEEKING_ATTENTION;
+static OnBoardTest_Test_e eCurrentTest = E_TEST_POMODORO;
 
 /**
  * Init Function Array
@@ -60,6 +60,9 @@ void OnBoardTest_init(void)
 
     // Init the Message Broker
     MessageBroker_init();
+
+    // Init the RGB LED
+    RgbLed_init();
 
     // Clear all LEDs
     RgbLed_clear();

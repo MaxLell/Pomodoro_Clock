@@ -3,6 +3,8 @@
 
 #include "Common.h"
 
+// #define ONBOARDTEST // Comment this line out to enable the nominal behavior
+
 #ifdef __cplusplus
 extern "C"
 {

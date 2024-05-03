@@ -1,20 +1,19 @@
 #include <Arduino.h>
 #include "OnBoardTest.h"
-#include "InputSampling.h"
+#include "Executer.h"
 
 void setup()
 {
-#ifdef DBG
+#ifdef ONBOARDTEST
   OnBoardTest_init();
 #else
-  // Run the nominal procedure
-  // This is still to be added in
+  Executer_init();
 #endif
 }
 
 void loop()
 {
-#ifdef DBG
+#ifdef ONBOARDTEST
   OnBoardTest_execute();
 #else
   // Run the nominal procedure
