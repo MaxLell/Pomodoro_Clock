@@ -8,6 +8,7 @@ void setup()
   OnBoardTest_init();
 #else
   Executer_init();
+  vTaskDelete(NULL);
 #endif
 }
 
@@ -16,7 +17,6 @@ void loop()
 #ifdef ONBOARDTEST
   OnBoardTest_execute();
 #else
-  // Run the nominal procedure
-  // This is still to be added in
+  Executer_execute();
 #endif
 }

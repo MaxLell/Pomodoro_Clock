@@ -1,0 +1,160 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "74568023-24e9-494a-bffe-c37a7a23f2f8")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 40.64 67.31)
+		(size 21.59 20.32)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "001e10c8-96e8-4d47-8553-6e5af4da2637")
+		(property "Sheetname" "RgbLed_MiddleRing"
+			(at 40.64 66.5984 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "RgbLed_MiddleRing.kicad_sch"
+			(at 40.64 88.2146 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Pomodoro_V7"
+				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23"
+					(page "8")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 40.64 95.25)
+		(size 21.59 17.78)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "382173d7-caa1-4139-ba6d-a35eb18170ce")
+		(property "Sheetname" "RgbLed_InnerRing"
+			(at 40.64 94.5384 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "RgbLed_InnerRing.kicad_sch"
+			(at 40.64 113.6146 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Pomodoro_V7"
+				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23"
+					(page "9")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 40.64 120.65)
+		(size 21.59 17.78)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "797b80c3-c08e-40d2-b941-fe27167ea576")
+		(property "Sheetname" "RgbLed_StatusLed"
+			(at 40.64 119.9384 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "RgbLed_StatusLed.kicad_sch"
+			(at 40.64 139.0146 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Pomodoro_V7"
+				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23"
+					(page "10")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 40.64 39.37)
+		(size 21.59 19.05)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "b6c0abfc-b228-4088-82f2-4b654b638967")
+		(property "Sheetname" "RgbLed_OuterRing"
+			(at 40.64 38.6584 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "RgbLed_OuterRing.kicad_sch"
+			(at 40.64 59.0046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Pomodoro_V7"
+				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23"
+					(page "7")
+				)
+			)
+		)
+	)
+)

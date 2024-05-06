@@ -46,5 +46,6 @@ void Executer_init(void)
 
 void Executer_execute(void)
 {
-    // Nothing much to be done here
+    // At the moment this function must never be executed
+    ASSERT_MSG(false, "Executer_execute should never be executed - it should be deleted before")
 }
