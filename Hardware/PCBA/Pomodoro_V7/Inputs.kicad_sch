@@ -603,7 +603,7 @@
 		)
 		(uuid "daf7a61b-7cd1-49b0-b078-10b0a271fc2e")
 	)
-	(global_label "Button_Signal"
+	(global_label "ESP32_Button_Signal"
 		(shape input)
 		(at 49.53 54.61 180)
 		(fields_autoplaced yes)
@@ -615,7 +615,7 @@
 		)
 		(uuid "3a7f61ba-75ee-49a9-98cf-81e9c5d35a36")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 33.4823 54.61 0)
+			(at 26.4672 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
