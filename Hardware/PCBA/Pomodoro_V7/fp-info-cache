@@ -1,4 +1,4 @@
-23342586393781700
+23344301559770136
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -54291,6 +54291,13 @@ diode SOD964 SOD-964
 0
 2
 2
+Diode_SMD
+SOT95P280X145-6N
+
+
+0
+6
+6
 Diode_SMD
 ST_QFN-2L_1.6x1.0mm
 Unidirectional high power transient voltage suppressor (https://www.st.com/resource/en/datasheet/esda7p120-1u1m.pdf)

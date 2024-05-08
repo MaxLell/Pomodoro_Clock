@@ -85,6 +85,20 @@ status_e Score_MsgCb(const msg_t *const in_psMessage)
     }
     break;
 
+    case MSG_0201: // Pomodoro Worktime Complete
+    {
+        // This is just a placeholder
+        log_info("Worktime Complete");
+    }
+    break;
+
+    case MSG_0202: // Pomodoro Breaktime Complete
+    {
+        // This is just a placeholder
+        log_info("Breaktime Complete");
+    }
+    break;
+
     case MSG_0204: // Pomodoro Complete
     {
         // Check that the Pomodoro is active
@@ -125,6 +139,14 @@ void Score_init(void)
     // Pomodoro Start
     eStatus = MessageBroker_subscribe(MSG_0200, Score_MsgCb);
     ASSERT_MSG(STATUS_OK == eStatus, "Failed to Subscribe to MSG_0200");
+
+    // Pomodoro Worktime Complete
+    eStatus = MessageBroker_subscribe(MSG_0201, Score_MsgCb);
+    ASSERT_MSG(STATUS_OK == eStatus, "Failed to Subscribe to MSG_0201");
+
+    // Pomodoro Breaktime Complete
+    eStatus = MessageBroker_subscribe(MSG_0202, Score_MsgCb);
+    ASSERT_MSG(STATUS_OK == eStatus, "Failed to Subscribe to MSG_0202");
 
     // Pomodoro Complete
     eStatus = MessageBroker_subscribe(MSG_0204, Score_MsgCb);

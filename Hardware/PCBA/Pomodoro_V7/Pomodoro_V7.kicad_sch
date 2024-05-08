@@ -6,7 +6,7 @@
 	(paper "A4")
 	(lib_symbols)
 	(sheet
-		(at 33.02 146.05)
+		(at 33.02 115.57)
 		(size 26.67 20.32)
 		(fields_autoplaced yes)
 		(stroke
@@ -17,8 +17,8 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "1961c4fe-101c-4224-bef0-a37787d4c52f")
-		(property "Sheetname" "Connectors"
-			(at 33.02 145.3384 0)
+		(property "Sheetname" "USB Conn and PWR "
+			(at 33.02 114.8584 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26,8 +26,8 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "Connectors.kicad_sch"
-			(at 33.02 166.9546 0)
+		(property "Sheetfile" "Usb&Pwr.kicad_sch"
+			(at 33.02 136.4746 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -82,45 +82,7 @@
 		)
 	)
 	(sheet
-		(at 33.02 57.15)
-		(size 26.67 20.32)
-		(fields_autoplaced yes)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(fill
-			(color 0 0 0 0.0000)
-		)
-		(uuid "4fdb69f5-fbd3-498b-a1ee-803a48c7b6e3")
-		(property "Sheetname" "PowerSupply"
-			(at 33.02 56.4384 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Sheetfile" "PowerSupply.kicad_sch"
-			(at 33.02 78.0546 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(instances
-			(project "Pomodoro_V7"
-				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383"
-					(page "3")
-				)
-			)
-		)
-	)
-	(sheet
-		(at 33.02 116.84)
+		(at 33.02 86.36)
 		(size 26.67 20.32)
 		(fields_autoplaced yes)
 		(stroke
@@ -132,7 +94,7 @@
 		)
 		(uuid "c8f67831-bbf6-4683-a2c8-3e9cad0fb84c")
 		(property "Sheetname" "Inputs"
-			(at 33.02 116.1284 0)
+			(at 33.02 85.6484 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -141,7 +103,7 @@
 			)
 		)
 		(property "Sheetfile" "Inputs.kicad_sch"
-			(at 33.02 137.7446 0)
+			(at 33.02 107.2646 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -158,7 +120,7 @@
 		)
 	)
 	(sheet
-		(at 33.02 86.36)
+		(at 33.02 55.88)
 		(size 26.67 21.59)
 		(fields_autoplaced yes)
 		(stroke
@@ -170,7 +132,7 @@
 		)
 		(uuid "d366a572-4eed-4be8-88cc-5fb5da022e23")
 		(property "Sheetname" "RgbLeds"
-			(at 33.02 85.6484 0)
+			(at 33.02 55.1684 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -179,7 +141,7 @@
 			)
 		)
 		(property "Sheetfile" "RgbLeds.kicad_sch"
-			(at 33.02 108.5346 0)
+			(at 33.02 78.0546 0)
 			(effects
 				(font
 					(size 1.27 1.27)

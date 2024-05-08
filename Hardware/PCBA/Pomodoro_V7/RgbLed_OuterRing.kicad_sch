@@ -124,6 +124,108 @@
 				)
 			)
 		)
+		(symbol "Connector:TestPoint"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0.762) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "Device:R"
 			(pin_numbers hide)
 			(pin_names
@@ -717,362 +819,362 @@
 		)
 	)
 	(junction
-		(at 104.14 38.1)
+		(at 109.22 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "00b751bd-41af-44c7-9ee5-7c5ab36cd199")
 	)
 	(junction
-		(at 149.86 38.1)
+		(at 154.94 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "08b223cf-a46c-44ea-9c65-a03bb4e69ce5")
 	)
 	(junction
-		(at 58.42 53.34)
+		(at 63.5 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "08fd9dc6-6740-4e97-83e6-a49e979304dc")
 	)
 	(junction
-		(at 165.1 53.34)
+		(at 170.18 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "0beb824e-d218-4f69-affc-807c5c450d03")
 	)
 	(junction
-		(at 134.62 68.58)
+		(at 139.7 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "0d79f06a-45a8-4412-8145-2bb129c3b135")
 	)
 	(junction
-		(at 180.34 38.1)
+		(at 64.77 44.45)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "11ef697e-03de-4a0a-922f-3247ac91ace1")
+	)
+	(junction
+		(at 185.42 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "12fc6868-b6aa-4ce2-b375-8b19b514158a")
 	)
 	(junction
-		(at 226.06 38.1)
+		(at 231.14 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1ac44aff-8be3-4cc8-b1db-9de5146a37af")
 	)
 	(junction
-		(at 241.3 38.1)
+		(at 246.38 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1f1277f5-be8e-4e0e-99a5-398abd7f80c5")
 	)
 	(junction
-		(at 241.3 68.58)
+		(at 246.38 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1ff21a2a-191c-4a1b-b864-e955e15c6e1f")
 	)
 	(junction
-		(at 104.14 53.34)
+		(at 109.22 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "20af0d4f-4867-458c-b101-5e11b0fcc8d6")
 	)
 	(junction
-		(at 149.86 53.34)
+		(at 154.94 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "22c7d8eb-bc68-480d-b2de-4190c7fc9cee")
 	)
 	(junction
-		(at 134.62 53.34)
+		(at 139.7 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "27b490f7-af23-4e2a-ba24-c063decfc451")
 	)
 	(junction
-		(at 226.06 53.34)
+		(at 231.14 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "27d81fa4-c003-491d-a25c-6b24b6cee1d4")
 	)
 	(junction
-		(at 73.66 53.34)
+		(at 78.74 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "28e0ca95-3bb5-4490-8a7e-ad9d33fd7636")
 	)
 	(junction
-		(at 149.86 68.58)
+		(at 154.94 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "2c11700d-bfe9-4843-b076-e0f2d46ac5d1")
 	)
 	(junction
-		(at 119.38 68.58)
+		(at 124.46 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "301e2bc1-92dd-4e4c-bfaa-2827a77763e3")
 	)
 	(junction
-		(at 58.42 83.82)
+		(at 63.5 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "323c228e-df37-440f-bbe8-5bbb78561eec")
 	)
 	(junction
-		(at 226.06 68.58)
+		(at 231.14 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "34d944eb-5fa5-4bdf-9ef6-0dec097689dd")
 	)
 	(junction
-		(at 73.66 68.58)
+		(at 78.74 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3b07f603-c586-459f-8b2b-dd5931c8aa90")
 	)
 	(junction
-		(at 73.66 83.82)
+		(at 78.74 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4afa5bb5-bc95-4a68-8203-cf7a63461637")
 	)
 	(junction
-		(at 43.18 83.82)
+		(at 48.26 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4cb8180b-ab4e-4cad-8ace-3e47747106f9")
 	)
 	(junction
-		(at 43.18 97.79)
+		(at 48.26 123.19)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "53188b25-68d7-4f1b-9063-f31d210d7540")
 	)
 	(junction
-		(at 180.34 68.58)
+		(at 185.42 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5ab3baf4-6717-46d4-9992-1b6efc76c71d")
 	)
 	(junction
-		(at 119.38 53.34)
+		(at 124.46 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "613356ac-88db-495b-b0b6-99627423867e")
 	)
 	(junction
-		(at 149.86 83.82)
+		(at 154.94 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "637ecbe6-1b60-4ce4-839c-a07e4ee4f3fd")
 	)
 	(junction
-		(at 165.1 68.58)
+		(at 170.18 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "649bf6aa-cf46-45de-894b-605d9515b543")
 	)
 	(junction
-		(at 88.9 38.1)
+		(at 93.98 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6806f78c-949d-4a95-b801-37cf1732c479")
 	)
 	(junction
-		(at 43.18 38.1)
+		(at 48.26 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "709054cc-9f8c-49a3-9f12-2064b1373604")
 	)
 	(junction
-		(at 195.58 83.82)
+		(at 200.66 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "71b44089-acc1-497c-b337-1f8cc5dae745")
 	)
 	(junction
-		(at 210.82 38.1)
+		(at 215.9 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "76fe45ed-f98d-4e9c-ae42-bf324e347ec4")
 	)
 	(junction
-		(at 59.69 19.05)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "7963c533-78ad-44d2-a166-91544f14351c")
-	)
-	(junction
-		(at 104.14 83.82)
+		(at 109.22 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8d4199e3-fa0f-47f9-8c36-64c089fdf210")
 	)
 	(junction
-		(at 119.38 83.82)
+		(at 124.46 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8e5c0640-2b3b-4a4e-8026-d18de996c51a")
 	)
 	(junction
-		(at 226.06 83.82)
+		(at 231.14 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8ff7259a-75d4-4b27-bad9-bac26a00c2a3")
 	)
 	(junction
-		(at 165.1 83.82)
+		(at 170.18 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "91ec5bcf-539f-4d20-9af8-5cfef56d813e")
 	)
 	(junction
-		(at 58.42 68.58)
+		(at 63.5 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "954e61e9-2abd-4e2a-9337-8fc184fa5cd7")
 	)
 	(junction
-		(at 180.34 53.34)
+		(at 185.42 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "96c735f6-667b-4052-971f-16d7332fafdf")
 	)
 	(junction
-		(at 195.58 53.34)
+		(at 200.66 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "96fb524a-5d14-4cf7-b7d3-5b718b5c3147")
 	)
 	(junction
-		(at 195.58 68.58)
+		(at 200.66 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a00e60e8-0f09-4dda-a54a-087960901e7a")
 	)
 	(junction
-		(at 210.82 68.58)
+		(at 215.9 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a65d57d0-f706-4ee6-8f69-2abe8b85ed44")
 	)
 	(junction
-		(at 88.9 83.82)
+		(at 93.98 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a691c0fa-71c3-4b3a-9c46-5a13ce2f63f2")
 	)
 	(junction
-		(at 165.1 38.1)
+		(at 170.18 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b16c34b8-69b6-452b-ab5a-fe3905c2c02c")
 	)
 	(junction
-		(at 43.18 53.34)
+		(at 48.26 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bb025496-fe72-42c2-a00e-09d09814a72a")
 	)
 	(junction
-		(at 73.66 38.1)
+		(at 78.74 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bc064e35-1512-4968-ba7f-164a03c7be28")
 	)
 	(junction
-		(at 241.3 53.34)
+		(at 246.38 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bff6ec33-f49c-453d-bc21-8bf4b1878edd")
 	)
 	(junction
-		(at 210.82 53.34)
+		(at 215.9 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c0bcfdba-e168-4489-9ecf-a2ee64c1f227")
 	)
 	(junction
-		(at 43.18 113.03)
+		(at 48.26 138.43)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c2de8a7f-f377-413b-8025-8eccf6c504d6")
 	)
 	(junction
-		(at 180.34 83.82)
+		(at 185.42 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "cd9f0257-2acc-4c77-ac9f-74f7717633be")
 	)
 	(junction
-		(at 134.62 83.82)
+		(at 139.7 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ce99331f-631f-43e9-8d68-ae605b6a97df")
 	)
 	(junction
-		(at 210.82 83.82)
+		(at 215.9 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d3c554ca-a717-46e6-883d-2709c3963f9f")
 	)
 	(junction
-		(at 119.38 38.1)
+		(at 124.46 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d52ac801-3b8b-4319-aec6-bfdaae5c6c34")
 	)
 	(junction
-		(at 241.3 83.82)
+		(at 246.38 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d652e677-3b67-421c-a832-daa3f6b2fdc6")
 	)
 	(junction
-		(at 58.42 38.1)
+		(at 63.5 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e02a6c62-d8c2-451d-89ff-3187350826a6")
 	)
 	(junction
-		(at 195.58 38.1)
+		(at 200.66 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e2bd6850-f10c-4389-bdeb-17d1a4844eed")
 	)
 	(junction
-		(at 88.9 53.34)
+		(at 93.98 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ee6b97ac-492d-4713-bd92-2f6108809404")
 	)
 	(junction
-		(at 134.62 38.1)
+		(at 139.7 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f4321e76-f7b7-413e-82f9-c5b92e851022")
 	)
 	(junction
-		(at 104.14 68.58)
+		(at 109.22 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f7635370-dc04-4c90-bc62-ce7276f16109")
 	)
 	(junction
-		(at 43.18 68.58)
+		(at 48.26 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f80548eb-296c-4ee9-bb6a-46196e0b19f2")
 	)
 	(junction
-		(at 88.9 68.58)
+		(at 93.98 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "fe591b5d-5a64-4d03-a16f-9f0e7e5b0fc3")
 	)
 	(wire
 		(pts
-			(xy 88.9 38.1) (xy 104.14 38.1)
+			(xy 93.98 63.5) (xy 109.22 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1082,7 +1184,7 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 38.1) (xy 88.9 38.1)
+			(xy 78.74 63.5) (xy 93.98 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1092,7 +1194,7 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 68.58) (xy 180.34 68.58)
+			(xy 170.18 93.98) (xy 185.42 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1102,7 +1204,7 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 29.21) (xy 59.69 30.48)
+			(xy 64.77 54.61) (xy 64.77 55.88)
 		)
 		(stroke
 			(width 0)
@@ -1112,7 +1214,7 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 30.48) (xy 35.56 45.72)
+			(xy 40.64 55.88) (xy 40.64 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1122,7 +1224,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 68.58) (xy 195.58 68.58)
+			(xy 185.42 93.98) (xy 200.66 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1132,7 +1234,7 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 83.82) (xy 256.54 83.82)
+			(xy 246.38 109.22) (xy 261.62 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1142,7 +1244,7 @@
 	)
 	(wire
 		(pts
-			(xy 58.42 68.58) (xy 73.66 68.58)
+			(xy 63.5 93.98) (xy 78.74 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1152,7 +1254,7 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 38.1) (xy 256.54 38.1)
+			(xy 246.38 63.5) (xy 261.62 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1162,7 +1264,7 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 68.58) (xy 256.54 68.58)
+			(xy 246.38 93.98) (xy 261.62 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1172,7 +1274,7 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 53.34) (xy 241.3 53.34)
+			(xy 231.14 78.74) (xy 246.38 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1182,7 +1284,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 83.82) (xy 165.1 83.82)
+			(xy 154.94 109.22) (xy 170.18 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1192,7 +1294,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 53.34) (xy 149.86 53.34)
+			(xy 139.7 78.74) (xy 154.94 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1202,7 +1304,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 68.58) (xy 58.42 68.58)
+			(xy 48.26 93.98) (xy 63.5 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1212,7 +1314,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 38.1) (xy 165.1 38.1)
+			(xy 154.94 63.5) (xy 170.18 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1222,7 +1324,7 @@
 	)
 	(wire
 		(pts
-			(xy 58.42 38.1) (xy 43.18 38.1)
+			(xy 63.5 63.5) (xy 48.26 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1232,7 +1334,7 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 53.34) (xy 58.42 53.34)
+			(xy 78.74 78.74) (xy 63.5 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1242,7 +1344,7 @@
 	)
 	(wire
 		(pts
-			(xy 269.24 60.96) (xy 31.75 60.96)
+			(xy 274.32 86.36) (xy 36.83 86.36)
 		)
 		(stroke
 			(width 0)
@@ -1252,7 +1354,7 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 53.34) (xy 104.14 53.34)
+			(xy 93.98 78.74) (xy 109.22 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1262,7 +1364,7 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 83.82) (xy 104.14 83.82)
+			(xy 93.98 109.22) (xy 109.22 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1272,7 +1374,7 @@
 	)
 	(wire
 		(pts
-			(xy 58.42 83.82) (xy 73.66 83.82)
+			(xy 63.5 109.22) (xy 78.74 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1282,7 +1384,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 68.58) (xy 149.86 68.58)
+			(xy 139.7 93.98) (xy 154.94 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1292,7 +1394,7 @@
 	)
 	(wire
 		(pts
-			(xy 210.82 68.58) (xy 226.06 68.58)
+			(xy 215.9 93.98) (xy 231.14 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1302,7 +1404,7 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 38.1) (xy 180.34 38.1)
+			(xy 170.18 63.5) (xy 185.42 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1312,7 +1414,7 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 83.82) (xy 241.3 83.82)
+			(xy 231.14 109.22) (xy 246.38 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1322,7 +1424,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 38.1) (xy 149.86 38.1)
+			(xy 139.7 63.5) (xy 154.94 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1332,7 +1434,7 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 38.1) (xy 241.3 38.1)
+			(xy 231.14 63.5) (xy 246.38 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1342,7 +1444,7 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 68.58) (xy 88.9 68.58)
+			(xy 78.74 93.98) (xy 93.98 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1352,7 +1454,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 53.34) (xy 134.62 53.34)
+			(xy 124.46 78.74) (xy 139.7 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1362,7 +1464,7 @@
 	)
 	(wire
 		(pts
-			(xy 269.24 93.98) (xy 31.75 93.98)
+			(xy 274.32 119.38) (xy 36.83 119.38)
 		)
 		(stroke
 			(width 0)
@@ -1372,7 +1474,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 38.1) (xy 134.62 38.1)
+			(xy 124.46 63.5) (xy 139.7 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1382,7 +1484,7 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 19.05) (xy 59.69 19.05)
+			(xy 39.37 44.45) (xy 64.77 44.45)
 		)
 		(stroke
 			(width 0)
@@ -1392,7 +1494,7 @@
 	)
 	(wire
 		(pts
-			(xy 264.16 76.2) (xy 269.24 76.2)
+			(xy 269.24 101.6) (xy 274.32 101.6)
 		)
 		(stroke
 			(width 0)
@@ -1402,7 +1504,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 97.79) (xy 58.42 97.79)
+			(xy 48.26 123.19) (xy 63.5 123.19)
 		)
 		(stroke
 			(width 0)
@@ -1412,7 +1514,7 @@
 	)
 	(wire
 		(pts
-			(xy 31.75 105.41) (xy 35.56 105.41)
+			(xy 36.83 130.81) (xy 40.64 130.81)
 		)
 		(stroke
 			(width 0)
@@ -1422,7 +1524,7 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 53.34) (xy 256.54 53.34)
+			(xy 246.38 78.74) (xy 261.62 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1432,7 +1534,7 @@
 	)
 	(wire
 		(pts
-			(xy 269.24 45.72) (xy 269.24 60.96)
+			(xy 274.32 71.12) (xy 274.32 86.36)
 		)
 		(stroke
 			(width 0)
@@ -1442,7 +1544,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 53.34) (xy 165.1 53.34)
+			(xy 154.94 78.74) (xy 170.18 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1452,7 +1554,7 @@
 	)
 	(wire
 		(pts
-			(xy 31.75 76.2) (xy 35.56 76.2)
+			(xy 36.83 101.6) (xy 40.64 101.6)
 		)
 		(stroke
 			(width 0)
@@ -1462,7 +1564,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 53.34) (xy 58.42 53.34)
+			(xy 48.26 78.74) (xy 63.5 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1472,7 +1574,7 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 83.82) (xy 180.34 83.82)
+			(xy 170.18 109.22) (xy 185.42 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1482,7 +1584,7 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 30.48) (xy 35.56 30.48)
+			(xy 64.77 55.88) (xy 40.64 55.88)
 		)
 		(stroke
 			(width 0)
@@ -1492,7 +1594,7 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 38.1) (xy 210.82 38.1)
+			(xy 200.66 63.5) (xy 215.9 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1502,7 +1604,7 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 53.34) (xy 210.82 53.34)
+			(xy 200.66 78.74) (xy 215.9 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1512,7 +1614,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 83.82) (xy 134.62 83.82)
+			(xy 124.46 109.22) (xy 139.7 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1522,7 +1624,7 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 68.58) (xy 241.3 68.58)
+			(xy 231.14 93.98) (xy 246.38 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1532,7 +1634,7 @@
 	)
 	(wire
 		(pts
-			(xy 210.82 83.82) (xy 226.06 83.82)
+			(xy 215.9 109.22) (xy 231.14 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1542,7 +1644,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 83.82) (xy 195.58 83.82)
+			(xy 185.42 109.22) (xy 200.66 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1552,7 +1654,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 113.03) (xy 58.42 113.03)
+			(xy 48.26 138.43) (xy 63.5 138.43)
 		)
 		(stroke
 			(width 0)
@@ -1562,7 +1664,7 @@
 	)
 	(wire
 		(pts
-			(xy 210.82 53.34) (xy 226.06 53.34)
+			(xy 215.9 78.74) (xy 231.14 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1572,7 +1674,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 38.1) (xy 195.58 38.1)
+			(xy 185.42 63.5) (xy 200.66 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1582,7 +1684,7 @@
 	)
 	(wire
 		(pts
-			(xy 264.16 45.72) (xy 269.24 45.72)
+			(xy 269.24 71.12) (xy 274.32 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1592,7 +1694,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 68.58) (xy 134.62 68.58)
+			(xy 124.46 93.98) (xy 139.7 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1602,7 +1704,7 @@
 	)
 	(wire
 		(pts
-			(xy 31.75 93.98) (xy 31.75 105.41)
+			(xy 36.83 119.38) (xy 36.83 130.81)
 		)
 		(stroke
 			(width 0)
@@ -1612,7 +1714,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 83.82) (xy 58.42 83.82)
+			(xy 48.26 109.22) (xy 63.5 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1622,7 +1724,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 53.34) (xy 195.58 53.34)
+			(xy 185.42 78.74) (xy 200.66 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1632,7 +1734,7 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 83.82) (xy 88.9 83.82)
+			(xy 78.74 109.22) (xy 93.98 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1642,7 +1744,7 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 83.82) (xy 210.82 83.82)
+			(xy 200.66 109.22) (xy 215.9 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1652,7 +1754,7 @@
 	)
 	(wire
 		(pts
-			(xy 269.24 76.2) (xy 269.24 93.98)
+			(xy 274.32 101.6) (xy 274.32 119.38)
 		)
 		(stroke
 			(width 0)
@@ -1662,7 +1764,7 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 53.34) (xy 180.34 53.34)
+			(xy 170.18 78.74) (xy 185.42 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1672,7 +1774,7 @@
 	)
 	(wire
 		(pts
-			(xy 31.75 60.96) (xy 31.75 76.2)
+			(xy 36.83 86.36) (xy 36.83 101.6)
 		)
 		(stroke
 			(width 0)
@@ -1682,7 +1784,7 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 53.34) (xy 88.9 53.34)
+			(xy 78.74 78.74) (xy 93.98 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1692,7 +1794,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 105.41) (xy 71.12 105.41)
+			(xy 71.12 130.81) (xy 76.2 130.81)
 		)
 		(stroke
 			(width 0)
@@ -1702,7 +1804,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 68.58) (xy 119.38 68.58)
+			(xy 109.22 93.98) (xy 124.46 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1712,7 +1814,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 68.58) (xy 165.1 68.58)
+			(xy 154.94 93.98) (xy 170.18 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1722,7 +1824,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 83.82) (xy 149.86 83.82)
+			(xy 139.7 109.22) (xy 154.94 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1732,7 +1834,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 53.34) (xy 119.38 53.34)
+			(xy 109.22 78.74) (xy 124.46 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1742,7 +1844,17 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 38.1) (xy 119.38 38.1)
+			(xy 64.77 39.37) (xy 64.77 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee151040-a8f2-411e-941b-d5f917fc0a8b")
+	)
+	(wire
+		(pts
+			(xy 109.22 63.5) (xy 124.46 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1752,7 +1864,7 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 19.05) (xy 59.69 21.59)
+			(xy 64.77 44.45) (xy 64.77 46.99)
 		)
 		(stroke
 			(width 0)
@@ -1762,7 +1874,7 @@
 	)
 	(wire
 		(pts
-			(xy 58.42 38.1) (xy 73.66 38.1)
+			(xy 63.5 63.5) (xy 78.74 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1772,7 +1884,7 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 68.58) (xy 104.14 68.58)
+			(xy 93.98 93.98) (xy 109.22 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1782,7 +1894,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 83.82) (xy 119.38 83.82)
+			(xy 109.22 109.22) (xy 124.46 109.22)
 		)
 		(stroke
 			(width 0)
@@ -1792,7 +1904,7 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 68.58) (xy 210.82 68.58)
+			(xy 200.66 93.98) (xy 215.9 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1802,7 +1914,7 @@
 	)
 	(wire
 		(pts
-			(xy 210.82 38.1) (xy 226.06 38.1)
+			(xy 215.9 63.5) (xy 231.14 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1812,7 +1924,7 @@
 	)
 	(text "30 Leds on the Outerring\n"
 		(exclude_from_sim no)
-		(at 109.728 23.368 0)
+		(at 113.284 54.864 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1822,7 +1934,7 @@
 	)
 	(global_label "ESP32_RgbLed_DIN"
 		(shape input)
-		(at 48.26 19.05 180)
+		(at 39.37 44.45 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1832,7 +1944,7 @@
 		)
 		(uuid "46bf5919-3ff2-4c23-8f67-174b82d903b3")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.2531 19.05 0)
+			(at 18.3631 44.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1844,7 +1956,7 @@
 	)
 	(global_label "RgbLed_Outer2Middle"
 		(shape input)
-		(at 71.12 105.41 0)
+		(at 76.2 130.81 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1854,7 +1966,7 @@
 		)
 		(uuid "c1ca2ac7-ff67-4122-ac24-83a7e2376d09")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 94.304 105.41 0)
+			(at 99.384 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1866,7 +1978,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 195.58 45.72 0)
+		(at 200.66 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1874,7 +1986,7 @@
 		(dnp no)
 		(uuid "0973175c-03d5-4dda-beed-ab0b91d0b270")
 		(property "Reference" "D11"
-			(at 199.644 39.37 0)
+			(at 204.724 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1882,7 +1994,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 209.55 44.612 0)
+			(at 214.63 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1891,7 +2003,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 196.85 53.34 0)
+			(at 201.93 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1901,7 +2013,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 198.12 55.245 0)
+			(at 203.2 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1911,7 +2023,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 195.58 45.72 0)
+			(at 200.66 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1920,7 +2032,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 195.58 45.72 0)
+			(at 200.66 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1929,7 +2041,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 195.58 45.72 0)
+			(at 200.66 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1938,7 +2050,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 195.58 45.72 0)
+			(at 200.66 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1947,7 +2059,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 195.58 45.72 0)
+			(at 200.66 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1956,7 +2068,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 195.58 45.72 0)
+			(at 200.66 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1965,7 +2077,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 195.58 45.72 0)
+			(at 200.66 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1974,7 +2086,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 195.58 45.72 0)
+			(at 200.66 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1983,7 +2095,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 195.58 45.72 0)
+			(at 200.66 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2014,7 +2126,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 43.18 76.2 0)
+		(at 48.26 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2022,7 +2134,7 @@
 		(dnp no)
 		(uuid "0dbb05bc-57f6-4637-9500-69159c89d689")
 		(property "Reference" "D16"
-			(at 47.244 69.85 0)
+			(at 52.324 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2030,7 +2142,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 57.15 75.092 0)
+			(at 62.23 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2039,7 +2151,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 44.45 83.82 0)
+			(at 49.53 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2049,7 +2161,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 45.72 85.725 0)
+			(at 50.8 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2059,7 +2171,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 43.18 76.2 0)
+			(at 48.26 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2068,7 +2180,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 43.18 76.2 0)
+			(at 48.26 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2077,7 +2189,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 43.18 76.2 0)
+			(at 48.26 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2086,7 +2198,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 43.18 76.2 0)
+			(at 48.26 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2095,7 +2207,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 43.18 76.2 0)
+			(at 48.26 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2104,7 +2216,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 43.18 76.2 0)
+			(at 48.26 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2113,7 +2225,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 43.18 76.2 0)
+			(at 48.26 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2122,7 +2234,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 43.18 76.2 0)
+			(at 48.26 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2131,7 +2243,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 43.18 76.2 0)
+			(at 48.26 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2162,7 +2274,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 180.34 76.2 0)
+		(at 185.42 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2170,7 +2282,7 @@
 		(dnp no)
 		(uuid "135bcf99-af89-46b3-a93a-9909869eff49")
 		(property "Reference" "D25"
-			(at 184.404 69.85 0)
+			(at 189.484 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2178,7 +2290,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 194.31 75.092 0)
+			(at 199.39 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2187,7 +2299,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 181.61 83.82 0)
+			(at 186.69 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2197,7 +2309,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 182.88 85.725 0)
+			(at 187.96 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2207,7 +2319,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 180.34 76.2 0)
+			(at 185.42 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2216,7 +2328,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 180.34 76.2 0)
+			(at 185.42 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2225,7 +2337,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 180.34 76.2 0)
+			(at 185.42 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2234,7 +2346,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 180.34 76.2 0)
+			(at 185.42 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2243,7 +2355,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 180.34 76.2 0)
+			(at 185.42 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2252,7 +2364,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 180.34 76.2 0)
+			(at 185.42 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2261,7 +2373,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 180.34 76.2 0)
+			(at 185.42 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2270,7 +2382,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 180.34 76.2 0)
+			(at 185.42 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2279,7 +2391,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 180.34 76.2 0)
+			(at 185.42 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2310,7 +2422,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 241.3 76.2 0)
+		(at 246.38 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2318,7 +2430,7 @@
 		(dnp no)
 		(uuid "15cf9a86-be15-4a81-8808-4dc16254992c")
 		(property "Reference" "D29"
-			(at 245.364 69.85 0)
+			(at 250.444 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2326,7 +2438,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 255.27 75.092 0)
+			(at 260.35 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2335,7 +2447,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 242.57 83.82 0)
+			(at 247.65 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2345,7 +2457,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 243.84 85.725 0)
+			(at 248.92 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2355,7 +2467,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 241.3 76.2 0)
+			(at 246.38 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2364,7 +2476,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 241.3 76.2 0)
+			(at 246.38 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2373,7 +2485,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 241.3 76.2 0)
+			(at 246.38 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2382,7 +2494,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 241.3 76.2 0)
+			(at 246.38 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2391,7 +2503,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 241.3 76.2 0)
+			(at 246.38 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2400,7 +2512,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 241.3 76.2 0)
+			(at 246.38 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2409,7 +2521,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 241.3 76.2 0)
+			(at 246.38 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2418,7 +2530,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 241.3 76.2 0)
+			(at 246.38 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2427,7 +2539,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 241.3 76.2 0)
+			(at 246.38 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2458,7 +2570,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 134.62 76.2 0)
+		(at 139.7 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2466,7 +2578,7 @@
 		(dnp no)
 		(uuid "241d489c-ba9b-4cd4-9a4a-7769736f770b")
 		(property "Reference" "D22"
-			(at 138.684 69.85 0)
+			(at 143.764 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2474,7 +2586,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 148.59 75.092 0)
+			(at 153.67 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2483,7 +2595,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 135.89 83.82 0)
+			(at 140.97 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2493,7 +2605,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 137.16 85.725 0)
+			(at 142.24 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2503,7 +2615,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 134.62 76.2 0)
+			(at 139.7 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2512,7 +2624,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 134.62 76.2 0)
+			(at 139.7 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2521,7 +2633,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 134.62 76.2 0)
+			(at 139.7 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2530,7 +2642,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 134.62 76.2 0)
+			(at 139.7 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2539,7 +2651,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 134.62 76.2 0)
+			(at 139.7 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2548,7 +2660,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 134.62 76.2 0)
+			(at 139.7 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2557,7 +2669,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 134.62 76.2 0)
+			(at 139.7 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2566,7 +2678,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 134.62 76.2 0)
+			(at 139.7 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2575,7 +2687,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 134.62 76.2 0)
+			(at 139.7 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2606,7 +2718,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 43.18 68.58 0)
+		(at 48.26 93.98 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2615,7 +2727,7 @@
 		(fields_autoplaced yes)
 		(uuid "30e5e767-2693-4cb7-ac94-0a1e68f8869f")
 		(property "Reference" "#PWR011"
-			(at 43.18 72.39 0)
+			(at 48.26 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2624,7 +2736,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 43.18 63.5 0)
+			(at 48.26 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2632,7 +2744,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 43.18 68.58 0)
+			(at 48.26 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2641,7 +2753,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 68.58 0)
+			(at 48.26 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2650,7 +2762,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 43.18 68.58 0)
+			(at 48.26 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2672,16 +2784,15 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 59.69 25.4 0)
+		(at 64.77 50.8 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "39105efc-5732-47ba-8955-109337530b02")
 		(property "Reference" "R2"
-			(at 62.23 24.1299 0)
+			(at 67.31 49.5299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2690,7 +2801,7 @@
 			)
 		)
 		(property "Value" "100"
-			(at 62.23 26.6699 0)
+			(at 64.77 52.578 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2699,7 +2810,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 57.912 25.4 90)
+			(at 62.992 50.8 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2708,7 +2819,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 59.69 25.4 0)
+			(at 64.77 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2717,7 +2828,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 59.69 25.4 0)
+			(at 64.77 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2726,7 +2837,7 @@
 			)
 		)
 		(property "MPN" "RC0805FR-07100RL"
-			(at 59.69 25.4 0)
+			(at 64.77 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2735,7 +2846,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 59.69 25.4 0)
+			(at 64.77 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2744,7 +2855,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 59.69 25.4 0)
+			(at 64.77 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2753,7 +2864,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 59.69 25.4 0)
+			(at 64.77 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2762,7 +2873,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 59.69 25.4 0)
+			(at 64.77 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2771,7 +2882,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 59.69 25.4 0)
+			(at 64.77 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2780,7 +2891,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 59.69 25.4 0)
+			(at 64.77 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2789,7 +2900,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 59.69 25.4 0)
+			(at 64.77 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2814,7 +2925,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 165.1 76.2 0)
+		(at 170.18 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2822,7 +2933,7 @@
 		(dnp no)
 		(uuid "3a278eac-e15e-4a06-955d-ecde2aef0502")
 		(property "Reference" "D24"
-			(at 169.164 69.85 0)
+			(at 174.244 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2830,7 +2941,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 179.07 75.092 0)
+			(at 184.15 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2839,7 +2950,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 166.37 83.82 0)
+			(at 171.45 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2849,7 +2960,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 167.64 85.725 0)
+			(at 172.72 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2859,7 +2970,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 165.1 76.2 0)
+			(at 170.18 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2868,7 +2979,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 165.1 76.2 0)
+			(at 170.18 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2877,7 +2988,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 165.1 76.2 0)
+			(at 170.18 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2886,7 +2997,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 165.1 76.2 0)
+			(at 170.18 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2895,7 +3006,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 165.1 76.2 0)
+			(at 170.18 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2904,7 +3015,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 165.1 76.2 0)
+			(at 170.18 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2913,7 +3024,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 165.1 76.2 0)
+			(at 170.18 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2922,7 +3033,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 165.1 76.2 0)
+			(at 170.18 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2931,7 +3042,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 165.1 76.2 0)
+			(at 170.18 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2962,7 +3073,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 43.18 105.41 0)
+		(at 48.26 130.81 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2970,7 +3081,7 @@
 		(dnp no)
 		(uuid "4121f511-cc96-4371-ae08-c0ee2b882244")
 		(property "Reference" "D31"
-			(at 47.244 99.06 0)
+			(at 52.324 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2978,7 +3089,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 57.15 104.302 0)
+			(at 62.23 129.702 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2987,7 +3098,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 44.45 113.03 0)
+			(at 49.53 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2997,7 +3108,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 45.72 114.935 0)
+			(at 50.8 140.335 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3007,7 +3118,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 43.18 105.41 0)
+			(at 48.26 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3016,7 +3127,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 43.18 105.41 0)
+			(at 48.26 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3025,7 +3136,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 43.18 105.41 0)
+			(at 48.26 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3034,7 +3145,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 43.18 105.41 0)
+			(at 48.26 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3043,7 +3154,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 43.18 105.41 0)
+			(at 48.26 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3052,7 +3163,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 43.18 105.41 0)
+			(at 48.26 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3061,7 +3172,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 43.18 105.41 0)
+			(at 48.26 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3070,7 +3181,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 43.18 105.41 0)
+			(at 48.26 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3079,7 +3190,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 43.18 105.41 0)
+			(at 48.26 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3109,8 +3220,136 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Conn_01x01_Pin")
+		(at 69.85 44.45 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "426e38f3-3bc1-40ed-b90a-032a91998618")
+		(property "Reference" "J2"
+			(at 69.088 42.418 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x01_Pin"
+			(at 69.215 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 69.85 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 69.85 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x01, script generated"
+			(at 69.85 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MANUFACTURER" ""
+			(at 69.85 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MAXIMUM_PACKAGE_HEIGHT" ""
+			(at 69.85 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mfr. NO" ""
+			(at 69.85 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "OPTION" ""
+			(at 69.85 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTREV" ""
+			(at 69.85 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SNAPEDA_PN" ""
+			(at 69.85 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "STANDARD" ""
+			(at 69.85 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e9635e40-170b-46b7-887f-5d92e5731084")
+		)
+		(instances
+			(project "Pomodoro_V7"
+				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/b6c0abfc-b228-4088-82f2-4b654b638967"
+					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 73.66 45.72 0)
+		(at 78.74 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3118,7 +3357,7 @@
 		(dnp no)
 		(uuid "49df676e-9c30-4560-8959-5782c5022133")
 		(property "Reference" "D3"
-			(at 77.724 39.37 0)
+			(at 82.804 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3126,7 +3365,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 87.63 44.612 0)
+			(at 92.71 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3135,7 +3374,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 74.93 53.34 0)
+			(at 80.01 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3145,7 +3384,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 76.2 55.245 0)
+			(at 81.28 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3155,7 +3394,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 73.66 45.72 0)
+			(at 78.74 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3164,7 +3403,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 73.66 45.72 0)
+			(at 78.74 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3173,7 +3412,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 73.66 45.72 0)
+			(at 78.74 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3182,7 +3421,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 73.66 45.72 0)
+			(at 78.74 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3191,7 +3430,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 73.66 45.72 0)
+			(at 78.74 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3200,7 +3439,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 73.66 45.72 0)
+			(at 78.74 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3209,7 +3448,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 73.66 45.72 0)
+			(at 78.74 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3218,7 +3457,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 73.66 45.72 0)
+			(at 78.74 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3227,7 +3466,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 73.66 45.72 0)
+			(at 78.74 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3258,7 +3497,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 104.14 76.2 0)
+		(at 109.22 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3266,7 +3505,7 @@
 		(dnp no)
 		(uuid "4dc7dab1-557a-492f-b684-afd0f4ca2abb")
 		(property "Reference" "D20"
-			(at 108.204 69.85 0)
+			(at 113.284 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3274,7 +3513,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 118.11 75.092 0)
+			(at 123.19 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3283,7 +3522,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 105.41 83.82 0)
+			(at 110.49 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3293,7 +3532,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 106.68 85.725 0)
+			(at 111.76 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3303,7 +3542,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 104.14 76.2 0)
+			(at 109.22 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3312,7 +3551,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 104.14 76.2 0)
+			(at 109.22 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3321,7 +3560,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 104.14 76.2 0)
+			(at 109.22 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3330,7 +3569,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 104.14 76.2 0)
+			(at 109.22 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3339,7 +3578,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 104.14 76.2 0)
+			(at 109.22 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3348,7 +3587,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 104.14 76.2 0)
+			(at 109.22 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3357,7 +3596,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 104.14 76.2 0)
+			(at 109.22 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3366,7 +3605,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 104.14 76.2 0)
+			(at 109.22 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3375,7 +3614,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 104.14 76.2 0)
+			(at 109.22 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3406,7 +3645,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 58.42 76.2 0)
+		(at 63.5 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3414,7 +3653,7 @@
 		(dnp no)
 		(uuid "50b25820-ab93-4c6b-8e52-238232b56b78")
 		(property "Reference" "D17"
-			(at 62.484 69.85 0)
+			(at 67.564 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3422,7 +3661,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 72.39 75.092 0)
+			(at 77.47 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3431,7 +3670,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 59.69 83.82 0)
+			(at 64.77 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3441,7 +3680,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 60.96 85.725 0)
+			(at 66.04 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3451,7 +3690,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 58.42 76.2 0)
+			(at 63.5 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3460,7 +3699,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 58.42 76.2 0)
+			(at 63.5 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3469,7 +3708,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 58.42 76.2 0)
+			(at 63.5 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3478,7 +3717,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 58.42 76.2 0)
+			(at 63.5 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3487,7 +3726,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 58.42 76.2 0)
+			(at 63.5 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3496,7 +3735,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 58.42 76.2 0)
+			(at 63.5 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3505,7 +3744,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 58.42 76.2 0)
+			(at 63.5 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3514,7 +3753,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 58.42 76.2 0)
+			(at 63.5 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3523,7 +3762,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 58.42 76.2 0)
+			(at 63.5 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3553,136 +3792,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x01_Pin")
-		(at 64.77 19.05 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp yes)
-		(fields_autoplaced yes)
-		(uuid "5331f016-5d45-4bc2-8f41-9a5283812ef0")
-		(property "Reference" "J2"
-			(at 64.135 13.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Conn_01x01_Pin"
-			(at 64.135 16.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 64.77 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 64.77 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x01, script generated"
-			(at 64.77 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" ""
-			(at 64.77 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 64.77 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mfr. NO" ""
-			(at 64.77 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "OPTION" ""
-			(at 64.77 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PARTREV" ""
-			(at 64.77 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "SNAPEDA_PN" ""
-			(at 64.77 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "STANDARD" ""
-			(at 64.77 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "a630eab7-5f51-46f8-bd87-a2f053d464b7")
-		)
-		(instances
-			(project "Pomodoro_V7"
-				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/b6c0abfc-b228-4088-82f2-4b654b638967"
-					(reference "J2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 104.14 45.72 0)
+		(at 109.22 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3690,7 +3801,7 @@
 		(dnp no)
 		(uuid "598f7a36-2b59-418e-9d1f-c9da2a6f905e")
 		(property "Reference" "D5"
-			(at 108.204 39.37 0)
+			(at 113.284 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3698,7 +3809,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 118.11 44.612 0)
+			(at 123.19 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3707,7 +3818,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 105.41 53.34 0)
+			(at 110.49 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3717,7 +3828,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 106.68 55.245 0)
+			(at 111.76 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3727,7 +3838,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 104.14 45.72 0)
+			(at 109.22 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3736,7 +3847,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 104.14 45.72 0)
+			(at 109.22 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3745,7 +3856,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 104.14 45.72 0)
+			(at 109.22 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3754,7 +3865,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 104.14 45.72 0)
+			(at 109.22 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3763,7 +3874,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 104.14 45.72 0)
+			(at 109.22 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3772,7 +3883,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 104.14 45.72 0)
+			(at 109.22 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3781,7 +3892,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 104.14 45.72 0)
+			(at 109.22 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3790,7 +3901,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 104.14 45.72 0)
+			(at 109.22 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3799,7 +3910,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 104.14 45.72 0)
+			(at 109.22 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3830,7 +3941,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 119.38 76.2 0)
+		(at 124.46 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3838,7 +3949,7 @@
 		(dnp no)
 		(uuid "61ec4f55-fa30-4e54-b3dd-73d64281c92a")
 		(property "Reference" "D21"
-			(at 123.444 69.85 0)
+			(at 128.524 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3846,7 +3957,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 133.35 75.092 0)
+			(at 138.43 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3855,7 +3966,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 120.65 83.82 0)
+			(at 125.73 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3865,7 +3976,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 121.92 85.725 0)
+			(at 127 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3875,7 +3986,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 119.38 76.2 0)
+			(at 124.46 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3884,7 +3995,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 119.38 76.2 0)
+			(at 124.46 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3893,7 +4004,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 119.38 76.2 0)
+			(at 124.46 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3902,7 +4013,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 119.38 76.2 0)
+			(at 124.46 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3911,7 +4022,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 119.38 76.2 0)
+			(at 124.46 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3920,7 +4031,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 119.38 76.2 0)
+			(at 124.46 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3929,7 +4040,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 119.38 76.2 0)
+			(at 124.46 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3938,7 +4049,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 119.38 76.2 0)
+			(at 124.46 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3947,7 +4058,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 119.38 76.2 0)
+			(at 124.46 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3978,7 +4089,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 88.9 45.72 0)
+		(at 93.98 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3986,7 +4097,7 @@
 		(dnp no)
 		(uuid "6861e4b7-9471-407a-93b8-6e4a89ce9d18")
 		(property "Reference" "D4"
-			(at 92.964 39.37 0)
+			(at 98.044 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3994,7 +4105,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 102.87 44.612 0)
+			(at 107.95 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4003,7 +4114,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 90.17 53.34 0)
+			(at 95.25 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4013,7 +4124,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 91.44 55.245 0)
+			(at 96.52 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4023,7 +4134,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 88.9 45.72 0)
+			(at 93.98 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4032,7 +4143,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 88.9 45.72 0)
+			(at 93.98 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4041,7 +4152,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 88.9 45.72 0)
+			(at 93.98 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4050,7 +4161,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 88.9 45.72 0)
+			(at 93.98 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4059,7 +4170,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 88.9 45.72 0)
+			(at 93.98 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4068,7 +4179,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 88.9 45.72 0)
+			(at 93.98 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4077,7 +4188,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 88.9 45.72 0)
+			(at 93.98 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4086,7 +4197,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 88.9 45.72 0)
+			(at 93.98 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4095,7 +4206,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 88.9 45.72 0)
+			(at 93.98 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4126,7 +4237,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 43.18 113.03 0)
+		(at 48.26 138.43 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4135,7 +4246,7 @@
 		(fields_autoplaced yes)
 		(uuid "6e98fd79-1244-4ed6-a551-71127e2a043a")
 		(property "Reference" "#PWR014"
-			(at 43.18 119.38 0)
+			(at 48.26 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4144,7 +4255,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 43.18 118.11 0)
+			(at 48.26 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4152,7 +4263,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 43.18 113.03 0)
+			(at 48.26 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4161,7 +4272,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 113.03 0)
+			(at 48.26 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4170,7 +4281,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 43.18 113.03 0)
+			(at 48.26 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4192,7 +4303,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 88.9 76.2 0)
+		(at 93.98 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4200,7 +4311,7 @@
 		(dnp no)
 		(uuid "70939a4a-429d-4c55-ac74-8ce2ad2c2ec8")
 		(property "Reference" "D19"
-			(at 92.964 69.85 0)
+			(at 98.044 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4208,7 +4319,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 102.87 75.092 0)
+			(at 107.95 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4217,7 +4328,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 90.17 83.82 0)
+			(at 95.25 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4227,7 +4338,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 91.44 85.725 0)
+			(at 96.52 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4237,7 +4348,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 88.9 76.2 0)
+			(at 93.98 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4246,7 +4357,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 88.9 76.2 0)
+			(at 93.98 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4255,7 +4366,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 88.9 76.2 0)
+			(at 93.98 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4264,7 +4375,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 88.9 76.2 0)
+			(at 93.98 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4273,7 +4384,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 88.9 76.2 0)
+			(at 93.98 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4282,7 +4393,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 88.9 76.2 0)
+			(at 93.98 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4291,7 +4402,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 88.9 76.2 0)
+			(at 93.98 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4300,7 +4411,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 88.9 76.2 0)
+			(at 93.98 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4309,7 +4420,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 88.9 76.2 0)
+			(at 93.98 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4340,7 +4451,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 43.18 97.79 0)
+		(at 48.26 123.19 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4349,7 +4460,7 @@
 		(fields_autoplaced yes)
 		(uuid "70962758-6a0c-4b05-a246-15bc582950b7")
 		(property "Reference" "#PWR013"
-			(at 43.18 101.6 0)
+			(at 48.26 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4358,7 +4469,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 43.18 92.71 0)
+			(at 48.26 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4366,7 +4477,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 43.18 97.79 0)
+			(at 48.26 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4375,7 +4486,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 97.79 0)
+			(at 48.26 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4384,7 +4495,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 43.18 97.79 0)
+			(at 48.26 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4406,7 +4517,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 73.66 76.2 0)
+		(at 78.74 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4414,7 +4525,7 @@
 		(dnp no)
 		(uuid "82514254-e5bc-4306-b61c-015cafd5c5ca")
 		(property "Reference" "D18"
-			(at 77.724 69.85 0)
+			(at 82.804 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4422,7 +4533,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 87.63 75.092 0)
+			(at 92.71 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4431,7 +4542,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 74.93 83.82 0)
+			(at 80.01 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4441,7 +4552,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 76.2 85.725 0)
+			(at 81.28 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4451,7 +4562,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 73.66 76.2 0)
+			(at 78.74 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4460,7 +4571,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 73.66 76.2 0)
+			(at 78.74 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4469,7 +4580,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 73.66 76.2 0)
+			(at 78.74 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4478,7 +4589,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 73.66 76.2 0)
+			(at 78.74 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4487,7 +4598,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 73.66 76.2 0)
+			(at 78.74 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4496,7 +4607,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 73.66 76.2 0)
+			(at 78.74 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4505,7 +4616,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 73.66 76.2 0)
+			(at 78.74 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4514,7 +4625,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 73.66 76.2 0)
+			(at 78.74 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4523,7 +4634,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 73.66 76.2 0)
+			(at 78.74 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4554,7 +4665,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 165.1 45.72 0)
+		(at 170.18 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4562,7 +4673,7 @@
 		(dnp no)
 		(uuid "828f625a-307b-47e9-83c1-44441b67f848")
 		(property "Reference" "D9"
-			(at 169.164 39.37 0)
+			(at 174.244 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4570,7 +4681,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 179.07 44.612 0)
+			(at 184.15 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4579,7 +4690,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 166.37 53.34 0)
+			(at 171.45 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4589,7 +4700,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 167.64 55.245 0)
+			(at 172.72 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4599,7 +4710,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 165.1 45.72 0)
+			(at 170.18 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4608,7 +4719,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 165.1 45.72 0)
+			(at 170.18 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4617,7 +4728,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 165.1 45.72 0)
+			(at 170.18 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4626,7 +4737,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 165.1 45.72 0)
+			(at 170.18 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4635,7 +4746,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 165.1 45.72 0)
+			(at 170.18 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4644,7 +4755,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 165.1 45.72 0)
+			(at 170.18 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4653,7 +4764,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 165.1 45.72 0)
+			(at 170.18 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4662,7 +4773,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 165.1 45.72 0)
+			(at 170.18 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4671,7 +4782,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 165.1 45.72 0)
+			(at 170.18 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4702,7 +4813,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 256.54 45.72 0)
+		(at 261.62 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4710,7 +4821,7 @@
 		(dnp no)
 		(uuid "88e6efdb-f18c-4ff2-9920-e003c44c6852")
 		(property "Reference" "D15"
-			(at 260.604 39.37 0)
+			(at 265.684 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4718,7 +4829,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 270.51 44.612 0)
+			(at 275.59 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4727,7 +4838,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 257.81 53.34 0)
+			(at 262.89 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4737,7 +4848,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 259.08 55.245 0)
+			(at 264.16 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4747,7 +4858,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 256.54 45.72 0)
+			(at 261.62 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4756,7 +4867,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 256.54 45.72 0)
+			(at 261.62 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4765,7 +4876,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 256.54 45.72 0)
+			(at 261.62 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4774,7 +4885,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 256.54 45.72 0)
+			(at 261.62 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4783,7 +4894,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 256.54 45.72 0)
+			(at 261.62 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4792,7 +4903,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 256.54 45.72 0)
+			(at 261.62 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4801,7 +4912,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 256.54 45.72 0)
+			(at 261.62 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4810,7 +4921,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 256.54 45.72 0)
+			(at 261.62 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4819,7 +4930,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 256.54 45.72 0)
+			(at 261.62 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4850,7 +4961,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 43.18 38.1 0)
+		(at 48.26 63.5 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4859,7 +4970,7 @@
 		(fields_autoplaced yes)
 		(uuid "894832f6-1106-4986-9bb4-30e833fcb97e")
 		(property "Reference" "#PWR09"
-			(at 43.18 41.91 0)
+			(at 48.26 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4868,7 +4979,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 43.18 33.02 0)
+			(at 48.26 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4876,7 +4987,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 43.18 38.1 0)
+			(at 48.26 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4885,7 +4996,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 38.1 0)
+			(at 48.26 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4894,7 +5005,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 43.18 38.1 0)
+			(at 48.26 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4915,8 +5026,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 64.77 39.37 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "89803128-0a1b-40d5-8e08-edb534e42ed0")
+		(property "Reference" "TP13"
+			(at 71.374 39.37 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 68.072 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 64.77 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 64.77 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 64.77 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "047ef0d1-579c-459d-84fa-dbc7ce3d215c")
+		)
+		(instances
+			(project "Pomodoro_V7"
+				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/b6c0abfc-b228-4088-82f2-4b654b638967"
+					(reference "TP13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 210.82 45.72 0)
+		(at 215.9 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4924,7 +5100,7 @@
 		(dnp no)
 		(uuid "8b909eb7-f2c9-43b0-bb3d-c03ef4acb1c8")
 		(property "Reference" "D12"
-			(at 214.884 39.37 0)
+			(at 219.964 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4932,7 +5108,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 224.79 44.612 0)
+			(at 229.87 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4941,7 +5117,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 212.09 53.34 0)
+			(at 217.17 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4951,7 +5127,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 213.36 55.245 0)
+			(at 218.44 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4961,7 +5137,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 210.82 45.72 0)
+			(at 215.9 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4970,7 +5146,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 210.82 45.72 0)
+			(at 215.9 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4979,7 +5155,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 210.82 45.72 0)
+			(at 215.9 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4988,7 +5164,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 210.82 45.72 0)
+			(at 215.9 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4997,7 +5173,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 210.82 45.72 0)
+			(at 215.9 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5006,7 +5182,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 210.82 45.72 0)
+			(at 215.9 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5015,7 +5191,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 210.82 45.72 0)
+			(at 215.9 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5024,7 +5200,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 210.82 45.72 0)
+			(at 215.9 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5033,7 +5209,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 210.82 45.72 0)
+			(at 215.9 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5064,7 +5240,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 226.06 76.2 0)
+		(at 231.14 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5072,7 +5248,7 @@
 		(dnp no)
 		(uuid "8f822b8e-e73f-4696-b8c1-a61ac2f58232")
 		(property "Reference" "D28"
-			(at 230.124 69.85 0)
+			(at 235.204 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5080,7 +5256,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 240.03 75.092 0)
+			(at 245.11 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5089,7 +5265,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 227.33 83.82 0)
+			(at 232.41 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5099,7 +5275,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 228.6 85.725 0)
+			(at 233.68 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5109,7 +5285,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 226.06 76.2 0)
+			(at 231.14 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5118,7 +5294,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 226.06 76.2 0)
+			(at 231.14 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5127,7 +5303,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 226.06 76.2 0)
+			(at 231.14 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5136,7 +5312,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 226.06 76.2 0)
+			(at 231.14 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5145,7 +5321,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 226.06 76.2 0)
+			(at 231.14 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5154,7 +5330,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 226.06 76.2 0)
+			(at 231.14 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5163,7 +5339,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 226.06 76.2 0)
+			(at 231.14 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5172,7 +5348,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 226.06 76.2 0)
+			(at 231.14 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5181,7 +5357,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 226.06 76.2 0)
+			(at 231.14 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5212,7 +5388,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 119.38 45.72 0)
+		(at 124.46 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5220,7 +5396,7 @@
 		(dnp no)
 		(uuid "a47ec000-91ec-4899-97c3-1962d957d965")
 		(property "Reference" "D6"
-			(at 123.444 39.37 0)
+			(at 128.524 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5228,7 +5404,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 133.35 44.612 0)
+			(at 138.43 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5237,7 +5413,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 120.65 53.34 0)
+			(at 125.73 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5247,7 +5423,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 121.92 55.245 0)
+			(at 127 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5257,7 +5433,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 119.38 45.72 0)
+			(at 124.46 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5266,7 +5442,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 119.38 45.72 0)
+			(at 124.46 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5275,7 +5451,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 119.38 45.72 0)
+			(at 124.46 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5284,7 +5460,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 119.38 45.72 0)
+			(at 124.46 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5293,7 +5469,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 119.38 45.72 0)
+			(at 124.46 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5302,7 +5478,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 119.38 45.72 0)
+			(at 124.46 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5311,7 +5487,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 119.38 45.72 0)
+			(at 124.46 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5320,7 +5496,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 119.38 45.72 0)
+			(at 124.46 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5329,7 +5505,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 119.38 45.72 0)
+			(at 124.46 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5360,7 +5536,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 43.18 83.82 0)
+		(at 48.26 109.22 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5368,7 +5544,7 @@
 		(dnp no)
 		(uuid "abf089a5-e824-4af1-b2ce-efe14c437c31")
 		(property "Reference" "#PWR012"
-			(at 43.18 90.17 0)
+			(at 48.26 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5377,7 +5553,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 43.18 87.884 0)
+			(at 48.26 113.284 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5385,7 +5561,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 43.18 83.82 0)
+			(at 48.26 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5394,7 +5570,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 83.82 0)
+			(at 48.26 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5403,7 +5579,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 43.18 83.82 0)
+			(at 48.26 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5425,7 +5601,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 134.62 45.72 0)
+		(at 139.7 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5433,7 +5609,7 @@
 		(dnp no)
 		(uuid "ad550a08-379b-4fed-b504-a2cb76fd783c")
 		(property "Reference" "D7"
-			(at 138.684 39.37 0)
+			(at 143.764 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5441,7 +5617,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 148.59 44.612 0)
+			(at 153.67 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5450,7 +5626,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 135.89 53.34 0)
+			(at 140.97 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5460,7 +5636,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 137.16 55.245 0)
+			(at 142.24 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5470,7 +5646,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 134.62 45.72 0)
+			(at 139.7 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5479,7 +5655,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 134.62 45.72 0)
+			(at 139.7 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5488,7 +5664,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 134.62 45.72 0)
+			(at 139.7 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5497,7 +5673,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 134.62 45.72 0)
+			(at 139.7 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5506,7 +5682,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 134.62 45.72 0)
+			(at 139.7 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5515,7 +5691,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 134.62 45.72 0)
+			(at 139.7 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5524,7 +5700,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 134.62 45.72 0)
+			(at 139.7 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5533,7 +5709,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 134.62 45.72 0)
+			(at 139.7 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5542,7 +5718,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 134.62 45.72 0)
+			(at 139.7 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5573,7 +5749,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 195.58 76.2 0)
+		(at 200.66 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5581,7 +5757,7 @@
 		(dnp no)
 		(uuid "ad930918-3143-416f-ae1b-244c1692237b")
 		(property "Reference" "D26"
-			(at 199.644 69.85 0)
+			(at 204.724 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5589,7 +5765,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 209.55 75.092 0)
+			(at 214.63 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5598,7 +5774,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 196.85 83.82 0)
+			(at 201.93 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5608,7 +5784,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 198.12 85.725 0)
+			(at 203.2 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5618,7 +5794,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 195.58 76.2 0)
+			(at 200.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5627,7 +5803,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 195.58 76.2 0)
+			(at 200.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5636,7 +5812,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 195.58 76.2 0)
+			(at 200.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5645,7 +5821,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 195.58 76.2 0)
+			(at 200.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5654,7 +5830,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 195.58 76.2 0)
+			(at 200.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5663,7 +5839,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 195.58 76.2 0)
+			(at 200.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5672,7 +5848,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 195.58 76.2 0)
+			(at 200.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5681,7 +5857,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 195.58 76.2 0)
+			(at 200.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5690,7 +5866,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 195.58 76.2 0)
+			(at 200.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5721,7 +5897,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 149.86 76.2 0)
+		(at 154.94 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5729,7 +5905,7 @@
 		(dnp no)
 		(uuid "b26e3d28-cc7f-4ecf-9c15-ea55ea0e4da3")
 		(property "Reference" "D23"
-			(at 153.924 69.85 0)
+			(at 159.004 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5737,7 +5913,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 163.83 75.092 0)
+			(at 168.91 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5746,7 +5922,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 151.13 83.82 0)
+			(at 156.21 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5756,7 +5932,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 152.4 85.725 0)
+			(at 157.48 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5766,7 +5942,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 149.86 76.2 0)
+			(at 154.94 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5775,7 +5951,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 149.86 76.2 0)
+			(at 154.94 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5784,7 +5960,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 149.86 76.2 0)
+			(at 154.94 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5793,7 +5969,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 149.86 76.2 0)
+			(at 154.94 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5802,7 +5978,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 149.86 76.2 0)
+			(at 154.94 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5811,7 +5987,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 149.86 76.2 0)
+			(at 154.94 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5820,7 +5996,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 149.86 76.2 0)
+			(at 154.94 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5829,7 +6005,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 149.86 76.2 0)
+			(at 154.94 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5838,7 +6014,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 149.86 76.2 0)
+			(at 154.94 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5869,7 +6045,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 58.42 45.72 0)
+		(at 63.5 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5877,7 +6053,7 @@
 		(dnp no)
 		(uuid "b3bb8b28-2ef5-4fac-8072-7207af1a861f")
 		(property "Reference" "D2"
-			(at 62.484 39.37 0)
+			(at 67.564 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5885,7 +6061,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 72.39 44.612 0)
+			(at 77.47 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5894,7 +6070,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 59.69 53.34 0)
+			(at 64.77 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5904,7 +6080,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 60.96 55.245 0)
+			(at 66.04 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5914,7 +6090,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 58.42 45.72 0)
+			(at 63.5 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5923,7 +6099,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 58.42 45.72 0)
+			(at 63.5 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5932,7 +6108,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 58.42 45.72 0)
+			(at 63.5 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5941,7 +6117,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 58.42 45.72 0)
+			(at 63.5 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5950,7 +6126,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 58.42 45.72 0)
+			(at 63.5 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5959,7 +6135,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 58.42 45.72 0)
+			(at 63.5 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5968,7 +6144,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 58.42 45.72 0)
+			(at 63.5 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5977,7 +6153,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 58.42 45.72 0)
+			(at 63.5 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5986,7 +6162,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 58.42 45.72 0)
+			(at 63.5 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6017,7 +6193,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 149.86 45.72 0)
+		(at 154.94 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6025,7 +6201,7 @@
 		(dnp no)
 		(uuid "b9e804a6-9a1a-4964-b2f0-c6e9fae159b9")
 		(property "Reference" "D8"
-			(at 153.924 39.37 0)
+			(at 159.004 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6033,7 +6209,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 163.83 44.612 0)
+			(at 168.91 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6042,7 +6218,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 151.13 53.34 0)
+			(at 156.21 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6052,7 +6228,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 152.4 55.245 0)
+			(at 157.48 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6062,7 +6238,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 149.86 45.72 0)
+			(at 154.94 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6071,7 +6247,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 149.86 45.72 0)
+			(at 154.94 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6080,7 +6256,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 149.86 45.72 0)
+			(at 154.94 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6089,7 +6265,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 149.86 45.72 0)
+			(at 154.94 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6098,7 +6274,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 149.86 45.72 0)
+			(at 154.94 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6107,7 +6283,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 149.86 45.72 0)
+			(at 154.94 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6116,7 +6292,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 149.86 45.72 0)
+			(at 154.94 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6125,7 +6301,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 149.86 45.72 0)
+			(at 154.94 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6134,7 +6310,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 149.86 45.72 0)
+			(at 154.94 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6165,7 +6341,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 210.82 76.2 0)
+		(at 215.9 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6173,7 +6349,7 @@
 		(dnp no)
 		(uuid "bbae2bba-d329-4306-8ab8-6b793845e236")
 		(property "Reference" "D27"
-			(at 214.884 69.85 0)
+			(at 219.964 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6181,7 +6357,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 224.79 75.092 0)
+			(at 229.87 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6190,7 +6366,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 212.09 83.82 0)
+			(at 217.17 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6200,7 +6376,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 213.36 85.725 0)
+			(at 218.44 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6210,7 +6386,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 210.82 76.2 0)
+			(at 215.9 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6219,7 +6395,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 210.82 76.2 0)
+			(at 215.9 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6228,7 +6404,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 210.82 76.2 0)
+			(at 215.9 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6237,7 +6413,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 210.82 76.2 0)
+			(at 215.9 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6246,7 +6422,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 210.82 76.2 0)
+			(at 215.9 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6255,7 +6431,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 210.82 76.2 0)
+			(at 215.9 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6264,7 +6440,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 210.82 76.2 0)
+			(at 215.9 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6273,7 +6449,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 210.82 76.2 0)
+			(at 215.9 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6282,7 +6458,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 210.82 76.2 0)
+			(at 215.9 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6313,7 +6489,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 241.3 45.72 0)
+		(at 246.38 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6321,7 +6497,7 @@
 		(dnp no)
 		(uuid "d2d0442a-070e-4272-9e5c-506497c708e2")
 		(property "Reference" "D14"
-			(at 245.364 39.37 0)
+			(at 250.444 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6329,7 +6505,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 255.27 44.612 0)
+			(at 260.35 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6338,7 +6514,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 242.57 53.34 0)
+			(at 247.65 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6348,7 +6524,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 243.84 55.245 0)
+			(at 248.92 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6358,7 +6534,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 241.3 45.72 0)
+			(at 246.38 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6367,7 +6543,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 241.3 45.72 0)
+			(at 246.38 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6376,7 +6552,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 241.3 45.72 0)
+			(at 246.38 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6385,7 +6561,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 241.3 45.72 0)
+			(at 246.38 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6394,7 +6570,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 241.3 45.72 0)
+			(at 246.38 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6403,7 +6579,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 241.3 45.72 0)
+			(at 246.38 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6412,7 +6588,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 241.3 45.72 0)
+			(at 246.38 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6421,7 +6597,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 241.3 45.72 0)
+			(at 246.38 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6430,7 +6606,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 241.3 45.72 0)
+			(at 246.38 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6461,7 +6637,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 256.54 76.2 0)
+		(at 261.62 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6469,7 +6645,7 @@
 		(dnp no)
 		(uuid "dde826b7-562b-4077-ba0a-e89e19290164")
 		(property "Reference" "D30"
-			(at 260.604 69.85 0)
+			(at 265.684 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6477,7 +6653,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 270.51 75.092 0)
+			(at 275.59 100.492 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6486,7 +6662,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 257.81 83.82 0)
+			(at 262.89 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6496,7 +6672,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 259.08 85.725 0)
+			(at 264.16 111.125 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6506,7 +6682,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 256.54 76.2 0)
+			(at 261.62 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6515,7 +6691,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 256.54 76.2 0)
+			(at 261.62 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6524,7 +6700,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 256.54 76.2 0)
+			(at 261.62 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6533,7 +6709,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 256.54 76.2 0)
+			(at 261.62 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6542,7 +6718,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 256.54 76.2 0)
+			(at 261.62 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6551,7 +6727,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 256.54 76.2 0)
+			(at 261.62 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6560,7 +6736,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 256.54 76.2 0)
+			(at 261.62 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6569,7 +6745,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 256.54 76.2 0)
+			(at 261.62 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6578,7 +6754,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 256.54 76.2 0)
+			(at 261.62 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6609,7 +6785,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 58.42 105.41 0)
+		(at 63.5 130.81 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6617,7 +6793,7 @@
 		(dnp no)
 		(uuid "e06128a4-88c9-4e08-8873-6e8d64b6ffdb")
 		(property "Reference" "D32"
-			(at 62.484 99.06 0)
+			(at 67.564 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6625,7 +6801,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 72.39 104.302 0)
+			(at 77.47 129.702 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6634,7 +6810,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 59.69 113.03 0)
+			(at 64.77 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6644,7 +6820,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 60.96 114.935 0)
+			(at 66.04 140.335 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6654,7 +6830,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 58.42 105.41 0)
+			(at 63.5 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6663,7 +6839,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 58.42 105.41 0)
+			(at 63.5 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6672,7 +6848,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 58.42 105.41 0)
+			(at 63.5 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6681,7 +6857,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 58.42 105.41 0)
+			(at 63.5 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6690,7 +6866,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 58.42 105.41 0)
+			(at 63.5 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6699,7 +6875,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 58.42 105.41 0)
+			(at 63.5 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6708,7 +6884,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 58.42 105.41 0)
+			(at 63.5 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6717,7 +6893,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 58.42 105.41 0)
+			(at 63.5 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6726,7 +6902,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 58.42 105.41 0)
+			(at 63.5 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6757,7 +6933,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 180.34 45.72 0)
+		(at 185.42 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6765,7 +6941,7 @@
 		(dnp no)
 		(uuid "e5238230-98a8-4fc1-ba70-3ba4690ed8ae")
 		(property "Reference" "D10"
-			(at 184.404 39.37 0)
+			(at 189.484 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6773,7 +6949,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 194.31 44.612 0)
+			(at 199.39 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6782,7 +6958,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 181.61 53.34 0)
+			(at 186.69 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6792,7 +6968,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 182.88 55.245 0)
+			(at 187.96 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6802,7 +6978,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 180.34 45.72 0)
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6811,7 +6987,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 180.34 45.72 0)
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6820,7 +6996,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 180.34 45.72 0)
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6829,7 +7005,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 180.34 45.72 0)
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6838,7 +7014,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 180.34 45.72 0)
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6847,7 +7023,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 180.34 45.72 0)
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6856,7 +7032,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 180.34 45.72 0)
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6865,7 +7041,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 180.34 45.72 0)
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6874,7 +7050,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 180.34 45.72 0)
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6905,7 +7081,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 43.18 53.34 0)
+		(at 48.26 78.74 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6914,7 +7090,7 @@
 		(fields_autoplaced yes)
 		(uuid "e71018a2-21c2-4c41-a90b-13ca2c9ff33c")
 		(property "Reference" "#PWR010"
-			(at 43.18 59.69 0)
+			(at 48.26 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6923,7 +7099,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 43.18 58.42 0)
+			(at 48.26 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6931,7 +7107,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 43.18 53.34 0)
+			(at 48.26 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6940,7 +7116,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 53.34 0)
+			(at 48.26 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6949,7 +7125,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 43.18 53.34 0)
+			(at 48.26 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6971,7 +7147,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 226.06 45.72 0)
+		(at 231.14 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6979,7 +7155,7 @@
 		(dnp no)
 		(uuid "ee721d77-8831-40c0-9a05-c6ca1ea5252e")
 		(property "Reference" "D13"
-			(at 230.124 39.37 0)
+			(at 235.204 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6987,7 +7163,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 240.03 44.612 0)
+			(at 245.11 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6996,7 +7172,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 227.33 53.34 0)
+			(at 232.41 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7006,7 +7182,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 228.6 55.245 0)
+			(at 233.68 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7016,7 +7192,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 226.06 45.72 0)
+			(at 231.14 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7025,7 +7201,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 226.06 45.72 0)
+			(at 231.14 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7034,7 +7210,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 226.06 45.72 0)
+			(at 231.14 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7043,7 +7219,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 226.06 45.72 0)
+			(at 231.14 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7052,7 +7228,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 226.06 45.72 0)
+			(at 231.14 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7061,7 +7237,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 226.06 45.72 0)
+			(at 231.14 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7070,7 +7246,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 226.06 45.72 0)
+			(at 231.14 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7079,7 +7255,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 226.06 45.72 0)
+			(at 231.14 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7088,7 +7264,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 226.06 45.72 0)
+			(at 231.14 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7119,7 +7295,7 @@
 	)
 	(symbol
 		(lib_id "LED:WS2812B-2020")
-		(at 43.18 45.72 0)
+		(at 48.26 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7127,7 +7303,7 @@
 		(dnp no)
 		(uuid "f8b92fa6-93f2-4ab6-9211-6c388a5e7c4a")
 		(property "Reference" "D1"
-			(at 47.244 39.37 0)
+			(at 52.324 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7135,7 +7311,7 @@
 			)
 		)
 		(property "Value" "WS2812B-2020"
-			(at 57.15 44.612 0)
+			(at 62.23 70.012 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7144,7 +7320,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_WS2812B-2020_PLCC4_2.0x2.0mm"
-			(at 44.45 53.34 0)
+			(at 49.53 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7154,7 +7330,7 @@
 			)
 		)
 		(property "Datasheet" "https://cdn-shop.adafruit.com/product-files/4684/4684_WS2812B-2020_V1.3_EN.pdf"
-			(at 45.72 55.245 0)
+			(at 50.8 80.645 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7164,7 +7340,7 @@
 			)
 		)
 		(property "Description" "RGB LED with integrated controller, 2.0 x 2.0 mm, 12 mA"
-			(at 43.18 45.72 0)
+			(at 48.26 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7173,7 +7349,7 @@
 			)
 		)
 		(property "MPN" "WS2812B-2020"
-			(at 43.18 45.72 0)
+			(at 48.26 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7182,7 +7358,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 43.18 45.72 0)
+			(at 48.26 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7191,7 +7367,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 43.18 45.72 0)
+			(at 48.26 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7200,7 +7376,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 43.18 45.72 0)
+			(at 48.26 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7209,7 +7385,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 43.18 45.72 0)
+			(at 48.26 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7218,7 +7394,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 43.18 45.72 0)
+			(at 48.26 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7227,7 +7403,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 43.18 45.72 0)
+			(at 48.26 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7236,7 +7412,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 43.18 45.72 0)
+			(at 48.26 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)

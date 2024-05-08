@@ -124,6 +124,289 @@
 				)
 			)
 		)
+		(symbol "Connector:TestPoint"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0.762) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Jumper:SolderJumper_2_Open"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0) hide)
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "JP"
+				(at 0 2.032 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SolderJumper_2_Open"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Solder Jumper, 2-pole, open"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "solder jumper SPST"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "SolderJumper*Open*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SolderJumper_2_Open_0_1"
+				(arc
+					(start -0.254 1.016)
+					(mid -1.2656 0)
+					(end -0.254 -1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -0.254 1.016)
+					(mid -1.2656 0)
+					(end -0.254 -1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.254 1.016) (xy -0.254 -1.016)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.254 1.016) (xy 0.254 -1.016)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0.254 -1.016)
+					(mid 1.2656 0)
+					(end 0.254 1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0.254 -1.016)
+					(mid 1.2656 0)
+					(end 0.254 1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+			)
+			(symbol "SolderJumper_2_Open_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "LED:WS2812B-2020"
 			(pin_names
 				(offset 0.254)
@@ -639,6 +922,16 @@
 	)
 	(wire
 		(pts
+			(xy 193.04 62.23) (xy 199.39 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0bc565a9-9ca8-41da-ae78-0c5e48840a1c")
+	)
+	(wire
+		(pts
 			(xy 177.8 55.88) (xy 172.72 55.88)
 		)
 		(stroke
@@ -666,6 +959,26 @@
 			(type default)
 		)
 		(uuid "3b751952-8ad1-4d69-8205-5ccf2cd7f2cd")
+	)
+	(wire
+		(pts
+			(xy 179.07 49.53) (xy 172.72 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4337b024-68d2-40d0-9a9e-edb3f925255f")
+	)
+	(wire
+		(pts
+			(xy 172.72 49.53) (xy 172.72 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "66e9b49e-718d-47dc-b4c1-a4219bf8f863")
 	)
 	(wire
 		(pts
@@ -729,13 +1042,13 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 62.23) (xy 172.72 62.23)
+			(xy 172.72 62.23) (xy 185.42 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d6cbb68e-7df6-45e4-ab58-4bacc8aa66bc")
+		(uuid "c6167c7a-1d14-4bbf-b087-711e32225bd2")
 	)
 	(wire
 		(pts
@@ -749,7 +1062,7 @@
 	)
 	(text "4 Leds as Status\n"
 		(exclude_from_sim no)
-		(at 134.112 28.702 0)
+		(at 133.604 34.036 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -757,9 +1070,20 @@
 		)
 		(uuid "23e524ea-d7c6-4c91-b498-0f684beb1ab1")
 	)
-	(global_label "RgbLed_Dout"
+	(text "The solder bridge is open, since the signal coming out of the last LED might be\n5V. The ESP32 is not 5V tolerant. This is only a potential debugging feature\nwhich might need to be refactored out later\n"
+		(exclude_from_sim no)
+		(at 172.212 67.564 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a9e5f96a-23f4-4652-a186-7baaf24dc5f3")
+	)
+	(global_label "ESP32_RgbLed_DOUT"
 		(shape input)
-		(at 179.07 62.23 0)
+		(at 199.39 62.23 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -769,7 +1093,7 @@
 		)
 		(uuid "8f6db0a3-1421-4fb4-916d-0f4f1f9d0ac0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 194.1502 62.23 0)
+			(at 222.0902 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1164,6 +1488,74 @@
 		)
 	)
 	(symbol
+		(lib_id "Jumper:SolderJumper_2_Open")
+		(at 189.23 62.23 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "aa271dc1-a66f-4ee5-83f0-6bf9fb40327f")
+		(property "Reference" "JP3"
+			(at 189.23 59.944 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SolderJumper_2_Open"
+			(at 189.23 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm"
+			(at 189.23 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 189.23 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Solder Jumper, 2-pole, open"
+			(at 189.23 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "39a412a6-2d79-4c3b-890e-9c91158fb153")
+		)
+		(pin "1"
+			(uuid "ef7a9fc6-9ffe-46e2-86e2-ba4a890a7c1a")
+		)
+		(instances
+			(project "Pomodoro_V7"
+				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/797b80c3-c08e-40d2-b941-fe27167ea576"
+					(reference "JP3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "LED:WS2812B-2020")
 		(at 110.49 55.88 0)
 		(unit 1)
@@ -1306,6 +1698,71 @@
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/797b80c3-c08e-40d2-b941-fe27167ea576"
 					(reference "D57")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 179.07 49.53 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c9fe2a89-0258-420f-89c1-da17675dffe2")
+		(property "Reference" "TP18"
+			(at 185.674 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 182.372 52.07 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 179.07 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 179.07 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 179.07 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "012dd04c-e82f-4136-b247-ba3e48b866ab")
+		)
+		(instances
+			(project "Pomodoro_V7"
+				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/797b80c3-c08e-40d2-b941-fe27167ea576"
+					(reference "TP18")
 					(unit 1)
 				)
 			)
@@ -1467,10 +1924,9 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp yes)
-		(fields_autoplaced yes)
 		(uuid "f153bfcf-9901-453c-a0c7-90b7a119e3df")
 		(property "Reference" "J3"
-			(at 182.245 50.8 0)
+			(at 182.118 53.848 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1483,6 +1939,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
