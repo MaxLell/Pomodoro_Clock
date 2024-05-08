@@ -3364,10 +3364,6 @@
 		(at 69.85 63.5)
 		(uuid "97eca46f-0868-489a-bd9b-7b1e50903abc")
 	)
-	(no_connect
-		(at 69.85 53.34)
-		(uuid "fa5f1b09-2749-408b-b815-ff60550cdd03")
-	)
 	(wire
 		(pts
 			(xy 109.22 106.68) (xy 109.22 109.22)
@@ -4610,6 +4606,16 @@
 	)
 	(wire
 		(pts
+			(xy 68.58 53.34) (xy 69.85 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b685250f-7b3a-4418-bcd2-51f5d67f9f9c")
+	)
+	(wire
+		(pts
 			(xy 102.87 93.98) (xy 109.22 93.98)
 		)
 		(stroke
@@ -5761,6 +5767,28 @@
 		(uuid "6e2e01aa-149e-4102-87f1-213fa95ceb71")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 45.8798 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "ESP32_ADC_POTI"
+		(shape input)
+		(at 68.58 53.34 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b116dd07-29b3-43fa-bc22-27059361b385")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 49.8106 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6992,6 +7020,154 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 209.55 96.52 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4e1f6412-244e-4277-ae92-7d163c2eaf89")
+		(property "Reference" "R11"
+			(at 209.55 96.52 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "5k1(1%)"
+			(at 207.264 96.52 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 211.328 96.52 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 209.55 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 209.55 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part ID" "CR0805-FX-5101ELF "
+			(at 209.55 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CR0805-FX-5101ELF "
+			(at 209.55 96.52 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MANUFACTURER" ""
+			(at 209.55 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MAXIMUM_PACKAGE_HEIGHT" ""
+			(at 209.55 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mfr. NO" ""
+			(at 209.55 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "OPTION" ""
+			(at 209.55 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTREV" ""
+			(at 209.55 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SNAPEDA_PN" ""
+			(at 209.55 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "STANDARD" ""
+			(at 209.55 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a4d45d6a-06aa-43c2-ae42-c349e00a99f9")
+		)
+		(pin "2"
+			(uuid "674509a2-425c-4bf2-ae05-d1a324f44dfb")
+		)
+		(instances
+			(project "Pomodoro_V7"
+				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/2692812d-36ca-464c-b670-cda24def4e61"
+					(reference "R11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Jumper:SolderJumper_2_Bridged")
 		(at 231.14 107.95 180)
 		(unit 1)
@@ -7129,23 +7305,23 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 209.55 96.52 0)
+		(at 148.59 39.37 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "50e205c8-75cc-4a2b-86fe-10d407d02ff8")
-		(property "Reference" "R11"
-			(at 207.01 96.52 90)
+		(uuid "510968cd-3255-4dae-a8eb-1724975ead03")
+		(property "Reference" "R3"
+			(at 148.59 39.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "5k1"
-			(at 209.55 96.52 90)
+		(property "Value" "10k(1%)"
+			(at 146.05 37.592 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7153,7 +7329,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 207.772 96.52 90)
+			(at 150.368 39.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7162,7 +7338,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 209.55 96.52 0)
+			(at 148.59 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7171,7 +7347,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 209.55 96.52 0)
+			(at 148.59 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7180,7 +7356,7 @@
 			)
 		)
 		(property "Part ID" "CR0805-FX-5101ELF "
-			(at 209.55 96.52 0)
+			(at 148.59 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7189,7 +7365,7 @@
 			)
 		)
 		(property "MPN" "CR0805-FX-5101ELF "
-			(at 209.55 96.52 90)
+			(at 148.59 39.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7198,7 +7374,7 @@
 			)
 		)
 		(property "MANUFACTURER" ""
-			(at 209.55 96.52 0)
+			(at 148.59 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7207,7 +7383,7 @@
 			)
 		)
 		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 209.55 96.52 0)
+			(at 148.59 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7216,7 +7392,7 @@
 			)
 		)
 		(property "Mfr. NO" ""
-			(at 209.55 96.52 0)
+			(at 148.59 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7225,7 +7401,7 @@
 			)
 		)
 		(property "OPTION" ""
-			(at 209.55 96.52 0)
+			(at 148.59 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7234,7 +7410,7 @@
 			)
 		)
 		(property "PARTREV" ""
-			(at 209.55 96.52 0)
+			(at 148.59 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7243,7 +7419,7 @@
 			)
 		)
 		(property "SNAPEDA_PN" ""
-			(at 209.55 96.52 0)
+			(at 148.59 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7252,7 +7428,7 @@
 			)
 		)
 		(property "STANDARD" ""
-			(at 209.55 96.52 0)
+			(at 148.59 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7261,15 +7437,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "dc0e951f-c6cf-41fe-97ad-1bf58f138e39")
+			(uuid "2a9b7389-b8f5-441b-9591-a4a594fd2647")
 		)
 		(pin "2"
-			(uuid "3cfcb567-f7c4-46ee-8a00-4a06967a74e1")
+			(uuid "5d47d077-8c6c-4bc5-890b-ba674055a560")
 		)
 		(instances
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/2692812d-36ca-464c-b670-cda24def4e61"
-					(reference "R11")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -8007,154 +8183,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 201.93 96.52 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "8e1de108-85d1-4e1e-acb1-f4ab809abed9")
-		(property "Reference" "R10"
-			(at 199.39 96.52 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "5k1"
-			(at 201.93 96.52 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 200.152 96.52 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 201.93 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 201.93 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Part ID" "CR0805-FX-5101ELF "
-			(at 201.93 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CR0805-FX-5101ELF "
-			(at 201.93 96.52 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" ""
-			(at 201.93 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MAXIMUM_PACKAGE_HEIGHT" ""
-			(at 201.93 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mfr. NO" ""
-			(at 201.93 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "OPTION" ""
-			(at 201.93 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PARTREV" ""
-			(at 201.93 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "SNAPEDA_PN" ""
-			(at 201.93 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "STANDARD" ""
-			(at 201.93 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2ed5cfe1-ab12-4777-811a-918014aad899")
-		)
-		(pin "2"
-			(uuid "2d3e1cc7-ba56-4cca-b97a-4b61c9a12ed0")
-		)
-		(instances
-			(project "Pomodoro_V7"
-				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/2692812d-36ca-464c-b670-cda24def4e61"
-					(reference "R10")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 109.22 138.43 0)
 		(unit 1)
@@ -8810,75 +8838,6 @@
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/2692812d-36ca-464c-b670-cda24def4e61"
 					(reference "#PWR01")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 148.59 39.37 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "aa7504a4-3bbe-4720-9657-014131b7f2fa")
-		(property "Reference" "R3"
-			(at 151.13 38.0999 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "10k"
-			(at 148.59 41.148 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 150.368 39.37 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 148.59 39.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 148.59 39.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2f4f8dd1-b7b3-419e-b2e3-0a9c8e222411")
-		)
-		(pin "2"
-			(uuid "502aeaee-9780-4e4a-8286-bc72e2b2cc7e")
-		)
-		(instances
-			(project "Pomodoro_V7"
-				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/2692812d-36ca-464c-b670-cda24def4e61"
-					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -10351,6 +10310,154 @@
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/2692812d-36ca-464c-b670-cda24def4e61"
 					(reference "JP4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 201.93 96.52 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f4503794-42bf-4ee8-8d92-e097e6d43ef5")
+		(property "Reference" "R10"
+			(at 201.93 96.52 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "5k1(1%)"
+			(at 199.644 96.52 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 203.708 96.52 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 201.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 201.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part ID" "CR0805-FX-5101ELF "
+			(at 201.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CR0805-FX-5101ELF "
+			(at 201.93 96.52 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MANUFACTURER" ""
+			(at 201.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MAXIMUM_PACKAGE_HEIGHT" ""
+			(at 201.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mfr. NO" ""
+			(at 201.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "OPTION" ""
+			(at 201.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTREV" ""
+			(at 201.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SNAPEDA_PN" ""
+			(at 201.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "STANDARD" ""
+			(at 201.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6f8f52c5-9881-4efd-9493-0e170a88e551")
+		)
+		(pin "2"
+			(uuid "e8f14eb7-272e-4b63-8f28-e813a6f93791")
+		)
+		(instances
+			(project "Pomodoro_V7"
+				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/2692812d-36ca-464c-b670-cda24def4e61"
+					(reference "R10")
 					(unit 1)
 				)
 			)

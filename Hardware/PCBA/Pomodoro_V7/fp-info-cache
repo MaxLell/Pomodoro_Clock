@@ -1,4 +1,4 @@
-23344301559770136
+23346017068775209
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -83419,6 +83419,13 @@ Potentiometer vertical Vishay TS53YL
 3
 3
 Potentiometer_THT
+Pot
+
+
+0
+5
+5
+Potentiometer_THT
 Potentiometer_ACP_CA6-H2,5_Horizontal
 Potentiometer, horizontal, ACP CA6-H2,5, http://www.acptechnologies.com/wp-content/uploads/2017/06/01-ACP-CA6.pdf
 Potentiometer horizontal ACP CA6-H2,5
@@ -84866,7 +84873,7 @@ ESP32-S2-MINI-1
 2.4 GHz Wi-Fi Bluetooth external antenna espressif  20*15.4mm
 0
 73
-65
+73
 RF_Module
 ESP32-S2-MINI-1U
 2.4 GHz Wi-Fi and Bluetooth combo chip, external antenna, https://www.espressif.com/sites/default/files/documentation/esp32-s3-mini-1_mini-1u_datasheet_en.pdf
