@@ -1431,7 +1431,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7a619ca9-bc48-4cf3-b564-b5843836ba37")
-		(property "Reference" "#PWR020"
+		(property "Reference" "#PWR060"
 			(at 110.49 69.85 0)
 			(effects
 				(font
@@ -1481,7 +1481,7 @@
 		(instances
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/797b80c3-c08e-40d2-b941-fe27167ea576"
-					(reference "#PWR020")
+					(reference "#PWR060")
 					(unit 1)
 				)
 			)
@@ -1496,7 +1496,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "aa271dc1-a66f-4ee5-83f0-6bf9fb40327f")
-		(property "Reference" "JP3"
+		(property "Reference" "JP5"
 			(at 189.23 59.944 0)
 			(effects
 				(font
@@ -1549,7 +1549,7 @@
 		(instances
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/797b80c3-c08e-40d2-b941-fe27167ea576"
-					(reference "JP3")
+					(reference "JP5")
 					(unit 1)
 				)
 			)
@@ -1712,7 +1712,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c9fe2a89-0258-420f-89c1-da17675dffe2")
-		(property "Reference" "TP18"
+		(property "Reference" "TP35"
 			(at 185.674 49.53 90)
 			(effects
 				(font
@@ -1762,7 +1762,7 @@
 		(instances
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/797b80c3-c08e-40d2-b941-fe27167ea576"
-					(reference "TP18")
+					(reference "TP35")
 					(unit 1)
 				)
 			)
@@ -1925,7 +1925,7 @@
 		(on_board yes)
 		(dnp yes)
 		(uuid "f153bfcf-9901-453c-a0c7-90b7a119e3df")
-		(property "Reference" "J3"
+		(property "Reference" "J15"
 			(at 182.118 53.848 0)
 			(effects
 				(font
@@ -2038,7 +2038,7 @@
 		(instances
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/797b80c3-c08e-40d2-b941-fe27167ea576"
-					(reference "J3")
+					(reference "J15")
 					(unit 1)
 				)
 			)
@@ -2054,7 +2054,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fa714c24-7632-4aa6-aba4-ff3c79f0a49e")
-		(property "Reference" "#PWR019"
+		(property "Reference" "#PWR059"
 			(at 110.49 52.07 0)
 			(effects
 				(font
@@ -2104,7 +2104,7 @@
 		(instances
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/797b80c3-c08e-40d2-b941-fe27167ea576"
-					(reference "#PWR019")
+					(reference "#PWR059")
 					(unit 1)
 				)
 			)

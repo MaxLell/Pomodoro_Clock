@@ -824,7 +824,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "06b1cec3-9b6c-4dfd-9988-806df41d9111")
-		(property "Reference" "#PWR017"
+		(property "Reference" "#PWR057"
 			(at 54.61 85.09 0)
 			(effects
 				(font
@@ -874,7 +874,7 @@
 		(instances
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/382173d7-caa1-4139-ba6d-a35eb18170ce"
-					(reference "#PWR017")
+					(reference "#PWR057")
 					(unit 1)
 				)
 			)
@@ -890,7 +890,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0de2d3d1-003e-4843-9106-cab5b6db9d61")
-		(property "Reference" "#PWR018"
+		(property "Reference" "#PWR058"
 			(at 54.61 102.87 0)
 			(effects
 				(font
@@ -940,7 +940,7 @@
 		(instances
 			(project "Pomodoro_V7"
 				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/d366a572-4eed-4be8-88cc-5fb5da022e23/382173d7-caa1-4139-ba6d-a35eb18170ce"
-					(reference "#PWR018")
+					(reference "#PWR058")
 					(unit 1)
 				)
 			)
