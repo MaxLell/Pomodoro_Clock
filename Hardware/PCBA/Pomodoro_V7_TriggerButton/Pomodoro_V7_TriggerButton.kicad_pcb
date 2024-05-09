@@ -90,7 +90,7 @@
 		(descr "Cherry MX keyswitch, 1.00u, PCB mount, http://cherryamericas.com/wp-content/uploads/2014/12/mx_cat.pdf")
 		(tags "Cherry MX keyswitch 1.00u PCB")
 		(property "Reference" "SW1"
-			(at -2.54 -2.794 0)
+			(at -3.765 0.045 0)
 			(layer "F.SilkS")
 			(uuid "17b4d424-f60f-4cca-bcae-7a3812c40c50")
 			(effects
@@ -648,8 +648,8 @@
 		)
 	)
 	(gr_rect
-		(start 143 75.8)
-		(end 157 91.8)
+		(start 140.5 74.85)
+		(end 159.55 91.75)
 		(stroke
 			(width 0.05)
 			(type default)
