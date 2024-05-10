@@ -1260,12 +1260,6 @@
 		(uuid "00936eb7-c132-4344-826f-58371684e0ec")
 	)
 	(junction
-		(at 59.69 57.15)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "40a3ee03-8ec9-48af-8e31-d57d8eed4caf")
-	)
-	(junction
 		(at 102.87 120.65)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1282,12 +1276,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6dad45b0-48c9-4624-8b33-aa40135bf763")
-	)
-	(junction
-		(at 57.15 54.61)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "6ff6aab5-fa82-4363-b933-2bcf35a766cd")
 	)
 	(junction
 		(at 63.5 97.79)
@@ -1363,16 +1351,6 @@
 	)
 	(wire
 		(pts
-			(xy 57.15 46.99) (xy 57.15 54.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "180d4b7a-af2c-47e7-8fef-35e91e8e3a48")
-	)
-	(wire
-		(pts
 			(xy 40.64 54.61) (xy 44.45 54.61)
 		)
 		(stroke
@@ -1383,7 +1361,7 @@
 	)
 	(wire
 		(pts
-			(xy 53.34 57.15) (xy 59.69 57.15)
+			(xy 53.34 57.15) (xy 60.96 57.15)
 		)
 		(stroke
 			(width 0)
@@ -1493,7 +1471,7 @@
 	)
 	(wire
 		(pts
-			(xy 57.15 54.61) (xy 60.96 54.61)
+			(xy 53.34 54.61) (xy 60.96 54.61)
 		)
 		(stroke
 			(width 0)
@@ -1583,26 +1561,6 @@
 	)
 	(wire
 		(pts
-			(xy 60.96 46.99) (xy 57.15 46.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7a368ff5-1aa6-4af6-831c-0ad7ad7497e6")
-	)
-	(wire
-		(pts
-			(xy 59.69 49.53) (xy 59.69 57.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7e1d0724-9f7a-4cd9-b679-367076bbdefe")
-	)
-	(wire
-		(pts
 			(xy 86.36 135.89) (xy 86.36 142.24)
 		)
 		(stroke
@@ -1680,16 +1638,6 @@
 			(type default)
 		)
 		(uuid "a7782cb0-5f34-4bb2-b40d-03aa09f979b7")
-	)
-	(wire
-		(pts
-			(xy 53.34 54.61) (xy 57.15 54.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b7eb7dd8-d6e5-4481-bb79-a143fd0f245b")
 	)
 	(wire
 		(pts
@@ -1773,16 +1721,6 @@
 	)
 	(wire
 		(pts
-			(xy 60.96 49.53) (xy 59.69 49.53)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "db27dc9f-9ff4-4a5b-98de-49af4d3ef797")
-	)
-	(wire
-		(pts
 			(xy 63.5 97.79) (xy 74.93 97.79)
 		)
 		(stroke
@@ -1810,16 +1748,6 @@
 			(type default)
 		)
 		(uuid "e9ccc45a-4553-49ba-95eb-718a7d1d5ce6")
-	)
-	(wire
-		(pts
-			(xy 59.69 57.15) (xy 60.96 57.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ef2d5bf1-4e14-4b99-b934-4827fd7ea7c8")
 	)
 	(wire
 		(pts
@@ -2107,74 +2035,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x02_Pin")
-		(at 66.04 49.53 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp yes)
-		(uuid "28333fd1-78bd-411d-b969-de9a7f18d75e")
-		(property "Reference" "J9"
-			(at 68.834 48.514 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Conn_01x02_Pin"
-			(at 65.405 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 66.04 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 66.04 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 66.04 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "b5d398fc-03ac-4aba-b084-c85da6fc2332")
-		)
-		(pin "1"
-			(uuid "9e8f0280-832b-4e8b-b4e1-05c9db409e81")
-		)
-		(instances
-			(project "Pomodoro_V7"
-				(path "/7b50fc13-bee1-48b7-8eab-d6ef36855383/c8f67831-bbf6-4683-a2c8-3e9cad0fb84c"
-					(reference "J9")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:PTV09A-4025F-B103")
 		(at 146.05 50.8 0)
 		(unit 1)
@@ -2211,7 +2071,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://eu.mouser.com/datasheet/2/54/ptv09-777818.pdf"
 			(at 146.05 50.8 0)
 			(effects
 				(font
@@ -3795,6 +3655,7 @@
 	(symbol
 		(lib_id "Device:R")
 		(at 34.29 132.08 0)
+		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3802,7 +3663,7 @@
 		(dnp no)
 		(uuid "c5f3b9f4-51c8-4d7c-be53-db60559e12fc")
 		(property "Reference" "R8"
-			(at 31.75 132.08 90)
+			(at 36.83 132.08 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3810,7 +3671,7 @@
 			)
 		)
 		(property "Value" "5k1(1%)"
-			(at 38.608 128.27 0)
+			(at 29.972 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3818,7 +3679,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 32.512 132.08 90)
+			(at 36.068 132.08 90)
 			(effects
 				(font
 					(size 1.27 1.27)
