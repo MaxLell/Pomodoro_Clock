@@ -1,4 +1,4 @@
-23346017068775209
+23349448371395009
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -66163,6 +66163,13 @@ Mounting 4.5mm 9774100982
 0
 8
 1
+MouseBites
+mouse-bite-2mm-slot
+
+
+0
+0
+0
 NetTie
 NetTie-2_SMD_Pad0.5mm
 Net tie, 2 pin, 0.5mm square SMD pads
@@ -88073,6 +88080,13 @@ QFN 0.5
 0
 25
 24
+Sensor_Motion
+LIS
+
+
+0
+12
+12
 Sensor_Pressure
 CFSensor_XGZP6897x
 Port External Dia 3.13mm, Port Internal Dia 0.9mm, 8 Pin (https://cfsensor.com/wp-content/uploads/2022/11/XGZP6897D-Pressure-Sensor-V2.7.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py, hand modified
